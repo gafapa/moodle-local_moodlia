@@ -1,0 +1,33 @@
+{
+  "name": "moodlia-moodle-plugin",
+  "version": "0.1.188",
+  "private": true,
+  "description": "Moodle local plugin that exposes MoodlIA operations over REST and MCP.",
+  "homepage": "https://github.com/gafapa/moodle-local_moodlia#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gafapa/moodle-local_moodlia.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gafapa/moodle-local_moodlia/issues"
+  },
+  "type": "module",
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "test": "npm run test:static",
+    "test:static": "node --test tests/static/*.test.mjs",
+    "lint:js": "node tools/lint-javascript.mjs",
+    "lint:php": "node tools/lint-php.mjs",
+    "contract:check": "node tools/check-contract.mjs",
+    "manifests:check": "node tools/generate-manifests.mjs --check",
+    "plugin:package": "node tools/package-plugin.mjs",
+    "plugin:archive": "node tools/package-plugin-archive.mjs",
+    "plugin:boilerplate:check": "node tools/normalize-plugin-boilerplate.mjs --check",
+    "plugin:marketplace:check": "node tools/check-marketplace-package.mjs",
+    "release:check": "node tools/release-check.mjs",
+    "check": "npm run lint:js && npm run lint:php && npm run contract:check && npm run manifests:check && npm run plugin:boilerplate:check && npm run plugin:marketplace:check && npm run test:static"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

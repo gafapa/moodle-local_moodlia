@@ -1,0 +1,359 @@
+{
+  "tools": {
+    "list_plugins": {
+      "source": [
+        "all",
+        "standard",
+        "additional",
+        "missing"
+      ],
+      "status": [
+        "all",
+        "nodb",
+        "uptodate",
+        "new",
+        "upgrade",
+        "delete",
+        "downgrade",
+        "missing"
+      ]
+    },
+    "assign_course_role": {
+      "role_archetype": [
+        "student",
+        "teacher",
+        "editingteacher"
+      ]
+    },
+    "unassign_course_role": {
+      "role_archetype": [
+        "student",
+        "teacher",
+        "editingteacher"
+      ]
+    },
+    "enrol_user": {
+      "role_archetype": [
+        "student",
+        "teacher",
+        "editingteacher"
+      ]
+    },
+    "create_course": {
+      "summary_format": [
+        "html",
+        "plain"
+      ]
+    },
+    "set_course_publish_state": {
+      "publish_state": [
+        "draft",
+        "ready",
+        "published",
+        "archived"
+      ]
+    },
+    "restore_course_backup": {
+      "target": [
+        "new_course",
+        "existing_add",
+        "existing_delete"
+      ]
+    },
+    "repair_course_completion": {
+      "mode": [
+        "book_view_only",
+        "all_grade_to_view",
+        "disable_all"
+      ]
+    },
+    "update_course": {
+      "summary_format": [
+        "html",
+        "plain"
+      ]
+    },
+    "delete_section": {
+      "delete_mode": [
+        "delete",
+        "clear"
+      ]
+    },
+    "create_module": {
+      "module_type": [
+        "assign",
+        "book",
+        "choice",
+        "data",
+        "feedback",
+        "lesson",
+        "lti",
+        "page",
+        "folder",
+        "forum",
+        "glossary",
+        "label",
+        "qbank",
+        "quiz",
+        "resource",
+        "subsection",
+        "url",
+        "wiki",
+        "workshop"
+      ]
+    },
+    "create_lesson_page": {
+      "page_type": [
+        "content",
+        "essay",
+        "matching",
+        "multichoice",
+        "numerical",
+        "shortanswer",
+        "truefalse"
+      ]
+    },
+    "create_data_field": {
+      "field_type": [
+        "text",
+        "textarea",
+        "number",
+        "menu",
+        "checkbox",
+        "radiobutton",
+        "multimenu",
+        "url"
+      ]
+    },
+    "set_workshop_phase": {
+      "phase": [
+        "setup",
+        "submission",
+        "assessment",
+        "evaluation",
+        "closed"
+      ]
+    },
+    "get_workshop_grades_report": {
+      "sort_by": [
+        "lastname",
+        "firstname",
+        "submissiontitle",
+        "submissionmodified",
+        "submissiongrade",
+        "gradinggrade"
+      ],
+      "sort_direction": [
+        "ASC",
+        "DESC"
+      ]
+    },
+    "get_workshop_assessment_form_definition": {
+      "mode": [
+        "assessment",
+        "preview"
+      ]
+    },
+    "set_workshop_grading_form": {
+      "strategy": [
+        "accumulative",
+        "comments",
+        "numerrors",
+        "rubric"
+      ]
+    },
+    "evaluate_workshop_assessment": {
+      "feedback_format": [
+        "html",
+        "plain"
+      ]
+    },
+    "create_workshop_submission": {
+      "content_format": [
+        "html",
+        "plain"
+      ]
+    },
+    "update_workshop_submission": {
+      "content_format": [
+        "html",
+        "plain"
+      ]
+    },
+    "create_glossary_entry": {
+      "definition_format": [
+        "html",
+        "plain"
+      ]
+    },
+    "get_glossary_entries_by_author": {
+      "field": [
+        "FIRSTNAME",
+        "LASTNAME"
+      ],
+      "sort": [
+        "ASC",
+        "DESC"
+      ]
+    },
+    "get_glossary_entries_by_author_id": {
+      "order": [
+        "CONCEPT",
+        "CREATION",
+        "UPDATE"
+      ],
+      "sort": [
+        "ASC",
+        "DESC"
+      ]
+    },
+    "get_glossary_entries_by_date": {
+      "order": [
+        "CREATION",
+        "UPDATE"
+      ],
+      "sort": [
+        "ASC",
+        "DESC"
+      ]
+    },
+    "search_glossary_entries": {
+      "order": [
+        "CONCEPT",
+        "CREATION",
+        "UPDATE"
+      ],
+      "sort": [
+        "ASC",
+        "DESC"
+      ]
+    },
+    "get_glossary_entries_to_approve": {
+      "order": [
+        "CONCEPT",
+        "CREATION",
+        "UPDATE"
+      ],
+      "sort": [
+        "ASC",
+        "DESC"
+      ]
+    },
+    "update_glossary_entry": {
+      "definition_format": [
+        "html",
+        "plain"
+      ]
+    },
+    "create_wiki_page": {
+      "content_format": [
+        "html",
+        "creole",
+        "nwiki"
+      ]
+    },
+    "get_wiki_pages": {
+      "sort_direction": [
+        "ASC",
+        "DESC"
+      ]
+    },
+    "create_feedback_item": {
+      "type": [
+        "textfield",
+        "textarea",
+        "numeric",
+        "multichoice",
+        "multichoicerated",
+        "label",
+        "info",
+        "captcha",
+        "pagebreak"
+      ]
+    },
+    "get_assignment_submissions": {
+      "status": [
+        "new",
+        "draft",
+        "submitted",
+        "reopened"
+      ]
+    },
+    "get_question_categories": {
+      "bank_scope": [
+        "course_shared",
+        "quiz_private"
+      ]
+    },
+    "export_question_bank_blueprint": {
+      "bank_scope": [
+        "course_shared",
+        "quiz_private"
+      ]
+    },
+    "import_question_bank_blueprint": {
+      "bank_scope": [
+        "course_shared",
+        "quiz_private"
+      ]
+    },
+    "create_question_category": {
+      "bank_scope": [
+        "course_shared",
+        "quiz_private"
+      ]
+    },
+    "delete_question_category": {
+      "delete_mode": [
+        "delete",
+        "merge"
+      ]
+    },
+    "create_question": {
+      "question_type": [
+        "truefalse",
+        "shortanswer",
+        "multichoice",
+        "numerical",
+        "essay",
+        "matching",
+        "description",
+        "randomsamatch",
+        "gapselect",
+        "ddwtos",
+        "ordering",
+        "multianswer",
+        "ddmarker",
+        "ddimageortext",
+        "calculatedsimple",
+        "calculated",
+        "calculatedmulti"
+      ]
+    },
+    "get_questions": {
+      "bank_scope": [
+        "course_shared",
+        "quiz_private"
+      ]
+    },
+    "move_question": {
+      "target_bank_scope": [
+        "course_shared",
+        "quiz_private"
+      ]
+    },
+    "get_quiz_attempts": {
+      "status": [
+        "all",
+        "finished",
+        "unfinished"
+      ]
+    },
+    "add_random_questions_to_quiz": {
+      "bank_scope": [
+        "course_shared",
+        "quiz_private"
+      ]
+    }
+  }
+}

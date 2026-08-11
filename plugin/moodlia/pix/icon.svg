@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">MoodlIA</title>
+  <desc id="description">Three light signal bars inside a coral circle with a connected node on a dark green field.</desc>
+  <rect width="512" height="512" fill="#07464a"/>
+  <rect x="18" y="18" width="476" height="476" rx="96" fill="none" stroke="#75d8d0" stroke-width="8" opacity="0.42"/>
+  <circle cx="244" cy="244" r="156" fill="#ff6847"/>
+  <rect x="158" y="226" width="36" height="104" rx="18" fill="#ffffff"/>
+  <rect x="226" y="172" width="36" height="158" rx="18" fill="#ffffff"/>
+  <rect x="294" y="204" width="36" height="126" rx="18" fill="#ffffff"/>
+  <circle cx="357" cy="357" r="71" fill="#07464a" stroke="#f3f7f5" stroke-width="20"/>
+  <circle cx="357" cy="357" r="28" fill="#c9f65b"/>
+</svg>
