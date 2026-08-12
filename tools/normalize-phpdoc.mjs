@@ -13,7 +13,7 @@ for (const filePath of phpFiles) {
   const lineEnding = original.includes('\r\n') ? '\r\n' : '\n';
   let source = original.replaceAll('\r\n', '\n');
 
-  if (/^namespace\s+[^;]+;/m.test(source)) {
+  if (/^namespace\s+[^;]+;/m.test(source) && !/global \$CFG;\s*require_once/m.test(source)) {
     source = source.replace(/\ndefined\('MOODLE_INTERNAL'\) \|\| die\(\);\n/, '\n');
     source = source.replace(/^(namespace\s+[^;]+;)\n{3,}/m, '$1\n\n');
   }
