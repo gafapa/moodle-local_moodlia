@@ -213,13 +213,13 @@ npm run release:check
 ```
 
 The CI job runs on Ubuntu and validates JavaScript syntax, PHP syntax on PHP
-8.2, generated manifests, the canonical operation contract, static tests,
+8.3, generated manifests, the canonical operation contract, static tests,
 dependency audit, plugin packaging, and the Marketplace archive.
 
 Remote Moodle smoke tests and browser verification are not in the default CI workflow. They require environment-specific secrets, a reachable Moodle instance, and permission to create generated test data.
 
 The separate `.github/workflows/moodle-ci.yml` workflow installs Moodle 5.2 and
-validates the plugin on PHP 8.2 and 8.4 with both PostgreSQL and MariaDB. It runs
+validates the plugin on PHP 8.3 and 8.4 with both PostgreSQL and MariaDB. It runs
 PHP lint, Moodle Code Checker, Moodle PHPDoc Checker, structural validation, and
 the plugin PHPUnit suite. This workflow is the Marketplace compatibility gate
 and must pass before uploading a release.

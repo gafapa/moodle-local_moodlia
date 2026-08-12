@@ -21,7 +21,7 @@ include `LICENSE`, `README.md`, the English language pack, and the plugin icon.
 Do not add an empty `db/install.xml`; MoodlIA owns no database tables.
 
 The `Moodle Plugin CI` GitHub Actions workflow runs the same tool family used by
-Marketplace against Moodle 5.2 and PHP 8.2/8.4 on PostgreSQL and MariaDB. A
+Marketplace against Moodle 5.2 and PHP 8.3/8.4 on PostgreSQL and MariaDB. A
 release must not be uploaded while any matrix job is failing.
 
 Marketplace listing metadata:
@@ -119,7 +119,7 @@ npm install
 npm run release:check
 ```
 
-The release check validates all JavaScript syntax recursively, PHP syntax when a PHP runtime is available, generated manifests, generated TypeScript operation types, static parity, forbidden database-access patterns, and plugin packaging into a temporary directory. CI makes PHP syntax validation mandatory with PHP 8.2.
+The release check validates all JavaScript syntax recursively, PHP syntax when a PHP runtime is available, generated manifests, generated TypeScript operation types, static parity, forbidden database-access patterns, and plugin packaging into a temporary directory. CI makes PHP syntax validation mandatory with PHP 8.3.
 
 The repository also includes a GitHub Actions workflow for checks that do not need a remote Moodle instance. It runs npm package mirror drift checks, the release preflight, plugin packaging, and project website tests on pushes and pull requests. Remote smoke and browser verification still run manually against a configured Moodle target.
 

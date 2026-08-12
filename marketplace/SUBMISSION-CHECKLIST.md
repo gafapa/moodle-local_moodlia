@@ -6,7 +6,7 @@
 - [ ] The repository root contains `version.php`, `classes/`, `db/`, and `lang/`.
 - [ ] GitHub Issues is enabled and publicly accessible.
 - [ ] GitHub private vulnerability reporting is enabled.
-- [ ] CI is green for PHP 8.2 and 8.4 on PostgreSQL and MariaDB.
+- [ ] CI is green for PHP 8.3 and 8.4 on PostgreSQL and MariaDB.
 - [ ] Release tag `v0.1.190` points to the reviewed release commit.
 - [ ] The GitHub release contains `local_moodlia-0.1.190.zip`.
 
