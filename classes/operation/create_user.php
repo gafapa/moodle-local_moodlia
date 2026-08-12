@@ -24,12 +24,22 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Create a Moodle user through Moodle's user API.
  */
 class create_user {
+    /**
+     * Execute the operation.
+     *
+     * @param string $username Username.
+     * @param string $firstname Firstname.
+     * @param string $lastname Lastname.
+     * @param string $email Email.
+     * @param string $password Password.
+     * @param string $auth Auth.
+     * @param bool $suspended Suspended.
+     * @return array
+     */
     public static function execute(
         string $username,
         string $firstname,

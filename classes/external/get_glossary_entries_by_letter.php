@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -38,6 +36,11 @@ use local_moodlia\operation\glossary_tools;
  * External API adapter for get_glossary_entries_by_letter.
  */
 class get_glossary_entries_by_letter extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -49,13 +52,24 @@ class get_glossary_entries_by_letter extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param string $letter Letter.
+     * @param int $from From.
+     * @param int $limit Limit.
+     * @param bool $includenotapproved Include not approved.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         string $letter = 'ALL',
         int $from = 0,
         int $limit = 20,
-        bool $include_not_approved = false
+        bool $includenotapproved = false
     ): array {
         [
             'course_id' => $courseid,
@@ -65,12 +79,12 @@ class get_glossary_entries_by_letter extends external_api {
             'limit' => $limit,
             'include_not_approved' => $includenotapproved,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'letter' => $letter,
             'from' => $from,
             'limit' => $limit,
-            'include_not_approved' => $include_not_approved,
+            'include_not_approved' => $includenotapproved,
         ]);
 
         self::validate_glossary_view_context((int) $courseid, (int) $moduleid);
@@ -85,10 +99,20 @@ class get_glossary_entries_by_letter extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return self::entries_result_structure();
     }
 
+    /**
+     * Entries result structure.
+     *
+     * @return external_single_structure
+     */
     public static function entries_result_structure(): external_single_structure {
         return new external_single_structure([
             'module_id' => new external_value(PARAM_INT, 'Glossary course module id'),
@@ -99,6 +123,13 @@ class get_glossary_entries_by_letter extends external_api {
         ]);
     }
 
+    /**
+     * Validate glossary view context.
+     *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @return void
+     */
     public static function validate_glossary_view_context(int $courseid, int $moduleid): void {
         $systemcontext = \context_system::instance();
         self::validate_context($systemcontext);

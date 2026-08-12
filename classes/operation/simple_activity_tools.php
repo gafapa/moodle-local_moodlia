@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Returns safe details for simple activities exposed through Moodle APIs.
  */

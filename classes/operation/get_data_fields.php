@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Lists fields from a Moodle Database activity through Moodle APIs.
  */

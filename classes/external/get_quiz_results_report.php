@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -53,20 +51,20 @@ class get_quiz_results_report extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quiz_module_id Quiz course module id.
+     * @param int $quizmoduleid Quiz course module id.
      * @param int $limit Maximum users to include.
-     * @param bool $include_previews Include preview attempts.
+     * @param bool $includepreviews Include preview attempts.
      * @return array
      */
-    public static function execute(int $quiz_module_id, int $limit = 100, bool $include_previews = true): array {
+    public static function execute(int $quizmoduleid, int $limit = 100, bool $includepreviews = true): array {
         [
             'quiz_module_id' => $quizmoduleid,
             'limit' => $userlimit,
             'include_previews' => $includepreviews,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
+            'quiz_module_id' => $quizmoduleid,
             'limit' => $limit,
-            'include_previews' => $include_previews,
+            'include_previews' => $includepreviews,
         ]);
 
         $systemcontext = \context_system::instance();

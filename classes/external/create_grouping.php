@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\create_grouping as create_grouping_operation;
  * External API adapter for create_grouping.
  */
 class create_grouping extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -45,8 +48,17 @@ class create_grouping extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param string $idnumber Idnumber.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
+        int $courseid,
         string $name,
         string $description = '',
         string $idnumber = ''
@@ -57,7 +69,7 @@ class create_grouping extends external_api {
             'description' => $description,
             'idnumber' => $idnumber,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
             'name' => $name,
             'description' => $description,
             'idnumber' => $idnumber,
@@ -74,6 +86,11 @@ class create_grouping extends external_api {
         return create_grouping_operation::execute((int) $courseid, $name, $description, $idnumber);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return get_groupings::grouping_structure();
     }

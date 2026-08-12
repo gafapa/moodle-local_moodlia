@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Submits the current user's response to a Moodle choice activity.
  */

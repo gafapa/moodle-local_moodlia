@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -38,6 +36,11 @@ use local_moodlia\operation\get_assignment_grading_form as get_assignment_gradin
  * External API adapter for get_assignment_grading_form.
  */
 class get_assignment_grading_form extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -45,23 +48,43 @@ class get_assignment_grading_form extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $module_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
         ]);
 
         self::require_assignment_context((int) $courseid, (int) $moduleid, false);
         return get_assignment_grading_form_operation::execute((int) $courseid, (int) $moduleid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return self::grading_form_structure();
     }
 
+    /**
+     * Require assignment context.
+     *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param bool $manageform Manageform.
+     * @return void
+     */
     public static function require_assignment_context(int $courseid, int $moduleid, bool $manageform): void {
         $systemcontext = \context_system::instance();
         self::validate_context($systemcontext);
@@ -81,6 +104,11 @@ class get_assignment_grading_form extends external_api {
         }
     }
 
+    /**
+     * Grading form structure.
+     *
+     * @return external_single_structure
+     */
     public static function grading_form_structure(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

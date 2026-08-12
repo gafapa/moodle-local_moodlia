@@ -24,12 +24,20 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Creates a binary checklist as a Moodle rubric.
  */
 class set_assignment_checklist {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param string $items Items.
+     * @return array
+     */
     public static function execute(
         int $courseid,
         int $moduleid,

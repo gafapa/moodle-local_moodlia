@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Lists .mbz backup files visible to the current user.
  */

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\copy_course_structure as copy_course_structure_opera
  * External API adapter for copy_course_structure.
  */
 class copy_course_structure extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'source_course_id' => new external_value(PARAM_INT, 'Source Moodle course id'),
@@ -45,11 +48,20 @@ class copy_course_structure extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $sourcecourseid Source course id.
+     * @param int $targetcourseid Target course id.
+     * @param bool $includecontents Include contents.
+     * @param bool $includegroups Include groups.
+     * @return array
+     */
     public static function execute(
-        int $source_course_id,
-        int $target_course_id,
-        bool $include_contents = true,
-        bool $include_groups = false
+        int $sourcecourseid,
+        int $targetcourseid,
+        bool $includecontents = true,
+        bool $includegroups = false
     ): array {
         [
             'source_course_id' => $sourcecourseid,
@@ -57,10 +69,10 @@ class copy_course_structure extends external_api {
             'include_contents' => $includecontents,
             'include_groups' => $includegroups,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'source_course_id' => $source_course_id,
-            'target_course_id' => $target_course_id,
-            'include_contents' => $include_contents,
-            'include_groups' => $include_groups,
+            'source_course_id' => $sourcecourseid,
+            'target_course_id' => $targetcourseid,
+            'include_contents' => $includecontents,
+            'include_groups' => $includegroups,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -88,6 +100,11 @@ class copy_course_structure extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return course_workflow_response::copied_structure();
     }

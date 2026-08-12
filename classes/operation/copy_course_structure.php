@@ -24,12 +24,19 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Copy course structure from one course to another through a MoodlIA blueprint.
  */
 class copy_course_structure {
+    /**
+     * Execute the operation.
+     *
+     * @param int $sourcecourseid Sourcecourseid.
+     * @param int $targetcourseid Targetcourseid.
+     * @param bool $includecontents Includecontents.
+     * @param bool $includegroups Includegroups.
+     * @return array
+     */
     public static function execute(int $sourcecourseid, int $targetcourseid, bool $includecontents = true, bool $includegroups = false): array {
         if (!$includecontents && !$includegroups) {
             throw new \invalid_parameter_exception('At least one of include_contents or include_groups must be true.');

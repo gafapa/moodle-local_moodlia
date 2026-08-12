@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -62,27 +60,27 @@ class create_course extends external_api {
      *
      * @param string $fullname Course full name.
      * @param string $shortname Course short name.
-     * @param int $category_id Course category id, or 0 for Moodle default.
+     * @param int $categoryid Course category id, or 0 for Moodle default.
      * @param bool $visible Whether the course is visible.
      * @param string $summary Course summary.
-     * @param string $summary_format Course summary format.
-     * @param string $course_format Course format plugin name.
-     * @param bool $enable_completion Whether course completion tracking is enabled.
-     * @param int $start_date Course start Unix timestamp.
-     * @param int $end_date Course end Unix timestamp, or 0.
+     * @param string $summaryformat Course summary format.
+     * @param string $courseformat Course format plugin name.
+     * @param bool $enablecompletion Whether course completion tracking is enabled.
+     * @param int $startdate Course start Unix timestamp.
+     * @param int $enddate Course end Unix timestamp, or 0.
      * @return array
      */
     public static function execute(
         string $fullname,
         string $shortname,
-        int $category_id = 0,
+        int $categoryid = 0,
         bool $visible = true,
         string $summary = '',
-        string $summary_format = 'html',
-        string $course_format = 'topics',
-        bool $enable_completion = false,
-        int $start_date = 0,
-        int $end_date = 0
+        string $summaryformat = 'html',
+        string $courseformat = 'topics',
+        bool $enablecompletion = false,
+        int $startdate = 0,
+        int $enddate = 0
     ): array {
         [
             'fullname' => $fullname,
@@ -98,14 +96,14 @@ class create_course extends external_api {
         ] = self::validate_parameters(self::execute_parameters(), [
             'fullname' => $fullname,
             'shortname' => $shortname,
-            'category_id' => $category_id,
+            'category_id' => $categoryid,
             'visible' => $visible,
             'summary' => $summary,
-            'summary_format' => $summary_format,
-            'course_format' => $course_format,
-            'enable_completion' => $enable_completion,
-            'start_date' => $start_date,
-            'end_date' => $end_date,
+            'summary_format' => $summaryformat,
+            'course_format' => $courseformat,
+            'enable_completion' => $enablecompletion,
+            'start_date' => $startdate,
+            'end_date' => $enddate,
         ]);
 
         $systemcontext = \context_system::instance();

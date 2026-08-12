@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\course_workflow_tools;
  * External API adapter for apply_course_blueprint.
  */
 class apply_course_blueprint extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Target Moodle course id'),
@@ -44,12 +47,19 @@ class apply_course_blueprint extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, string $blueprint): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param string $blueprint Blueprint.
+     * @return array
+     */
+    public static function execute(int $courseid, string $blueprint): array {
         [
             'course_id' => $courseid,
             'blueprint' => $blueprint,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
             'blueprint' => $blueprint,
         ]);
 
@@ -62,10 +72,22 @@ class apply_course_blueprint extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return course_workflow_response::applied_blueprint_structure();
     }
 
+    /**
+     * Validate course write context.
+     *
+     * @param int $courseid Courseid.
+     * @param array $blueprint Blueprint.
+     * @return void
+     */
     private static function validate_course_write_context(int $courseid, array $blueprint): void {
         $systemcontext = \context_system::instance();
         self::validate_context($systemcontext);

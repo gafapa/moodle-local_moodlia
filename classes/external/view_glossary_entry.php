@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\view_glossary_entry as view_glossary_entry_operation
  * External API adapter for view_glossary_entry.
  */
 class view_glossary_entry extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -45,12 +48,20 @@ class view_glossary_entry extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $module_id, int $entry_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param int $entryid Entry id.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid, int $entryid): array {
         ['course_id' => $courseid, 'module_id' => $moduleid, 'entry_id' => $entryid] =
             self::validate_parameters(self::execute_parameters(), [
-                'course_id' => $course_id,
-                'module_id' => $module_id,
-                'entry_id' => $entry_id,
+                'course_id' => $courseid,
+                'module_id' => $moduleid,
+                'entry_id' => $entryid,
             ]);
 
         $systemcontext = \context_system::instance();
@@ -66,6 +77,11 @@ class view_glossary_entry extends external_api {
         return view_glossary_entry_operation::execute((int) $courseid, (int) $moduleid, (int) $entryid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'module_id' => new external_value(PARAM_INT, 'Glossary course module id'),

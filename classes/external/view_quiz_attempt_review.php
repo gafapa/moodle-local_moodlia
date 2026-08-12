@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\view_quiz_attempt_review as view_quiz_attempt_review
  * External API adapter for view_quiz_attempt_review.
  */
 class view_quiz_attempt_review extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'quiz_module_id' => new external_value(PARAM_INT, 'Quiz course module id'),
@@ -43,13 +46,20 @@ class view_quiz_attempt_review extends external_api {
         ]);
     }
 
-    public static function execute(int $quiz_module_id, int $attempt_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $quizmoduleid Quiz module id.
+     * @param int $attemptid Attempt id.
+     * @return array
+     */
+    public static function execute(int $quizmoduleid, int $attemptid): array {
         [
             'quiz_module_id' => $quizmoduleid,
             'attempt_id' => $attemptid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
-            'attempt_id' => $attempt_id,
+            'quiz_module_id' => $quizmoduleid,
+            'attempt_id' => $attemptid,
         ]);
 
         get_quiz_attempt_review::validate_quiz_attempt_review_context((int) $quizmoduleid);
@@ -57,6 +67,11 @@ class view_quiz_attempt_review extends external_api {
         return view_quiz_attempt_review_operation::execute((int) $quizmoduleid, (int) $attemptid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'quiz_id' => new external_value(PARAM_INT, 'Quiz instance id'),

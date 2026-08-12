@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_question\category_manager;
 use core_question\local\bank\question_version_status;
 use mod_quiz\quiz_settings;
@@ -35,7 +33,13 @@ use qbank_managecategories\helper as category_helper;
  * Helper methods for question bank and quiz operations.
  */
 class question_tools {
+    /**
+     * BANK SCOPE COURSE SHARED.
+     */
     public const BANK_SCOPE_COURSE_SHARED = 'course_shared';
+    /**
+     * BANK SCOPE QUIZ PRIVATE.
+     */
     public const BANK_SCOPE_QUIZ_PRIVATE = 'quiz_private';
 
     /**

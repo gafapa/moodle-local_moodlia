@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -52,20 +50,20 @@ class submit_choice_response extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $choice_module_id Choice course module id.
-     * @param string $option_ids JSON array of choice option ids.
+     * @param int $courseid Moodle course id.
+     * @param int $choicemoduleid Choice course module id.
+     * @param string $optionids JSON array of choice option ids.
      * @return array
      */
-    public static function execute(int $course_id, int $choice_module_id, string $option_ids): array {
+    public static function execute(int $courseid, int $choicemoduleid, string $optionids): array {
         [
             'course_id' => $courseid,
             'choice_module_id' => $choicemoduleid,
             'option_ids' => $optionids,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'choice_module_id' => $choice_module_id,
-            'option_ids' => $option_ids,
+            'course_id' => $courseid,
+            'choice_module_id' => $choicemoduleid,
+            'option_ids' => $optionids,
         ]);
 
         $systemcontext = \context_system::instance();

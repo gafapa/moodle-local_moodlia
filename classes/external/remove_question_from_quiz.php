@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,20 +51,20 @@ class remove_question_from_quiz extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quiz_module_id Quiz course module id.
+     * @param int $quizmoduleid Quiz course module id.
      * @param int|null $slot Quiz slot number.
-     * @param int|null $question_id Question id.
+     * @param int|null $questionid Question id.
      * @return array
      */
-    public static function execute(int $quiz_module_id, ?int $slot = null, ?int $question_id = null): array {
+    public static function execute(int $quizmoduleid, ?int $slot = null, ?int $questionid = null): array {
         [
             'quiz_module_id' => $quizmoduleid,
             'slot' => $slot,
             'question_id' => $questionid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
+            'quiz_module_id' => $quizmoduleid,
             'slot' => $slot,
-            'question_id' => $question_id,
+            'question_id' => $questionid,
         ]);
 
         $systemcontext = \context_system::instance();

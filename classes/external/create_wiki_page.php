@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -57,23 +55,23 @@ class create_wiki_page extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Wiki course module id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Wiki course module id.
      * @param string $title Wiki page title.
      * @param string $content Wiki page content.
-     * @param string $content_format Wiki content format.
-     * @param int $group_id Group id.
-     * @param int $user_id User id.
+     * @param string $contentformat Wiki content format.
+     * @param int $groupid Group id.
+     * @param int $userid User id.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         string $title,
         string $content,
-        string $content_format = 'html',
-        int $group_id = -1,
-        int $user_id = 0
+        string $contentformat = 'html',
+        int $groupid = -1,
+        int $userid = 0
     ): array {
         [
             'course_id' => $courseid,
@@ -84,13 +82,13 @@ class create_wiki_page extends external_api {
             'group_id' => $groupid,
             'user_id' => $userid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'title' => $title,
             'content' => $content,
-            'content_format' => $content_format,
-            'group_id' => $group_id,
-            'user_id' => $user_id,
+            'content_format' => $contentformat,
+            'group_id' => $groupid,
+            'user_id' => $userid,
         ]);
 
         $systemcontext = \context_system::instance();

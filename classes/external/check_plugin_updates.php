@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\check_plugin_updates as check_plugin_updates_operati
  * External API adapter for check_plugin_updates.
  */
 final class check_plugin_updates extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'component' => new external_value(PARAM_COMPONENT, 'Optional Frankenstyle plugin component', VALUE_DEFAULT, ''),
@@ -44,6 +47,13 @@ final class check_plugin_updates extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param string $component Component.
+     * @param bool $refresh Refresh.
+     * @return array
+     */
     public static function execute(string $component = '', bool $refresh = false): array {
         $params = self::validate_parameters(self::execute_parameters(), [
             'component' => $component,
@@ -58,6 +68,11 @@ final class check_plugin_updates extends external_api {
         return check_plugin_updates_operation::execute($params['component'], (bool) $params['refresh']);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'refreshed' => new external_value(PARAM_BOOL, 'Whether Moodle.org was queried during this request'),

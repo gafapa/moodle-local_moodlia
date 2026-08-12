@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_value;

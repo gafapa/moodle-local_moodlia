@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -55,14 +53,14 @@ class update_wiki_page extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Wiki course module id.
-     * @param int $page_id Wiki page id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Wiki course module id.
+     * @param int $pageid Wiki page id.
      * @param string $content Wiki page content.
      * @param string|null $section Optional wiki page section.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, int $page_id, string $content, ?string $section = null): array {
+    public static function execute(int $courseid, int $moduleid, int $pageid, string $content, ?string $section = null): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
@@ -70,9 +68,9 @@ class update_wiki_page extends external_api {
             'content' => $content,
             'section' => $section,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'page_id' => $page_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'page_id' => $pageid,
             'content' => $content,
             'section' => $section,
         ]);

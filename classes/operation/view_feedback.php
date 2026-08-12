@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Registers a Moodle Feedback view through Moodle Feedback external APIs.
  */

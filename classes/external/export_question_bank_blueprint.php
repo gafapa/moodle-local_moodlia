@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -33,7 +31,15 @@ use core_external\external_value;
 use local_moodlia\operation\export_question_bank_blueprint as export_question_bank_blueprint_operation;
 use local_moodlia\operation\question_tools;
 
+/**
+ * Export question bank blueprint implementation.
+ */
 class export_question_bank_blueprint extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -45,13 +51,24 @@ class export_question_bank_blueprint extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param string $bankscope Bank scope.
+     * @param int|null $questionbankmoduleid Question bank module id.
+     * @param int|null $quizmoduleid Quiz module id.
+     * @param int|null $categoryid Category id.
+     * @param bool $includeunsupported Include unsupported.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        string $bank_scope = question_tools::BANK_SCOPE_COURSE_SHARED,
-        ?int $question_bank_module_id = null,
-        ?int $quiz_module_id = null,
-        ?int $category_id = null,
-        bool $include_unsupported = true
+        int $courseid,
+        string $bankscope = question_tools::BANK_SCOPE_COURSE_SHARED,
+        ?int $questionbankmoduleid = null,
+        ?int $quizmoduleid = null,
+        ?int $categoryid = null,
+        bool $includeunsupported = true
     ): array {
         [
             'course_id' => $courseid,
@@ -61,12 +78,12 @@ class export_question_bank_blueprint extends external_api {
             'category_id' => $categoryid,
             'include_unsupported' => $includeunsupported,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'bank_scope' => $bank_scope,
-            'question_bank_module_id' => $question_bank_module_id,
-            'quiz_module_id' => $quiz_module_id,
-            'category_id' => $category_id,
-            'include_unsupported' => $include_unsupported,
+            'course_id' => $courseid,
+            'bank_scope' => $bankscope,
+            'question_bank_module_id' => $questionbankmoduleid,
+            'quiz_module_id' => $quizmoduleid,
+            'category_id' => $categoryid,
+            'include_unsupported' => $includeunsupported,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -95,6 +112,11 @@ class export_question_bank_blueprint extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

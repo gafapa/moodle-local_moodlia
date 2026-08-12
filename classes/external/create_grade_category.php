@@ -24,14 +24,20 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
 use local_moodlia\operation\create_grade_category as create_grade_category_operation;
 
+/**
+ * Create grade category implementation.
+ */
 class create_grade_category extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -40,13 +46,21 @@ class create_grade_category extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, string $name, ?int $aggregation = null): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param string $name Name.
+     * @param int|null $aggregation Aggregation.
+     * @return array
+     */
+    public static function execute(int $courseid, string $name, ?int $aggregation = null): array {
         [
             'course_id' => $courseid,
             'name' => $categoryname,
             'aggregation' => $categoryaggregation,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
             'name' => $name,
             'aggregation' => $aggregation,
         ]);
@@ -62,6 +76,11 @@ class create_grade_category extends external_api {
         return create_grade_category_operation::execute((int) $courseid, (string) $categoryname, $categoryaggregation === null ? null : (int) $categoryaggregation);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return gradebook_response::category_structure();
     }

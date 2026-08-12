@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\create_calendar_event as create_calendar_event_opera
  * External API adapter for create_calendar_event.
  */
 class create_calendar_event extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -46,8 +49,18 @@ class create_calendar_event extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param string $name Name.
+     * @param int $timestart Timestart.
+     * @param string $description Description.
+     * @param int $timeduration Timeduration.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
+        int $courseid,
         string $name,
         int $timestart,
         string $description = '',
@@ -60,7 +73,7 @@ class create_calendar_event extends external_api {
             'timestart' => $timestart,
             'timeduration' => $timeduration,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
             'name' => $name,
             'timestart' => $timestart,
             'description' => $description,
@@ -84,6 +97,11 @@ class create_calendar_event extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return get_calendar_events::event_structure();
     }

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,16 +51,16 @@ class duplicate_module extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Course module id.
-     * @param int|null $section_number Target course section number.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Course module id.
+     * @param int|null $sectionnumber Target course section number.
      * @param string|null $name Duplicated module name.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        ?int $section_number = null,
+        int $courseid,
+        int $moduleid,
+        ?int $sectionnumber = null,
         ?string $name = null
     ): array {
         [
@@ -71,9 +69,9 @@ class duplicate_module extends external_api {
             'section_number' => $sectionnumber,
             'name' => $name,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'section_number' => $section_number,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'section_number' => $sectionnumber,
             'name' => $name,
         ]);
 

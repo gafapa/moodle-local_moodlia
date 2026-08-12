@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -63,23 +61,23 @@ class add_random_questions_to_quiz extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quiz_module_id Quiz course module id.
-     * @param int $category_id Question category id.
+     * @param int $quizmoduleid Quiz course module id.
+     * @param int $categoryid Question category id.
      * @param int $number Number of random slots.
      * @param int|null $slot Requested quiz slot.
-     * @param bool $include_subcategories Include child categories.
-     * @param string $bank_scope Source bank scope.
-     * @param int|null $question_bank_module_id Source course qbank module id.
+     * @param bool $includesubcategories Include child categories.
+     * @param string $bankscope Source bank scope.
+     * @param int|null $questionbankmoduleid Source course qbank module id.
      * @return array
      */
     public static function execute(
-        int $quiz_module_id,
-        int $category_id,
+        int $quizmoduleid,
+        int $categoryid,
         int $number,
         ?int $slot = null,
-        bool $include_subcategories = false,
-        string $bank_scope = question_tools::BANK_SCOPE_COURSE_SHARED,
-        ?int $question_bank_module_id = null
+        bool $includesubcategories = false,
+        string $bankscope = question_tools::BANK_SCOPE_COURSE_SHARED,
+        ?int $questionbankmoduleid = null
     ): array {
         [
             'quiz_module_id' => $quizmoduleid,
@@ -90,13 +88,13 @@ class add_random_questions_to_quiz extends external_api {
             'bank_scope' => $bankscope,
             'question_bank_module_id' => $questionbankmoduleid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
-            'category_id' => $category_id,
+            'quiz_module_id' => $quizmoduleid,
+            'category_id' => $categoryid,
             'number' => $number,
             'slot' => $slot,
-            'include_subcategories' => $include_subcategories,
-            'bank_scope' => $bank_scope,
-            'question_bank_module_id' => $question_bank_module_id,
+            'include_subcategories' => $includesubcategories,
+            'bank_scope' => $bankscope,
+            'question_bank_module_id' => $questionbankmoduleid,
         ]);
 
         $systemcontext = \context_system::instance();

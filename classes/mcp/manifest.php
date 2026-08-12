@@ -24,8 +24,6 @@
 
 namespace local_moodlia\mcp;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Contract-backed MCP manifest.
  */

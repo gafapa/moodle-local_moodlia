@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Pins or unpins a Moodle forum discussion through Moodle forum APIs.
  */

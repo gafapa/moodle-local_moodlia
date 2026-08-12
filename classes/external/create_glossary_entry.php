@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -57,20 +55,20 @@ class create_glossary_entry extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Glossary course module id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Glossary course module id.
      * @param string $concept Glossary entry concept.
      * @param string $definition Glossary entry definition.
-     * @param string $definition_format Definition format.
+     * @param string $definitionformat Definition format.
      * @param string $options JSON-encoded entry options.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         string $concept,
         string $definition,
-        string $definition_format = 'html',
+        string $definitionformat = 'html',
         string $options = '{}'
     ): array {
         [
@@ -81,11 +79,11 @@ class create_glossary_entry extends external_api {
             'definition_format' => $definitionformat,
             'options' => $options,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'concept' => $concept,
             'definition' => $definition,
-            'definition_format' => $definition_format,
+            'definition_format' => $definitionformat,
             'options' => $options,
         ]);
 

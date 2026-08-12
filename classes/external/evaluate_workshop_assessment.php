@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -61,13 +59,13 @@ class evaluate_workshop_assessment extends external_api {
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $assessment_id,
-        string $feedback_text = '',
-        string $feedback_format = 'html',
+        int $courseid,
+        int $moduleid,
+        int $assessmentid,
+        string $feedbacktext = '',
+        string $feedbackformat = 'html',
         int $weight = 1,
-        string $grading_grade_over = ''
+        string $gradinggradeover = ''
     ): array {
         [
             'course_id' => $courseid,
@@ -78,13 +76,13 @@ class evaluate_workshop_assessment extends external_api {
             'weight' => $assessmentweight,
             'grading_grade_over' => $gradinggradeover,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'assessment_id' => $assessment_id,
-            'feedback_text' => $feedback_text,
-            'feedback_format' => $feedback_format,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'assessment_id' => $assessmentid,
+            'feedback_text' => $feedbacktext,
+            'feedback_format' => $feedbackformat,
             'weight' => $weight,
-            'grading_grade_over' => $grading_grade_over,
+            'grading_grade_over' => $gradinggradeover,
         ]);
 
         $systemcontext = \context_system::instance();

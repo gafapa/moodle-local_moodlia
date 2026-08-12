@@ -24,14 +24,20 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
 use local_moodlia\operation\assign_course_role as assign_course_role_operation;
 
+/**
+ * Assign course role implementation.
+ */
 class assign_course_role extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -40,11 +46,19 @@ class assign_course_role extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $user_id, string $role_archetype = 'student'): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $userid User id.
+     * @param string $rolearchetype Role archetype.
+     * @return array
+     */
+    public static function execute(int $courseid, int $userid, string $rolearchetype = 'student'): array {
         $params = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'user_id' => $user_id,
-            'role_archetype' => $role_archetype,
+            'course_id' => $courseid,
+            'user_id' => $userid,
+            'role_archetype' => $rolearchetype,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -58,6 +72,11 @@ class assign_course_role extends external_api {
         return assign_course_role_operation::execute((int) $params['course_id'], (int) $params['user_id'], $params['role_archetype']);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return admin_response::role_assignment_structure('assigned');
     }

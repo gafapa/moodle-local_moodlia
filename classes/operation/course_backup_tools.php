@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Wraps Moodle backup and restore controllers behind a transport-safe API.
  */

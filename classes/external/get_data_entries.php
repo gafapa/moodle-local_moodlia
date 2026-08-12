@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -60,12 +58,12 @@ class get_data_entries extends external_api {
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         string $search = '',
-        bool $include_contents = true,
+        bool $includecontents = true,
         int $page = 0,
-        int $per_page = 20
+        int $perpage = 20
     ): array {
         [
             'course_id' => $courseid,
@@ -75,12 +73,12 @@ class get_data_entries extends external_api {
             'page' => $page,
             'per_page' => $perpage,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'search' => $search,
-            'include_contents' => $include_contents,
+            'include_contents' => $includecontents,
             'page' => $page,
-            'per_page' => $per_page,
+            'per_page' => $perpage,
         ]);
 
         $systemcontext = \context_system::instance();

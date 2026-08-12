@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Lists files attached to a Moodle wiki subwiki through Moodle external APIs.
  */

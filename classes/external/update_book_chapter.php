@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
@@ -35,6 +33,11 @@ use local_moodlia\operation\update_book_chapter as update_book_chapter_operation
  * External API adapter for update_book_chapter.
  */
 class update_book_chapter extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -48,13 +51,26 @@ class update_book_chapter extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param int $chapterid Chapter id.
+     * @param string|null $title Title.
+     * @param string|null $content Content.
+     * @param int|null $contentformat Content format.
+     * @param bool|null $subchapter Subchapter.
+     * @param bool|null $hidden Hidden.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $chapter_id,
+        int $courseid,
+        int $moduleid,
+        int $chapterid,
         ?string $title = null,
         ?string $content = null,
-        ?int $content_format = null,
+        ?int $contentformat = null,
         ?bool $subchapter = null,
         ?bool $hidden = null
     ): array {
@@ -68,12 +84,12 @@ class update_book_chapter extends external_api {
             'subchapter' => $issubchapter,
             'hidden' => $ishidden,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'chapter_id' => $chapter_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'chapter_id' => $chapterid,
             'title' => $title,
             'content' => $content,
-            'content_format' => $content_format,
+            'content_format' => $contentformat,
             'subchapter' => $subchapter,
             'hidden' => $hidden,
         ]);
@@ -92,6 +108,11 @@ class update_book_chapter extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return get_book_chapters::chapter_returns();
     }

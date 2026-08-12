@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\export_course_blueprint as export_course_blueprint_o
  * External API adapter for export_course_blueprint.
  */
 class export_course_blueprint extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -44,15 +47,23 @@ class export_course_blueprint extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, bool $include_contents = true, bool $include_groups = true): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param bool $includecontents Include contents.
+     * @param bool $includegroups Include groups.
+     * @return array
+     */
+    public static function execute(int $courseid, bool $includecontents = true, bool $includegroups = true): array {
         [
             'course_id' => $courseid,
             'include_contents' => $includecontents,
             'include_groups' => $includegroups,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'include_contents' => $include_contents,
-            'include_groups' => $include_groups,
+            'course_id' => $courseid,
+            'include_contents' => $includecontents,
+            'include_groups' => $includegroups,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -66,6 +77,11 @@ class export_course_blueprint extends external_api {
         return export_course_blueprint_operation::execute((int) $courseid, (bool) $includecontents, (bool) $includegroups);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

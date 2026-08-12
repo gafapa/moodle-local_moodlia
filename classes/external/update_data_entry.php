@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -54,22 +52,22 @@ class update_data_entry extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Database course module id.
-     * @param int $entry_id Database entry id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Database course module id.
+     * @param int $entryid Database entry id.
      * @param string $values JSON object keyed by field name or field id.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, int $entry_id, string $values): array {
+    public static function execute(int $courseid, int $moduleid, int $entryid, string $values): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'entry_id' => $entryid,
             'values' => $values,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'entry_id' => $entry_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'entry_id' => $entryid,
             'values' => $values,
         ]);
 

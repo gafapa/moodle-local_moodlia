@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -55,17 +53,17 @@ class get_book_chapters extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Book course module id.
-     * @param bool $include_content Include rendered chapter content.
-     * @param bool $include_hidden Include hidden chapters where allowed.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Book course module id.
+     * @param bool $includecontent Include rendered chapter content.
+     * @param bool $includehidden Include hidden chapters where allowed.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        bool $include_content = true,
-        bool $include_hidden = false
+        int $courseid,
+        int $moduleid,
+        bool $includecontent = true,
+        bool $includehidden = false
     ): array {
         [
             'course_id' => $courseid,
@@ -73,10 +71,10 @@ class get_book_chapters extends external_api {
             'include_content' => $includecontent,
             'include_hidden' => $includehidden,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'include_content' => $include_content,
-            'include_hidden' => $include_hidden,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'include_content' => $includecontent,
+            'include_hidden' => $includehidden,
         ]);
 
         $systemcontext = \context_system::instance();

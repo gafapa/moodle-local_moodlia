@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\forum_tools;
  * External API adapter for create_forum_discussion_post.
  */
 class create_forum_discussion_post extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -48,11 +51,22 @@ class create_forum_discussion_post extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param int $discussionid Discussion id.
+     * @param int $parentpostid Parent post id.
+     * @param string $subject Subject.
+     * @param string $message Message.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $discussion_id,
-        int $parent_post_id = 0,
+        int $courseid,
+        int $moduleid,
+        int $discussionid,
+        int $parentpostid = 0,
         string $subject = '',
         string $message = ''
     ): array {
@@ -64,10 +78,10 @@ class create_forum_discussion_post extends external_api {
             'subject' => $subject,
             'message' => $message,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'discussion_id' => $discussion_id,
-            'parent_post_id' => $parent_post_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'discussion_id' => $discussionid,
+            'parent_post_id' => $parentpostid,
             'subject' => $subject,
             'message' => $message,
         ]);
@@ -95,6 +109,11 @@ class create_forum_discussion_post extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return get_forum_discussion_posts::post_structure();
     }

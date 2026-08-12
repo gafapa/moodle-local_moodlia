@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\get_quiz_user_best_grade as get_quiz_user_best_grade
  * External API adapter for get_quiz_user_best_grade.
  */
 class get_quiz_user_best_grade extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'quiz_module_id' => new external_value(PARAM_INT, 'Quiz course module id'),
@@ -43,13 +46,20 @@ class get_quiz_user_best_grade extends external_api {
         ]);
     }
 
-    public static function execute(int $quiz_module_id, int $user_id = 0): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $quizmoduleid Quiz module id.
+     * @param int $userid User id.
+     * @return array
+     */
+    public static function execute(int $quizmoduleid, int $userid = 0): array {
         [
             'quiz_module_id' => $quizmoduleid,
             'user_id' => $userid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
-            'user_id' => $user_id,
+            'quiz_module_id' => $quizmoduleid,
+            'user_id' => $userid,
         ]);
 
         self::validate_context(\context_system::instance());
@@ -68,6 +78,11 @@ class get_quiz_user_best_grade extends external_api {
         return get_quiz_user_best_grade_operation::execute((int) $quizmoduleid, (int) $userid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'quiz_id' => new external_value(PARAM_INT, 'Quiz instance id'),

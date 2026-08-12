@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\audit_course_completion as audit_course_completion_o
  * External API adapter for audit_course_completion.
  */
 class audit_course_completion extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -43,13 +46,20 @@ class audit_course_completion extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, bool $include_ok = false): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param bool $includeok Include ok.
+     * @return array
+     */
+    public static function execute(int $courseid, bool $includeok = false): array {
         [
             'course_id' => $courseid,
             'include_ok' => $includeok,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'include_ok' => $include_ok,
+            'course_id' => $courseid,
+            'include_ok' => $includeok,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -63,6 +73,11 @@ class audit_course_completion extends external_api {
         return audit_course_completion_operation::execute((int) $courseid, (bool) $includeok);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

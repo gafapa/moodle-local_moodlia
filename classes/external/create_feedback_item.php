@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -60,29 +58,29 @@ class create_feedback_item extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Feedback course module id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Feedback course module id.
      * @param string $type Feedback item type.
      * @param string|null $name Feedback item name.
      * @param string $definition JSON item definition.
      * @param int|null $position Optional one-based position.
      * @param string|null $label Optional item label.
      * @param bool|null $required Optional required flag.
-     * @param int|null $depend_item_id Optional dependency item id.
-     * @param string|null $depend_value Optional dependency value.
+     * @param int|null $dependitemid Optional dependency item id.
+     * @param string|null $dependvalue Optional dependency value.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         string $type,
         ?string $name,
         string $definition,
         ?int $position = null,
         ?string $label = null,
         ?bool $required = null,
-        ?int $depend_item_id = null,
-        ?string $depend_value = null
+        ?int $dependitemid = null,
+        ?string $dependvalue = null
     ): array {
         [
             'course_id' => $courseid,
@@ -96,16 +94,16 @@ class create_feedback_item extends external_api {
             'depend_item_id' => $dependitemid,
             'depend_value' => $dependvalue,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'type' => $type,
             'name' => $name,
             'definition' => $definition,
             'position' => $position,
             'label' => $label,
             'required' => $required,
-            'depend_item_id' => $depend_item_id,
-            'depend_value' => $depend_value,
+            'depend_item_id' => $dependitemid,
+            'depend_value' => $dependvalue,
         ]);
 
         self::require_edit_capability((int) $courseid, (int) $moduleid);

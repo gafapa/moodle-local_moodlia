@@ -24,12 +24,17 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Update a Moodle user through Moodle's user API.
  */
 class update_user {
+    /**
+     * Execute the operation.
+     *
+     * @param int $userid Userid.
+     * @param array $patch Patch.
+     * @return array
+     */
     public static function execute(int $userid, array $patch): array {
         admin_tools::require_user_api();
         admin_tools::get_user($userid);

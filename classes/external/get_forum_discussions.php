@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -38,6 +36,11 @@ use local_moodlia\operation\get_forum_discussions as get_forum_discussions_opera
  * External API adapter for get_forum_discussions.
  */
 class get_forum_discussions extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -45,13 +48,20 @@ class get_forum_discussions extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $module_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -71,6 +81,11 @@ class get_forum_discussions extends external_api {
         return get_forum_discussions_operation::execute((int) $courseid, (int) $moduleid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -80,6 +95,11 @@ class get_forum_discussions extends external_api {
         ]);
     }
 
+    /**
+     * Discussion structure.
+     *
+     * @return external_single_structure
+     */
     public static function discussion_structure(): external_single_structure {
         return new external_single_structure([
             'discussion_id' => new external_value(PARAM_INT, 'Forum discussion id'),

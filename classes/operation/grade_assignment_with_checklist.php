@@ -24,12 +24,21 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Saves an assignment grade using a binary rubric checklist.
  */
 class grade_assignment_with_checklist {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
+     * @param string $items Items.
+     * @param string $feedbackcomment Feedbackcomment.
+     * @param int $attemptnumber Attemptnumber.
+     * @return array
+     */
     public static function execute(
         int $courseid,
         int $moduleid,

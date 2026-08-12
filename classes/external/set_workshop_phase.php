@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,19 +51,19 @@ class set_workshop_phase extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Workshop course module id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Workshop course module id.
      * @param string $phase Workshop phase.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, string $phase): array {
+    public static function execute(int $courseid, int $moduleid, string $phase): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'phase' => $phase,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'phase' => $phase,
         ]);
 

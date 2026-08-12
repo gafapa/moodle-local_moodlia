@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -66,30 +64,30 @@ class create_lesson_page extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Lesson course module id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Lesson course module id.
      * @param string $title Lesson page title.
      * @param string $content Lesson page content.
-     * @param int $content_format Moodle text format.
+     * @param int $contentformat Moodle text format.
      * @param string $branches JSON branch definitions.
-     * @param int $after_page_id Previous page id.
-     * @param bool $display_in_menu Menu display setting.
+     * @param int $afterpageid Previous page id.
+     * @param bool $displayinmenu Menu display setting.
      * @param bool $horizontal Branch layout setting.
-     * @param string $page_type Lesson page type.
+     * @param string $pagetype Lesson page type.
      * @param string|null $answers JSON answer definitions.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         string $title,
         string $content,
-        int $content_format,
+        int $contentformat,
         ?string $branches = null,
-        int $after_page_id = 0,
-        bool $display_in_menu = true,
+        int $afterpageid = 0,
+        bool $displayinmenu = true,
         bool $horizontal = true,
-        string $page_type = 'content',
+        string $pagetype = 'content',
         ?string $answers = null
     ): array {
         [
@@ -105,16 +103,16 @@ class create_lesson_page extends external_api {
             'page_type' => $pagetype,
             'answers' => $answersjson,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'title' => $title,
             'content' => $content,
-            'content_format' => $content_format,
+            'content_format' => $contentformat,
             'branches' => $branches,
-            'after_page_id' => $after_page_id,
-            'display_in_menu' => $display_in_menu,
+            'after_page_id' => $afterpageid,
+            'display_in_menu' => $displayinmenu,
             'horizontal' => $horizontal,
-            'page_type' => $page_type,
+            'page_type' => $pagetype,
             'answers' => $answers,
         ]);
 

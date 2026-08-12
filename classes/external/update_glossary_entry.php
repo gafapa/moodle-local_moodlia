@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -61,12 +59,12 @@ class update_glossary_entry extends external_api {
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $entry_id,
+        int $courseid,
+        int $moduleid,
+        int $entryid,
         ?string $concept = null,
         ?string $definition = null,
-        string $definition_format = 'html',
+        string $definitionformat = 'html',
         string $options = '{}'
     ): array {
         [
@@ -78,12 +76,12 @@ class update_glossary_entry extends external_api {
             'definition_format' => $definitionformat,
             'options' => $options,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'entry_id' => $entry_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'entry_id' => $entryid,
             'concept' => $concept,
             'definition' => $definition,
-            'definition_format' => $definition_format,
+            'definition_format' => $definitionformat,
             'options' => $options,
         ]);
 

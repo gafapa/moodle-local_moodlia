@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Imports a portable MoodlIA JSON blueprint into a Moodle question bank.
  */

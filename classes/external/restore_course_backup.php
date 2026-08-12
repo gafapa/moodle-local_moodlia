@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -38,6 +36,11 @@ use local_moodlia\operation\restore_course_backup as restore_course_backup_opera
  * External API adapter for restore_course_backup.
  */
 class restore_course_backup extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'backup_file_id' => new external_value(PARAM_INT, 'Stored .mbz backup file id'),
@@ -49,11 +52,22 @@ class restore_course_backup extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $backupfileid Backup file id.
+     * @param string $target Target.
+     * @param int|null $targetcourseid Target course id.
+     * @param int|null $categoryid Category id.
+     * @param string $fullname Fullname.
+     * @param string $shortname Shortname.
+     * @return array
+     */
     public static function execute(
-        int $backup_file_id,
+        int $backupfileid,
         string $target = 'new_course',
-        ?int $target_course_id = null,
-        ?int $category_id = null,
+        ?int $targetcourseid = null,
+        ?int $categoryid = null,
         string $fullname = '',
         string $shortname = ''
     ): array {
@@ -65,10 +79,10 @@ class restore_course_backup extends external_api {
             'fullname' => $fullname,
             'shortname' => $shortname,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'backup_file_id' => $backup_file_id,
+            'backup_file_id' => $backupfileid,
             'target' => $target,
-            'target_course_id' => $target_course_id,
-            'category_id' => $category_id,
+            'target_course_id' => $targetcourseid,
+            'category_id' => $categoryid,
             'fullname' => $fullname,
             'shortname' => $shortname,
         ]);
@@ -83,11 +97,11 @@ class restore_course_backup extends external_api {
         $sourcecontext = \context::instance_by_id((int) $backupfile->get_contextid());
         self::validate_context($sourcecontext);
 
-        if ($sourcecontext->contextlevel === CONTEXT_USER && (int) $sourcecontext->instanceid === (int) $USER->id) {
-            // The caller owns this backup file (e.g. it was uploaded via upload_course_backup).
-        } else if ($sourcecontext->contextlevel === CONTEXT_COURSE) {
+        $callerownsbackup = $sourcecontext->contextlevel === CONTEXT_USER
+            && (int) $sourcecontext->instanceid === (int) $USER->id;
+        if (!$callerownsbackup && $sourcecontext->contextlevel === CONTEXT_COURSE) {
             require_capability('moodle/backup:backupcourse', $sourcecontext);
-        } else {
+        } else if (!$callerownsbackup) {
             throw new \required_capability_exception($sourcecontext, 'moodle/backup:backupcourse', 'nopermissions', '');
         }
 
@@ -117,6 +131,11 @@ class restore_course_backup extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Restored course id'),

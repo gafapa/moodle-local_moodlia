@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,12 +34,23 @@ use local_moodlia\operation\get_plugin_details as get_plugin_details_operation;
  * External API adapter for get_plugin_details.
  */
 final class get_plugin_details extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'component' => new external_value(PARAM_COMPONENT, 'Frankenstyle plugin component'),
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param string $component Component.
+     * @return array
+     */
     public static function execute(string $component): array {
         ['component' => $component] = self::validate_parameters(self::execute_parameters(), [
             'component' => $component,
@@ -55,6 +64,11 @@ final class get_plugin_details extends external_api {
         return get_plugin_details_operation::execute($component);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         $fields = list_plugins::plugin_structure()->keys;
         $fields['dependency_count'] = new external_value(PARAM_INT, 'Number of direct dependencies');

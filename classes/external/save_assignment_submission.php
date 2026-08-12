@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,20 +51,20 @@ class save_assignment_submission extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Assignment course module id.
-     * @param string $online_text Online text submission HTML.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Assignment course module id.
+     * @param string $onlinetext Online text submission HTML.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, string $online_text): array {
+    public static function execute(int $courseid, int $moduleid, string $onlinetext): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'online_text' => $onlinetext,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'online_text' => $online_text,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'online_text' => $onlinetext,
         ]);
 
         $systemcontext = \context_system::instance();

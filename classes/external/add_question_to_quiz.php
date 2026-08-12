@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -52,19 +50,19 @@ class add_question_to_quiz extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quiz_module_id Quiz course module id.
-     * @param int $question_id Question id.
+     * @param int $quizmoduleid Quiz course module id.
+     * @param int $questionid Question id.
      * @param int|null $slot Requested quiz slot.
      * @return array
      */
-    public static function execute(int $quiz_module_id, int $question_id, ?int $slot = null): array {
+    public static function execute(int $quizmoduleid, int $questionid, ?int $slot = null): array {
         [
             'quiz_module_id' => $quizmoduleid,
             'question_id' => $questionid,
             'slot' => $slot,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
-            'question_id' => $question_id,
+            'quiz_module_id' => $quizmoduleid,
+            'question_id' => $questionid,
             'slot' => $slot,
         ]);
 

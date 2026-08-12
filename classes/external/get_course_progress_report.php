@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -52,16 +50,16 @@ class get_course_progress_report extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
+     * @param int $courseid Moodle course id.
      * @param int $limit Maximum users to include.
      * @return array
      */
-    public static function execute(int $course_id, int $limit = 100): array {
+    public static function execute(int $courseid, int $limit = 100): array {
         [
             'course_id' => $courseid,
             'limit' => $userlimit,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
             'limit' => $limit,
         ]);
 

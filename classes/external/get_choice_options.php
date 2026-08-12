@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -52,17 +50,17 @@ class get_choice_options extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $choice_module_id Choice course module id.
+     * @param int $courseid Moodle course id.
+     * @param int $choicemoduleid Choice course module id.
      * @return array
      */
-    public static function execute(int $course_id, int $choice_module_id): array {
+    public static function execute(int $courseid, int $choicemoduleid): array {
         [
             'course_id' => $courseid,
             'choice_module_id' => $choicemoduleid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'choice_module_id' => $choice_module_id,
+            'course_id' => $courseid,
+            'choice_module_id' => $choicemoduleid,
         ]);
 
         $systemcontext = \context_system::instance();

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Deletes current-user or explicitly permitted Choice responses through Moodle Choice external APIs.
  */

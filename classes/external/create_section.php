@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -54,7 +52,7 @@ class create_section extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
+     * @param int $courseid Moodle course id.
      * @param string $name Section name.
      * @param string $summary Section summary.
      * @param int $position Placement position, or 0 to append.
@@ -62,7 +60,7 @@ class create_section extends external_api {
      * @return array
      */
     public static function execute(
-        int $course_id,
+        int $courseid,
         string $name,
         string $summary = '',
         int $position = 0,
@@ -75,7 +73,7 @@ class create_section extends external_api {
             'position' => $position,
             'visible' => $sectionvisible,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
             'name' => $name,
             'summary' => $summary,
             'position' => $position,

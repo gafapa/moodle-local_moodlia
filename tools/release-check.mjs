@@ -9,6 +9,7 @@ const checks = [
   ['npm', ['run', 'lint:php']],
   ['npm', ['run', 'contract:check']],
   ['npm', ['run', 'plugin:boilerplate:check']],
+  ['npm', ['run', 'plugin:phpdoc:check']],
   ['npm', ['run', 'plugin:marketplace:check']],
   ['npm', ['run', 'manifests:check']],
   ['npm', ['run', 'test:static']]

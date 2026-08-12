@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -58,10 +56,10 @@ class allocate_workshop_submission extends external_api {
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $submission_id,
-        int $reviewer_id = 0,
+        int $courseid,
+        int $moduleid,
+        int $submissionid,
+        int $reviewerid = 0,
         int $weight = 1
     ): array {
         [
@@ -71,10 +69,10 @@ class allocate_workshop_submission extends external_api {
             'reviewer_id' => $reviewerid,
             'weight' => $assessmentweight,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'submission_id' => $submission_id,
-            'reviewer_id' => $reviewer_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'submission_id' => $submissionid,
+            'reviewer_id' => $reviewerid,
             'weight' => $weight,
         ]);
 

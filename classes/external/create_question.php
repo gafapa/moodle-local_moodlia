@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -56,20 +54,20 @@ class create_question extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $category_id Question category id.
-     * @param int $context_id Question bank context id.
-     * @param string $question_type Question type.
+     * @param int $categoryid Question category id.
+     * @param int $contextid Question bank context id.
+     * @param string $questiontype Question type.
      * @param string $name Question name.
-     * @param string $question_text Question text.
+     * @param string $questiontext Question text.
      * @param string $options JSON-encoded question options.
      * @return array
      */
     public static function execute(
-        int $category_id,
-        int $context_id,
-        string $question_type,
+        int $categoryid,
+        int $contextid,
+        string $questiontype,
         string $name,
-        string $question_text,
+        string $questiontext,
         string $options
     ): array {
         [
@@ -80,11 +78,11 @@ class create_question extends external_api {
             'question_text' => $questiontext,
             'options' => $options,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'category_id' => $category_id,
-            'context_id' => $context_id,
-            'question_type' => $question_type,
+            'category_id' => $categoryid,
+            'context_id' => $contextid,
+            'question_type' => $questiontype,
             'name' => $name,
-            'question_text' => $question_text,
+            'question_text' => $questiontext,
             'options' => $options,
         ]);
 

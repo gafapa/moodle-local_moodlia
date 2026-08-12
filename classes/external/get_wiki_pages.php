@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -58,23 +56,23 @@ class get_wiki_pages extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Wiki course module id.
-     * @param int $group_id Group id.
-     * @param int $user_id User id.
-     * @param string $sort_by Sort field.
-     * @param string $sort_direction Sort direction.
-     * @param bool $include_content Include page content.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Wiki course module id.
+     * @param int $groupid Group id.
+     * @param int $userid User id.
+     * @param string $sortby Sort field.
+     * @param string $sortdirection Sort direction.
+     * @param bool $includecontent Include page content.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $group_id = -1,
-        int $user_id = 0,
-        string $sort_by = 'title',
-        string $sort_direction = 'ASC',
-        bool $include_content = true
+        int $courseid,
+        int $moduleid,
+        int $groupid = -1,
+        int $userid = 0,
+        string $sortby = 'title',
+        string $sortdirection = 'ASC',
+        bool $includecontent = true
     ): array {
         [
             'course_id' => $courseid,
@@ -85,13 +83,13 @@ class get_wiki_pages extends external_api {
             'sort_direction' => $sortdirection,
             'include_content' => $includecontent,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'group_id' => $group_id,
-            'user_id' => $user_id,
-            'sort_by' => $sort_by,
-            'sort_direction' => $sort_direction,
-            'include_content' => $include_content,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'group_id' => $groupid,
+            'user_id' => $userid,
+            'sort_by' => $sortby,
+            'sort_direction' => $sortdirection,
+            'include_content' => $includecontent,
         ]);
 
         $systemcontext = \context_system::instance();

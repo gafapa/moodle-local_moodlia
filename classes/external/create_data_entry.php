@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -54,23 +52,23 @@ class create_data_entry extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Database course module id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Database course module id.
      * @param string $values JSON object keyed by field name or field id.
-     * @param int $group_id Group id.
+     * @param int $groupid Group id.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, string $values, int $group_id = 0): array {
+    public static function execute(int $courseid, int $moduleid, string $values, int $groupid = 0): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'values' => $values,
             'group_id' => $groupid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'values' => $values,
-            'group_id' => $group_id,
+            'group_id' => $groupid,
         ]);
 
         $systemcontext = \context_system::instance();

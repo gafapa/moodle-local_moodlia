@@ -24,12 +24,17 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Set a course publishing state.
  */
 class set_course_publish_state {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Courseid.
+     * @param string $publishstate Publishstate.
+     * @return array
+     */
     public static function execute(int $courseid, string $publishstate): array {
         $publishstate = course_workflow_tools::normalise_publish_state($publishstate);
         $course = course_tools::get_course($courseid);

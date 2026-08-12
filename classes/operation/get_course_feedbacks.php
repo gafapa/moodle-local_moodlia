@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Lists Feedback activities in a Moodle course through Moodle Feedback external APIs.
  */

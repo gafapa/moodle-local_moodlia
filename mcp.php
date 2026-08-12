@@ -26,13 +26,25 @@ define('NO_MOODLE_COOKIES', true);
 define('AJAX_SCRIPT', true);
 define('NO_DEBUG_DISPLAY', true);
 
+/**
+ * LOCAL MOODLIA MCP MODERN PROTOCOL VERSION.
+ */
 const LOCAL_MOODLIA_MCP_MODERN_PROTOCOL_VERSION = '2026-07-28';
+/**
+ * LOCAL MOODLIA MCP LEGACY PROTOCOL VERSIONS.
+ */
 const LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS = [
     '2025-11-25',
     '2025-06-18',
     '2025-03-26',
 ];
+/**
+ * LOCAL MOODLIA MCP MAX REQUEST BYTES.
+ */
 const LOCAL_MOODLIA_MCP_MAX_REQUEST_BYTES = 32 * 1024 * 1024;
+/**
+ * LOCAL MOODLIA MCP SERVER VERSION.
+ */
 const LOCAL_MOODLIA_MCP_SERVER_VERSION = '0.1.190';
 
 require_once(__DIR__ . '/../../config.php');
@@ -83,6 +95,8 @@ function local_moodlia_mcp_modern_result(array $result, bool $cacheable = false)
  *
  * @param mixed $id Request id.
  * @param mixed $result Result payload.
+ * @param bool $modern Whether to add modern protocol metadata.
+ * @param bool $cacheable Whether the result may include cache hints.
  * @return never
  */
 function local_moodlia_mcp_result($id, $result, bool $modern = false, bool $cacheable = false): never {
@@ -108,6 +122,7 @@ function local_moodlia_mcp_result($id, $result, bool $modern = false, bool $cach
  * @param int $httpstatus HTTP status code.
  * @param string $canonicalcode Canonical transport-independent error code.
  * @param array $details Additional safe error metadata.
+ * @param array|null $protocoldata Protocol-specific error metadata.
  * @return never
  */
 function local_moodlia_mcp_error(
@@ -464,7 +479,7 @@ if ($modern) {
         local_moodlia_mcp_error($id, -32600,
             'Accept must include application/json and text/event-stream.', 406, 'invalid_parameters');
     }
-} elseif ($protocolheader !== '' && !in_array($protocolheader, LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS, true)) {
+} else if ($protocolheader !== '' && !in_array($protocolheader, LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS, true)) {
     local_moodlia_mcp_error($id, -32602, 'Unsupported MCP protocol version.', 400, 'invalid_parameters', [
         'supported' => LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS,
     ]);

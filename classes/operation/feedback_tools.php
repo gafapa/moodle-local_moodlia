@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Helper methods for Moodle Feedback operations.
  */
@@ -284,6 +282,7 @@ class feedback_tools {
             }
         } catch (\Throwable $exception) {
             // Item APIs only need this for narrowing info-mode options.
+            unset($exception);
         }
 
         return $feedback;

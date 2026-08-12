@@ -24,12 +24,18 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Synchronise manual course enrolments.
  */
 class sync_course_enrolments {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Courseid.
+     * @param array $enrolments Enrolments.
+     * @param bool $unenrolmissing Unenrolmissing.
+     * @return array
+     */
     public static function execute(int $courseid, array $enrolments, bool $unenrolmissing = false): array {
         course_workflow_tools::validate_enrolments($enrolments);
 

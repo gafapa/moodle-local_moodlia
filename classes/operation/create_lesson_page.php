@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Creates a Moodle Lesson page through Moodle Lesson component APIs.
  */
@@ -91,7 +89,7 @@ class create_lesson_page {
                 $displayinmenu,
                 $horizontal
             );
-        } elseif ($pagetype === 'truefalse') {
+        } else if ($pagetype === 'truefalse') {
             if ($branchesjson !== null && trim($branchesjson) !== '') {
                 throw new \invalid_parameter_exception('branches is only supported for content Lesson pages.');
             }
@@ -107,7 +105,7 @@ class create_lesson_page {
                 lesson_tools::decode_truefalse_answers($answersjson),
                 $afterpageid
             );
-        } elseif ($pagetype === 'shortanswer') {
+        } else if ($pagetype === 'shortanswer') {
             if ($branchesjson !== null && trim($branchesjson) !== '') {
                 throw new \invalid_parameter_exception('branches is only supported for content Lesson pages.');
             }
@@ -123,7 +121,7 @@ class create_lesson_page {
                 lesson_tools::decode_shortanswer_answers($answersjson),
                 $afterpageid
             );
-        } elseif ($pagetype === 'multichoice') {
+        } else if ($pagetype === 'multichoice') {
             if ($branchesjson !== null && trim($branchesjson) !== '') {
                 throw new \invalid_parameter_exception('branches is only supported for content Lesson pages.');
             }
@@ -139,7 +137,7 @@ class create_lesson_page {
                 lesson_tools::decode_multichoice_answers($answersjson),
                 $afterpageid
             );
-        } elseif ($pagetype === 'numerical') {
+        } else if ($pagetype === 'numerical') {
             if ($branchesjson !== null && trim($branchesjson) !== '') {
                 throw new \invalid_parameter_exception('branches is only supported for content Lesson pages.');
             }
@@ -155,7 +153,7 @@ class create_lesson_page {
                 lesson_tools::decode_numerical_answers($answersjson),
                 $afterpageid
             );
-        } elseif ($pagetype === 'essay') {
+        } else if ($pagetype === 'essay') {
             if ($branchesjson !== null && trim($branchesjson) !== '') {
                 throw new \invalid_parameter_exception('branches is only supported for content Lesson pages.');
             }

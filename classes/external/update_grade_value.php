@@ -24,15 +24,21 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
 use local_moodlia\operation\update_grade_value as update_grade_value_operation;
 
+/**
+ * Update grade value implementation.
+ */
 class update_grade_value extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -43,7 +49,17 @@ class update_grade_value extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $item_id, int $user_id, float $grade, ?string $feedback = null): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $itemid Item id.
+     * @param int $userid User id.
+     * @param float $grade Grade.
+     * @param string|null $feedback Feedback.
+     * @return array
+     */
+    public static function execute(int $courseid, int $itemid, int $userid, float $grade, ?string $feedback = null): array {
         [
             'course_id' => $courseid,
             'item_id' => $itemid,
@@ -51,9 +67,9 @@ class update_grade_value extends external_api {
             'grade' => $finalgrade,
             'feedback' => $gradefeedback,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'item_id' => $item_id,
-            'user_id' => $user_id,
+            'course_id' => $courseid,
+            'item_id' => $itemid,
+            'user_id' => $userid,
             'grade' => $grade,
             'feedback' => $feedback,
         ]);
@@ -69,6 +85,11 @@ class update_grade_value extends external_api {
         return update_grade_value_operation::execute((int) $courseid, (int) $itemid, (int) $userid, (float) $finalgrade, $gradefeedback);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Adds a Moodle question to a quiz through Moodle quiz APIs.
  */

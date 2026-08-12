@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -55,17 +53,17 @@ class create_module extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $section_number Course section number.
-     * @param string $module_type Moodle module type.
+     * @param int $courseid Moodle course id.
+     * @param int $sectionnumber Course section number.
+     * @param string $moduletype Moodle module type.
      * @param string $name Module name.
      * @param string $options JSON-encoded module options.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $section_number,
-        string $module_type,
+        int $courseid,
+        int $sectionnumber,
+        string $moduletype,
         string $name,
         string $options = '{}'
     ): array {
@@ -76,9 +74,9 @@ class create_module extends external_api {
             'name' => $name,
             'options' => $options,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'section_number' => $section_number,
-            'module_type' => $module_type,
+            'course_id' => $courseid,
+            'section_number' => $sectionnumber,
+            'module_type' => $moduletype,
             'name' => $name,
             'options' => $options,
         ]);

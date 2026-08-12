@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Deletes a post from a Moodle forum discussion through Moodle forum APIs.
  */

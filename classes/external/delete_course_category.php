@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,15 +35,26 @@ use local_moodlia\operation\delete_course_category as delete_course_category_ope
  * External API adapter for delete_course_category.
  */
 class delete_course_category extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'category_id' => new external_value(PARAM_INT, 'Moodle course category id'),
         ]);
     }
 
-    public static function execute(int $category_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $categoryid Category id.
+     * @return array
+     */
+    public static function execute(int $categoryid): array {
         ['category_id' => $categoryid] = self::validate_parameters(self::execute_parameters(), [
-            'category_id' => $category_id,
+            'category_id' => $categoryid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -60,6 +69,11 @@ class delete_course_category extends external_api {
         return delete_course_category_operation::execute((int) $categoryid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'deleted' => new external_value(PARAM_BOOL, 'Whether the category was deleted'),

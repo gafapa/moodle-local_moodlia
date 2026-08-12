@@ -24,23 +24,35 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
 use local_moodlia\operation\delete_cohort as delete_cohort_operation;
 
+/**
+ * Delete cohort implementation.
+ */
 class delete_cohort extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'cohort_id' => new external_value(PARAM_INT, 'Moodle cohort id'),
         ]);
     }
 
-    public static function execute(int $cohort_id): array {
-        ['cohort_id' => $cohortid] = self::validate_parameters(self::execute_parameters(), ['cohort_id' => $cohort_id]);
+    /**
+     * Execute the operation.
+     *
+     * @param int $cohortid Cohort id.
+     * @return array
+     */
+    public static function execute(int $cohortid): array {
+        ['cohort_id' => $cohortid] = self::validate_parameters(self::execute_parameters(), ['cohort_id' => $cohortid]);
 
         $systemcontext = \context_system::instance();
         self::validate_context($systemcontext);
@@ -50,6 +62,11 @@ class delete_cohort extends external_api {
         return delete_cohort_operation::execute((int) $cohortid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'deleted' => new external_value(PARAM_BOOL, 'Whether the cohort was deleted'),

@@ -24,15 +24,21 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
 use local_moodlia\operation\delete_grade_category as delete_grade_category_operation;
 
+/**
+ * Delete grade category implementation.
+ */
 class delete_grade_category extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -40,13 +46,20 @@ class delete_grade_category extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $category_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $categoryid Category id.
+     * @return array
+     */
+    public static function execute(int $courseid, int $categoryid): array {
         [
             'course_id' => $courseid,
             'category_id' => $categoryid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'category_id' => $category_id,
+            'course_id' => $courseid,
+            'category_id' => $categoryid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -60,6 +73,11 @@ class delete_grade_category extends external_api {
         return delete_grade_category_operation::execute((int) $courseid, (int) $categoryid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

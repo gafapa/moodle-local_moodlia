@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Lists Moodle Workshop assessments assigned to a reviewer through Moodle external APIs.
  */

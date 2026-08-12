@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Deletes an item from a Moodle Feedback activity through Moodle APIs.
  */

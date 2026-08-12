@@ -24,12 +24,22 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Creates or updates an assignment marking guide.
  */
 class set_assignment_marking_guide {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param string $criteria Criteria.
+     * @param string $comments Comments.
+     * @param string $options Options.
+     * @return array
+     */
     public static function execute(
         int $courseid,
         int $moduleid,

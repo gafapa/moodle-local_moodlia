@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -38,12 +36,23 @@ use local_moodlia\operation\create_course_from_blueprint as create_course_from_b
  * External API adapter for create_course_from_blueprint.
  */
 class create_course_from_blueprint extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'blueprint' => new external_value(PARAM_RAW, 'JSON-encoded MoodlIA course blueprint'),
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param string $blueprint Blueprint.
+     * @return array
+     */
     public static function execute(string $blueprint): array {
         ['blueprint' => $blueprint] = self::validate_parameters(self::execute_parameters(), [
             'blueprint' => $blueprint,
@@ -69,10 +78,22 @@ class create_course_from_blueprint extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return course_workflow_response::created_course_structure();
     }
 
+    /**
+     * Validate created course write context.
+     *
+     * @param int $courseid Courseid.
+     * @param array $blueprint Blueprint.
+     * @return void
+     */
     private static function validate_created_course_write_context(int $courseid, array $blueprint): void {
         $coursecontext = \context_course::instance($courseid);
         self::validate_context($coursecontext);

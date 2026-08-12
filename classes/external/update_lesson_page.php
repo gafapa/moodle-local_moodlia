@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -63,14 +61,14 @@ class update_lesson_page extends external_api {
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $page_id,
+        int $courseid,
+        int $moduleid,
+        int $pageid,
         ?string $title = null,
         ?string $content = null,
-        ?int $content_format = null,
+        ?int $contentformat = null,
         ?string $branches = null,
-        ?bool $display_in_menu = null,
+        ?bool $displayinmenu = null,
         ?bool $horizontal = null,
         ?string $answers = null
     ): array {
@@ -86,14 +84,14 @@ class update_lesson_page extends external_api {
             'horizontal' => $horizontal,
             'answers' => $answersjson,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'page_id' => $page_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'page_id' => $pageid,
             'title' => $title,
             'content' => $content,
-            'content_format' => $content_format,
+            'content_format' => $contentformat,
             'branches' => $branches,
-            'display_in_menu' => $display_in_menu,
+            'display_in_menu' => $displayinmenu,
             'horizontal' => $horizontal,
             'answers' => $answers,
         ]);

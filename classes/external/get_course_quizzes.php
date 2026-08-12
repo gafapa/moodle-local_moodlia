@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -38,6 +36,11 @@ use local_moodlia\operation\question_quiz_attempt_tools;
  * External API adapter for get_course_quizzes.
  */
 class get_course_quizzes extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Single Moodle course id', VALUE_DEFAULT, 0),
@@ -45,13 +48,20 @@ class get_course_quizzes extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id = 0, string $course_ids = '[]'): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param string $courseids Course ids.
+     * @return array
+     */
+    public static function execute(int $courseid = 0, string $courseids = '[]'): array {
         [
             'course_id' => $courseid,
             'course_ids' => $courseids,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'course_ids' => $course_ids,
+            'course_id' => $courseid,
+            'course_ids' => $courseids,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -66,6 +76,11 @@ class get_course_quizzes extends external_api {
         return get_course_quizzes_operation::execute(array_values(array_unique($decodedcourseids)));
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_ids' => new external_multiple_structure(new external_value(PARAM_INT, 'Requested course id')),
@@ -75,6 +90,11 @@ class get_course_quizzes extends external_api {
         ]);
     }
 
+    /**
+     * Quiz summary structure.
+     *
+     * @return external_single_structure
+     */
     public static function quiz_summary_structure(): external_single_structure {
         return new external_single_structure([
             'quiz_id' => new external_value(PARAM_INT, 'Quiz instance id'),

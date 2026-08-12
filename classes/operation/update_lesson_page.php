@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Updates a supported Moodle Lesson page through Moodle Lesson component APIs.
  */
@@ -111,7 +109,7 @@ class update_lesson_page {
                 $displayinmenu ?? ((int) ($current->display ?? 0) === 1),
                 $horizontal ?? ((int) ($current->layout ?? 0) === 1)
             );
-        } elseif (lesson_tools::is_truefalse_page($current)) {
+        } else if (lesson_tools::is_truefalse_page($current)) {
             if ($branchesjson !== null && trim($branchesjson) !== '') {
                 throw new \invalid_parameter_exception('branches is only supported for content Lesson pages.');
             }
@@ -131,7 +129,7 @@ class update_lesson_page {
                 $answers,
                 0
             );
-        } elseif (lesson_tools::is_shortanswer_page($current)) {
+        } else if (lesson_tools::is_shortanswer_page($current)) {
             if ($branchesjson !== null && trim($branchesjson) !== '') {
                 throw new \invalid_parameter_exception('branches is only supported for content Lesson pages.');
             }
@@ -151,7 +149,7 @@ class update_lesson_page {
                 $answers,
                 0
             );
-        } elseif (lesson_tools::is_multichoice_page($current)) {
+        } else if (lesson_tools::is_multichoice_page($current)) {
             if ($branchesjson !== null && trim($branchesjson) !== '') {
                 throw new \invalid_parameter_exception('branches is only supported for content Lesson pages.');
             }
@@ -171,7 +169,7 @@ class update_lesson_page {
                 $answers,
                 0
             );
-        } elseif (lesson_tools::is_numerical_page($current)) {
+        } else if (lesson_tools::is_numerical_page($current)) {
             if ($branchesjson !== null && trim($branchesjson) !== '') {
                 throw new \invalid_parameter_exception('branches is only supported for content Lesson pages.');
             }
@@ -191,7 +189,7 @@ class update_lesson_page {
                 $answers,
                 0
             );
-        } elseif (lesson_tools::is_essay_page($current)) {
+        } else if (lesson_tools::is_essay_page($current)) {
             if ($branchesjson !== null && trim($branchesjson) !== '') {
                 throw new \invalid_parameter_exception('branches is only supported for content Lesson pages.');
             }

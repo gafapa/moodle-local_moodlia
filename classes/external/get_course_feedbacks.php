@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -37,15 +35,26 @@ use local_moodlia\operation\get_course_feedbacks as get_course_feedbacks_operati
  * External API adapter for get_course_feedbacks.
  */
 class get_course_feedbacks extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
         ]);
     }
 
-    public static function execute(int $course_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @return array
+     */
+    public static function execute(int $courseid): array {
         ['course_id' => $courseid] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -59,6 +68,11 @@ class get_course_feedbacks extends external_api {
         return get_course_feedbacks_operation::execute((int) $courseid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -68,6 +82,11 @@ class get_course_feedbacks extends external_api {
         ]);
     }
 
+    /**
+     * Feedback summary structure.
+     *
+     * @return external_single_structure
+     */
     public static function feedback_summary_structure(): external_single_structure {
         return new external_single_structure([
             'feedback_id' => new external_value(PARAM_INT, 'Feedback instance id'),
@@ -93,6 +112,11 @@ class get_course_feedbacks extends external_api {
         ]);
     }
 
+    /**
+     * Warnings structure.
+     *
+     * @return external_multiple_structure
+     */
     public static function warnings_structure(): external_multiple_structure {
         return new external_multiple_structure(new external_single_structure([
             'item' => new external_value(PARAM_TEXT, 'Warning item'),

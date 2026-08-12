@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\get_quiz_attempt_access_information as get_quiz_atte
  * External API adapter for get_quiz_attempt_access_information.
  */
 class get_quiz_attempt_access_information extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'quiz_module_id' => new external_value(PARAM_INT, 'Quiz course module id'),
@@ -44,13 +47,20 @@ class get_quiz_attempt_access_information extends external_api {
         ]);
     }
 
-    public static function execute(int $quiz_module_id, int $attempt_id = 0): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $quizmoduleid Quiz module id.
+     * @param int $attemptid Attempt id.
+     * @return array
+     */
+    public static function execute(int $quizmoduleid, int $attemptid = 0): array {
         [
             'quiz_module_id' => $quizmoduleid,
             'attempt_id' => $attemptid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
-            'attempt_id' => $attempt_id,
+            'quiz_module_id' => $quizmoduleid,
+            'attempt_id' => $attemptid,
         ]);
 
         self::validate_context(\context_system::instance());
@@ -62,6 +72,11 @@ class get_quiz_attempt_access_information extends external_api {
         return get_quiz_attempt_access_information_operation::execute((int) $quizmoduleid, (int) $attemptid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'quiz_id' => new external_value(PARAM_INT, 'Quiz instance id'),

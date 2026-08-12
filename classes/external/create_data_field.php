@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -60,9 +58,9 @@ class create_data_field extends external_api {
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        string $field_type,
+        int $courseid,
+        int $moduleid,
+        string $fieldtype,
         string $name,
         string $description = '',
         bool $required = false,
@@ -77,9 +75,9 @@ class create_data_field extends external_api {
             'required' => $required,
             'options' => $options,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'field_type' => $field_type,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'field_type' => $fieldtype,
             'name' => $name,
             'description' => $description,
             'required' => $required,

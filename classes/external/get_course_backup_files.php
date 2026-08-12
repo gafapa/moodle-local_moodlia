@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\get_course_backup_files as get_course_backup_files_o
  * External API adapter for get_course_backup_files.
  */
 class get_course_backup_files extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Optional Moodle course id', VALUE_DEFAULT, null, NULL_ALLOWED),
@@ -44,13 +47,20 @@ class get_course_backup_files extends external_api {
         ]);
     }
 
-    public static function execute(?int $course_id = null, bool $include_private = true): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int|null $courseid Course id.
+     * @param bool $includeprivate Include private.
+     * @return array
+     */
+    public static function execute(?int $courseid = null, bool $includeprivate = true): array {
         [
             'course_id' => $courseid,
             'include_private' => $includeprivate,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'include_private' => $include_private,
+            'course_id' => $courseid,
+            'include_private' => $includeprivate,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -67,6 +77,11 @@ class get_course_backup_files extends external_api {
         return get_course_backup_files_operation::execute($courseid === null ? 0 : (int) $courseid, (bool) $includeprivate);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id, or 0 when only private files were listed'),

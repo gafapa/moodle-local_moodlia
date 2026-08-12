@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\view_feedback as view_feedback_operation;
  * External API adapter for view_feedback.
  */
 class view_feedback extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -45,15 +48,23 @@ class view_feedback extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $module_id, bool $module_viewed = false): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param bool $moduleviewed Module viewed.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid, bool $moduleviewed = false): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'module_viewed' => $moduleviewed,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'module_viewed' => $module_viewed,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'module_viewed' => $moduleviewed,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -73,6 +84,11 @@ class view_feedback extends external_api {
         return view_feedback_operation::execute((int) $courseid, (int) $moduleid, (bool) $moduleviewed);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'feedback_id' => new external_value(PARAM_INT, 'Feedback instance id'),

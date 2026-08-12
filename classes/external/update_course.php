@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -61,31 +59,31 @@ class update_course extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
+     * @param int $courseid Moodle course id.
      * @param string|null $fullname Course full name.
      * @param string|null $shortname Course short name.
      * @param bool|null $visible Whether the course is visible.
      * @param string|null $summary Course summary.
-     * @param string|null $summary_format Course summary format.
-     * @param string|null $course_format Course format plugin name.
-     * @param bool|null $enable_completion Whether course completion tracking is enabled.
-     * @param int|null $category_id Target Moodle course category id.
-     * @param int|null $start_date Course start Unix timestamp.
-     * @param int|null $end_date Course end Unix timestamp, or 0.
+     * @param string|null $summaryformat Course summary format.
+     * @param string|null $courseformat Course format plugin name.
+     * @param bool|null $enablecompletion Whether course completion tracking is enabled.
+     * @param int|null $categoryid Target Moodle course category id.
+     * @param int|null $startdate Course start Unix timestamp.
+     * @param int|null $enddate Course end Unix timestamp, or 0.
      * @return array
      */
     public static function execute(
-        int $course_id,
+        int $courseid,
         ?string $fullname = null,
         ?string $shortname = null,
         ?bool $visible = null,
         ?string $summary = null,
-        ?string $summary_format = null,
-        ?string $course_format = null,
-        ?bool $enable_completion = null,
-        ?int $category_id = null,
-        ?int $start_date = null,
-        ?int $end_date = null
+        ?string $summaryformat = null,
+        ?string $courseformat = null,
+        ?bool $enablecompletion = null,
+        ?int $categoryid = null,
+        ?int $startdate = null,
+        ?int $enddate = null
     ): array {
         [
             'course_id' => $courseid,
@@ -100,17 +98,17 @@ class update_course extends external_api {
             'start_date' => $startdate,
             'end_date' => $enddate,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
             'fullname' => $fullname,
             'shortname' => $shortname,
             'visible' => $visible,
             'summary' => $summary,
-            'summary_format' => $summary_format,
-            'course_format' => $course_format,
-            'enable_completion' => $enable_completion,
-            'category_id' => $category_id,
-            'start_date' => $start_date,
-            'end_date' => $end_date,
+            'summary_format' => $summaryformat,
+            'course_format' => $courseformat,
+            'enable_completion' => $enablecompletion,
+            'category_id' => $categoryid,
+            'start_date' => $startdate,
+            'end_date' => $enddate,
         ]);
 
         $systemcontext = \context_system::instance();

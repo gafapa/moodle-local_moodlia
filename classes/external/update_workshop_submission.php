@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -59,12 +57,12 @@ class update_workshop_submission extends external_api {
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $submission_id,
+        int $courseid,
+        int $moduleid,
+        int $submissionid,
         string $title,
         string $content = '',
-        string $content_format = 'html'
+        string $contentformat = 'html'
     ): array {
         [
             'course_id' => $courseid,
@@ -74,12 +72,12 @@ class update_workshop_submission extends external_api {
             'content' => $content,
             'content_format' => $contentformat,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'submission_id' => $submission_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'submission_id' => $submissionid,
             'title' => $title,
             'content' => $content,
-            'content_format' => $content_format,
+            'content_format' => $contentformat,
         ]);
 
         $systemcontext = \context_system::instance();

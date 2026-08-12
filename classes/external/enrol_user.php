@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -53,20 +51,20 @@ class enrol_user extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $user_id Moodle user id.
-     * @param string $role_archetype Role archetype.
+     * @param int $courseid Moodle course id.
+     * @param int $userid Moodle user id.
+     * @param string $rolearchetype Role archetype.
      * @return array
      */
-    public static function execute(int $course_id, int $user_id, string $role_archetype = 'student'): array {
+    public static function execute(int $courseid, int $userid, string $rolearchetype = 'student'): array {
         [
             'course_id' => $courseid,
             'user_id' => $userid,
             'role_archetype' => $rolearchetype,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'user_id' => $user_id,
-            'role_archetype' => $role_archetype,
+            'course_id' => $courseid,
+            'user_id' => $userid,
+            'role_archetype' => $rolearchetype,
         ]);
 
         $systemcontext = \context_system::instance();

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Favourites or unfavourites a Moodle forum discussion through Moodle forum APIs.
  */

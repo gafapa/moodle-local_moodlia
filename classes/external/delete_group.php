@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\delete_group as delete_group_operation;
  * External API adapter for delete_group.
  */
 class delete_group extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -43,13 +46,20 @@ class delete_group extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $group_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $groupid Group id.
+     * @return array
+     */
+    public static function execute(int $courseid, int $groupid): array {
         [
             'course_id' => $courseid,
             'group_id' => $groupid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'group_id' => $group_id,
+            'course_id' => $courseid,
+            'group_id' => $groupid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -63,6 +73,11 @@ class delete_group extends external_api {
         return delete_group_operation::execute((int) $courseid, (int) $groupid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'deleted' => new external_value(PARAM_BOOL, 'Whether the group was deleted'),

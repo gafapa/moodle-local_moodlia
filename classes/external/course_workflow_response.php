@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_single_structure;
 use core_external\external_value;
 
@@ -33,6 +31,11 @@ use core_external\external_value;
  * Shared external return structures for course workflow operations.
  */
 class course_workflow_response {
+    /**
+     * Created course structure.
+     *
+     * @return external_single_structure
+     */
     public static function created_course_structure(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -46,6 +49,11 @@ class course_workflow_response {
         ]);
     }
 
+    /**
+     * Applied blueprint structure.
+     *
+     * @return external_single_structure
+     */
     public static function applied_blueprint_structure(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -57,6 +65,11 @@ class course_workflow_response {
         ]);
     }
 
+    /**
+     * Copied structure.
+     *
+     * @return external_single_structure
+     */
     public static function copied_structure(): external_single_structure {
         return new external_single_structure([
             'source_course_id' => new external_value(PARAM_INT, 'Source Moodle course id'),

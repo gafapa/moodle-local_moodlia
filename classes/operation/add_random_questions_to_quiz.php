@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Adds random Moodle question slots to a quiz through Moodle quiz APIs.
  */

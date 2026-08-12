@@ -24,12 +24,17 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Returns the active advanced grading form for an assignment.
  */
 class get_assignment_grading_form {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @return array
+     */
     public static function execute(int $courseid, int $moduleid): array {
         return assignment_grading_tools::get_form($courseid, $moduleid);
     }

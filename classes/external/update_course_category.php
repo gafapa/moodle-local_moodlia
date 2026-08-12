@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\update_course_category as update_course_category_ope
  * External API adapter for update_course_category.
  */
 class update_course_category extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'category_id' => new external_value(PARAM_INT, 'Moodle course category id'),
@@ -45,13 +48,21 @@ class update_course_category extends external_api {
         ]);
     }
 
-    public static function execute(int $category_id, ?string $name = null, ?bool $visible = null): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $categoryid Category id.
+     * @param string|null $name Name.
+     * @param bool|null $visible Visible.
+     * @return array
+     */
+    public static function execute(int $categoryid, ?string $name = null, ?bool $visible = null): array {
         [
             'category_id' => $categoryid,
             'name' => $name,
             'visible' => $visible,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'category_id' => $category_id,
+            'category_id' => $categoryid,
             'name' => $name,
             'visible' => $visible,
         ]);
@@ -68,6 +79,11 @@ class update_course_category extends external_api {
         return update_course_category_operation::execute((int) $categoryid, $name, $visible);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return get_course_categories::category_structure();
     }

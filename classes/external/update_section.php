@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -55,18 +53,18 @@ class update_section extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int|null $section_id Course section id.
-     * @param int|null $section_number Course section number.
+     * @param int $courseid Moodle course id.
+     * @param int|null $sectionid Course section id.
+     * @param int|null $sectionnumber Course section number.
      * @param string|null $name Section name.
      * @param string|null $summary Section summary.
      * @param bool|null $visible Whether the section is visible.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        ?int $section_id = null,
-        ?int $section_number = null,
+        int $courseid,
+        ?int $sectionid = null,
+        ?int $sectionnumber = null,
         ?string $name = null,
         ?string $summary = null,
         ?bool $visible = null
@@ -79,9 +77,9 @@ class update_section extends external_api {
             'summary' => $summary,
             'visible' => $sectionvisible,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'section_id' => $section_id,
-            'section_number' => $section_number,
+            'course_id' => $courseid,
+            'section_id' => $sectionid,
+            'section_number' => $sectionnumber,
             'name' => $name,
             'summary' => $summary,
             'visible' => $visible,

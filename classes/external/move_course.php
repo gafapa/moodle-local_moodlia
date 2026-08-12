@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -52,17 +50,17 @@ class move_course extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $category_id Target Moodle course category id.
+     * @param int $courseid Moodle course id.
+     * @param int $categoryid Target Moodle course category id.
      * @return array
      */
-    public static function execute(int $course_id, int $category_id): array {
+    public static function execute(int $courseid, int $categoryid): array {
         [
             'course_id' => $courseid,
             'category_id' => $categoryid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'category_id' => $category_id,
+            'course_id' => $courseid,
+            'category_id' => $categoryid,
         ]);
 
         $systemcontext = \context_system::instance();

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\view_assignment_submission_status as view_assignment
  * External API adapter for view_assignment_submission_status.
  */
 class view_assignment_submission_status extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -43,10 +46,17 @@ class view_assignment_submission_status extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $module_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid): array {
         ['course_id' => $courseid, 'module_id' => $moduleid] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
         ]);
 
         get_assignment_submissions::require_assignment_context((int) $courseid, (int) $moduleid, 'mod/assign:view');
@@ -54,6 +64,11 @@ class view_assignment_submission_status extends external_api {
         return view_assignment_submission_status_operation::execute((int) $courseid, (int) $moduleid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return view_assignment::view_structure();
     }

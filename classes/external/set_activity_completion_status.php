@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -39,6 +37,11 @@ require_once($CFG->dirroot . '/course/lib.php');
  * External API adapter for set_activity_completion_status.
  */
 class set_activity_completion_status extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'module_id' => new external_value(PARAM_INT, 'Moodle course module id'),
@@ -46,12 +49,19 @@ class set_activity_completion_status extends external_api {
         ]);
     }
 
-    public static function execute(int $module_id, bool $completed): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $moduleid Module id.
+     * @param bool $completed Completed.
+     * @return array
+     */
+    public static function execute(int $moduleid, bool $completed): array {
         [
             'module_id' => $moduleid,
             'completed' => $completedstate,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'module_id' => $module_id,
+            'module_id' => $moduleid,
             'completed' => $completed,
         ]);
 
@@ -69,6 +79,11 @@ class set_activity_completion_status extends external_api {
         return set_activity_completion_status_operation::execute((int) $moduleid, (bool) $completedstate);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

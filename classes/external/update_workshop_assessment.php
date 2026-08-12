@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -57,17 +55,17 @@ class update_workshop_assessment extends external_api {
      *
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, int $assessment_id, string $data_json): array {
+    public static function execute(int $courseid, int $moduleid, int $assessmentid, string $datajson): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'assessment_id' => $assessmentid,
             'data_json' => $datajson,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'assessment_id' => $assessment_id,
-            'data_json' => $data_json,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'assessment_id' => $assessmentid,
+            'data_json' => $datajson,
         ]);
 
         $systemcontext = \context_system::instance();

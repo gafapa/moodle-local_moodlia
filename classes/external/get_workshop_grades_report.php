@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -61,13 +59,13 @@ class get_workshop_grades_report extends external_api {
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $group_id = 0,
-        string $sort_by = 'lastname',
-        string $sort_direction = 'ASC',
+        int $courseid,
+        int $moduleid,
+        int $groupid = 0,
+        string $sortby = 'lastname',
+        string $sortdirection = 'ASC',
         int $page = 0,
-        int $per_page = 20
+        int $perpage = 20
     ): array {
         [
             'course_id' => $courseid,
@@ -78,13 +76,13 @@ class get_workshop_grades_report extends external_api {
             'page' => $page,
             'per_page' => $perpage,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'group_id' => $group_id,
-            'sort_by' => $sort_by,
-            'sort_direction' => $sort_direction,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'group_id' => $groupid,
+            'sort_by' => $sortby,
+            'sort_direction' => $sortdirection,
             'page' => $page,
-            'per_page' => $per_page,
+            'per_page' => $perpage,
         ]);
 
         $systemcontext = \context_system::instance();

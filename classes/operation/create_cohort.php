@@ -24,12 +24,19 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Create a Moodle system cohort.
  */
 class create_cohort {
+    /**
+     * Execute the operation.
+     *
+     * @param string $name Name.
+     * @param string $idnumber Idnumber.
+     * @param string $description Description.
+     * @param bool $visible Visible.
+     * @return array
+     */
     public static function execute(string $name, string $idnumber = '', string $description = '', bool $visible = true): array {
         admin_tools::require_cohort_api();
 

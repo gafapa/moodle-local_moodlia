@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -54,16 +52,16 @@ class update_question extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $question_id Question id.
+     * @param int $questionid Question id.
      * @param string|null $name Question name.
-     * @param string|null $question_text Question text.
+     * @param string|null $questiontext Question text.
      * @param string $options JSON-encoded question options.
      * @return array
      */
     public static function execute(
-        int $question_id,
+        int $questionid,
         ?string $name = null,
-        ?string $question_text = null,
+        ?string $questiontext = null,
         string $options = '{}'
     ): array {
         [
@@ -72,9 +70,9 @@ class update_question extends external_api {
             'question_text' => $questiontext,
             'options' => $options,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'question_id' => $question_id,
+            'question_id' => $questionid,
             'name' => $name,
-            'question_text' => $question_text,
+            'question_text' => $questiontext,
             'options' => $options,
         ]);
 

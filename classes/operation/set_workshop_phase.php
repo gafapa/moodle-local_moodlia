@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Changes a Moodle Workshop phase through Moodle Workshop APIs.
  */

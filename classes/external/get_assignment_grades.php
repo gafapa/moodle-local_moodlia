@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\get_assignment_grades as get_assignment_grades_opera
  * External API adapter for get_assignment_grades.
  */
 class get_assignment_grades extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -45,14 +48,22 @@ class get_assignment_grades extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $module_id, int $since = 0): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param int $since Since.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid, int $since = 0): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'since' => $modifiedsince,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'since' => $since,
         ]);
 
@@ -61,6 +72,11 @@ class get_assignment_grades extends external_api {
         return get_assignment_grades_operation::execute((int) $courseid, (int) $moduleid, (int) $modifiedsince);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

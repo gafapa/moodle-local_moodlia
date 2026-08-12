@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\update_calendar_event as update_calendar_event_opera
  * External API adapter for update_calendar_event.
  */
 class update_calendar_event extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -47,9 +50,20 @@ class update_calendar_event extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $eventid Event id.
+     * @param string|null $name Name.
+     * @param string|null $description Description.
+     * @param int|null $timestart Timestart.
+     * @param int|null $timeduration Timeduration.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $event_id,
+        int $courseid,
+        int $eventid,
         ?string $name = null,
         ?string $description = null,
         ?int $timestart = null,
@@ -63,8 +77,8 @@ class update_calendar_event extends external_api {
             'timestart' => $timestart,
             'timeduration' => $timeduration,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'event_id' => $event_id,
+            'course_id' => $courseid,
+            'event_id' => $eventid,
             'name' => $name,
             'description' => $description,
             'timestart' => $timestart,
@@ -89,6 +103,11 @@ class update_calendar_event extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return get_calendar_events::event_structure();
     }

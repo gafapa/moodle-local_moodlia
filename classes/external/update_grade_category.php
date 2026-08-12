@@ -24,14 +24,20 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
 use local_moodlia\operation\update_grade_category as update_grade_category_operation;
 
+/**
+ * Update grade category implementation.
+ */
 class update_grade_category extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -42,7 +48,17 @@ class update_grade_category extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $category_id, ?string $name = null, ?int $aggregation = null, ?bool $hidden = null): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $categoryid Category id.
+     * @param string|null $name Name.
+     * @param int|null $aggregation Aggregation.
+     * @param bool|null $hidden Hidden.
+     * @return array
+     */
+    public static function execute(int $courseid, int $categoryid, ?string $name = null, ?int $aggregation = null, ?bool $hidden = null): array {
         [
             'course_id' => $courseid,
             'category_id' => $categoryid,
@@ -50,8 +66,8 @@ class update_grade_category extends external_api {
             'aggregation' => $categoryaggregation,
             'hidden' => $categoryhidden,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'category_id' => $category_id,
+            'course_id' => $courseid,
+            'category_id' => $categoryid,
             'name' => $name,
             'aggregation' => $aggregation,
             'hidden' => $hidden,
@@ -74,6 +90,11 @@ class update_grade_category extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return gradebook_response::category_structure();
     }

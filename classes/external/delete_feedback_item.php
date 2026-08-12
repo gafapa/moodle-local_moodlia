@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,20 +51,20 @@ class delete_feedback_item extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Feedback course module id.
-     * @param int $item_id Feedback item id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Feedback course module id.
+     * @param int $itemid Feedback item id.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, int $item_id): array {
+    public static function execute(int $courseid, int $moduleid, int $itemid): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'item_id' => $itemid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'item_id' => $item_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'item_id' => $itemid,
         ]);
 
         $systemcontext = \context_system::instance();

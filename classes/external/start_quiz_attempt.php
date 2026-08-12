@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -51,17 +49,17 @@ class start_quiz_attempt extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quiz_module_id Quiz course module id.
-     * @param bool $force_new Force a new attempt when Moodle permits it.
+     * @param int $quizmoduleid Quiz course module id.
+     * @param bool $forcenew Force a new attempt when Moodle permits it.
      * @return array
      */
-    public static function execute(int $quiz_module_id, bool $force_new = false): array {
+    public static function execute(int $quizmoduleid, bool $forcenew = false): array {
         [
             'quiz_module_id' => $quizmoduleid,
             'force_new' => $forcenew,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
-            'force_new' => $force_new,
+            'quiz_module_id' => $quizmoduleid,
+            'force_new' => $forcenew,
         ]);
 
         $systemcontext = \context_system::instance();

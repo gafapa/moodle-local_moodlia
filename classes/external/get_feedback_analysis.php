@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -38,6 +36,11 @@ use local_moodlia\operation\get_feedback_analysis as get_feedback_analysis_opera
  * External API adapter for get_feedback_analysis.
  */
 class get_feedback_analysis extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -46,15 +49,23 @@ class get_feedback_analysis extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $module_id, int $group_id = 0): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param int $groupid Group id.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid, int $groupid = 0): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'group_id' => $groupid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'group_id' => $group_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'group_id' => $groupid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -72,6 +83,11 @@ class get_feedback_analysis extends external_api {
         return get_feedback_analysis_operation::execute((int) $courseid, (int) $moduleid, (int) $groupid);
     }
 
+    /**
+     * Analysis item structure.
+     *
+     * @return external_single_structure
+     */
     public static function analysis_item_structure(): external_single_structure {
         return new external_single_structure([
             'item' => get_feedback_items::item_structure(),
@@ -79,6 +95,11 @@ class get_feedback_analysis extends external_api {
         ]);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -54,21 +52,21 @@ class update_question_category extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $category_id Question category id.
-     * @param int $context_id Question bank context id.
+     * @param int $categoryid Question category id.
+     * @param int $contextid Question bank context id.
      * @param string|null $name Question category name.
      * @param string|null $description Question category description.
      * @return array
      */
-    public static function execute(int $category_id, int $context_id, ?string $name = null, ?string $description = null): array {
+    public static function execute(int $categoryid, int $contextid, ?string $name = null, ?string $description = null): array {
         [
             'category_id' => $categoryid,
             'context_id' => $contextid,
             'name' => $name,
             'description' => $description,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'category_id' => $category_id,
-            'context_id' => $context_id,
+            'category_id' => $categoryid,
+            'context_id' => $contextid,
             'name' => $name,
             'description' => $description,
         ]);

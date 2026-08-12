@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -56,19 +54,19 @@ class get_questions extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $category_id Question category id.
-     * @param string $bank_scope Question bank scope.
-     * @param int|null $question_bank_module_id Course qbank module id.
-     * @param int|null $quiz_module_id Quiz module id.
+     * @param int $courseid Moodle course id.
+     * @param int $categoryid Question category id.
+     * @param string $bankscope Question bank scope.
+     * @param int|null $questionbankmoduleid Course qbank module id.
+     * @param int|null $quizmoduleid Quiz module id.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $category_id,
-        string $bank_scope = question_tools::BANK_SCOPE_COURSE_SHARED,
-        ?int $question_bank_module_id = null,
-        ?int $quiz_module_id = null
+        int $courseid,
+        int $categoryid,
+        string $bankscope = question_tools::BANK_SCOPE_COURSE_SHARED,
+        ?int $questionbankmoduleid = null,
+        ?int $quizmoduleid = null
     ): array {
         [
             'course_id' => $courseid,
@@ -77,11 +75,11 @@ class get_questions extends external_api {
             'question_bank_module_id' => $questionbankmoduleid,
             'quiz_module_id' => $quizmoduleid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'category_id' => $category_id,
-            'bank_scope' => $bank_scope,
-            'question_bank_module_id' => $question_bank_module_id,
-            'quiz_module_id' => $quiz_module_id,
+            'course_id' => $courseid,
+            'category_id' => $categoryid,
+            'bank_scope' => $bankscope,
+            'question_bank_module_id' => $questionbankmoduleid,
+            'quiz_module_id' => $quizmoduleid,
         ]);
 
         $systemcontext = \context_system::instance();

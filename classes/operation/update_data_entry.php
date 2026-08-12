@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Updates an entry in a Moodle Database activity through Moodle external APIs.
  */

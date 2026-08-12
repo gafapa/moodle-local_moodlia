@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\get_calendar_events as get_calendar_events_operation
  * External API adapter for get_calendar_events.
  */
 class get_calendar_events extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -45,15 +48,23 @@ class get_calendar_events extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $time_from, int $time_to): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $timefrom Time from.
+     * @param int $timeto Time to.
+     * @return array
+     */
+    public static function execute(int $courseid, int $timefrom, int $timeto): array {
         [
             'course_id' => $courseid,
             'time_from' => $timefrom,
             'time_to' => $timeto,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'time_from' => $time_from,
-            'time_to' => $time_to,
+            'course_id' => $courseid,
+            'time_from' => $timefrom,
+            'time_to' => $timeto,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -67,6 +78,11 @@ class get_calendar_events extends external_api {
         return get_calendar_events_operation::execute((int) $courseid, (int) $timefrom, (int) $timeto);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -74,6 +90,11 @@ class get_calendar_events extends external_api {
         ]);
     }
 
+    /**
+     * Event structure.
+     *
+     * @return external_single_structure
+     */
     public static function event_structure(): external_single_structure {
         return new external_single_structure([
             'event_id' => new external_value(PARAM_INT, 'Moodle calendar event id'),

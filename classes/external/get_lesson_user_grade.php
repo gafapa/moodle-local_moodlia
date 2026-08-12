@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,20 +51,20 @@ class get_lesson_user_grade extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Lesson course module id.
-     * @param int $user_id Moodle user id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Lesson course module id.
+     * @param int $userid Moodle user id.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, int $user_id = 0): array {
+    public static function execute(int $courseid, int $moduleid, int $userid = 0): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'user_id' => $userid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'user_id' => $user_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'user_id' => $userid,
         ]);
 
         $systemcontext = \context_system::instance();

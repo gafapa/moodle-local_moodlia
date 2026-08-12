@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,20 +51,20 @@ class delete_glossary_entry extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Glossary course module id.
-     * @param int $entry_id Glossary entry id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Glossary course module id.
+     * @param int $entryid Glossary entry id.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, int $entry_id): array {
+    public static function execute(int $courseid, int $moduleid, int $entryid): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'entry_id' => $entryid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'entry_id' => $entry_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'entry_id' => $entryid,
         ]);
 
         $systemcontext = \context_system::instance();

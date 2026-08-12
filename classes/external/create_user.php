@@ -24,14 +24,20 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
 use local_moodlia\operation\create_user as create_user_operation;
 
+/**
+ * Create user implementation.
+ */
 class create_user extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'username' => new external_value(PARAM_USERNAME, 'Username'),
@@ -44,6 +50,18 @@ class create_user extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param string $username Username.
+     * @param string $firstname Firstname.
+     * @param string $lastname Lastname.
+     * @param string $email Email.
+     * @param string $password Password.
+     * @param string $auth Auth.
+     * @param bool $suspended Suspended.
+     * @return array
+     */
     public static function execute(
         string $username,
         string $firstname,
@@ -79,6 +97,11 @@ class create_user extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return admin_response::user_structure();
     }

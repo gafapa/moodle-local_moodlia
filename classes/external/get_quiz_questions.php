@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -51,12 +49,12 @@ class get_quiz_questions extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quiz_module_id Quiz course module id.
+     * @param int $quizmoduleid Quiz course module id.
      * @return array
      */
-    public static function execute(int $quiz_module_id): array {
+    public static function execute(int $quizmoduleid): array {
         ['quiz_module_id' => $quizmoduleid] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
+            'quiz_module_id' => $quizmoduleid,
         ]);
 
         $systemcontext = \context_system::instance();

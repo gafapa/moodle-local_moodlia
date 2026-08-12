@@ -24,8 +24,6 @@
 
 namespace local_moodlia\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The plugin stores no personal data.
  */

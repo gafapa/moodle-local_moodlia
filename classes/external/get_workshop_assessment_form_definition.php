@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -57,16 +55,16 @@ class get_workshop_assessment_form_definition extends external_api {
      *
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, int $assessment_id, string $mode = 'assessment'): array {
+    public static function execute(int $courseid, int $moduleid, int $assessmentid, string $mode = 'assessment'): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'assessment_id' => $assessmentid,
             'mode' => $formmode,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'assessment_id' => $assessment_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'assessment_id' => $assessmentid,
             'mode' => $mode,
         ]);
 

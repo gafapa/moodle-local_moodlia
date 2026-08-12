@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Allocates a Moodle Workshop submission for assessment through Moodle Workshop APIs.
  */

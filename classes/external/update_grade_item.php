@@ -24,14 +24,20 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
 use local_moodlia\operation\update_grade_item as update_grade_item_operation;
 
+/**
+ * Update grade item implementation.
+ */
 class update_grade_item extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -46,14 +52,28 @@ class update_grade_item extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $itemid Item id.
+     * @param string|null $name Name.
+     * @param float|null $grademax Grade max.
+     * @param float|null $grademin Grade min.
+     * @param float|null $gradepass Grade pass.
+     * @param int|null $categoryid Category id.
+     * @param bool|null $hidden Hidden.
+     * @param bool|null $locked Locked.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $item_id,
+        int $courseid,
+        int $itemid,
         ?string $name = null,
-        ?float $grade_max = null,
-        ?float $grade_min = null,
-        ?float $grade_pass = null,
-        ?int $category_id = null,
+        ?float $grademax = null,
+        ?float $grademin = null,
+        ?float $gradepass = null,
+        ?int $categoryid = null,
         ?bool $hidden = null,
         ?bool $locked = null
     ): array {
@@ -68,13 +88,13 @@ class update_grade_item extends external_api {
             'hidden' => $itemhidden,
             'locked' => $itemlocked,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'item_id' => $item_id,
+            'course_id' => $courseid,
+            'item_id' => $itemid,
             'name' => $name,
-            'grade_max' => $grade_max,
-            'grade_min' => $grade_min,
-            'grade_pass' => $grade_pass,
-            'category_id' => $category_id,
+            'grade_max' => $grademax,
+            'grade_min' => $grademin,
+            'grade_pass' => $gradepass,
+            'category_id' => $categoryid,
             'hidden' => $hidden,
             'locked' => $locked,
         ]);
@@ -100,6 +120,11 @@ class update_grade_item extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return gradebook_response::manual_item_structure();
     }

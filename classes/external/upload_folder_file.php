@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,23 +51,23 @@ class upload_folder_file extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Folder course module id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Folder course module id.
      * @param string $filename Target filename.
-     * @param string $upload_reference Base64-encoded file content.
+     * @param string $uploadreference Base64-encoded file content.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, string $filename, string $upload_reference): array {
+    public static function execute(int $courseid, int $moduleid, string $filename, string $uploadreference): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'filename' => $filename,
             'upload_reference' => $uploadreference,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'filename' => $filename,
-            'upload_reference' => $upload_reference,
+            'upload_reference' => $uploadreference,
         ]);
 
         $systemcontext = \context_system::instance();

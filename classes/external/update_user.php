@@ -24,14 +24,20 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
 use local_moodlia\operation\update_user as update_user_operation;
 
+/**
+ * Update user implementation.
+ */
 class update_user extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'user_id' => new external_value(PARAM_INT, 'Moodle user id'),
@@ -44,8 +50,20 @@ class update_user extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $userid User id.
+     * @param string|null $firstname Firstname.
+     * @param string|null $lastname Lastname.
+     * @param string|null $email Email.
+     * @param string|null $password Password.
+     * @param string|null $auth Auth.
+     * @param bool|null $suspended Suspended.
+     * @return array
+     */
     public static function execute(
-        int $user_id,
+        int $userid,
         ?string $firstname = null,
         ?string $lastname = null,
         ?string $email = null,
@@ -54,7 +72,7 @@ class update_user extends external_api {
         ?bool $suspended = null
     ): array {
         $params = self::validate_parameters(self::execute_parameters(), [
-            'user_id' => $user_id,
+            'user_id' => $userid,
             'firstname' => $firstname,
             'lastname' => $lastname,
             'email' => $email,
@@ -71,6 +89,11 @@ class update_user extends external_api {
         return update_user_operation::execute((int) $params['user_id'], $params);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return admin_response::user_structure();
     }

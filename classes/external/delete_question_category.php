@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,20 +51,20 @@ class delete_question_category extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $category_id Question category id.
-     * @param int $context_id Question bank context id.
-     * @param string $delete_mode Delete mode.
+     * @param int $categoryid Question category id.
+     * @param int $contextid Question bank context id.
+     * @param string $deletemode Delete mode.
      * @return array
      */
-    public static function execute(int $category_id, int $context_id, string $delete_mode = 'delete'): array {
+    public static function execute(int $categoryid, int $contextid, string $deletemode = 'delete'): array {
         [
             'category_id' => $categoryid,
             'context_id' => $contextid,
             'delete_mode' => $deletemode,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'category_id' => $category_id,
-            'context_id' => $context_id,
-            'delete_mode' => $delete_mode,
+            'category_id' => $categoryid,
+            'context_id' => $contextid,
+            'delete_mode' => $deletemode,
         ]);
 
         $systemcontext = \context_system::instance();

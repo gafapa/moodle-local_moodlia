@@ -24,12 +24,13 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Exports a portable MoodlIA JSON blueprint from a Moodle question bank.
  */
 class export_question_bank_blueprint {
+    /**
+     * SCHEMA.
+     */
     public const SCHEMA = 'moodlia.question_bank_blueprint.v1';
 
     /**

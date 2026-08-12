@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\course_tools;
  * External API adapter for create_course_category.
  */
 class create_course_category extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'name' => new external_value(PARAM_TEXT, 'Category name'),
@@ -46,7 +49,16 @@ class create_course_category extends external_api {
         ]);
     }
 
-    public static function execute(string $name, int $parent_id = 0, bool $visible = true, bool $reuse_existing = false): array {
+    /**
+     * Execute the operation.
+     *
+     * @param string $name Name.
+     * @param int $parentid Parent id.
+     * @param bool $visible Visible.
+     * @param bool $reuseexisting Reuse existing.
+     * @return array
+     */
+    public static function execute(string $name, int $parentid = 0, bool $visible = true, bool $reuseexisting = false): array {
         [
             'name' => $name,
             'parent_id' => $parentid,
@@ -54,9 +66,9 @@ class create_course_category extends external_api {
             'reuse_existing' => $reuseexisting,
         ] = self::validate_parameters(self::execute_parameters(), [
             'name' => $name,
-            'parent_id' => $parent_id,
+            'parent_id' => $parentid,
             'visible' => $visible,
-            'reuse_existing' => $reuse_existing,
+            'reuse_existing' => $reuseexisting,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -70,6 +82,11 @@ class create_course_category extends external_api {
         return create_course_category_operation::execute($name, (int) $parentid, (bool) $visible, (bool) $reuseexisting);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'category_id' => new external_value(PARAM_INT, 'Moodle course category id'),

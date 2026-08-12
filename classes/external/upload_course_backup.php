@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\upload_course_backup as upload_course_backup_operati
  * External API adapter for upload_course_backup.
  */
 class upload_course_backup extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'filename' => new external_value(PARAM_FILE, 'Target .mbz filename'),
@@ -43,13 +46,20 @@ class upload_course_backup extends external_api {
         ]);
     }
 
-    public static function execute(string $filename, string $upload_reference): array {
+    /**
+     * Execute the operation.
+     *
+     * @param string $filename Filename.
+     * @param string $uploadreference Upload reference.
+     * @return array
+     */
+    public static function execute(string $filename, string $uploadreference): array {
         [
             'filename' => $filename,
             'upload_reference' => $uploadreference,
         ] = self::validate_parameters(self::execute_parameters(), [
             'filename' => $filename,
-            'upload_reference' => $upload_reference,
+            'upload_reference' => $uploadreference,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -59,6 +69,11 @@ class upload_course_backup extends external_api {
         return upload_course_backup_operation::execute((string) $filename, (string) $uploadreference);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Source course id, or 0 for private uploads'),

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,19 +35,30 @@ use local_moodlia\operation\delete_course_backup_file as delete_course_backup_fi
  * External API adapter for delete_course_backup_file.
  */
 class delete_course_backup_file extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'file_id' => new external_value(PARAM_INT, 'Stored .mbz backup file id'),
         ]);
     }
 
-    public static function execute(int $file_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $fileid File id.
+     * @return array
+     */
+    public static function execute(int $fileid): array {
         global $USER;
 
         [
             'file_id' => $fileid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'file_id' => $file_id,
+            'file_id' => $fileid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -72,6 +81,11 @@ class delete_course_backup_file extends external_api {
         throw new \required_capability_exception($context, 'moodle/backup:backupcourse', 'nopermissions', '');
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'file_id' => new external_value(PARAM_INT, 'Deleted stored backup file id'),

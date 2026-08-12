@@ -24,14 +24,20 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
 use local_moodlia\operation\create_grade_item as create_grade_item_operation;
 
+/**
+ * Create grade item implementation.
+ */
 class create_grade_item extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -44,13 +50,25 @@ class create_grade_item extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param string $name Name.
+     * @param float $grademax Grade max.
+     * @param float $grademin Grade min.
+     * @param float|null $gradepass Grade pass.
+     * @param int|null $categoryid Category id.
+     * @param bool|null $hidden Hidden.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
+        int $courseid,
         string $name,
-        float $grade_max = 100.0,
-        float $grade_min = 0.0,
-        ?float $grade_pass = null,
-        ?int $category_id = null,
+        float $grademax = 100.0,
+        float $grademin = 0.0,
+        ?float $gradepass = null,
+        ?int $categoryid = null,
         ?bool $hidden = null
     ): array {
         [
@@ -62,12 +80,12 @@ class create_grade_item extends external_api {
             'category_id' => $categoryid,
             'hidden' => $itemhidden,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
             'name' => $name,
-            'grade_max' => $grade_max,
-            'grade_min' => $grade_min,
-            'grade_pass' => $grade_pass,
-            'category_id' => $category_id,
+            'grade_max' => $grademax,
+            'grade_min' => $grademin,
+            'grade_pass' => $gradepass,
+            'category_id' => $categoryid,
             'hidden' => $hidden,
         ]);
 
@@ -90,6 +108,11 @@ class create_grade_item extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return gradebook_response::manual_item_structure();
     }

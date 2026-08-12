@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -54,17 +52,17 @@ class get_quiz_attempts extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quiz_module_id Quiz course module id.
-     * @param int $user_id Moodle user id, or 0 for current user.
+     * @param int $quizmoduleid Quiz course module id.
+     * @param int $userid Moodle user id, or 0 for current user.
      * @param string $status Attempt status: all, finished, or unfinished.
-     * @param bool $include_previews Include preview attempts.
+     * @param bool $includepreviews Include preview attempts.
      * @return array
      */
     public static function execute(
-        int $quiz_module_id,
-        int $user_id = 0,
+        int $quizmoduleid,
+        int $userid = 0,
         string $status = 'all',
-        bool $include_previews = true
+        bool $includepreviews = true
     ): array {
         [
             'quiz_module_id' => $quizmoduleid,
@@ -72,10 +70,10 @@ class get_quiz_attempts extends external_api {
             'status' => $attemptstatus,
             'include_previews' => $includepreviews,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
-            'user_id' => $user_id,
+            'quiz_module_id' => $quizmoduleid,
+            'user_id' => $userid,
             'status' => $status,
-            'include_previews' => $include_previews,
+            'include_previews' => $includepreviews,
         ]);
 
         $systemcontext = \context_system::instance();

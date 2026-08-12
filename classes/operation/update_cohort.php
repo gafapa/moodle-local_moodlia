@@ -24,12 +24,17 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Update a Moodle cohort.
  */
 class update_cohort {
+    /**
+     * Execute the operation.
+     *
+     * @param int $cohortid Cohortid.
+     * @param array $patch Patch.
+     * @return array
+     */
     public static function execute(int $cohortid, array $patch): array {
         admin_tools::require_cohort_api();
         $cohort = admin_tools::get_cohort($cohortid);

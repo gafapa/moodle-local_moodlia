@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_course\local\factory\content_item_service_factory;
 
 /**

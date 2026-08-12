@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -38,6 +36,11 @@ use local_moodlia\operation\get_assignment_submissions as get_assignment_submiss
  * External API adapter for get_assignment_submissions.
  */
 class get_assignment_submissions extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -48,9 +51,19 @@ class get_assignment_submissions extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param string $status Status.
+     * @param int $since Since.
+     * @param int $before Before.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         string $status = '',
         int $since = 0,
         int $before = 0
@@ -62,8 +75,8 @@ class get_assignment_submissions extends external_api {
             'since' => $modifiedsince,
             'before' => $modifiedbefore,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'status' => $status,
             'since' => $since,
             'before' => $before,
@@ -80,6 +93,11 @@ class get_assignment_submissions extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -101,6 +119,14 @@ class get_assignment_submissions extends external_api {
         ]);
     }
 
+    /**
+     * Require assignment context.
+     *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $capability Capability.
+     * @return void
+     */
     public static function require_assignment_context(int $courseid, int $moduleid, string $capability): void {
         $systemcontext = \context_system::instance();
         self::validate_context($systemcontext);

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\delete_book_chapter as delete_book_chapter_operation
  * External API adapter for delete_book_chapter.
  */
 class delete_book_chapter extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -45,15 +48,23 @@ class delete_book_chapter extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $module_id, int $chapter_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param int $chapterid Chapter id.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid, int $chapterid): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'chapter_id' => $chapterid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'chapter_id' => $chapter_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'chapter_id' => $chapterid,
         ]);
 
         create_book_chapter::validate_write_context((int) $courseid, (int) $moduleid);
@@ -61,6 +72,11 @@ class delete_book_chapter extends external_api {
         return delete_book_chapter_operation::execute((int) $courseid, (int) $moduleid, (int) $chapterid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

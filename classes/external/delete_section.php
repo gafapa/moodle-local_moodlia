@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,17 +51,17 @@ class delete_section extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int|null $section_id Course section id.
-     * @param int|null $section_number Course section number.
-     * @param string $delete_mode Delete mode.
+     * @param int $courseid Moodle course id.
+     * @param int|null $sectionid Course section id.
+     * @param int|null $sectionnumber Course section number.
+     * @param string $deletemode Delete mode.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        ?int $section_id = null,
-        ?int $section_number = null,
-        string $delete_mode = 'delete'
+        int $courseid,
+        ?int $sectionid = null,
+        ?int $sectionnumber = null,
+        string $deletemode = 'delete'
     ): array {
         [
             'course_id' => $courseid,
@@ -71,10 +69,10 @@ class delete_section extends external_api {
             'section_number' => $sectionnumber,
             'delete_mode' => $deletemode,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'section_id' => $section_id,
-            'section_number' => $section_number,
-            'delete_mode' => $delete_mode,
+            'course_id' => $courseid,
+            'section_id' => $sectionid,
+            'section_number' => $sectionnumber,
+            'delete_mode' => $deletemode,
         ]);
 
         $systemcontext = \context_system::instance();

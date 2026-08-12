@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Creates or replaces a supported Workshop grading form through Moodle strategy APIs.
  */
@@ -63,10 +61,10 @@ class set_workshop_grading_form {
         if ($strategy === 'accumulative') {
             $dimensions = workshop_tools::decode_accumulative_definition($definitionjson);
             $formdata = workshop_tools::accumulative_edit_form_data($workshop, $dimensions, $existing);
-        } elseif ($strategy === 'comments') {
+        } else if ($strategy === 'comments') {
             $dimensions = workshop_tools::decode_comments_definition($definitionjson);
             $formdata = workshop_tools::comments_edit_form_data($workshop, $dimensions, $existing);
-        } elseif ($strategy === 'numerrors') {
+        } else if ($strategy === 'numerrors') {
             $definition = workshop_tools::decode_numerrors_definition($definitionjson);
             $formdata = workshop_tools::numerrors_edit_form_data($workshop, $definition, $existing);
         } else {

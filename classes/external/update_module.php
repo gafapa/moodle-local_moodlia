@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -55,16 +53,16 @@ class update_module extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Course module id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Course module id.
      * @param string|null $name Module name.
      * @param bool|null $visible Module visibility.
      * @param string $options JSON-encoded module options.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         ?string $name = null,
         ?bool $visible = null,
         string $options = '{}'
@@ -76,8 +74,8 @@ class update_module extends external_api {
             'visible' => $visible,
             'options' => $options,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'name' => $name,
             'visible' => $visible,
             'options' => $options,

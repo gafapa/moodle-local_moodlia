@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\get_course_completion_status as get_course_completio
  * External API adapter for get_course_completion_status.
  */
 class get_course_completion_status extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -44,13 +47,20 @@ class get_course_completion_status extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $user_id = 0): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $userid User id.
+     * @return array
+     */
+    public static function execute(int $courseid, int $userid = 0): array {
         [
             'course_id' => $courseid,
             'user_id' => $userid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'user_id' => $user_id,
+            'course_id' => $courseid,
+            'user_id' => $userid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -65,6 +75,11 @@ class get_course_completion_status extends external_api {
         return get_course_completion_status_operation::execute((int) $courseid, (int) $userid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -78,6 +93,11 @@ class get_course_completion_status extends external_api {
         ]);
     }
 
+    /**
+     * Warnings structure.
+     *
+     * @return external_multiple_structure
+     */
     public static function warnings_structure(): external_multiple_structure {
         return new external_multiple_structure(new external_single_structure([
             'item' => new external_value(PARAM_TEXT, 'Warning item'),

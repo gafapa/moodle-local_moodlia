@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,17 +51,17 @@ class move_module extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Course module id.
-     * @param int $section_number Target course section number.
-     * @param int|null $before_module_id Target sibling course module id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Course module id.
+     * @param int $sectionnumber Target course section number.
+     * @param int|null $beforemoduleid Target sibling course module id.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $section_number,
-        ?int $before_module_id = null
+        int $courseid,
+        int $moduleid,
+        int $sectionnumber,
+        ?int $beforemoduleid = null
     ): array {
         [
             'course_id' => $courseid,
@@ -71,10 +69,10 @@ class move_module extends external_api {
             'section_number' => $sectionnumber,
             'before_module_id' => $beforemoduleid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'section_number' => $section_number,
-            'before_module_id' => $before_module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'section_number' => $sectionnumber,
+            'before_module_id' => $beforemoduleid,
         ]);
 
         $systemcontext = \context_system::instance();

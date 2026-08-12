@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -33,16 +31,30 @@ use core_external\external_single_structure;
 use core_external\external_value;
 use local_moodlia\operation\get_grade_categories as get_grade_categories_operation;
 
+/**
+ * Get grade categories implementation.
+ */
 class get_grade_categories extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
         ]);
     }
 
-    public static function execute(int $course_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @return array
+     */
+    public static function execute(int $courseid): array {
         ['course_id' => $courseid] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -56,6 +68,11 @@ class get_grade_categories extends external_api {
         return get_grade_categories_operation::execute((int) $courseid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

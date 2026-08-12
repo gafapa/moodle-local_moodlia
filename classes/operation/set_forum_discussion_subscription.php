@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Subscribes or unsubscribes the current user from a Moodle forum discussion.
  */

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\add_group_to_grouping as add_group_to_grouping_opera
  * External API adapter for add_group_to_grouping.
  */
 class add_group_to_grouping extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -44,15 +47,23 @@ class add_group_to_grouping extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $grouping_id, int $group_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $groupingid Grouping id.
+     * @param int $groupid Group id.
+     * @return array
+     */
+    public static function execute(int $courseid, int $groupingid, int $groupid): array {
         [
             'course_id' => $courseid,
             'grouping_id' => $groupingid,
             'group_id' => $groupid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'grouping_id' => $grouping_id,
-            'group_id' => $group_id,
+            'course_id' => $courseid,
+            'grouping_id' => $groupingid,
+            'group_id' => $groupid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -66,6 +77,11 @@ class add_group_to_grouping extends external_api {
         return add_group_to_grouping_operation::execute((int) $courseid, (int) $groupingid, (int) $groupid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

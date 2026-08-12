@@ -24,14 +24,20 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
 use local_moodlia\operation\create_cohort as create_cohort_operation;
 
+/**
+ * Create cohort implementation.
+ */
 class create_cohort extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'name' => new external_value(PARAM_TEXT, 'Cohort name'),
@@ -41,6 +47,15 @@ class create_cohort extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param string $name Name.
+     * @param string $idnumber Idnumber.
+     * @param string $description Description.
+     * @param bool $visible Visible.
+     * @return array
+     */
     public static function execute(string $name, string $idnumber = '', string $description = '', bool $visible = true): array {
         $params = self::validate_parameters(self::execute_parameters(), [
             'name' => $name,
@@ -57,6 +72,11 @@ class create_cohort extends external_api {
         return create_cohort_operation::execute($params['name'], $params['idnumber'], $params['description'], (bool) $params['visible']);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return admin_response::cohort_structure();
     }

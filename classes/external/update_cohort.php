@@ -24,14 +24,20 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
 use local_moodlia\operation\update_cohort as update_cohort_operation;
 
+/**
+ * Update cohort implementation.
+ */
 class update_cohort extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'cohort_id' => new external_value(PARAM_INT, 'Moodle cohort id'),
@@ -42,15 +48,25 @@ class update_cohort extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $cohortid Cohort id.
+     * @param string|null $name Name.
+     * @param string|null $idnumber Idnumber.
+     * @param string|null $description Description.
+     * @param bool|null $visible Visible.
+     * @return array
+     */
     public static function execute(
-        int $cohort_id,
+        int $cohortid,
         ?string $name = null,
         ?string $idnumber = null,
         ?string $description = null,
         ?bool $visible = null
     ): array {
         $params = self::validate_parameters(self::execute_parameters(), [
-            'cohort_id' => $cohort_id,
+            'cohort_id' => $cohortid,
             'name' => $name,
             'idnumber' => $idnumber,
             'description' => $description,
@@ -65,6 +81,11 @@ class update_cohort extends external_api {
         return update_cohort_operation::execute((int) $params['cohort_id'], $params);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return admin_response::cohort_structure();
     }

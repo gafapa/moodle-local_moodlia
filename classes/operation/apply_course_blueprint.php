@@ -24,12 +24,17 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Apply a portable MoodlIA blueprint to an existing course.
  */
 class apply_course_blueprint {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Courseid.
+     * @param array $blueprint Blueprint.
+     * @return array
+     */
     public static function execute(int $courseid, array $blueprint): array {
         $applied = course_workflow_tools::apply_to_course($courseid, $blueprint);
 

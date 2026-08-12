@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\get_glossary_entries_by_term as get_glossary_entries
  * External API adapter for get_glossary_entries_by_term.
  */
 class get_glossary_entries_by_term extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -47,13 +50,24 @@ class get_glossary_entries_by_term extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param string $term Term.
+     * @param int $from From.
+     * @param int $limit Limit.
+     * @param bool $includenotapproved Include not approved.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         string $term,
         int $from = 0,
         int $limit = 20,
-        bool $include_not_approved = false
+        bool $includenotapproved = false
     ): array {
         [
             'course_id' => $courseid,
@@ -63,12 +77,12 @@ class get_glossary_entries_by_term extends external_api {
             'limit' => $limit,
             'include_not_approved' => $includenotapproved,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'term' => $term,
             'from' => $from,
             'limit' => $limit,
-            'include_not_approved' => $include_not_approved,
+            'include_not_approved' => $includenotapproved,
         ]);
 
         get_glossary_entries_by_letter::validate_glossary_view_context((int) $courseid, (int) $moduleid);
@@ -83,6 +97,11 @@ class get_glossary_entries_by_term extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return get_glossary_entries_by_letter::entries_result_structure();
     }

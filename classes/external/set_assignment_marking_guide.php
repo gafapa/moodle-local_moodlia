@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\set_assignment_marking_guide as set_assignment_marki
  * External API adapter for set_assignment_marking_guide.
  */
 class set_assignment_marking_guide extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -48,9 +51,21 @@ class set_assignment_marking_guide extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param string $criteria Criteria.
+     * @param string $comments Comments.
+     * @param string $options Options.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         string $name,
         string $description = '',
         string $criteria = '{}',
@@ -66,8 +81,8 @@ class set_assignment_marking_guide extends external_api {
             'comments' => $comments,
             'options' => $options,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'name' => $name,
             'description' => $description,
             'criteria' => $criteria,
@@ -87,6 +102,11 @@ class set_assignment_marking_guide extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return get_assignment_grading_form::grading_form_structure();
     }

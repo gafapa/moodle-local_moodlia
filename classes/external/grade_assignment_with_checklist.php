@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\grade_assignment_with_checklist as grade_assignment_
  * External API adapter for grade_assignment_with_checklist.
  */
 class grade_assignment_with_checklist extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -47,13 +50,24 @@ class grade_assignment_with_checklist extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param int $userid User id.
+     * @param string $items Items.
+     * @param string $feedbackcomment Feedback comment.
+     * @param int $attemptnumber Attempt number.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $user_id,
+        int $courseid,
+        int $moduleid,
+        int $userid,
         string $items = '{}',
-        string $feedback_comment = '',
-        int $attempt_number = -1
+        string $feedbackcomment = '',
+        int $attemptnumber = -1
     ): array {
         [
             'course_id' => $courseid,
@@ -63,12 +77,12 @@ class grade_assignment_with_checklist extends external_api {
             'feedback_comment' => $feedbackcomment,
             'attempt_number' => $attemptnumber,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'user_id' => $user_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'user_id' => $userid,
             'items' => $items,
-            'feedback_comment' => $feedback_comment,
-            'attempt_number' => $attempt_number,
+            'feedback_comment' => $feedbackcomment,
+            'attempt_number' => $attemptnumber,
         ]);
 
         get_assignment_grading_form::require_assignment_context((int) $courseid, (int) $moduleid, false);
@@ -82,6 +96,11 @@ class grade_assignment_with_checklist extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return get_assignment_submission_status::submission_status_structure();
     }

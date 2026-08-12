@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -54,20 +52,20 @@ class view_book extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Book course module id.
-     * @param int $chapter_id Book chapter id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Book course module id.
+     * @param int $chapterid Book chapter id.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, int $chapter_id = 0): array {
+    public static function execute(int $courseid, int $moduleid, int $chapterid = 0): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'chapter_id' => $chapterid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'chapter_id' => $chapter_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'chapter_id' => $chapterid,
         ]);
 
         $systemcontext = \context_system::instance();

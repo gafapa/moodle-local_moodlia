@@ -24,12 +24,16 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Delete a Moodle user through Moodle's user API.
  */
 class delete_user {
+    /**
+     * Execute the operation.
+     *
+     * @param int $userid Userid.
+     * @return array
+     */
     public static function execute(int $userid): array {
         admin_tools::require_user_api();
         $user = admin_tools::get_user($userid);

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_value;
@@ -34,6 +32,11 @@ use core_external\external_value;
  * Shared external response structures for administration operations.
  */
 class admin_response {
+    /**
+     * User structure.
+     *
+     * @return external_single_structure
+     */
     public static function user_structure(): external_single_structure {
         return new external_single_structure([
             'user_id' => new external_value(PARAM_INT, 'Moodle user id'),
@@ -50,6 +53,11 @@ class admin_response {
         ]);
     }
 
+    /**
+     * Cohort structure.
+     *
+     * @return external_single_structure
+     */
     public static function cohort_structure(): external_single_structure {
         return new external_single_structure([
             'cohort_id' => new external_value(PARAM_INT, 'Moodle cohort id'),
@@ -64,6 +72,12 @@ class admin_response {
         ]);
     }
 
+    /**
+     * Role assignment structure.
+     *
+     * @param string $statusfield Statusfield.
+     * @return external_single_structure
+     */
     public static function role_assignment_structure(string $statusfield): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

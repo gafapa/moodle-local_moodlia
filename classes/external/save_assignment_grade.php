@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -56,21 +54,21 @@ class save_assignment_grade extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Assignment course module id.
-     * @param int $user_id Student user id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Assignment course module id.
+     * @param int $userid Student user id.
      * @param float $grade Assignment grade.
-     * @param string $feedback_comment Feedback comment HTML.
-     * @param int $attempt_number Attempt number, or -1 for latest.
+     * @param string $feedbackcomment Feedback comment HTML.
+     * @param int $attemptnumber Attempt number, or -1 for latest.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $user_id,
+        int $courseid,
+        int $moduleid,
+        int $userid,
         float $grade,
-        string $feedback_comment = '',
-        int $attempt_number = -1
+        string $feedbackcomment = '',
+        int $attemptnumber = -1
     ): array {
         [
             'course_id' => $courseid,
@@ -80,12 +78,12 @@ class save_assignment_grade extends external_api {
             'feedback_comment' => $feedbackcomment,
             'attempt_number' => $attemptnumber,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'user_id' => $user_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'user_id' => $userid,
             'grade' => $grade,
-            'feedback_comment' => $feedback_comment,
-            'attempt_number' => $attempt_number,
+            'feedback_comment' => $feedbackcomment,
+            'attempt_number' => $attemptnumber,
         ]);
 
         $systemcontext = \context_system::instance();

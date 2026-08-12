@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\backup_course as backup_course_operation;
  * External API adapter for backup_course.
  */
 class backup_course extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -50,16 +53,30 @@ class backup_course extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param string $filename Filename.
+     * @param bool $includeusers Include users.
+     * @param bool $includeactivities Include activities.
+     * @param bool $includeblocks Include blocks.
+     * @param bool $includefilters Include filters.
+     * @param bool $includecomments Include comments.
+     * @param bool $includelogs Include logs.
+     * @param bool $includegradehistories Include grade histories.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
+        int $courseid,
         string $filename = '',
-        bool $include_users = false,
-        bool $include_activities = true,
-        bool $include_blocks = true,
-        bool $include_filters = true,
-        bool $include_comments = false,
-        bool $include_logs = false,
-        bool $include_grade_histories = false
+        bool $includeusers = false,
+        bool $includeactivities = true,
+        bool $includeblocks = true,
+        bool $includefilters = true,
+        bool $includecomments = false,
+        bool $includelogs = false,
+        bool $includegradehistories = false
     ): array {
         [
             'course_id' => $courseid,
@@ -72,15 +89,15 @@ class backup_course extends external_api {
             'include_logs' => $includelogs,
             'include_grade_histories' => $includegradehistories,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
             'filename' => $filename,
-            'include_users' => $include_users,
-            'include_activities' => $include_activities,
-            'include_blocks' => $include_blocks,
-            'include_filters' => $include_filters,
-            'include_comments' => $include_comments,
-            'include_logs' => $include_logs,
-            'include_grade_histories' => $include_grade_histories,
+            'include_users' => $includeusers,
+            'include_activities' => $includeactivities,
+            'include_blocks' => $includeblocks,
+            'include_filters' => $includefilters,
+            'include_comments' => $includecomments,
+            'include_logs' => $includelogs,
+            'include_grade_histories' => $includegradehistories,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -104,6 +121,11 @@ class backup_course extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Source course id'),

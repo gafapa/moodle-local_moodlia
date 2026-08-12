@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -52,17 +50,17 @@ class get_question_banks extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param bool $include_quiz_private Include quiz-owned private banks.
+     * @param int $courseid Moodle course id.
+     * @param bool $includequizprivate Include quiz-owned private banks.
      * @return array
      */
-    public static function execute(int $course_id, bool $include_quiz_private = true): array {
+    public static function execute(int $courseid, bool $includequizprivate = true): array {
         [
             'course_id' => $courseid,
             'include_quiz_private' => $includequizprivate,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'include_quiz_private' => $include_quiz_private,
+            'course_id' => $courseid,
+            'include_quiz_private' => $includequizprivate,
         ]);
 
         $systemcontext = \context_system::instance();

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
@@ -35,6 +33,11 @@ use local_moodlia\operation\move_book_chapter as move_book_chapter_operation;
  * External API adapter for move_book_chapter.
  */
 class move_book_chapter extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -44,11 +47,20 @@ class move_book_chapter extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param int $chapterid Chapter id.
+     * @param int|null $afterchapterid After chapter id.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $module_id,
-        int $chapter_id,
-        ?int $after_chapter_id = null
+        int $courseid,
+        int $moduleid,
+        int $chapterid,
+        ?int $afterchapterid = null
     ): array {
         [
             'course_id' => $courseid,
@@ -56,10 +68,10 @@ class move_book_chapter extends external_api {
             'chapter_id' => $chapterid,
             'after_chapter_id' => $afterchapterid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'chapter_id' => $chapter_id,
-            'after_chapter_id' => $after_chapter_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'chapter_id' => $chapterid,
+            'after_chapter_id' => $afterchapterid,
         ]);
 
         create_book_chapter::validate_write_context((int) $courseid, (int) $moduleid);
@@ -72,6 +84,11 @@ class move_book_chapter extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return get_book_chapters::chapter_returns();
     }

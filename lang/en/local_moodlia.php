@@ -24,13 +24,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'MoodlIA';
-$string['duplicatemodulenotcreated'] = 'The Moodle module duplicate could not be created.';
-$string['privacy:metadata'] = 'The MoodlIA plugin does not store personal data in plugin-owned storage.';
-$string['moodlia:useapi'] = 'Use MoodlIA external functions';
-$string['moodlia:manageplugins'] = 'Inspect and manage Moodle plugins through MoodlIA';
 $string['cannotdisablemoodlia'] = 'MoodlIA cannot change its own enabled state.';
-$string['pluginstateunsupported'] = 'Plugin {$a} does not expose a supported enable or disable operation.';
-$string['pluginstateverificationfailed'] = 'Moodle did not retain the requested enabled state for plugin {$a}.';
+$string['duplicatemodulenotcreated'] = 'The Moodle module duplicate could not be created.';
+$string['moodlia:manageplugins'] = 'Inspect and manage Moodle plugins through MoodlIA';
+$string['moodlia:useapi'] = 'Use MoodlIA external functions';
 $string['plugindependenciesunsatisfied'] = 'Plugin {$a} cannot be enabled because one or more requirements are not satisfied.';
 $string['plugindependentsenabled'] = 'Plugin {$a->plugin} cannot be disabled while dependent plugin {$a->dependent} is enabled.';
+$string['pluginname'] = 'MoodlIA';
+$string['pluginstateunsupported'] = 'Plugin {$a} does not expose a supported enable or disable operation.';
+$string['pluginstateverificationfailed'] = 'Moodle did not retain the requested enabled state for plugin {$a}.';
+$string['privacy:metadata'] = 'The MoodlIA plugin does not store personal data in plugin-owned storage.';

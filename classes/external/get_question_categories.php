@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -56,19 +54,19 @@ class get_question_categories extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param string $bank_scope Question bank scope.
-     * @param int|null $question_bank_module_id Course qbank module id.
-     * @param int|null $quiz_module_id Quiz module id.
-     * @param bool $include_top Include top category.
+     * @param int $courseid Moodle course id.
+     * @param string $bankscope Question bank scope.
+     * @param int|null $questionbankmoduleid Course qbank module id.
+     * @param int|null $quizmoduleid Quiz module id.
+     * @param bool $includetop Include top category.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        string $bank_scope = question_tools::BANK_SCOPE_COURSE_SHARED,
-        ?int $question_bank_module_id = null,
-        ?int $quiz_module_id = null,
-        bool $include_top = false
+        int $courseid,
+        string $bankscope = question_tools::BANK_SCOPE_COURSE_SHARED,
+        ?int $questionbankmoduleid = null,
+        ?int $quizmoduleid = null,
+        bool $includetop = false
     ): array {
         [
             'course_id' => $courseid,
@@ -77,11 +75,11 @@ class get_question_categories extends external_api {
             'quiz_module_id' => $quizmoduleid,
             'include_top' => $includetop,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'bank_scope' => $bank_scope,
-            'question_bank_module_id' => $question_bank_module_id,
-            'quiz_module_id' => $quiz_module_id,
-            'include_top' => $include_top,
+            'course_id' => $courseid,
+            'bank_scope' => $bankscope,
+            'question_bank_module_id' => $questionbankmoduleid,
+            'quiz_module_id' => $quizmoduleid,
+            'include_top' => $includetop,
         ]);
 
         $systemcontext = \context_system::instance();

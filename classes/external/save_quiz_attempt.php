@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\save_quiz_attempt as save_quiz_attempt_operation;
  * External API adapter for save_quiz_attempt.
  */
 class save_quiz_attempt extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'quiz_module_id' => new external_value(PARAM_INT, 'Quiz course module id'),
@@ -46,11 +49,20 @@ class save_quiz_attempt extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $quizmoduleid Quiz module id.
+     * @param int $attemptid Attempt id.
+     * @param string $data Data.
+     * @param string $preflightdata Preflight data.
+     * @return array
+     */
     public static function execute(
-        int $quiz_module_id,
-        int $attempt_id,
+        int $quizmoduleid,
+        int $attemptid,
         string $data = '[]',
-        string $preflight_data = '[]'
+        string $preflightdata = '[]'
     ): array {
         [
             'quiz_module_id' => $quizmoduleid,
@@ -58,10 +70,10 @@ class save_quiz_attempt extends external_api {
             'data' => $attemptdata,
             'preflight_data' => $preflightdata,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
-            'attempt_id' => $attempt_id,
+            'quiz_module_id' => $quizmoduleid,
+            'attempt_id' => $attemptid,
             'data' => $data,
-            'preflight_data' => $preflight_data,
+            'preflight_data' => $preflightdata,
         ]);
 
         get_quiz_attempt_data::validate_quiz_attempt_context((int) $quizmoduleid);
@@ -74,6 +86,11 @@ class save_quiz_attempt extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'quiz_id' => new external_value(PARAM_INT, 'Quiz instance id'),

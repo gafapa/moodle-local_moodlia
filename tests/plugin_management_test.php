@@ -28,7 +28,6 @@ use local_moodlia\operation\get_plugin_dependencies;
 use local_moodlia\operation\get_plugin_details;
 use local_moodlia\operation\list_plugins;
 
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Exercises read-only plugin management behavior against Moodle's plugin manager.
@@ -51,11 +50,13 @@ final class plugin_management_test extends \advanced_testcase {
         $this->assertNotFalse($index);
         $moodlia = $inventory['plugins'][$index];
 
-        foreach ([
-            ['plugin_type' => $moodlia['plugin_type']],
-            ['source' => $moodlia['source']],
-            ['status' => $moodlia['status']],
-        ] as $filter) {
+        foreach (
+            [
+                ['plugin_type' => $moodlia['plugin_type']],
+                ['source' => $moodlia['source']],
+                ['status' => $moodlia['status']],
+            ] as $filter
+        ) {
             $filtered = list_plugins::execute(
                 $filter['plugin_type'] ?? '',
                 $filter['source'] ?? 'all',

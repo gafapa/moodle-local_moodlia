@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,20 +51,20 @@ class update_quiz_question_slot extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quiz_module_id Quiz course module id.
+     * @param int $quizmoduleid Quiz course module id.
      * @param int $slot Quiz slot number.
-     * @param float $max_mark Slot maximum mark.
+     * @param float $maxmark Slot maximum mark.
      * @return array
      */
-    public static function execute(int $quiz_module_id, int $slot, float $max_mark): array {
+    public static function execute(int $quizmoduleid, int $slot, float $maxmark): array {
         [
             'quiz_module_id' => $quizmoduleid,
             'slot' => $slot,
             'max_mark' => $maxmark,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'quiz_module_id' => $quiz_module_id,
+            'quiz_module_id' => $quizmoduleid,
             'slot' => $slot,
-            'max_mark' => $max_mark,
+            'max_mark' => $maxmark,
         ]);
 
         $systemcontext = \context_system::instance();

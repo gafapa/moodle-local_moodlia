@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\set_forum_discussion_pin as set_forum_discussion_pin
  * External API adapter for set_forum_discussion_pin.
  */
 class set_forum_discussion_pin extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -46,16 +49,25 @@ class set_forum_discussion_pin extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $module_id, int $discussion_id, bool $pinned): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param int $discussionid Discussion id.
+     * @param bool $pinned Pinned.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid, int $discussionid, bool $pinned): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'discussion_id' => $discussionid,
             'pinned' => $targetpinned,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'discussion_id' => $discussion_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'discussion_id' => $discussionid,
             'pinned' => $pinned,
         ]);
 
@@ -81,6 +93,11 @@ class set_forum_discussion_pin extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

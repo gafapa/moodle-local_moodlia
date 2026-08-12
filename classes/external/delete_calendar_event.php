@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\delete_calendar_event as delete_calendar_event_opera
  * External API adapter for delete_calendar_event.
  */
 class delete_calendar_event extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -43,13 +46,20 @@ class delete_calendar_event extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $event_id): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $eventid Event id.
+     * @return array
+     */
+    public static function execute(int $courseid, int $eventid): array {
         [
             'course_id' => $courseid,
             'event_id' => $eventid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'event_id' => $event_id,
+            'course_id' => $courseid,
+            'event_id' => $eventid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -63,6 +73,11 @@ class delete_calendar_event extends external_api {
         return delete_calendar_event_operation::execute((int) $courseid, (int) $eventid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'deleted' => new external_value(PARAM_BOOL, 'Whether the event was deleted'),

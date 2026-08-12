@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_value;
@@ -36,6 +34,11 @@ use local_moodlia\operation\create_book_chapter as create_book_chapter_operation
  * External API adapter for create_book_chapter.
  */
 class create_book_chapter extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -49,14 +52,27 @@ class create_book_chapter extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Content format.
+     * @param bool $subchapter Subchapter.
+     * @param int|null $afterchapterid After chapter id.
+     * @param bool $hidden Hidden.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         string $title,
         string $content,
-        int $content_format = FORMAT_HTML,
+        int $contentformat = FORMAT_HTML,
         bool $subchapter = false,
-        ?int $after_chapter_id = null,
+        ?int $afterchapterid = null,
         bool $hidden = false
     ): array {
         [
@@ -69,13 +85,13 @@ class create_book_chapter extends external_api {
             'after_chapter_id' => $afterchapterid,
             'hidden' => $ishidden,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'title' => $title,
             'content' => $content,
-            'content_format' => $content_format,
+            'content_format' => $contentformat,
             'subchapter' => $subchapter,
-            'after_chapter_id' => $after_chapter_id,
+            'after_chapter_id' => $afterchapterid,
             'hidden' => $hidden,
         ]);
 
@@ -93,10 +109,22 @@ class create_book_chapter extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return mixed
+     */
     public static function execute_returns() {
         return get_book_chapters::chapter_returns();
     }
 
+    /**
+     * Validate write context.
+     *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @return void
+     */
     public static function validate_write_context(int $courseid, int $moduleid): void {
         $systemcontext = \context_system::instance();
         self::validate_context($systemcontext);

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -37,15 +35,26 @@ use local_moodlia\operation\get_course_categories as get_course_categories_opera
  * External API adapter for get_course_categories.
  */
 class get_course_categories extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'parent_id' => new external_value(PARAM_INT, 'Parent category id, or -1 for all categories', VALUE_DEFAULT, -1),
         ]);
     }
 
-    public static function execute(int $parent_id = -1): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $parentid Parent id.
+     * @return array
+     */
+    public static function execute(int $parentid = -1): array {
         ['parent_id' => $parentid] = self::validate_parameters(self::execute_parameters(), [
-            'parent_id' => $parent_id,
+            'parent_id' => $parentid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -55,12 +64,22 @@ class get_course_categories extends external_api {
         return get_course_categories_operation::execute((int) $parentid);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'categories' => new external_multiple_structure(self::category_structure()),
         ]);
     }
 
+    /**
+     * Category structure.
+     *
+     * @return external_single_structure
+     */
     public static function category_structure(): external_single_structure {
         return new external_single_structure([
             'category_id' => new external_value(PARAM_INT, 'Moodle course category id'),

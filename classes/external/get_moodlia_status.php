@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,10 +34,20 @@ use local_moodlia\operation\get_moodlia_status as get_moodlia_status_operation;
  * External API adapter for get_moodlia_status.
  */
 class get_moodlia_status extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @return array
+     */
     public static function execute(): array {
         self::validate_parameters(self::execute_parameters(), []);
 
@@ -50,6 +58,11 @@ class get_moodlia_status extends external_api {
         return get_moodlia_status_operation::execute();
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'component' => new external_value(PARAM_TEXT, 'Moodle plugin component'),

@@ -24,12 +24,17 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Remove a user from a Moodle cohort.
  */
 class remove_cohort_member {
+    /**
+     * Execute the operation.
+     *
+     * @param int $cohortid Cohortid.
+     * @param int $userid Userid.
+     * @return array
+     */
     public static function execute(int $cohortid, int $userid): array {
         admin_tools::require_cohort_api();
         admin_tools::get_cohort($cohortid);

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -61,21 +59,21 @@ class move_question extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $question_id Question id.
-     * @param int $target_category_id Destination question category id.
-     * @param string $target_bank_scope Destination bank scope.
-     * @param int|null $target_question_bank_module_id Destination course qbank module id.
-     * @param int|null $target_quiz_module_id Destination quiz module id.
+     * @param int $courseid Moodle course id.
+     * @param int $questionid Question id.
+     * @param int $targetcategoryid Destination question category id.
+     * @param string $targetbankscope Destination bank scope.
+     * @param int|null $targetquestionbankmoduleid Destination course qbank module id.
+     * @param int|null $targetquizmoduleid Destination quiz module id.
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $question_id,
-        int $target_category_id,
-        string $target_bank_scope = question_tools::BANK_SCOPE_COURSE_SHARED,
-        ?int $target_question_bank_module_id = null,
-        ?int $target_quiz_module_id = null
+        int $courseid,
+        int $questionid,
+        int $targetcategoryid,
+        string $targetbankscope = question_tools::BANK_SCOPE_COURSE_SHARED,
+        ?int $targetquestionbankmoduleid = null,
+        ?int $targetquizmoduleid = null
     ): array {
         [
             'course_id' => $courseid,
@@ -85,12 +83,12 @@ class move_question extends external_api {
             'target_question_bank_module_id' => $targetquestionbankmoduleid,
             'target_quiz_module_id' => $targetquizmoduleid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'question_id' => $question_id,
-            'target_category_id' => $target_category_id,
-            'target_bank_scope' => $target_bank_scope,
-            'target_question_bank_module_id' => $target_question_bank_module_id,
-            'target_quiz_module_id' => $target_quiz_module_id,
+            'course_id' => $courseid,
+            'question_id' => $questionid,
+            'target_category_id' => $targetcategoryid,
+            'target_bank_scope' => $targetbankscope,
+            'target_question_bank_module_id' => $targetquestionbankmoduleid,
+            'target_quiz_module_id' => $targetquizmoduleid,
         ]);
 
         $systemcontext = \context_system::instance();

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\list_plugins as list_plugins_operation;
  * External API adapter for list_plugins.
  */
 final class list_plugins extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'plugin_type' => new external_value(PARAM_PLUGIN, 'Optional Moodle plugin type', VALUE_DEFAULT, ''),
@@ -45,9 +48,17 @@ final class list_plugins extends external_api {
         ]);
     }
 
-    public static function execute(string $plugin_type = '', string $source = 'all', string $status = 'all'): array {
+    /**
+     * Execute the operation.
+     *
+     * @param string $plugintype Plugin type.
+     * @param string $source Source.
+     * @param string $status Status.
+     * @return array
+     */
+    public static function execute(string $plugintype = '', string $source = 'all', string $status = 'all'): array {
         $params = self::validate_parameters(self::execute_parameters(), [
-            'plugin_type' => $plugin_type,
+            'plugin_type' => $plugintype,
             'source' => $source,
             'status' => $status,
         ]);
@@ -60,6 +71,11 @@ final class list_plugins extends external_api {
         return list_plugins_operation::execute($params['plugin_type'], $params['source'], $params['status']);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'total' => new external_value(PARAM_INT, 'Number of matching plugins'),
@@ -67,6 +83,11 @@ final class list_plugins extends external_api {
         ]);
     }
 
+    /**
+     * Plugin structure.
+     *
+     * @return external_single_structure
+     */
     public static function plugin_structure(): external_single_structure {
         return new external_single_structure([
             'component' => new external_value(PARAM_COMPONENT, 'Frankenstyle plugin component'),

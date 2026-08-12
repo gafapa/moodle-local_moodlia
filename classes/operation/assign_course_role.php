@@ -24,12 +24,18 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Assign a supported role archetype in a course context.
  */
 class assign_course_role {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Courseid.
+     * @param int $userid Userid.
+     * @param string $rolearchetype Rolearchetype.
+     * @return array
+     */
     public static function execute(int $courseid, int $userid, string $rolearchetype = 'student'): array {
         admin_tools::require_role_api();
 

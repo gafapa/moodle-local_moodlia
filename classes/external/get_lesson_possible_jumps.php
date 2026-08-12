@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -53,17 +51,17 @@ class get_lesson_possible_jumps extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Lesson course module id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Lesson course module id.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id): array {
+    public static function execute(int $courseid, int $moduleid): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
         ]);
 
         $systemcontext = \context_system::instance();

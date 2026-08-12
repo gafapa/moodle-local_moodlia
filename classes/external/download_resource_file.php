@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -53,22 +51,22 @@ class download_resource_file extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $course_id Moodle course id.
-     * @param int $module_id Resource course module id.
-     * @param int|null $file_id Stored file id.
+     * @param int $courseid Moodle course id.
+     * @param int $moduleid Resource course module id.
+     * @param int|null $fileid Stored file id.
      * @param string|null $path Filename or relative path.
      * @return array
      */
-    public static function execute(int $course_id, int $module_id, ?int $file_id = null, ?string $path = null): array {
+    public static function execute(int $courseid, int $moduleid, ?int $fileid = null, ?string $path = null): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'file_id' => $fileid,
             'path' => $path,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
-            'file_id' => $file_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'file_id' => $fileid,
             'path' => $path,
         ]);
 

@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\sync_course_enrolments as sync_course_enrolments_ope
  * External API adapter for sync_course_enrolments.
  */
 class sync_course_enrolments extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -45,15 +48,23 @@ class sync_course_enrolments extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, string $enrolments, bool $unenrol_missing = false): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param string $enrolments Enrolments.
+     * @param bool $unenrolmissing Unenrol missing.
+     * @return array
+     */
+    public static function execute(int $courseid, string $enrolments, bool $unenrolmissing = false): array {
         [
             'course_id' => $courseid,
             'enrolments' => $enrolments,
             'unenrol_missing' => $unenrolmissing,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
             'enrolments' => $enrolments,
-            'unenrol_missing' => $unenrol_missing,
+            'unenrol_missing' => $unenrolmissing,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -74,6 +85,11 @@ class sync_course_enrolments extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

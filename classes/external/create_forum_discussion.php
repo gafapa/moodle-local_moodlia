@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -37,6 +35,11 @@ use local_moodlia\operation\forum_tools;
  * External API adapter for create_forum_discussion.
  */
 class create_forum_discussion extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -46,15 +49,24 @@ class create_forum_discussion extends external_api {
         ]);
     }
 
-    public static function execute(int $course_id, int $module_id, string $name, string $message): array {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $moduleid Module id.
+     * @param string $name Name.
+     * @param string $message Message.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid, string $name, string $message): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'name' => $name,
             'message' => $message,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'name' => $name,
             'message' => $message,
         ]);
@@ -75,6 +87,11 @@ class create_forum_discussion extends external_api {
         return create_forum_discussion_operation::execute((int) $courseid, (int) $moduleid, $name, $message);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return get_forum_discussions::discussion_structure();
     }

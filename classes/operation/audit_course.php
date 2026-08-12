@@ -24,12 +24,16 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Audit a course for operational readiness.
  */
 class audit_course {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Courseid.
+     * @return array
+     */
     public static function execute(int $courseid): array {
         $audit = course_workflow_tools::audit_course($courseid);
 

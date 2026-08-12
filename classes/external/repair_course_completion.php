@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\repair_course_completion as repair_course_completion
  * External API adapter for repair_course_completion.
  */
 class repair_course_completion extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -45,11 +48,20 @@ class repair_course_completion extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param string $mode Mode.
+     * @param bool $dryrun Dry run.
+     * @param bool $resetcompletionstates Reset completion states.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
+        int $courseid,
         string $mode = 'book_view_only',
-        bool $dry_run = true,
-        bool $reset_completion_states = true
+        bool $dryrun = true,
+        bool $resetcompletionstates = true
     ): array {
         [
             'course_id' => $courseid,
@@ -57,10 +69,10 @@ class repair_course_completion extends external_api {
             'dry_run' => $dryrun,
             'reset_completion_states' => $resetcompletionstates,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
+            'course_id' => $courseid,
             'mode' => $mode,
-            'dry_run' => $dry_run,
-            'reset_completion_states' => $reset_completion_states,
+            'dry_run' => $dryrun,
+            'reset_completion_states' => $resetcompletionstates,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -79,6 +91,11 @@ class repair_course_completion extends external_api {
         );
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),

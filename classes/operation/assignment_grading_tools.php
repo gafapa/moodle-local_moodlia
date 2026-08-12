@@ -24,8 +24,6 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Handles Moodle Assignment advanced grading through Moodle grading controllers.
  */

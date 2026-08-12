@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -36,6 +34,11 @@ use local_moodlia\operation\update_group as update_group_operation;
  * External API adapter for update_group.
  */
 class update_group extends external_api {
+    /**
+     * Execute parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -46,9 +49,19 @@ class update_group extends external_api {
         ]);
     }
 
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Course id.
+     * @param int $groupid Group id.
+     * @param string|null $name Name.
+     * @param string|null $description Description.
+     * @param string|null $idnumber Idnumber.
+     * @return array
+     */
     public static function execute(
-        int $course_id,
-        int $group_id,
+        int $courseid,
+        int $groupid,
         ?string $name = null,
         ?string $description = null,
         ?string $idnumber = null
@@ -60,8 +73,8 @@ class update_group extends external_api {
             'description' => $description,
             'idnumber' => $idnumber,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'group_id' => $group_id,
+            'course_id' => $courseid,
+            'group_id' => $groupid,
             'name' => $name,
             'description' => $description,
             'idnumber' => $idnumber,
@@ -78,6 +91,11 @@ class update_group extends external_api {
         return update_group_operation::execute((int) $courseid, (int) $groupid, $name, $description, $idnumber);
     }
 
+    /**
+     * Execute returns.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return get_groups::group_structure();
     }

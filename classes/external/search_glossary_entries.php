@@ -24,8 +24,6 @@
 
 namespace local_moodlia\external;
 
-defined('MOODLE_INTERNAL') || die();
-
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -63,15 +61,15 @@ class search_glossary_entries extends external_api {
      * @return array
      */
     public static function execute(
-        int $course_id,
-        int $module_id,
+        int $courseid,
+        int $moduleid,
         string $query,
-        bool $full_search = true,
+        bool $fullsearch = true,
         string $order = 'CONCEPT',
         string $sort = 'ASC',
         int $from = 0,
         int $limit = 20,
-        bool $include_not_approved = false
+        bool $includenotapproved = false
     ): array {
         [
             'course_id' => $courseid,
@@ -84,15 +82,15 @@ class search_glossary_entries extends external_api {
             'limit' => $limit,
             'include_not_approved' => $includenotapproved,
         ] = self::validate_parameters(self::execute_parameters(), [
-            'course_id' => $course_id,
-            'module_id' => $module_id,
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
             'query' => $query,
-            'full_search' => $full_search,
+            'full_search' => $fullsearch,
             'order' => $order,
             'sort' => $sort,
             'from' => $from,
             'limit' => $limit,
-            'include_not_approved' => $include_not_approved,
+            'include_not_approved' => $includenotapproved,
         ]);
 
         $systemcontext = \context_system::instance();

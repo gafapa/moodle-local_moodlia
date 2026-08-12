@@ -24,12 +24,16 @@
 
 namespace local_moodlia\operation;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Return one Moodle user profile.
  */
 class get_user_details {
+    /**
+     * Execute the operation.
+     *
+     * @param int $userid Userid.
+     * @return array
+     */
     public static function execute(int $userid): array {
         return admin_tools::user_to_response(admin_tools::get_user($userid));
     }
