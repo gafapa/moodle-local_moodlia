@@ -138,14 +138,14 @@ class get_course_progress_report {
      * @return array
      */
     private static function summarise_grades(array $items): array {
-        $gradable = array_values(array_filter($items, static function(array $item): bool {
+        $gradable = array_values(array_filter($items, static function (array $item): bool {
             return ($item['item_type'] ?? '') === 'mod'
                 && empty($item['hidden'])
                 && (float) ($item['grade_max'] ?? 0) > 0;
         }));
 
         if (empty($gradable)) {
-            $gradable = array_values(array_filter($items, static function(array $item): bool {
+            $gradable = array_values(array_filter($items, static function (array $item): bool {
                 return empty($item['hidden']) && (float) ($item['grade_max'] ?? 0) > 0;
             }));
         }

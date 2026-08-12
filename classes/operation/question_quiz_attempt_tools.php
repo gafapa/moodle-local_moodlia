@@ -902,7 +902,7 @@ class question_quiz_attempt_tools extends question_tools {
      */
     private static function value_to_array($value): array {
         if (is_array($value)) {
-            return array_map(static function($item) {
+            return array_map(static function ($item) {
                 return is_object($item) || is_array($item) ? self::value_to_array($item) : $item;
             }, $value);
         }

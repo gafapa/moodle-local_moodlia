@@ -68,7 +68,7 @@ final class check_plugin_updates {
             }
         }
 
-        usort($updates, static function(array $left, array $right): int {
+        usort($updates, static function (array $left, array $right): int {
             return [$left['component'], $left['available_version']] <=> [$right['component'], $right['available_version']];
         });
 

@@ -78,7 +78,7 @@ class completion_tools {
      */
     public static function to_array($value): array {
         if (is_array($value)) {
-            return array_map(static function($item) {
+            return array_map(static function ($item) {
                 return is_object($item) || is_array($item) ? self::to_array($item) : $item;
             }, $value);
         }

@@ -652,7 +652,7 @@ class assignment_grading_tools {
                     'definition' => (string) ($level['definition'] ?? ''),
                 ];
             }
-            usort($levels, static function(array $a, array $b): int {
+            usort($levels, static function (array $a, array $b): int {
                 return $a['score'] <=> $b['score'];
             });
             $items[] = [
@@ -666,7 +666,7 @@ class assignment_grading_tools {
             ];
         }
 
-        usort($items, static function(array $a, array $b): int {
+        usort($items, static function (array $a, array $b): int {
             return $a['sort_order'] <=> $b['sort_order'];
         });
         return $items;
@@ -693,7 +693,7 @@ class assignment_grading_tools {
             ];
         }
 
-        usort($items, static function(array $a, array $b): int {
+        usort($items, static function (array $a, array $b): int {
             return $a['sort_order'] <=> $b['sort_order'];
         });
         return $items;
@@ -716,7 +716,7 @@ class assignment_grading_tools {
             ];
         }
 
-        usort($items, static function(array $a, array $b): int {
+        usort($items, static function (array $a, array $b): int {
             return $a['sort_order'] <=> $b['sort_order'];
         });
         return $items;
@@ -736,7 +736,7 @@ class assignment_grading_tools {
                 if (count($levels) < 2) {
                     throw new \invalid_parameter_exception('Checklist criterion must have at least two rubric levels.');
                 }
-                usort($levels, static function(array $a, array $b): int {
+                usort($levels, static function (array $a, array $b): int {
                     return $a['score'] <=> $b['score'];
                 });
                 return $levels;

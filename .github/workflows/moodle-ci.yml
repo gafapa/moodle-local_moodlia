@@ -68,7 +68,7 @@ jobs:
       - name: Apply official Moodle style fixes for inspection
         if: ${{ matrix.php == '8.3' && matrix.database == 'pgsql' }}
         run: |
-          ./moodle/vendor/bin/phpcbf --standard=moodle ./repository || true
+          ./ci/vendor/bin/phpcbf --standard=moodle ./repository || true
           git -C repository diff --binary -- '*.php' > "$RUNNER_TEMP/moodle-phpcbf.patch"
       - name: Upload Moodle style patch
         if: ${{ matrix.php == '8.3' && matrix.database == 'pgsql' }}

@@ -234,7 +234,7 @@ class choice_tools {
         $optionsresult = \mod_choice_external::get_choice_options((int) $cm->instance);
         $options = array_map([self::class, 'option_to_response'], (array) ($optionsresult['options'] ?? $optionsresult));
         $results = self::get_normalised_results((int) $cm->instance);
-        $totalresponses = array_reduce($results, static function(int $total, array $result): int {
+        $totalresponses = array_reduce($results, static function (int $total, array $result): int {
             return $total + (int) $result['answer_count'];
         }, 0);
 

@@ -19,6 +19,7 @@ for (const filePath of phpFiles) {
   }
 
   source = source.replaceAll('} elseif (', '} else if (');
+  source = source.replace(/\bfunction\(/g, 'function (');
   source = source.replace(/\$([a-z][A-Za-z0-9]*_[A-Za-z0-9_]*)/g, (match, name) => {
     return `$${name.replaceAll('_', '')}`;
   });

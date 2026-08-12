@@ -450,17 +450,32 @@ if ($modern) {
     if ($bodyprotocol !== $protocolheader) {
         local_moodlia_mcp_header_mismatch($id, 'MCP-Protocol-Version header does not match request metadata.');
     }
-    if (!isset($requestmeta['io.modelcontextprotocol/clientCapabilities'])
-            || !is_array($requestmeta['io.modelcontextprotocol/clientCapabilities'])) {
-        local_moodlia_mcp_error($id, -32602, 'Modern MCP requests require clientCapabilities metadata.', 400,
-            'invalid_parameters');
+    if (
+        !isset($requestmeta['io.modelcontextprotocol/clientCapabilities'])
+        || !is_array($requestmeta['io.modelcontextprotocol/clientCapabilities'])
+    ) {
+        local_moodlia_mcp_error(
+            $id,
+            -32602,
+            'Modern MCP requests require clientCapabilities metadata.',
+            400,
+            'invalid_parameters'
+        );
     }
     if (isset($requestmeta['io.modelcontextprotocol/clientInfo'])) {
         $clientinfo = $requestmeta['io.modelcontextprotocol/clientInfo'];
-        if (!is_array($clientinfo) || !is_string($clientinfo['name'] ?? null)
-                || !is_string($clientinfo['version'] ?? null)) {
-            local_moodlia_mcp_error($id, -32602, 'clientInfo metadata must contain name and version.', 400,
-                'invalid_parameters');
+        if (
+            !is_array($clientinfo)
+            || !is_string($clientinfo['name'] ?? null)
+            || !is_string($clientinfo['version'] ?? null)
+        ) {
+            local_moodlia_mcp_error(
+                $id,
+                -32602,
+                'clientInfo metadata must contain name and version.',
+                400,
+                'invalid_parameters'
+            );
         }
     }
 
@@ -479,8 +494,13 @@ if ($modern) {
 
     $accept = strtolower((string) ($_SERVER['HTTP_ACCEPT'] ?? ''));
     if (!str_contains($accept, 'application/json') || !str_contains($accept, 'text/event-stream')) {
-        local_moodlia_mcp_error($id, -32600,
-            'Accept must include application/json and text/event-stream.', 406, 'invalid_parameters');
+        local_moodlia_mcp_error(
+            $id,
+            -32600,
+            'Accept must include application/json and text/event-stream.',
+            406,
+            'invalid_parameters'
+        );
     }
 } else if ($protocolheader !== '' && !in_array($protocolheader, LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS, true)) {
     local_moodlia_mcp_error($id, -32602, 'Unsupported MCP protocol version.', 400, 'invalid_parameters', [
