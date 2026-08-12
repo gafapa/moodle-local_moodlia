@@ -121,14 +121,16 @@ Direct section creation uses Moodle's section APIs. If a target Moodle course fo
 
 ### MCP Adapter
 
-The Moodle-hosted MCP adapter is exposed at `/local/moodlia/mcp.php`. It exposes the same canonical operation names through:
+The Moodle-hosted MCP adapter is exposed at `/local/moodlia/mcp.php`. It supports both protocol eras and exposes the same canonical operation names through:
 
-- `initialize` and `notifications/initialized`: negotiate a supported MCP protocol version.
+- `server/discover`: advertise the stateless `2026-07-28` protocol, capabilities, identity metadata, and cache hints.
+- Per-request `_meta`, `MCP-Protocol-Version`, `Mcp-Method`, and `Mcp-Name`: make modern requests self-describing and independently routable.
+- `initialize` and `notifications/initialized`: preserve negotiation for `2025-03-26` through `2025-11-25` clients.
 - `ping`: verify authenticated transport availability.
 - `tools/list`: returns tool schemas derived from the contract.
 - `tools/call`: dispatches a tool name and arguments through the existing Moodle REST external functions.
 
-The HTTP adapter is stateless and does not issue an MCP session id. It validates same-origin browser requests, requires JSON POST bodies, bounds request size, authenticates every call with the Moodle bearer token, and returns standard `CallToolResult` content with a canonical `structuredContent` payload.
+The HTTP adapter is stateless and does not issue an MCP session id. Modern requests can therefore be served by any application instance without shared transport state. The endpoint validates same-origin browser requests, modern header/body consistency, JSON POST bodies, request size, and the Moodle bearer token on every call. Modern complete results carry `resultType` and server identity metadata; cacheable authenticated results use private cache scope. Legacy responses retain their original wire shape so strict 2025 clients remain compatible.
 
 MCP tool names stay in `snake_case`:
 
@@ -161,7 +163,7 @@ update_question() -> update_question
 
 The current client is implemented in `client/moodle-rest-client.mjs`. It validates and coerces parameters against `contract/operations.json`, maps canonical operations to `local_moodlia_*` REST functions or MCP `tools/call`, and normalizes REST and JSON-RPC errors. Object and boolean parameters use form-compatible encoding for REST and native JSON encoding for MCP.
 
-`McpTransport` derives `/local/moodlia/mcp.php` from the Moodle base URL or accepts an explicit endpoint. It performs lazy `initialize` negotiation, sends `notifications/initialized`, reuses the negotiated protocol version, and exposes `ping`, `listTools`, and canonical operation calls. The adapter remains stateless at the HTTP layer and authenticates every request with the Moodle bearer token.
+`McpTransport` derives `/local/moodlia/mcp.php` from the Moodle base URL or accepts an explicit endpoint. In automatic mode it probes `server/discover` and uses stateless `2026-07-28` requests when available. If the server only supports the earlier era, it falls back to `initialize`, sends `notifications/initialized`, retains any server-issued `Mcp-Session-Id`, and can terminate that session with `close()`. The transport accepts JSON and request-scoped SSE responses, exposes `ping`, `listTools`, and canonical operation calls, and authenticates every request with the Moodle bearer token.
 
 ### Node CLI
 

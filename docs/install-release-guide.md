@@ -4,7 +4,7 @@ This guide describes how to install, verify, and release MoodlIA in another Mood
 
 ## Moodle Marketplace Preflight
 
-The Marketplace package is built from `plugin/moodlia` and must remain a
+The Marketplace package is built from the repository root and must remain a
 standalone, installable Moodle local plugin. Before creating or uploading a
 version, run:
 
@@ -21,8 +21,8 @@ include `LICENSE`, `README.md`, the English language pack, and the plugin icon.
 Do not add an empty `db/install.xml`; MoodlIA owns no database tables.
 
 The `Moodle Plugin CI` GitHub Actions workflow runs the same tool family used by
-Marketplace against Moodle 5.2 and PHP 8.3 on PostgreSQL and MariaDB. A release
-must not be uploaded while either database job is failing.
+Marketplace against Moodle 5.2 and PHP 8.3/8.4 on PostgreSQL and MariaDB. A
+release must not be uploaded while any matrix job is failing.
 
 Marketplace listing metadata:
 
@@ -35,14 +35,14 @@ Marketplace listing metadata:
 
 ## Versioning Policy
 
-The Moodle plugin and public npm client use independent semantic release streams because they can be published separately. `plugin/moodlia/version.php` is authoritative for the Moodle plugin, while the root `package.json` is authoritative for the npm package and generated `packages/moodlia` mirror. Every change must bump each affected stream and `npm run npm:sync` must refresh the public package mirror.
+The Moodle plugin and public npm client use independent semantic release streams and repositories. `version.php` is authoritative for this Moodle plugin. The `package.json` in [gafapa/moodlia-cli](https://github.com/gafapa/moodlia-cli) is authoritative for the public npm package.
 
 | Release stream | Current version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
-| Moodle plugin | `0.1.188` | `plugin/moodlia/version.php` | `local_moodlia-0.1.188.zip` |
-| npm CLI/client | `0.1.19` | `package.json` | `moodlia@0.1.19` |
+| Moodle plugin | `0.1.190` | `version.php` | `local_moodlia-0.1.190.zip` |
+| npm CLI/client | `0.1.20` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.1.20` |
 
-These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.188” or “moodlia npm 0.1.19”, rather than an unqualified version.
+These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.190” or “moodlia npm 0.1.20”, rather than an unqualified version.
 
 ## Release Scope
 
@@ -90,7 +90,7 @@ SFTP_HOST=example.edu
 SFTP_PORT=22
 SFTP_USER=ubuntu
 SFTP_KEY_PATH=C:\path\to\key.ppk
-LOCAL_PLUGIN_SOURCE=plugin/moodlia
+LOCAL_PLUGIN_SOURCE=.
 LOCAL_PLUGIN_PACKAGE_PATH=D:\tmp\moodlia
 SFTP_REMOTE_UPLOAD_PATH=/tmp/moodlia
 DEPLOY_MODE=direct
@@ -119,7 +119,7 @@ npm install
 npm run release:check
 ```
 
-The release check validates all JavaScript syntax recursively, PHP syntax when a PHP runtime is available, generated manifests, generated TypeScript operation types, static parity, forbidden database-access patterns, and plugin packaging into a temporary directory. CI makes PHP syntax validation mandatory with PHP 8.2.
+The release check validates all JavaScript syntax recursively, PHP syntax when a PHP runtime is available, generated manifests, generated TypeScript operation types, static parity, forbidden database-access patterns, and plugin packaging into a temporary directory. CI makes PHP syntax validation mandatory with PHP 8.3.
 
 The repository also includes a GitHub Actions workflow for checks that do not need a remote Moodle instance. It runs npm package mirror drift checks, the release preflight, plugin packaging, and project website tests on pushes and pull requests. Remote smoke and browser verification still run manually against a configured Moodle target.
 
@@ -151,7 +151,8 @@ Create the deployable plugin folder:
 npm run plugin:package
 ```
 
-By default this copies `plugin/moodlia` to `LOCAL_PLUGIN_PACKAGE_PATH`.
+By default this copies only the installable plugin files from the repository
+root to `LOCAL_PLUGIN_PACKAGE_PATH`.
 
 The package excludes development-only folders and local secrets.
 
@@ -353,7 +354,7 @@ Moodle does not support arbitrary plugin downgrades as a normal workflow. Plan r
 - `npm run release:check` passes.
 - Deployment target paths are confirmed.
 - Secrets are not committed.
-- Plugin is packaged from `plugin/moodlia`.
+- Plugin is packaged from the repository root.
 - Public npm package is synced and dry-run packed when the release includes CLI/client changes.
 - Plugin is deployed to `/local/moodlia`.
 - Moodle upgrade and cache purge complete.

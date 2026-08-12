@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const rootDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const checkOnly = process.argv.includes('--check');
-const versionSource = await fs.readFile(path.join(rootDirectory, 'plugin', 'moodlia', 'version.php'), 'utf8');
+const versionSource = await fs.readFile(path.join(rootDirectory, 'version.php'), 'utf8');
 const release = versionSource.match(/\$plugin->release\s*=\s*'([^']+)'/)?.[1];
 
 if (!release) {
@@ -40,7 +40,12 @@ if (checkOnly) {
 }
 
 async function zipFiles(directory) {
-  const entries = await fs.readdir(directory, { withFileTypes: true });
+  const entries = await fs.readdir(directory, { withFileTypes: true }).catch((error) => {
+    if (error.code === 'ENOENT') {
+      return [];
+    }
+    throw error;
+  });
   return entries
     .filter((entry) => entry.isFile() && entry.name.endsWith('.zip'))
     .map((entry) => path.join(directory, entry.name));

@@ -3,10 +3,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const pluginRoot = path.join(projectRoot, 'plugin', 'moodlia');
+const pluginRoot = projectRoot;
 const requiredFiles = [
+  'CHANGES.md',
   'LICENSE',
   'README.md',
+  'SECURITY.md',
   'version.php',
   'lang/en/local_moodlia.php',
   'pix/icon.svg'
@@ -20,16 +22,22 @@ const phpFiles = collectFiles(pluginRoot).filter((filePath) => filePath.endsWith
 for (const relativePath of requiredFiles) {
   const filePath = path.join(pluginRoot, relativePath);
   if (!fs.statSync(filePath, { throwIfNoEntry: false })?.isFile()) {
-    throw new Error(`Required Marketplace file is missing: plugin/moodlia/${relativePath}`);
+    throw new Error(`Required Marketplace file is missing: ${relativePath}`);
   }
 }
 
 const versionSource = fs.readFileSync(path.join(pluginRoot, 'version.php'), 'utf8');
 if (!versionSource.includes("$plugin->component = 'local_moodlia';")) {
-  throw new Error('plugin/moodlia/version.php must declare local_moodlia.');
+  throw new Error('version.php must declare local_moodlia.');
 }
 if (!/\$plugin->requires\s*=\s*2026042000\s*;/.test(versionSource)) {
   throw new Error('The Marketplace package must declare Moodle 5.2 as its minimum version.');
+}
+if (!/\$plugin->supported\s*=\s*\[502,\s*502\]\s*;/.test(versionSource)) {
+  throw new Error('The Marketplace package must declare Moodle 5.2 compatibility explicitly.');
+}
+if (!/\$plugin->maturity\s*=\s*MATURITY_(?:BETA|STABLE)\s*;/.test(versionSource)) {
+  throw new Error('The Marketplace package must declare beta or stable maturity.');
 }
 
 const languageSource = fs.readFileSync(path.join(pluginRoot, 'lang', 'en', 'local_moodlia.php'), 'utf8');
@@ -43,10 +51,27 @@ for (const requiredLink of requiredReadmeLinks) {
     throw new Error(`Plugin README must publish this Marketplace link: ${requiredLink}`);
   }
 }
-for (const requiredHeading of ['## Requirements', '## Privacy', '## Security', '## License']) {
+for (const requiredHeading of ['## Requirements', '## Privacy', '## Security', '## Support', '## License']) {
   if (!readme.includes(requiredHeading)) {
     throw new Error(`Plugin README must contain ${requiredHeading}.`);
   }
+}
+
+const accessSource = fs.readFileSync(path.join(pluginRoot, 'db', 'access.php'), 'utf8');
+if (!/['"]local\/moodlia:useapi['"][\s\S]*?['"]captype['"]\s*=>\s*['"]write['"]/.test(accessSource)) {
+  throw new Error('The broad MoodlIA API capability must be declared as write-capable.');
+}
+for (const requiredRisk of ['RISK_CONFIG', 'RISK_DATALOSS', 'RISK_PERSONAL', 'RISK_SPAM']) {
+  if (!accessSource.includes(requiredRisk)) {
+    throw new Error(`The MoodlIA API capability must declare ${requiredRisk}.`);
+  }
+}
+if (!/['"]local\/moodlia:useapi['"][\s\S]*?['"]archetypes['"]\s*=>\s*\[\s*\]/.test(accessSource)) {
+  throw new Error('The remote automation capability must not be granted to a role archetype by default.');
+}
+
+if (fs.existsSync(path.join(pluginRoot, 'plugin', 'moodlia'))) {
+  throw new Error('The repository root must be the directly installable plugin root.');
 }
 
 for (const filePath of phpFiles) {

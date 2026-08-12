@@ -27,7 +27,7 @@ test('generated manifests are current', async () => {
 
 test('REST declarations match the canonical contract', async () => {
   const contract = await loadContract();
-  const source = await fs.readFile(fromRoot('plugin/moodlia/db/services.php'), 'utf8');
+  const source = await fs.readFile(fromRoot('db/services.php'), 'utf8');
   const declared = [...source.matchAll(/^\s*'(local_moodlia_[a-z0-9_]+)'\s*=>\s*\[/gm)].map((match) => match[1]);
   const expected = getOperationsByTransport(contract, 'rest').map((operation) => toRestFunctionName(contract, operation.name));
 
@@ -38,8 +38,8 @@ test('every REST operation has operation and external PHP classes', async () => 
   const contract = await loadContract();
 
   for (const operation of getOperationsByTransport(contract, 'rest')) {
-    await fs.access(fromRoot('plugin/moodlia/classes/operation', `${operation.name}.php`));
-    await fs.access(fromRoot('plugin/moodlia/classes/external', `${operation.name}.php`));
+    await fs.access(fromRoot('classes/operation', `${operation.name}.php`));
+    await fs.access(fromRoot('classes/external', `${operation.name}.php`));
   }
 });
 

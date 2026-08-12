@@ -4,7 +4,7 @@ import path from 'node:path';
 
 const phpCommand = process.env.MOODLE_SERVER_PHP || 'php';
 const required = process.argv.includes('--required');
-const files = await findPhpFiles(path.join(process.cwd(), 'plugin', 'moodlia'));
+const files = await findPhpFiles(process.cwd());
 
 try {
   await checkPhpAvailable();

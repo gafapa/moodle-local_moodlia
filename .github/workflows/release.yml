@@ -1,0 +1,50 @@
+name: Release Plugin Archive
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+      - name: Install development dependencies
+        run: npm ci
+      - name: Verify tag and plugin release match
+        run: |
+          RELEASE="${GITHUB_REF_NAME#v}"
+          node -e "const fs=require('node:fs'); const source=fs.readFileSync('version.php','utf8'); if (!source.includes(\`\$plugin->release = '${RELEASE}';\`)) process.exit(1);"
+      - name: Run release checks
+        run: npm run release:check
+      - name: Build Marketplace archive
+        run: npm run release:artifacts
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RELEASE="${GITHUB_REF_NAME#v}"
+          gh release create "$GITHUB_REF_NAME" \
+            "empaquetado/local_moodlia-${RELEASE}.zip" \
+            "empaquetado/SHA256SUMS.txt" \
+            --verify-tag \
+            --generate-notes \
+            --prerelease \
+            --title "MoodlIA ${RELEASE}"

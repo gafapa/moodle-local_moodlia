@@ -9,6 +9,7 @@ const checks = [
   ['npm', ['run', 'lint:php']],
   ['npm', ['run', 'contract:check']],
   ['npm', ['run', 'plugin:boilerplate:check']],
+  ['npm', ['run', 'plugin:phpdoc:check']],
   ['npm', ['run', 'plugin:marketplace:check']],
   ['npm', ['run', 'manifests:check']],
   ['npm', ['run', 'test:static']]
@@ -16,6 +17,7 @@ const checks = [
 
 if (includePackage) {
   checks.push(['npm', ['run', 'plugin:package', '--', path.join(os.tmpdir(), `moodlia-release-check-${process.pid}`)]]);
+  checks.push(['npm', ['run', 'release:artifacts']]);
 }
 
 for (const [command, args] of checks) {

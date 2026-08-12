@@ -1,0 +1,97 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Set workshop phase external function.
+ *
+ * @package    local_moodlia
+ * @copyright  2026 Pablo Gallego
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+namespace local_moodlia\external;
+
+use core_external\external_api;
+use core_external\external_function_parameters;
+use core_external\external_single_structure;
+use core_external\external_value;
+use local_moodlia\operation\set_workshop_phase as set_workshop_phase_operation;
+use local_moodlia\operation\workshop_tools;
+
+/**
+ * External API adapter for set_workshop_phase.
+ */
+class set_workshop_phase extends external_api {
+    /**
+     * Define input parameters.
+     *
+     * @return external_function_parameters
+     */
+    public static function execute_parameters(): external_function_parameters {
+        return new external_function_parameters([
+            'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
+            'module_id' => new external_value(PARAM_INT, 'Workshop course module id'),
+            'phase' => new external_value(PARAM_ALPHA, 'Workshop phase: setup, submission, assessment, evaluation, or closed'),
+        ]);
+    }
+
+    /**
+     * Execute the external function.
+     *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $phase Phase.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid, string $phase): array {
+        [
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'phase' => $phase,
+        ] = self::validate_parameters(self::execute_parameters(), [
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'phase' => $phase,
+        ]);
+
+        $systemcontext = \context_system::instance();
+        self::validate_context($systemcontext);
+        require_capability('local/moodlia:useapi', $systemcontext);
+
+        $course = get_course($courseid);
+        $cm = workshop_tools::get_workshop_module($course, (int) $moduleid);
+        $modulecontext = \context_module::instance($cm->id);
+        self::validate_context($modulecontext);
+        require_capability('mod/workshop:switchphase', $modulecontext);
+
+        return set_workshop_phase_operation::execute((int) $courseid, (int) $moduleid, $phase);
+    }
+
+    /**
+     * Define output structure.
+     *
+     * @return external_single_structure
+     */
+    public static function execute_returns(): external_single_structure {
+        return new external_single_structure([
+            'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
+            'module_id' => new external_value(PARAM_INT, 'Workshop course module id'),
+            'workshop_id' => new external_value(PARAM_INT, 'Workshop instance id'),
+            'phase' => new external_value(PARAM_ALPHA, 'Public workshop phase'),
+            'phase_code' => new external_value(PARAM_INT, 'Moodle workshop phase code'),
+        ]);
+    }
+}

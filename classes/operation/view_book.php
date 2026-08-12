@@ -1,0 +1,99 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * View book operation.
+ *
+ * @package    local_moodlia
+ * @copyright  2026 Pablo Gallego
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+namespace local_moodlia\operation;
+
+/**
+ * Registers a Moodle book or chapter view through Moodle book external APIs.
+ */
+class view_book {
+    /**
+     * Execute the operation.
+     *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $chapterid Chapterid.
+     * @return array
+     */
+    public static function execute(int $courseid, int $moduleid, int $chapterid = 0): array {
+        book_tools::require_book_api();
+
+        $course = course_tools::get_course($courseid);
+        $cm = book_tools::get_book_module($course, $moduleid);
+        $book = book_tools::get_book_instance($courseid, $cm);
+        $viewedchapterid = self::resolve_viewed_chapter_id($book, $chapterid);
+        $result = \mod_book_external::view_book((int) $book->id, $chapterid);
+
+        return [
+            'course_id' => (int) $courseid,
+            'module_id' => (int) $moduleid,
+            'book_id' => (int) $book->id,
+            'chapter_id' => (int) $viewedchapterid,
+            'viewed' => (bool) ($result['status'] ?? false),
+            'warnings' => self::warnings_to_response($result['warnings'] ?? []),
+        ];
+    }
+
+    /**
+     * Resolve the chapter id Moodle will view when no explicit chapter is provided.
+     *
+     * @param \stdClass $book Book.
+     * @param int $chapterid Chapterid.
+     * @return int
+     */
+    private static function resolve_viewed_chapter_id(\stdClass $book, int $chapterid): int {
+        if ($chapterid > 0) {
+            return $chapterid;
+        }
+
+        foreach (book_preload_chapters($book) as $chapter) {
+            if (empty($chapter->hidden)) {
+                return (int) $chapter->id;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * Normalize Moodle warning payloads.
+     *
+     * @param array $warnings Warnings.
+     * @return array
+     */
+    private static function warnings_to_response(array $warnings): array {
+        $mapped = [];
+        foreach ($warnings as $warning) {
+            $item = is_array($warning) ? $warning : (array) $warning;
+            $mapped[] = [
+                'item' => (string) ($item['item'] ?? ''),
+                'item_id' => (int) ($item['itemid'] ?? 0),
+                'warning_code' => (string) ($item['warningcode'] ?? ''),
+                'message' => (string) ($item['message'] ?? ''),
+            ];
+        }
+
+        return $mapped;
+    }
+}
