@@ -73,7 +73,7 @@ jobs:
         run: moodle-plugin-ci validate
       - name: Check Moodle coding style
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci phpcs
+        run: moodle-plugin-ci phpcs --max-warnings 200
       - name: Check PHP documentation
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phpdoc --max-warnings 0
