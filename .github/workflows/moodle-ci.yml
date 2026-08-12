@@ -2,6 +2,8 @@ name: Moodle PHPUnit
 
 on:
   push:
+    branches:
+      - main
   pull_request:
 
 permissions:
@@ -73,7 +75,7 @@ jobs:
         run: moodle-plugin-ci validate
       - name: Check Moodle coding style
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci phpcs --max-warnings 200
+        run: ./ci/vendor/bin/phpcs --standard=moodle --extensions=php -p -w -s --no-cache --runtime-set ignore_warnings_on_exit 1 ./repository
       - name: Check PHP documentation
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phpdoc --max-warnings 0

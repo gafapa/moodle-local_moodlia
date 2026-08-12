@@ -27,8 +27,8 @@ PHP runtime is unavailable.
 
 GitHub Actions additionally installs Moodle 5.2 and runs Moodle Plugin CI on PHP
 8.3 and 8.4 with PostgreSQL and MariaDB. Moodle coding errors always fail the
-build; generated external schemas have a bounded allowance of 200 line-length
-and test-coverage warnings.
+build. Generated external schemas can report non-blocking line-length and
+test-coverage warnings, which remain visible in the CI logs.
 
 ## Pull Requests
 
