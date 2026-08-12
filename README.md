@@ -8,8 +8,9 @@ The plugin component is `local_moodlia` and the plugin folder name is `moodlia`.
 
 ## Project Links
 
-- Website: https://moodlia.com
-- Public documentation: https://moodlia.com/docs
+- Source code: https://github.com/gafapa/moodle-local_moodlia
+- Issue tracker: https://github.com/gafapa/moodle-local_moodlia/issues
+- Documentation: https://github.com/gafapa/moodle-local_moodlia#readme
 
 ## What It Is For
 
@@ -47,6 +48,10 @@ Both paths use the same canonical operation names and the same Moodle-side permi
 - Node.js 22 or newer when using the public CLI package.
 
 This release has been validated on Moodle 5.2.
+
+MoodlIA is free, open-source software. It does not require a MoodlIA-hosted
+service, a vendor account, a paid subscription, or an API key issued by the
+plugin author.
 
 ## Moodle Plugin Installation
 
@@ -143,7 +148,7 @@ MCP clients should authenticate with a bearer token using a Moodle REST token au
 
 The endpoint supports the standard tool discovery and tool call flow used by MCP clients. It exposes the same operation contract as the REST and CLI surfaces, so tool names, parameter schemas, enum values, and permission expectations stay aligned across integrations.
 
-The server implements the Streamable HTTP MCP initialization lifecycle for protocol versions `2025-03-26`, `2025-06-18`, and `2025-11-25`. It supports `initialize`, `notifications/initialized`, `ping`, `tools/list`, and `tools/call`. Tool calls return standard text content plus `structuredContent`. Browser-originated requests are accepted only from the Moodle site's own origin; non-browser clients normally omit the `Origin` header.
+The server supports both MCP protocol eras on the same Streamable HTTP endpoint. Modern `2026-07-28` clients use stateless, self-describing requests with `server/discover`, per-request `_meta`, and the standard routing headers. Legacy `2025-03-26`, `2025-06-18`, and `2025-11-25` clients continue to use `initialize` and `notifications/initialized`. Both eras support `ping`, `tools/list`, and `tools/call`; modern responses include `resultType`, server metadata, and private cache hints where the protocol permits them. Tool calls return standard text content plus `structuredContent`. Browser-originated requests are accepted only from the Moodle site's own origin; non-browser clients normally omit the `Origin` header.
 
 This is useful for LLM clients that can connect to an MCP server and need structured, permission-checked access to Moodle without screen scraping or browser-only automation.
 
@@ -182,6 +187,24 @@ The CLI does not call MCP. It calls Moodle REST directly through `/webservice/re
 The MCP endpoint calls the same Moodle operation layer and uses the same REST token model. This keeps LLM tool calls, CLI commands, and direct REST calls aligned.
 
 ## Release Notes
+
+### 0.1.190
+
+- Makes the repository root directly installable as `local/moodlia`, following
+  the Moodle Marketplace source layout.
+- Removes the automatic manager-role grant for the remote automation
+  capability; administrators must now grant it explicitly to dedicated service
+  users.
+- Declares the full configuration, data-loss, personal-data, and spam risk set
+  associated with the broad write-capable automation API.
+- Adds reproducible Marketplace archive validation, listing copy, security
+  policy, release notes, and stricter Moodle Plugin CI checks.
+
+### 0.1.189
+
+- Adds the stateless MCP `2026-07-28` request model, `server/discover`, per-request metadata, routing-header validation, modern result envelopes, and cache hints.
+- Preserves the legacy Streamable HTTP initialization lifecycle for MCP `2025-03-26` through `2025-11-25` clients on the same endpoint.
+- Updates the public Node transport to negotiate both protocol eras, retain legacy session identifiers, close stateful sessions, and parse request-scoped SSE responses.
 
 ### 0.1.188
 
@@ -257,6 +280,18 @@ Recommended security practices:
 - Rotate tokens if they are exposed to an external agent or CI system.
 - Avoid giving administrator tokens to general-purpose LLM agents.
 - Review generated course changes before publishing courses to learners.
+
+Security reports should follow the private reporting instructions in
+[`SECURITY.md`](SECURITY.md). General bugs and feature requests belong in the
+public issue tracker.
+
+## Support
+
+Use the public issue tracker for reproducible bugs, compatibility reports, and
+feature proposals: https://github.com/gafapa/moodle-local_moodlia/issues
+
+This community plugin is independently developed and is not affiliated with or
+endorsed by Moodle Pty Ltd.
 
 ## License
 

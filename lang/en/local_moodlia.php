@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'MoodlIA';
 $string['duplicatemodulenotcreated'] = 'The Moodle module duplicate could not be created.';
-$string['privacy:metadata'] = 'The MoodlIA plugin does not store personal data.';
+$string['privacy:metadata'] = 'The MoodlIA plugin does not store personal data in plugin-owned storage.';
 $string['moodlia:useapi'] = 'Use MoodlIA external functions';
 $string['moodlia:manageplugins'] = 'Inspect and manage Moodle plugins through MoodlIA';
 $string['cannotdisablemoodlia'] = 'MoodlIA cannot change its own enabled state.';

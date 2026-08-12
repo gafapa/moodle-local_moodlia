@@ -30,7 +30,7 @@ SFTP_PORT=22
 SFTP_USER=ubuntu
 SFTP_AUTH_MODE=key
 SFTP_KEY_PATH=C:\path\to\deployment-key.ppk
-LOCAL_PLUGIN_SOURCE=plugin/moodlia
+LOCAL_PLUGIN_SOURCE=.
 LOCAL_PLUGIN_PACKAGE_PATH=D:\tmp\moodlia
 SFTP_REMOTE_UPLOAD_PATH=/tmp/moodlia
 MOODLE_SERVER_ROOT=/var/www/html
@@ -96,7 +96,7 @@ npm run release:artifacts
 ```
 
 This command rebuilds the website derivatives, creates the plugin archive for the
-release declared in `plugin/moodlia/version.php`, removes obsolete plugin archives,
+release declared in `version.php`, removes obsolete plugin archives,
 and writes the SHA-256 manifest. ZIP creation uses a maintained library and stable
 timestamps. Set `SOURCE_DATE_EPOCH` when a release pipeline needs a specific
 reproducible timestamp; otherwise the ZIP epoch defaults to 1980-01-01 UTC.
@@ -204,26 +204,25 @@ npm run deploy:winscp:upgrade
 
 ## Continuous Integration
 
-The default GitHub Actions workflow is `.github/workflows/ci.yml`. It is intentionally limited to checks that can run without a Moodle target:
+The default GitHub Actions workflow is `.github/workflows/ci.yml`. It is
+intentionally limited to checks that can run without a Moodle target:
 
 ```text
 npm ci
-npx playwright install chromium
-npm run release:artifacts
-npm run npm:sync:check
 npm run release:check
-npm run test:site
 ```
 
-The CI job runs on Windows because the local release packaging defaults and development workflow are Windows-friendly. It overrides `LOCAL_PLUGIN_PACKAGE_PATH` to a runner temp directory, then validates all JavaScript syntax, all plugin PHP syntax on PHP 8.2, generated manifests, generated TypeScript operation types, static tests, dependency audit, plugin packaging, and project website tests.
+The CI job runs on Ubuntu and validates JavaScript syntax, PHP syntax on PHP
+8.2, generated manifests, the canonical operation contract, static tests,
+dependency audit, plugin packaging, and the Marketplace archive.
 
 Remote Moodle smoke tests and browser verification are not in the default CI workflow. They require environment-specific secrets, a reachable Moodle instance, and permission to create generated test data.
 
-The separate `.github/workflows/moodle-plugin-ci.yml` workflow installs Moodle
-5.2 and validates the packaged plugin on PHP 8.3 with both PostgreSQL and
-MariaDB. It runs PHP lint, Moodle Code Checker, Moodle PHPDoc Checker, structural
-validation, upgrade savepoint checks, and the plugin PHPUnit suite. This workflow
-is the Marketplace compatibility gate and must pass before uploading a release.
+The separate `.github/workflows/moodle-ci.yml` workflow installs Moodle 5.2 and
+validates the plugin on PHP 8.2 and 8.4 with both PostgreSQL and MariaDB. It runs
+PHP lint, Moodle Code Checker, Moodle PHPDoc Checker, structural validation, and
+the plugin PHPUnit suite. This workflow is the Marketplace compatibility gate
+and must pass before uploading a release.
 
 ## Deployment Safeguards
 
@@ -434,6 +433,7 @@ MCP uses the same token as REST. Send `MOODLE_REST_TOKEN` as the bearer token fo
 Minimum MCP smoke checks:
 
 ```text
+server/discover (2026-07-28 request metadata and routing headers)
 tools/list
 tools/call get_current_user
 tools/call get_courses
@@ -447,6 +447,8 @@ tools/call get_group_members
 
 Required MCP assertions:
 
+- Modern requests are independently authenticated and include matching protocol, method, and tool-name metadata in the HTTP headers and JSON-RPC body.
+- Legacy clients can still complete `initialize` and `notifications/initialized` before using the tool surface.
 - Every expected operation appears in `tools/list`.
 - Every tool schema matches the canonical contract.
 - Every listed tool has a dispatch handler.

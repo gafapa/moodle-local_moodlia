@@ -4,7 +4,7 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const pluginRoot = path.join(projectRoot, 'plugin', 'moodlia');
+const pluginRoot = projectRoot;
 const checkOnly = process.argv.includes('--check');
 const copyrightLine = ' * @copyright  2026 Pablo Gallego';
 const incompleteLicenseHeader = [

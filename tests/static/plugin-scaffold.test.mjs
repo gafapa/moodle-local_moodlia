@@ -5,7 +5,7 @@ import test from 'node:test';
 
 import { fromRoot } from '../helpers/paths.mjs';
 
-const pluginRoot = fromRoot('plugin/moodlia');
+const pluginRoot = fromRoot();
 
 test('plugin contains the required Moodle entry points', async () => {
   for (const relativePath of [
@@ -33,6 +33,23 @@ test('MCP REST bridge uses Moodle HTTP security and proxy handling', async () =>
   assert.match(source, /new \\core\\http_client\s*\(/);
   assert.match(source, /'http_errors'\s*=>\s*false/);
   assert.doesNotMatch(source, /\bcurl_(?:init|setopt|setopt_array|exec|getinfo|error|close)\s*\(/);
+});
+
+test('MCP endpoint supports modern stateless and legacy lifecycle clients', async () => {
+  const source = await fs.readFile(path.join(pluginRoot, 'mcp.php'), 'utf8');
+
+  assert.match(source, /LOCAL_MOODLIA_MCP_MODERN_PROTOCOL_VERSION\s*=\s*'2026-07-28'/);
+  assert.match(source, /\$method\s*===\s*'server\/discover'/);
+  assert.match(source, /io\.modelcontextprotocol\/protocolVersion/);
+  assert.match(source, /io\.modelcontextprotocol\/clientCapabilities/);
+  assert.match(source, /HTTP_MCP_METHOD/);
+  assert.match(source, /HTTP_MCP_NAME/);
+  assert.match(source, /'resultType'\]\s*=.*'complete'/);
+  assert.match(source, /'ttlMs'\]/);
+  assert.match(source, /-32020/);
+  assert.match(source, /-32022/);
+  assert.match(source, /\$method\s*===\s*'initialize'/);
+  assert.match(source, /notifications\/initialized/);
 });
 
 test('operation code avoids raw SQL execution', async () => {

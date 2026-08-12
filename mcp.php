@@ -26,12 +26,14 @@ define('NO_MOODLE_COOKIES', true);
 define('AJAX_SCRIPT', true);
 define('NO_DEBUG_DISPLAY', true);
 
-const LOCAL_MOODLIA_MCP_PROTOCOL_VERSIONS = [
+const LOCAL_MOODLIA_MCP_MODERN_PROTOCOL_VERSION = '2026-07-28';
+const LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS = [
     '2025-11-25',
     '2025-06-18',
     '2025-03-26',
 ];
 const LOCAL_MOODLIA_MCP_MAX_REQUEST_BYTES = 32 * 1024 * 1024;
+const LOCAL_MOODLIA_MCP_SERVER_VERSION = '0.1.190';
 
 require_once(__DIR__ . '/../../config.php');
 
@@ -44,13 +46,49 @@ function local_moodlia_mcp_response_headers(): void {
 }
 
 /**
+ * Return the MCP server implementation metadata.
+ *
+ * @return array
+ */
+function local_moodlia_mcp_server_info(): array {
+    return [
+        'name' => 'MoodlIA',
+        'title' => 'MoodlIA Moodle MCP Server',
+        'version' => LOCAL_MOODLIA_MCP_SERVER_VERSION,
+    ];
+}
+
+/**
+ * Decorate a result for the stateless 2026 protocol era.
+ *
+ * @param array $result Result payload.
+ * @param bool $cacheable Whether the result supports cache hints.
+ * @return array
+ */
+function local_moodlia_mcp_modern_result(array $result, bool $cacheable = false): array {
+    $result['resultType'] = $result['resultType'] ?? 'complete';
+    if ($cacheable) {
+        $result['ttlMs'] = $result['ttlMs'] ?? 300000;
+        $result['cacheScope'] = $result['cacheScope'] ?? 'private';
+    }
+
+    $metadata = isset($result['_meta']) && is_array($result['_meta']) ? $result['_meta'] : [];
+    $metadata['io.modelcontextprotocol/serverInfo'] = local_moodlia_mcp_server_info();
+    $result['_meta'] = $metadata;
+    return $result;
+}
+
+/**
  * Send a JSON-RPC response.
  *
  * @param mixed $id Request id.
  * @param mixed $result Result payload.
  * @return never
  */
-function local_moodlia_mcp_result($id, $result): never {
+function local_moodlia_mcp_result($id, $result, bool $modern = false, bool $cacheable = false): never {
+    if ($modern && is_array($result)) {
+        $result = local_moodlia_mcp_modern_result($result, $cacheable);
+    }
     local_moodlia_mcp_response_headers();
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode([
@@ -78,7 +116,8 @@ function local_moodlia_mcp_error(
     string $message,
     int $httpstatus = 200,
     string $canonicalcode = 'moodle_error',
-    array $details = []
+    array $details = [],
+    ?array $protocoldata = null
 ): never {
     http_response_code($httpstatus);
     local_moodlia_mcp_response_headers();
@@ -89,13 +128,40 @@ function local_moodlia_mcp_error(
         'error' => [
             'code' => $code,
             'message' => $message,
-            'data' => [
+            'data' => $protocoldata ?? [
                 'code' => $canonicalcode,
                 'details' => $details,
             ],
         ],
     ], JSON_UNESCAPED_SLASHES);
     exit;
+}
+
+/**
+ * Reject malformed or inconsistent modern HTTP request metadata.
+ *
+ * @param mixed $id Request id.
+ * @param string $message Safe validation message.
+ * @return never
+ */
+function local_moodlia_mcp_header_mismatch($id, string $message): never {
+    local_moodlia_mcp_error($id, -32020, $message, 400, 'invalid_parameters', [], [
+        'reason' => $message,
+    ]);
+}
+
+/**
+ * Reject a protocol version that is not supported in the modern era.
+ *
+ * @param mixed $id Request id.
+ * @param string $requested Requested protocol version.
+ * @return never
+ */
+function local_moodlia_mcp_unsupported_protocol($id, string $requested): never {
+    local_moodlia_mcp_error($id, -32022, 'Unsupported MCP protocol version.', 400, 'invalid_parameters', [], [
+        'supported' => [LOCAL_MOODLIA_MCP_MODERN_PROTOCOL_VERSION],
+        'requested' => $requested,
+    ]);
 }
 
 /**
@@ -325,24 +391,11 @@ if ($contenttype !== 'application/json') {
     local_moodlia_mcp_error(null, -32600, 'Content-Type must be application/json.', 415, 'invalid_parameters');
 }
 
-$accept = strtolower((string) ($_SERVER['HTTP_ACCEPT'] ?? ''));
-if ($accept !== '' && !str_contains($accept, '*/*') && !str_contains($accept, 'application/json')) {
-    local_moodlia_mcp_error(null, -32600, 'Accept must allow application/json.', 406, 'invalid_parameters');
-}
-
-$protocolheader = trim((string) ($_SERVER['HTTP_MCP_PROTOCOL_VERSION'] ?? ''));
-if ($protocolheader !== '' && !in_array($protocolheader, LOCAL_MOODLIA_MCP_PROTOCOL_VERSIONS, true)) {
-    local_moodlia_mcp_error(null, -32602, 'Unsupported MCP protocol version.', 400, 'invalid_parameters', [
-        'supported' => LOCAL_MOODLIA_MCP_PROTOCOL_VERSIONS,
-    ]);
-}
-
 $contentlength = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
 if ($contentlength > LOCAL_MOODLIA_MCP_MAX_REQUEST_BYTES) {
     local_moodlia_mcp_error(null, -32600, 'MCP request body is too large.', 413, 'invalid_parameters');
 }
 
-$token = local_moodlia_mcp_bearer_token();
 $rawrequest = file_get_contents('php://input');
 if ($rawrequest !== false && strlen($rawrequest) > LOCAL_MOODLIA_MCP_MAX_REQUEST_BYTES) {
     local_moodlia_mcp_error(null, -32600, 'MCP request body is too large.', 413, 'invalid_parameters');
@@ -362,14 +415,95 @@ if (($request['jsonrpc'] ?? null) !== '2.0' || !is_string($method)) {
     local_moodlia_mcp_error($id, -32600, 'Invalid JSON-RPC request.', 200, 'invalid_parameters');
 }
 
+$protocolheader = trim((string) ($_SERVER['HTTP_MCP_PROTOCOL_VERSION'] ?? ''));
+$requestmeta = is_array($params) && isset($params['_meta']) && is_array($params['_meta']) ? $params['_meta'] : [];
+$bodyprotocol = trim((string) ($requestmeta['io.modelcontextprotocol/protocolVersion'] ?? ''));
+$modern = $protocolheader === LOCAL_MOODLIA_MCP_MODERN_PROTOCOL_VERSION
+    || $bodyprotocol !== ''
+    || $method === 'server/discover';
+
+if ($modern) {
+    if ($protocolheader === '') {
+        local_moodlia_mcp_header_mismatch($id, 'MCP-Protocol-Version header is required.');
+    }
+    if ($protocolheader !== LOCAL_MOODLIA_MCP_MODERN_PROTOCOL_VERSION) {
+        local_moodlia_mcp_unsupported_protocol($id, $protocolheader);
+    }
+    if ($bodyprotocol !== $protocolheader) {
+        local_moodlia_mcp_header_mismatch($id, 'MCP-Protocol-Version header does not match request metadata.');
+    }
+    if (!isset($requestmeta['io.modelcontextprotocol/clientCapabilities'])
+            || !is_array($requestmeta['io.modelcontextprotocol/clientCapabilities'])) {
+        local_moodlia_mcp_error($id, -32602, 'Modern MCP requests require clientCapabilities metadata.', 400,
+            'invalid_parameters');
+    }
+    if (isset($requestmeta['io.modelcontextprotocol/clientInfo'])) {
+        $clientinfo = $requestmeta['io.modelcontextprotocol/clientInfo'];
+        if (!is_array($clientinfo) || !is_string($clientinfo['name'] ?? null)
+                || !is_string($clientinfo['version'] ?? null)) {
+            local_moodlia_mcp_error($id, -32602, 'clientInfo metadata must contain name and version.', 400,
+                'invalid_parameters');
+        }
+    }
+
+    $methodheader = trim((string) ($_SERVER['HTTP_MCP_METHOD'] ?? ''));
+    if ($methodheader === '' || !hash_equals($method, $methodheader)) {
+        local_moodlia_mcp_header_mismatch($id, 'Mcp-Method header does not match the JSON-RPC method.');
+    }
+    if (in_array($method, ['tools/call', 'resources/read', 'prompts/get'], true)) {
+        $namefield = $method === 'resources/read' ? 'uri' : 'name';
+        $requestname = is_array($params) ? ($params[$namefield] ?? null) : null;
+        $nameheader = trim((string) ($_SERVER['HTTP_MCP_NAME'] ?? ''));
+        if (!is_string($requestname) || $nameheader === '' || !hash_equals($requestname, $nameheader)) {
+            local_moodlia_mcp_header_mismatch($id, 'Mcp-Name header does not match the JSON-RPC parameters.');
+        }
+    }
+
+    $accept = strtolower((string) ($_SERVER['HTTP_ACCEPT'] ?? ''));
+    if (!str_contains($accept, 'application/json') || !str_contains($accept, 'text/event-stream')) {
+        local_moodlia_mcp_error($id, -32600,
+            'Accept must include application/json and text/event-stream.', 406, 'invalid_parameters');
+    }
+} elseif ($protocolheader !== '' && !in_array($protocolheader, LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS, true)) {
+    local_moodlia_mcp_error($id, -32602, 'Unsupported MCP protocol version.', 400, 'invalid_parameters', [
+        'supported' => LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS,
+    ]);
+} else {
+    $accept = strtolower((string) ($_SERVER['HTTP_ACCEPT'] ?? ''));
+    if ($accept !== '' && !str_contains($accept, '*/*') && !str_contains($accept, 'application/json')) {
+        local_moodlia_mcp_error($id, -32600, 'Accept must allow application/json.', 406, 'invalid_parameters');
+    }
+}
+
+$token = local_moodlia_mcp_bearer_token();
+
+if ($modern && in_array($method, ['initialize', 'notifications/initialized'], true)) {
+    local_moodlia_mcp_error($id, -32601, 'Unknown method: ' . $method, 404, 'invalid_parameters', [
+        'method' => $method,
+    ]);
+}
+
+if ($method === 'server/discover') {
+    local_moodlia_mcp_call_rest($token, 'get_current_user', [], $id);
+    local_moodlia_mcp_result($id, [
+        'supportedVersions' => [LOCAL_MOODLIA_MCP_MODERN_PROTOCOL_VERSION],
+        'capabilities' => [
+            'tools' => [
+                'listChanged' => false,
+            ],
+        ],
+        'instructions' => 'Use MoodlIA tools to operate Moodle within the capabilities of the authenticated user.',
+    ], true, true);
+}
+
 if ($method === 'initialize') {
     $requestedversion = is_array($params) ? (string) ($params['protocolVersion'] ?? '') : '';
     if ($requestedversion === '') {
         local_moodlia_mcp_error($id, -32602, 'initialize requires protocolVersion.', 200, 'invalid_parameters');
     }
-    $protocolversion = in_array($requestedversion, LOCAL_MOODLIA_MCP_PROTOCOL_VERSIONS, true)
+    $protocolversion = in_array($requestedversion, LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS, true)
         ? $requestedversion
-        : LOCAL_MOODLIA_MCP_PROTOCOL_VERSIONS[0];
+        : LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS[0];
 
     local_moodlia_mcp_call_rest($token, 'get_current_user', [], $id);
     local_moodlia_mcp_result($id, [
@@ -379,11 +513,7 @@ if ($method === 'initialize') {
                 'listChanged' => false,
             ],
         ],
-        'serverInfo' => [
-            'name' => 'MoodlIA',
-            'title' => 'MoodlIA Moodle MCP Server',
-            'version' => '0.1.186',
-        ],
+        'serverInfo' => local_moodlia_mcp_server_info(),
         'instructions' => 'Use MoodlIA tools to operate Moodle within the capabilities of the authenticated user.',
     ]);
 }
@@ -399,14 +529,14 @@ if ($isnotification) {
 
 if ($method === 'ping') {
     local_moodlia_mcp_call_rest($token, 'get_current_user', [], $id);
-    local_moodlia_mcp_result($id, (object) []);
+    local_moodlia_mcp_result($id, [], $modern);
 }
 
 if ($method === 'tools/list') {
     local_moodlia_mcp_call_rest($token, 'get_current_user', [], $id);
     local_moodlia_mcp_result($id, [
         'tools' => \local_moodlia\mcp\manifest::tools(),
-    ]);
+    ], $modern, $modern);
 }
 
 if ($method === 'tools/call') {
@@ -423,9 +553,9 @@ if ($method === 'tools/call') {
 
     $arguments = local_moodlia_mcp_normalize_arguments($id, $params['arguments'] ?? []);
     $result = local_moodlia_mcp_call_rest($token, $toolname, $arguments, $id);
-    local_moodlia_mcp_result($id, local_moodlia_mcp_tool_result($result));
+    local_moodlia_mcp_result($id, local_moodlia_mcp_tool_result($result), $modern);
 }
 
-local_moodlia_mcp_error($id, -32601, 'Unknown method: ' . $method, 200, 'invalid_parameters', [
+local_moodlia_mcp_error($id, -32601, 'Unknown method: ' . $method, $modern ? 404 : 200, 'invalid_parameters', [
     'method' => $method,
 ]);

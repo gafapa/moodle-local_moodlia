@@ -1,6 +1,6 @@
 {
   "name": "moodlia-moodle-plugin",
-  "version": "0.1.188",
+  "version": "0.1.190",
   "private": true,
   "description": "Moodle local plugin that exposes MoodlIA operations over REST and MCP.",
   "homepage": "https://github.com/gafapa/moodle-local_moodlia#readme",
@@ -22,12 +22,19 @@
     "manifests:check": "node tools/generate-manifests.mjs --check",
     "plugin:package": "node tools/package-plugin.mjs",
     "plugin:archive": "node tools/package-plugin-archive.mjs",
+    "plugin:archive:check": "node tools/check-plugin-archive.mjs",
     "plugin:boilerplate:check": "node tools/normalize-plugin-boilerplate.mjs --check",
     "plugin:marketplace:check": "node tools/check-marketplace-package.mjs",
+    "release:checksums": "node tools/generate-release-checksums.mjs",
+    "release:checksums:check": "node tools/generate-release-checksums.mjs --check",
+    "release:artifacts": "npm run plugin:archive && npm run plugin:archive:check && npm run release:checksums && npm run release:checksums:check",
     "release:check": "node tools/release-check.mjs",
     "check": "npm run lint:js && npm run lint:php && npm run contract:check && npm run manifests:check && npm run plugin:boilerplate:check && npm run plugin:marketplace:check && npm run test:static"
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "fflate": "^0.8.3"
   }
 }

@@ -26,12 +26,10 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = [
     'local/moodlia:useapi' => [
-        'riskbitmask' => RISK_PERSONAL,
-        'captype' => 'read',
+        'riskbitmask' => RISK_CONFIG | RISK_DATALOSS | RISK_PERSONAL | RISK_SPAM,
+        'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => [
-            'manager' => CAP_ALLOW,
-        ],
+        'archetypes' => [],
     ],
     'local/moodlia:manageplugins' => [
         'riskbitmask' => RISK_CONFIG,

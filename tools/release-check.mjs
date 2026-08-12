@@ -16,6 +16,7 @@ const checks = [
 
 if (includePackage) {
   checks.push(['npm', ['run', 'plugin:package', '--', path.join(os.tmpdir(), `moodlia-release-check-${process.pid}`)]]);
+  checks.push(['npm', ['run', 'release:artifacts']]);
 }
 
 for (const [command, args] of checks) {
