@@ -31,13 +31,13 @@ class update_glossary_entry {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Glossary course module id.
-     * @param int $entryid Glossary entry id.
-     * @param string|null $concept Updated concept.
-     * @param string|null $definition Updated definition.
-     * @param string $definitionformat Public definition format.
-     * @param array $options Entry options.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $entryid Entryid.
+     * @param string|null $concept Concept.
+     * @param string|null $definition Definition.
+     * @param string $definitionformat Definitionformat.
+     * @param array $options Options.
      * @return array
      */
     public static function execute(

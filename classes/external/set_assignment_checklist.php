@@ -52,8 +52,8 @@ class set_assignment_checklist extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @param string $name Name.
      * @param string $description Description.
      * @param string $items Items.

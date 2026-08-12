@@ -52,9 +52,9 @@ class view_book extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Book course module id.
-     * @param int $chapterid Book chapter id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $chapterid Chapterid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $chapterid = 0): array {

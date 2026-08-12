@@ -40,7 +40,7 @@ class course_tools {
     /**
      * Resolve a valid course category id.
      *
-     * @param int $categoryid Requested category id, or 0 for Moodle default.
+     * @param int $categoryid Categoryid.
      * @return int
      */
     public static function resolve_category_id(int $categoryid = 0): int {
@@ -57,7 +57,7 @@ class course_tools {
     /**
      * Load a Moodle course category.
      *
-     * @param int $categoryid Moodle course category id.
+     * @param int $categoryid Categoryid.
      * @return \core_course_category
      */
     public static function get_category(int $categoryid): \core_course_category {
@@ -73,7 +73,7 @@ class course_tools {
     /**
      * Return the canonical course category response shape.
      *
-     * @param \core_course_category $category Moodle course category.
+     * @param \core_course_category $category Category.
      * @return array
      */
     public static function category_to_response(\core_course_category $category): array {
@@ -93,7 +93,7 @@ class course_tools {
     /**
      * Load a Moodle course.
      *
-     * @param int $courseid Moodle course id.
+     * @param int $courseid Courseid.
      * @return \stdClass
      */
     public static function get_course(int $courseid): \stdClass {
@@ -109,7 +109,7 @@ class course_tools {
     /**
      * Return the canonical course response shape.
      *
-     * @param \stdClass $course Moodle course.
+     * @param \stdClass $course Course.
      * @return array
      */
     public static function to_response(\stdClass $course): array {
@@ -137,7 +137,7 @@ class course_tools {
     /**
      * Convert a public text format name to a Moodle format constant.
      *
-     * @param string $format Public format name.
+     * @param string $format Format.
      * @return int
      */
     public static function format_to_constant(string $format): int {
@@ -155,7 +155,7 @@ class course_tools {
     /**
      * Convert a Moodle text format constant to a public format name.
      *
-     * @param int $format Moodle format constant.
+     * @param int $format Format.
      * @return string
      */
     public static function format_from_constant(int $format): string {
@@ -165,7 +165,7 @@ class course_tools {
     /**
      * Validate a course format plugin name.
      *
-     * @param string $format Moodle course format plugin name.
+     * @param string $format Format.
      * @return string
      */
     public static function normalise_course_format(string $format): string {
@@ -185,8 +185,8 @@ class course_tools {
     /**
      * Validate public course date fields.
      *
-     * @param int $startdate Course start timestamp.
-     * @param int $enddate Course end timestamp, or 0.
+     * @param int $startdate Startdate.
+     * @param int $enddate Enddate.
      */
     public static function validate_course_dates(int $startdate, int $enddate): void {
         if ($startdate < 0) {

@@ -31,10 +31,10 @@ class create_course_category {
     /**
      * Execute the operation.
      *
-     * @param string $name Category name.
-     * @param int $parentid Parent category id, or 0 for top level.
-     * @param bool $visible Whether the category is visible.
-     * @param bool $reuseexisting Whether to return an existing sibling category with the same name.
+     * @param string $name Name.
+     * @param int $parentid Parentid.
+     * @param bool $visible Visible.
+     * @param bool $reuseexisting Reuseexisting.
      * @return array
      */
     public static function execute(string $name, int $parentid = 0, bool $visible = true, bool $reuseexisting = false): array {

@@ -55,13 +55,13 @@ class update_grade_item extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $itemid Item id.
+     * @param int $courseid Courseid.
+     * @param int $itemid Itemid.
      * @param string|null $name Name.
-     * @param float|null $grademax Grade max.
-     * @param float|null $grademin Grade min.
-     * @param float|null $gradepass Grade pass.
-     * @param int|null $categoryid Category id.
+     * @param float|null $grademax Grademax.
+     * @param float|null $grademin Grademin.
+     * @param float|null $gradepass Gradepass.
+     * @param int|null $categoryid Categoryid.
      * @param bool|null $hidden Hidden.
      * @param bool|null $locked Locked.
      * @return array

@@ -31,12 +31,12 @@ class restore_course_backup {
     /**
      * Execute the operation.
      *
-     * @param int $backupfileid Stored backup file id.
-     * @param string $target Restore target.
-     * @param int $targetcourseid Existing target course id.
-     * @param int $categoryid Category id for new course restores.
-     * @param string $fullname New course fullname.
-     * @param string $shortname New course shortname.
+     * @param int $backupfileid Backupfileid.
+     * @param string $target Target.
+     * @param int $targetcourseid Targetcourseid.
+     * @param int $categoryid Categoryid.
+     * @param string $fullname Fullname.
+     * @param string $shortname Shortname.
      * @return array
      */
     public static function execute(

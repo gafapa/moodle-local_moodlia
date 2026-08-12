@@ -44,8 +44,8 @@ class course_backup_tools {
     /**
      * Create a native Moodle course backup.
      *
-     * @param int $courseid Moodle course id.
-     * @param array $options Backup options.
+     * @param int $courseid Courseid.
+     * @param array $options Options.
      * @return array
      */
     public static function backup_course(int $courseid, array $options): array {
@@ -81,12 +81,12 @@ class course_backup_tools {
     /**
      * Restore a native Moodle backup.
      *
-     * @param int $fileid Stored backup file id.
-     * @param string $target Restore target.
-     * @param int $targetcourseid Existing target course id.
-     * @param int $categoryid New course category id.
-     * @param string $fullname New course fullname.
-     * @param string $shortname New course shortname.
+     * @param int $fileid Fileid.
+     * @param string $target Target.
+     * @param int $targetcourseid Targetcourseid.
+     * @param int $categoryid Categoryid.
+     * @param string $fullname Fullname.
+     * @param string $shortname Shortname.
      * @return array
      */
     public static function restore_course_backup(
@@ -155,7 +155,7 @@ class course_backup_tools {
     /**
      * Return a stored backup file owned by Moodle's file API.
      *
-     * @param int $fileid Stored file id.
+     * @param int $fileid Fileid.
      * @return \stored_file
      */
     public static function get_backup_file(int $fileid): \stored_file {
@@ -179,8 +179,8 @@ class course_backup_tools {
     /**
      * Return a canonical backup file response.
      *
-     * @param \stored_file $file Stored file.
-     * @param int $courseid Source course id.
+     * @param \stored_file $file File.
+     * @param int $courseid Courseid.
      * @return array
      */
     public static function backup_file_to_response(\stored_file $file, int $courseid): array {
@@ -209,8 +209,8 @@ class course_backup_tools {
     /**
      * Store an uploaded .mbz file in the current user's private files.
      *
-     * @param string $filename Backup filename.
-     * @param string $uploadreference Base64-encoded backup content.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
      * @return array
      */
     public static function upload_backup_file(string $filename, string $uploadreference): array {
@@ -276,8 +276,8 @@ class course_backup_tools {
     /**
      * List .mbz backup files available to the current user.
      *
-     * @param int $courseid Optional course id for course backup area files.
-     * @param bool $includeprivate Include current user's private .mbz files.
+     * @param int $courseid Courseid.
+     * @param bool $includeprivate Includeprivate.
      * @return array
      */
     public static function list_backup_files(int $courseid = 0, bool $includeprivate = true): array {
@@ -319,7 +319,7 @@ class course_backup_tools {
     /**
      * Delete a stored .mbz backup file when the caller owns or can manage its context.
      *
-     * @param int $fileid Stored file id.
+     * @param int $fileid Fileid.
      * @return array
      */
     public static function delete_backup_file(int $fileid): array {
@@ -347,8 +347,8 @@ class course_backup_tools {
     /**
      * Apply safe backup options when the current Moodle version exposes them.
      *
-     * @param \backup_controller $controller Backup controller.
-     * @param array $options Backup options.
+     * @param \backup_controller $controller Controller.
+     * @param array $options Options.
      */
     private static function apply_backup_options(\backup_controller $controller, array $options): void {
         $defaults = [
@@ -382,9 +382,9 @@ class course_backup_tools {
     /**
      * Set a backup or restore plan setting when available.
      *
-     * @param \base_controller $controller Backup or restore controller.
-     * @param string $name Setting name.
-     * @param mixed $value Setting value.
+     * @param \base_controller $controller Controller.
+     * @param string $name Name.
+     * @param mixed $value Value.
      */
     private static function set_plan_setting(\base_controller $controller, string $name, $value): void {
         try {
@@ -397,7 +397,7 @@ class course_backup_tools {
     /**
      * Validate restore target.
      *
-     * @param string $target Restore target.
+     * @param string $target Target.
      * @return string
      */
     private static function normalise_restore_target(string $target): string {
@@ -412,7 +412,7 @@ class course_backup_tools {
     /**
      * Return Moodle restore target constant.
      *
-     * @param string $target Public target.
+     * @param string $target Target.
      * @return int
      */
     private static function restore_target_constant(string $target): int {
@@ -429,11 +429,11 @@ class course_backup_tools {
     /**
      * Resolve or create the target course for restore.
      *
-     * @param string $target Restore target.
-     * @param int $targetcourseid Existing course id.
-     * @param int $categoryid Category id for new courses.
-     * @param string $fullname New course fullname.
-     * @param string $shortname New course shortname.
+     * @param string $target Target.
+     * @param int $targetcourseid Targetcourseid.
+     * @param int $categoryid Categoryid.
+     * @param string $fullname Fullname.
+     * @param string $shortname Shortname.
      * @return int
      */
     private static function resolve_restore_course(
@@ -468,7 +468,7 @@ class course_backup_tools {
     /**
      * Convert a restore precheck result to a compact message.
      *
-     * @param mixed $precheck Precheck result.
+     * @param mixed $precheck Precheck.
      * @return string
      */
     private static function precheck_message($precheck): string {

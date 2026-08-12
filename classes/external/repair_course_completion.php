@@ -51,10 +51,10 @@ class repair_course_completion extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
+     * @param int $courseid Courseid.
      * @param string $mode Mode.
-     * @param bool $dryrun Dry run.
-     * @param bool $resetcompletionstates Reset completion states.
+     * @param bool $dryrun Dryrun.
+     * @param bool $resetcompletionstates Resetcompletionstates.
      * @return array
      */
     public static function execute(

@@ -31,9 +31,9 @@ class submit_choice_response {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $choicemoduleid Choice course module id.
-     * @param string $optionidsjson JSON array of choice option ids.
+     * @param int $courseid Courseid.
+     * @param int $choicemoduleid Choicemoduleid.
+     * @param string $optionidsjson Optionidsjson.
      * @return array
      */
     public static function execute(int $courseid, int $choicemoduleid, string $optionidsjson): array {

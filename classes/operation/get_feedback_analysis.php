@@ -31,9 +31,9 @@ class get_feedback_analysis {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Feedback course module id.
-     * @param int $groupid Moodle group id, or 0 for Moodle default.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $groupid Groupid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $groupid = 0): array {

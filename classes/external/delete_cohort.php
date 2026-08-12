@@ -48,7 +48,7 @@ class delete_cohort extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $cohortid Cohort id.
+     * @param int $cohortid Cohortid.
      * @return array
      */
     public static function execute(int $cohortid): array {

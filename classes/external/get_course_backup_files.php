@@ -50,8 +50,8 @@ class get_course_backup_files extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int|null $courseid Course id.
-     * @param bool $includeprivate Include private.
+     * @param int|null $courseid Courseid.
+     * @param bool $includeprivate Includeprivate.
      * @return array
      */
     public static function execute(?int $courseid = null, bool $includeprivate = true): array {

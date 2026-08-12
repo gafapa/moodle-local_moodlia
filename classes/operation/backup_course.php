@@ -31,15 +31,15 @@ class backup_course {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $filename Optional backup filename.
-     * @param bool $includeusers Include enrolled users and user data.
-     * @param bool $includeactivities Include course activities.
-     * @param bool $includeblocks Include blocks.
-     * @param bool $includefilters Include filters.
-     * @param bool $includecomments Include comments.
-     * @param bool $includelogs Include logs.
-     * @param bool $includegradehistories Include grade histories.
+     * @param int $courseid Courseid.
+     * @param string $filename Filename.
+     * @param bool $includeusers Includeusers.
+     * @param bool $includeactivities Includeactivities.
+     * @param bool $includeblocks Includeblocks.
+     * @param bool $includefilters Includefilters.
+     * @param bool $includecomments Includecomments.
+     * @param bool $includelogs Includelogs.
+     * @param bool $includegradehistories Includegradehistories.
      * @return array
      */
     public static function execute(

@@ -31,10 +31,10 @@ class save_quiz_attempt {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param array $data Attempt response name/value pairs.
-     * @param array $preflightdata Preflight name/value pairs.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param array $data Data.
+     * @param array $preflightdata Preflightdata.
      * @return array
      */
     public static function execute(

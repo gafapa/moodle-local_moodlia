@@ -31,8 +31,8 @@ class module_assignment_tools {
     /**
      * Add assignment-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_assign_options(\stdClass $moduleinfo, array $options): void {
         $moduleinfo->intro = (string) ($options['intro'] ?? $options['description'] ?? '');
@@ -95,9 +95,9 @@ class module_assignment_tools {
     /**
      * Return an optional boolean module option as an integer.
      *
-     * @param array $options Module options.
-     * @param string $name Public option name.
-     * @param int $default Default integer value.
+     * @param array $options Options.
+     * @param string $name Name.
+     * @param int $default Default.
      * @return int
      */
     private static function optional_bool(array $options, string $name, int $default): int {
@@ -107,10 +107,10 @@ class module_assignment_tools {
     /**
      * Return an optional positive integer module option.
      *
-     * @param array $options Module options.
-     * @param string $name Public option name.
-     * @param int $default Default integer value.
-     * @param int $minimum Minimum accepted value.
+     * @param array $options Options.
+     * @param string $name Name.
+     * @param int $default Default.
+     * @param int $minimum Minimum.
      * @return int
      */
     private static function optional_int(array $options, string $name, int $default, int $minimum = 0): int {
@@ -125,7 +125,7 @@ class module_assignment_tools {
     /**
      * Validate assignment date relationships.
      *
-     * @param \stdClass $moduleinfo Module info object.
+     * @param \stdClass $moduleinfo Moduleinfo.
      */
     private static function validate_assign_dates(\stdClass $moduleinfo): void {
         if ($moduleinfo->allowsubmissionsfromdate > 0 && $moduleinfo->duedate > 0
@@ -140,7 +140,7 @@ class module_assignment_tools {
     /**
      * Validate assignment max attempt settings.
      *
-     * @param mixed $value Public max attempts value.
+     * @param mixed $value Value.
      * @return int
      */
     private static function normalise_assign_max_attempts($value): int {
@@ -155,7 +155,7 @@ class module_assignment_tools {
     /**
      * Map public assignment attempt reopen values.
      *
-     * @param string $value Public reopen method.
+     * @param string $value Value.
      * @return string
      */
     private static function normalise_assign_reopen_method(string $value): string {

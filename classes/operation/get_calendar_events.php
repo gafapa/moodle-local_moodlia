@@ -31,9 +31,9 @@ class get_calendar_events {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $timefrom Start timestamp.
-     * @param int $timeto End timestamp.
+     * @param int $courseid Courseid.
+     * @param int $timefrom Timefrom.
+     * @param int $timeto Timeto.
      * @return array
      */
     public static function execute(int $courseid, int $timefrom, int $timeto): array {

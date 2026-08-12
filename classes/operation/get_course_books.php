@@ -31,7 +31,7 @@ class get_course_books {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
+     * @param int $courseid Courseid.
      * @return array
      */
     public static function execute(int $courseid): array {

@@ -34,8 +34,8 @@ class completion_audit_tools {
     /**
      * Audit course-module completion settings.
      *
-     * @param int $courseid Moodle course id.
-     * @param bool $includeok Include non-issue module rows.
+     * @param int $courseid Courseid.
+     * @param bool $includeok Includeok.
      * @return array
      */
     public static function audit(int $courseid, bool $includeok = false): array {
@@ -69,10 +69,10 @@ class completion_audit_tools {
     /**
      * Repair course-module completion settings using a conservative mode.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $mode Repair mode.
-     * @param bool $dryrun Whether to only report changes.
-     * @param bool $resetstates Whether Moodle should reset existing completion states.
+     * @param int $courseid Courseid.
+     * @param string $mode Mode.
+     * @param bool $dryrun Dryrun.
+     * @param bool $resetstates Resetstates.
      * @return array
      */
     public static function repair(int $courseid, string $mode, bool $dryrun, bool $resetstates): array {
@@ -136,8 +136,8 @@ class completion_audit_tools {
     /**
      * Return issues for one module.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     private static function module_issues(\stdClass $course, \cm_info $cm): array {
@@ -188,9 +188,9 @@ class completion_audit_tools {
     /**
      * Return repair options for one module.
      *
-     * @param \cm_info $cm Course module.
-     * @param string $mode Repair mode.
-     * @param bool $resetstates Reset completion states.
+     * @param \cm_info $cm Cm.
+     * @param string $mode Mode.
+     * @param bool $resetstates Resetstates.
      * @return array
      */
     private static function repair_options(\cm_info $cm, string $mode, bool $resetstates): array {
@@ -218,7 +218,7 @@ class completion_audit_tools {
     /**
      * Return options that keep automatic view completion and clear grade flags.
      *
-     * @param bool $resetstates Reset completion states.
+     * @param bool $resetstates Resetstates.
      * @return array
      */
     private static function view_only_options(bool $resetstates): array {
@@ -235,7 +235,7 @@ class completion_audit_tools {
     /**
      * Return whether Moodle exposes custom completion rules for this module.
      *
-     * @param \cm_info $cm Course module.
+     * @param \cm_info $cm Cm.
      * @return bool
      */
     private static function has_custom_completion_rules(\cm_info $cm): bool {
@@ -251,10 +251,10 @@ class completion_audit_tools {
     /**
      * Return a canonical audit row.
      *
-     * @param \cm_info $cm Course module.
-     * @param string $code Issue code.
-     * @param string $message Human-readable message.
-     * @param bool $repairable Whether the issue can be repaired automatically.
+     * @param \cm_info $cm Cm.
+     * @param string $code Code.
+     * @param string $message Message.
+     * @param bool $repairable Repairable.
      * @return array
      */
     private static function module_row(\cm_info $cm, string $code, string $message, bool $repairable = false): array {

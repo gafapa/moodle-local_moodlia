@@ -54,12 +54,12 @@ class save_assignment_grade extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param int $userid Student user id.
-     * @param float $grade Assignment grade.
-     * @param string $feedbackcomment Feedback comment HTML.
-     * @param int $attemptnumber Attempt number, or -1 for latest.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
+     * @param float $grade Grade.
+     * @param string $feedbackcomment Feedbackcomment.
+     * @param int $attemptnumber Attemptnumber.
      * @return array
      */
     public static function execute(

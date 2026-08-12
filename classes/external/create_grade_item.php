@@ -53,12 +53,12 @@ class create_grade_item extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
+     * @param int $courseid Courseid.
      * @param string $name Name.
-     * @param float $grademax Grade max.
-     * @param float $grademin Grade min.
-     * @param float|null $gradepass Grade pass.
-     * @param int|null $categoryid Category id.
+     * @param float $grademax Grademax.
+     * @param float $grademin Grademin.
+     * @param float|null $gradepass Gradepass.
+     * @param int|null $categoryid Categoryid.
      * @param bool|null $hidden Hidden.
      * @return array
      */

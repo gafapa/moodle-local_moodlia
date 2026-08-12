@@ -54,11 +54,11 @@ class get_questions extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $categoryid Question category id.
-     * @param string $bankscope Question bank scope.
-     * @param int|null $questionbankmoduleid Course qbank module id.
-     * @param int|null $quizmoduleid Quiz module id.
+     * @param int $courseid Courseid.
+     * @param int $categoryid Categoryid.
+     * @param string $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
      * @return array
      */
     public static function execute(

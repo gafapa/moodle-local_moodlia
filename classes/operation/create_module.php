@@ -31,11 +31,11 @@ class create_module {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $sectionnumber Course section number.
-     * @param string $moduletype Module type.
-     * @param string $name Module name.
-     * @param array $options Type-specific options.
+     * @param int $courseid Courseid.
+     * @param int $sectionnumber Sectionnumber.
+     * @param string $moduletype Moduletype.
+     * @param string $name Name.
+     * @param array $options Options.
      * @return array
      */
     public static function execute(int $courseid, int $sectionnumber, string $moduletype, string $name, array $options = []): array {

@@ -31,15 +31,15 @@ class search_glossary_entries {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Glossary course module id.
-     * @param string $query Search query.
-     * @param bool $fullsearch Search definitions too.
-     * @param string $order Sort field.
-     * @param string $sort Sort direction.
-     * @param int $from Offset.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $query Query.
+     * @param bool $fullsearch Fullsearch.
+     * @param string $order Order.
+     * @param string $sort Sort.
+     * @param int $from From.
      * @param int $limit Limit.
-     * @param bool $includenotapproved Include non-approved entries where allowed.
+     * @param bool $includenotapproved Includenotapproved.
      * @return array
      */
     public static function execute(

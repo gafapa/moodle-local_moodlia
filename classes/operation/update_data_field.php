@@ -31,13 +31,13 @@ class update_data_field {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Database course module id.
-     * @param int $fieldid Database field id.
-     * @param string $name Field name.
-     * @param string $description Field description.
-     * @param bool $required Whether the field is required.
-     * @param array $options Field options.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $fieldid Fieldid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param bool $required Required.
+     * @param array $options Options.
      * @return array
      */
     public static function execute(

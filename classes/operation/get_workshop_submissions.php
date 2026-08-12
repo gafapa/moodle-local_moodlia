@@ -31,12 +31,12 @@ class get_workshop_submissions {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param int $userid User id or 0.
-     * @param int $groupid Group id or 0.
-     * @param int $page Page number.
-     * @param int $perpage Page size.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
+     * @param int $groupid Groupid.
+     * @param int $page Page.
+     * @param int $perpage Perpage.
      * @return array
      */
     public static function execute(

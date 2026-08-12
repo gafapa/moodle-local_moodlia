@@ -31,10 +31,10 @@ class download_resource_file {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Resource course module id.
-     * @param int $fileid Stored file id.
-     * @param string $path File path.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $fileid Fileid.
+     * @param string $path Path.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $fileid = 0, string $path = ''): array {

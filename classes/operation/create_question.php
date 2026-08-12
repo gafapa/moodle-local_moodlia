@@ -31,11 +31,11 @@ class create_question {
     /**
      * Execute the operation.
      *
-     * @param int $categoryid Question category id.
-     * @param string $questiontype Question type.
-     * @param string $name Question name.
-     * @param string $questiontext Question text.
-     * @param array $options Type-specific options.
+     * @param int $categoryid Categoryid.
+     * @param string $questiontype Questiontype.
+     * @param string $name Name.
+     * @param string $questiontext Questiontext.
+     * @param array $options Options.
      * @return array
      */
     public static function execute(int $categoryid, string $questiontype, string $name, string $questiontext, array $options): array {

@@ -55,12 +55,12 @@ class create_glossary_entry extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Glossary course module id.
-     * @param string $concept Glossary entry concept.
-     * @param string $definition Glossary entry definition.
-     * @param string $definitionformat Definition format.
-     * @param string $options JSON-encoded entry options.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $concept Concept.
+     * @param string $definition Definition.
+     * @param string $definitionformat Definitionformat.
+     * @param string $options Options.
      * @return array
      */
     public static function execute(

@@ -51,7 +51,7 @@ class update_course_category extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $categoryid Category id.
+     * @param int $categoryid Categoryid.
      * @param string|null $name Name.
      * @param bool|null $visible Visible.
      * @return array

@@ -52,8 +52,8 @@ class update_group extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $groupid Group id.
+     * @param int $courseid Courseid.
+     * @param int $groupid Groupid.
      * @param string|null $name Name.
      * @param string|null $description Description.
      * @param string|null $idnumber Idnumber.

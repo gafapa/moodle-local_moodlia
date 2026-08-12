@@ -31,11 +31,11 @@ class create_calendar_event {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $name Event name.
-     * @param string $description Event description.
-     * @param int $timestart Event start timestamp.
-     * @param int $timeduration Event duration in seconds.
+     * @param int $courseid Courseid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param int $timestart Timestart.
+     * @param int $timeduration Timeduration.
      * @return array
      */
     public static function execute(

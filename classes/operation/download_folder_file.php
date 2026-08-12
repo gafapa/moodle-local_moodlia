@@ -31,10 +31,10 @@ class download_folder_file {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Folder course module id.
-     * @param int|null $fileid Stored file id.
-     * @param string|null $path Filename or relative path.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int|null $fileid Fileid.
+     * @param string|null $path Path.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, ?int $fileid = null, ?string $path = null): array {

@@ -51,7 +51,7 @@ class create_group extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
+     * @param int $courseid Courseid.
      * @param string $name Name.
      * @param string $description Description.
      * @param string $idnumber Idnumber.

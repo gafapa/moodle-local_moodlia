@@ -55,13 +55,13 @@ class create_book_chapter extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @param string $title Title.
      * @param string $content Content.
-     * @param int $contentformat Content format.
+     * @param int $contentformat Contentformat.
      * @param bool $subchapter Subchapter.
-     * @param int|null $afterchapterid After chapter id.
+     * @param int|null $afterchapterid Afterchapterid.
      * @param bool $hidden Hidden.
      * @return array
      */

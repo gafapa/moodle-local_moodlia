@@ -56,6 +56,13 @@ class evaluate_workshop_assessment extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $assessmentid Assessmentid.
+     * @param string $feedbacktext Feedbacktext.
+     * @param string $feedbackformat Feedbackformat.
+     * @param int $weight Weight.
+     * @param string $gradinggradeover Gradinggradeover.
      * @return array
      */
     public static function execute(

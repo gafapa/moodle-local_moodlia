@@ -31,8 +31,8 @@ class view_quiz_attempt_review {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $attemptid): array {

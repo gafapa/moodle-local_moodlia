@@ -63,8 +63,8 @@ class lesson_tools {
     /**
      * Verify that a course module belongs to a Lesson activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_lesson_module(\stdClass $course, int $cmid): \cm_info {
@@ -79,8 +79,8 @@ class lesson_tools {
     /**
      * Return lesson instance data exposed through Moodle's Lesson external API.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Lesson course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_lesson_instance_data(\stdClass $course, \cm_info $cm): array {
@@ -103,8 +103,8 @@ class lesson_tools {
     /**
      * Return a Lesson domain object with course and course-module context.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Lesson course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return \lesson
      */
     public static function get_lesson_object(\stdClass $course, \cm_info $cm): \lesson {
@@ -121,8 +121,8 @@ class lesson_tools {
     /**
      * Prepare Moodle page globals required by Lesson page component APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Lesson course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return \stdClass Course-module record.
      */
     public static function prepare_page_context(\stdClass $course, \cm_info $cm): \stdClass {
@@ -140,9 +140,9 @@ class lesson_tools {
     /**
      * Return a Lesson page and verify ownership.
      *
-     * @param \lesson $lesson Lesson domain object.
-     * @param \cm_info $cm Lesson course module.
-     * @param int $pageid Lesson page id.
+     * @param \lesson $lesson Lesson.
+     * @param \cm_info $cm Cm.
+     * @param int $pageid Pageid.
      * @return \lesson_page
      */
     public static function get_page(\lesson $lesson, \cm_info $cm, int $pageid): \lesson_page {
@@ -162,8 +162,8 @@ class lesson_tools {
     /**
      * Return a canonical response for one Lesson page.
      *
-     * @param \cm_info $cm Lesson course module.
-     * @param \lesson_page $page Lesson page object.
+     * @param \cm_info $cm Cm.
+     * @param \lesson_page $page Page.
      * @return array
      */
     public static function page_to_response(\cm_info $cm, \lesson_page $page): array {
@@ -217,7 +217,7 @@ class lesson_tools {
     /**
      * Decode and validate Lesson content page branches.
      *
-     * @param string $branchesjson JSON object or array.
+     * @param string $branchesjson Branchesjson.
      * @return array
      */
     public static function decode_branches(string $branchesjson): array {
@@ -254,7 +254,7 @@ class lesson_tools {
     /**
      * Normalize the requested Lesson page type.
      *
-     * @param string $pagetype Raw page type.
+     * @param string $pagetype Pagetype.
      * @return string
      */
     public static function normalise_page_type(string $pagetype): string {
@@ -284,7 +284,7 @@ class lesson_tools {
     /**
      * Return whether a Lesson page is a supported content page.
      *
-     * @param \stdClass $properties Page properties.
+     * @param \stdClass $properties Properties.
      * @return bool
      */
     public static function is_content_page(\stdClass $properties): bool {
@@ -294,7 +294,7 @@ class lesson_tools {
     /**
      * Return whether a Lesson page is a supported true/false question page.
      *
-     * @param \stdClass $properties Page properties.
+     * @param \stdClass $properties Properties.
      * @return bool
      */
     public static function is_truefalse_page(\stdClass $properties): bool {
@@ -304,7 +304,7 @@ class lesson_tools {
     /**
      * Return whether a Lesson page is a supported multichoice question page.
      *
-     * @param \stdClass $properties Page properties.
+     * @param \stdClass $properties Properties.
      * @return bool
      */
     public static function is_multichoice_page(\stdClass $properties): bool {
@@ -314,7 +314,7 @@ class lesson_tools {
     /**
      * Return whether a Lesson page is a supported short-answer question page.
      *
-     * @param \stdClass $properties Page properties.
+     * @param \stdClass $properties Properties.
      * @return bool
      */
     public static function is_shortanswer_page(\stdClass $properties): bool {
@@ -324,7 +324,7 @@ class lesson_tools {
     /**
      * Return whether a Lesson page is a supported numerical question page.
      *
-     * @param \stdClass $properties Page properties.
+     * @param \stdClass $properties Properties.
      * @return bool
      */
     public static function is_numerical_page(\stdClass $properties): bool {
@@ -334,7 +334,7 @@ class lesson_tools {
     /**
      * Return whether a Lesson page is a supported essay question page.
      *
-     * @param \stdClass $properties Page properties.
+     * @param \stdClass $properties Properties.
      * @return bool
      */
     public static function is_essay_page(\stdClass $properties): bool {
@@ -344,7 +344,7 @@ class lesson_tools {
     /**
      * Return whether a Lesson page is a supported matching question page.
      *
-     * @param \stdClass $properties Page properties.
+     * @param \stdClass $properties Properties.
      * @return bool
      */
     public static function is_matching_page(\stdClass $properties): bool {
@@ -354,7 +354,7 @@ class lesson_tools {
     /**
      * Decode and validate Lesson true/false answers.
      *
-     * @param string $answersjson JSON object with correct/wrong answers or an answers array.
+     * @param string $answersjson Answersjson.
      * @return array
      */
     public static function decode_truefalse_answers(string $answersjson): array {
@@ -407,7 +407,7 @@ class lesson_tools {
     /**
      * Decode and validate Lesson multichoice answers.
      *
-     * @param string $answersjson JSON object with answers and optional multi_answer.
+     * @param string $answersjson Answersjson.
      * @return array
      */
     public static function decode_multichoice_answers(string $answersjson): array {
@@ -472,7 +472,7 @@ class lesson_tools {
     /**
      * Decode and validate Lesson short-answer answers.
      *
-     * @param string $answersjson JSON object with answers and optional use_regular_expressions.
+     * @param string $answersjson Answersjson.
      * @return array
      */
     public static function decode_shortanswer_answers(string $answersjson): array {
@@ -497,7 +497,7 @@ class lesson_tools {
     /**
      * Decode and validate Lesson numerical answers.
      *
-     * @param string $answersjson JSON object with numerical answers.
+     * @param string $answersjson Answersjson.
      * @return array
      */
     public static function decode_numerical_answers(string $answersjson): array {
@@ -524,7 +524,7 @@ class lesson_tools {
     /**
      * Decode and validate a Lesson essay grading definition.
      *
-     * @param string $answersjson JSON object with jump and score settings.
+     * @param string $answersjson Answersjson.
      * @return array
      */
     public static function decode_essay_answers(string $answersjson): array {
@@ -542,7 +542,7 @@ class lesson_tools {
     /**
      * Decode and validate a Lesson matching definition.
      *
-     * @param string $answersjson JSON object with responses and matching pairs.
+     * @param string $answersjson Answersjson.
      * @return array
      */
     public static function decode_matching_answers(string $answersjson): array {
@@ -619,8 +619,8 @@ class lesson_tools {
     /**
      * Decode shared open-question answer rows.
      *
-     * @param array $items Answer rows.
-     * @param string $label Page-type label for errors.
+     * @param array $items Items.
+     * @param string $label Label.
      * @return array
      */
     private static function decode_open_question_answers(array $items, string $label): array {
@@ -658,7 +658,7 @@ class lesson_tools {
     /**
      * Validate a Lesson numerical answer or inclusive range.
      *
-     * @param string $answer Answer value or min:max range.
+     * @param string $answer Answer.
      */
     private static function normalise_numerical_answer(string $answer): void {
         $parts = explode(':', $answer);
@@ -680,14 +680,14 @@ class lesson_tools {
     /**
      * Build Moodle Lesson page properties for a content page.
      *
-     * @param \lesson $lesson Lesson domain object.
-     * @param string $title Page title.
-     * @param string $content Page content.
-     * @param int $contentformat Content format.
-     * @param array $branches Normalized branch rows.
-     * @param int $afterpageid Previous page id or 0 for first.
-     * @param bool $displayinmenu Whether the page appears in Lesson menu.
-     * @param bool $horizontal Whether branch buttons are horizontal.
+     * @param \lesson $lesson Lesson.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param array $branches Branches.
+     * @param int $afterpageid Afterpageid.
+     * @param bool $displayinmenu Displayinmenu.
+     * @param bool $horizontal Horizontal.
      * @return \stdClass
      */
     public static function content_page_properties(
@@ -754,12 +754,12 @@ class lesson_tools {
     /**
      * Build Moodle Lesson page properties for a true/false question page.
      *
-     * @param \lesson $lesson Lesson domain object.
-     * @param string $title Page title.
-     * @param string $content Page content.
-     * @param int $contentformat Content format.
-     * @param array $answers Normalized true/false answers.
-     * @param int $afterpageid Previous page id or 0 for first.
+     * @param \lesson $lesson Lesson.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param array $answers Answers.
+     * @param int $afterpageid Afterpageid.
      * @return \stdClass
      */
     public static function truefalse_page_properties(
@@ -824,12 +824,12 @@ class lesson_tools {
     /**
      * Build Moodle Lesson page properties for a multichoice question page.
      *
-     * @param \lesson $lesson Lesson domain object.
-     * @param string $title Page title.
-     * @param string $content Page content.
-     * @param int $contentformat Content format.
-     * @param array $definition Normalized multichoice answers.
-     * @param int $afterpageid Previous page id or 0 for first.
+     * @param \lesson $lesson Lesson.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param array $definition Definition.
+     * @param int $afterpageid Afterpageid.
      * @return \stdClass
      */
     public static function multichoice_page_properties(
@@ -902,12 +902,12 @@ class lesson_tools {
     /**
      * Build Moodle Lesson page properties for a short-answer question page.
      *
-     * @param \lesson $lesson Lesson domain object.
-     * @param string $title Page title.
-     * @param string $content Page content.
-     * @param int $contentformat Content format.
-     * @param array $definition Normalized short-answer definition.
-     * @param int $afterpageid Previous page id or 0 for first.
+     * @param \lesson $lesson Lesson.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param array $definition Definition.
+     * @param int $afterpageid Afterpageid.
      * @return \stdClass
      */
     public static function shortanswer_page_properties(
@@ -933,12 +933,12 @@ class lesson_tools {
     /**
      * Build Moodle Lesson page properties for a numerical question page.
      *
-     * @param \lesson $lesson Lesson domain object.
-     * @param string $title Page title.
-     * @param string $content Page content.
-     * @param int $contentformat Content format.
-     * @param array $definition Normalized numerical definition.
-     * @param int $afterpageid Previous page id or 0 for first.
+     * @param \lesson $lesson Lesson.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param array $definition Definition.
+     * @param int $afterpageid Afterpageid.
      * @return \stdClass
      */
     public static function numerical_page_properties(
@@ -963,12 +963,12 @@ class lesson_tools {
     /**
      * Build Moodle Lesson page properties for an essay question page.
      *
-     * @param \lesson $lesson Lesson domain object.
-     * @param string $title Page title.
-     * @param string $content Page content.
-     * @param int $contentformat Content format.
-     * @param array $definition Normalized essay definition.
-     * @param int $afterpageid Previous page id or 0 for first.
+     * @param \lesson $lesson Lesson.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param array $definition Definition.
+     * @param int $afterpageid Afterpageid.
      * @return \stdClass
      */
     public static function essay_page_properties(
@@ -1004,12 +1004,12 @@ class lesson_tools {
     /**
      * Build Moodle Lesson page properties for a matching question page.
      *
-     * @param \lesson $lesson Lesson domain object.
-     * @param string $title Page title.
-     * @param string $content Page content.
-     * @param int $contentformat Content format.
-     * @param array $definition Normalized matching definition.
-     * @param int $afterpageid Previous page id or 0 for first.
+     * @param \lesson $lesson Lesson.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param array $definition Definition.
+     * @param int $afterpageid Afterpageid.
      * @return \stdClass
      */
     public static function matching_page_properties(
@@ -1083,14 +1083,14 @@ class lesson_tools {
     /**
      * Build Moodle Lesson page properties for open-answer question pages.
      *
-     * @param \lesson $lesson Lesson domain object.
-     * @param string $title Page title.
-     * @param string $content Page content.
-     * @param int $contentformat Content format.
-     * @param int $qtype Moodle Lesson question type.
-     * @param array $answers Normalized answers.
-     * @param int $afterpageid Previous page id or 0 for first.
-     * @param bool $questionoption Optional question option flag.
+     * @param \lesson $lesson Lesson.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param int $qtype Qtype.
+     * @param array $answers Answers.
+     * @param int $afterpageid Afterpageid.
+     * @param bool $questionoption Questionoption.
      * @return \stdClass
      */
     private static function open_question_page_properties(
@@ -1163,7 +1163,7 @@ class lesson_tools {
     /**
      * Return current content-page branches for update preservation.
      *
-     * @param \lesson_page $page Lesson page object.
+     * @param \lesson_page $page Page.
      * @return array
      */
     public static function branches_from_page(\lesson_page $page): array {
@@ -1187,7 +1187,7 @@ class lesson_tools {
     /**
      * Return current true/false answers for update preservation.
      *
-     * @param \lesson_page $page Lesson page object.
+     * @param \lesson_page $page Page.
      * @return array
      */
     public static function truefalse_answers_from_page(\lesson_page $page): array {
@@ -1217,7 +1217,7 @@ class lesson_tools {
     /**
      * Return current multichoice answers for update preservation.
      *
-     * @param \lesson_page $page Lesson page object.
+     * @param \lesson_page $page Page.
      * @return array
      */
     public static function multichoice_answers_from_page(\lesson_page $page): array {
@@ -1251,7 +1251,7 @@ class lesson_tools {
     /**
      * Return current short-answer answers for update preservation.
      *
-     * @param \lesson_page $page Lesson page object.
+     * @param \lesson_page $page Page.
      * @return array
      */
     public static function shortanswer_answers_from_page(\lesson_page $page): array {
@@ -1266,7 +1266,7 @@ class lesson_tools {
     /**
      * Return current numerical answers for update preservation.
      *
-     * @param \lesson_page $page Lesson page object.
+     * @param \lesson_page $page Page.
      * @return array
      */
     public static function numerical_answers_from_page(\lesson_page $page): array {
@@ -1278,7 +1278,7 @@ class lesson_tools {
     /**
      * Return current essay settings for update preservation.
      *
-     * @param \lesson_page $page Lesson page object.
+     * @param \lesson_page $page Page.
      * @return array
      */
     public static function essay_answers_from_page(\lesson_page $page): array {
@@ -1297,7 +1297,7 @@ class lesson_tools {
     /**
      * Return current matching settings for update preservation.
      *
-     * @param \lesson_page $page Lesson page object.
+     * @param \lesson_page $page Page.
      * @return array
      */
     public static function matching_answers_from_page(\lesson_page $page): array {
@@ -1341,8 +1341,8 @@ class lesson_tools {
     /**
      * Return current open-answer rows for update preservation.
      *
-     * @param \lesson_page $page Lesson page object.
-     * @param string $label Page-type label.
+     * @param \lesson_page $page Page.
+     * @param string $label Label.
      * @return array
      */
     private static function open_question_answers_from_page(\lesson_page $page, string $label): array {
@@ -1372,8 +1372,8 @@ class lesson_tools {
     /**
      * Normalize a Lesson jump target.
      *
-     * @param mixed $value Raw jump value.
-     * @param string $label Parameter label.
+     * @param mixed $value Value.
+     * @param string $label Label.
      * @return int
      */
     private static function normalise_jump($value, string $label = 'branch jump_to'): int {
@@ -1400,8 +1400,8 @@ class lesson_tools {
     /**
      * Normalize a Moodle text format.
      *
-     * @param mixed $value Raw text format.
-     * @param string $label Parameter label.
+     * @param mixed $value Value.
+     * @param string $label Label.
      * @return int
      */
     private static function normalise_text_format($value, string $label): int {
@@ -1420,7 +1420,7 @@ class lesson_tools {
     /**
      * Normalize a Lesson answer score.
      *
-     * @param mixed $value Raw score.
+     * @param mixed $value Value.
      * @return float
      */
     private static function normalise_score($value): float {
@@ -1434,7 +1434,7 @@ class lesson_tools {
     /**
      * Return whether an array has consecutive integer keys.
      *
-     * @param array $value Array to inspect.
+     * @param array $value Value.
      * @return bool
      */
     private static function is_list_array(array $value): bool {
@@ -1444,8 +1444,8 @@ class lesson_tools {
     /**
      * Return a canonical Lesson access information response.
      *
-     * @param \cm_info $cm Lesson course module.
-     * @param array $result Moodle external API result.
+     * @param \cm_info $cm Cm.
+     * @param array $result Result.
      * @return array
      */
     public static function access_information_to_response(\cm_info $cm, array $result): array {
@@ -1468,8 +1468,8 @@ class lesson_tools {
     /**
      * Return a canonical Lesson pages response.
      *
-     * @param \cm_info $cm Lesson course module.
-     * @param array $result Moodle external API result.
+     * @param \cm_info $cm Cm.
+     * @param array $result Result.
      * @return array
      */
     public static function pages_to_response(\cm_info $cm, array $result): array {
@@ -1515,9 +1515,9 @@ class lesson_tools {
     /**
      * Return a canonical Lesson details response.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Lesson course module.
-     * @param array $result Moodle external API result.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param array $result Result.
      * @return array
      */
     public static function lesson_details_to_response(\stdClass $course, \cm_info $cm, array $result): array {
@@ -1532,8 +1532,8 @@ class lesson_tools {
     /**
      * Return a canonical course Lesson listing response.
      *
-     * @param \stdClass $course Moodle course.
-     * @param array $result Moodle external API result.
+     * @param \stdClass $course Course.
+     * @param array $result Result.
      * @return array
      */
     public static function course_lessons_to_response(\stdClass $course, array $result): array {
@@ -1553,8 +1553,8 @@ class lesson_tools {
     /**
      * Return a canonical Lesson possible jumps response.
      *
-     * @param \cm_info $cm Lesson course module.
-     * @param array $result Moodle external API result.
+     * @param \cm_info $cm Cm.
+     * @param array $result Result.
      * @return array
      */
     public static function possible_jumps_to_response(\cm_info $cm, array $result): array {
@@ -1581,9 +1581,9 @@ class lesson_tools {
     /**
      * Return a canonical Lesson summary.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info|null $cm Optional Lesson course module.
-     * @param array $lesson Moodle Lesson summary exporter data.
+     * @param \stdClass $course Course.
+     * @param \cm_info|null $cm Cm.
+     * @param array $lesson Lesson.
      * @return array
      */
     public static function lesson_summary_to_response(\stdClass $course, ?\cm_info $cm, array $lesson): array {
@@ -1636,9 +1636,9 @@ class lesson_tools {
     /**
      * Return a canonical Lesson user grade response.
      *
-     * @param \cm_info $cm Lesson course module.
-     * @param int $userid Moodle user id, or 0 when Moodle used the current user.
-     * @param array $result Moodle external API result.
+     * @param \cm_info $cm Cm.
+     * @param int $userid Userid.
+     * @param array $result Result.
      * @return array
      */
     public static function user_grade_to_response(\cm_info $cm, int $userid, array $result): array {
@@ -1657,9 +1657,9 @@ class lesson_tools {
     /**
      * Return a canonical Lesson user timers response.
      *
-     * @param \cm_info $cm Lesson course module.
-     * @param int $userid Moodle user id, or 0 when Moodle used the current user.
-     * @param array $result Moodle external API result.
+     * @param \cm_info $cm Cm.
+     * @param int $userid Userid.
+     * @param array $result Result.
      * @return array
      */
     public static function user_timers_to_response(\cm_info $cm, int $userid, array $result): array {
@@ -1691,9 +1691,9 @@ class lesson_tools {
     /**
      * Return a canonical Lesson attempts overview response.
      *
-     * @param \cm_info $cm Lesson course module.
-     * @param int $groupid Moodle group id.
-     * @param array $result Moodle external API result.
+     * @param \cm_info $cm Cm.
+     * @param int $groupid Groupid.
+     * @param array $result Result.
      * @return array
      */
     public static function attempts_overview_to_response(\cm_info $cm, int $groupid, array $result): array {
@@ -1740,7 +1740,7 @@ class lesson_tools {
     /**
      * Normalize Moodle warning payloads.
      *
-     * @param array $warnings Moodle warnings.
+     * @param array $warnings Warnings.
      * @return array
      */
     public static function warnings_to_response(array $warnings): array {
@@ -1761,7 +1761,7 @@ class lesson_tools {
     /**
      * Normalize Lesson prevent-access reasons.
      *
-     * @param array $reasons Moodle prevent-access reasons.
+     * @param array $reasons Reasons.
      * @return array
      */
     private static function prevent_access_reasons_to_response(array $reasons): array {

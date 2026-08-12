@@ -31,13 +31,13 @@ class create_grade_item {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $name Grade item name.
-     * @param float $grademax Maximum grade.
-     * @param float $grademin Minimum grade.
-     * @param float|null $gradepass Optional passing grade.
-     * @param int|null $categoryid Optional grade category id.
-     * @param bool|null $hidden Optional hidden state.
+     * @param int $courseid Courseid.
+     * @param string $name Name.
+     * @param float $grademax Grademax.
+     * @param float $grademin Grademin.
+     * @param float|null $gradepass Gradepass.
+     * @param int|null $categoryid Categoryid.
+     * @param bool|null $hidden Hidden.
      * @return array
      */
     public static function execute(

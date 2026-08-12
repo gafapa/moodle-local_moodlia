@@ -31,9 +31,9 @@ class get_workshop_submission_assessments {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param int $submissionid Workshop submission id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $submissionid Submissionid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $submissionid): array {

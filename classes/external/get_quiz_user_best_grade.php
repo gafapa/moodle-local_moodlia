@@ -49,8 +49,8 @@ class get_quiz_user_best_grade extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz module id.
-     * @param int $userid User id.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $userid = 0): array {

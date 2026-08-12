@@ -49,7 +49,7 @@ class create_grade_category extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
+     * @param int $courseid Courseid.
      * @param string $name Name.
      * @param int|null $aggregation Aggregation.
      * @return array

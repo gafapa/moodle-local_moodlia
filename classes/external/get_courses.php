@@ -49,7 +49,7 @@ class get_courses extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $limit Maximum number of courses to return.
+     * @param int $limit Limit.
      * @return array
      */
     public static function execute(int $limit = 100): array {

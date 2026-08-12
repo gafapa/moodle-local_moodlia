@@ -55,6 +55,12 @@ class get_workshop_submissions extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
+     * @param int $groupid Groupid.
+     * @param int $page Page.
+     * @param int $perpage Perpage.
      * @return array
      */
     public static function execute(

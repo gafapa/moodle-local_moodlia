@@ -31,8 +31,8 @@ class get_quiz_feedback_for_grade {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param float $grade Grade value.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param float $grade Grade.
      * @return array
      */
     public static function execute(int $quizmoduleid, float $grade): array {

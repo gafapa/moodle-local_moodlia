@@ -31,9 +31,9 @@ class view_glossary_entry {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Glossary course module id.
-     * @param int $entryid Glossary entry id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $entryid Entryid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $entryid): array {

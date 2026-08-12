@@ -31,11 +31,11 @@ class get_assignment_submissions {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param string $status Optional submission status filter.
-     * @param int $since Optional modified-since timestamp.
-     * @param int $before Optional modified-before timestamp.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $status Status.
+     * @param int $since Since.
+     * @param int $before Before.
      * @return array
      */
     public static function execute(

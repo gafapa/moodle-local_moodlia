@@ -31,8 +31,8 @@ class get_choice_results {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $choicemoduleid Choice course module id.
+     * @param int $courseid Courseid.
+     * @param int $choicemoduleid Choicemoduleid.
      * @return array
      */
     public static function execute(int $courseid, int $choicemoduleid): array {

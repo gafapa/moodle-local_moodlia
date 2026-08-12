@@ -49,8 +49,8 @@ class delete_module extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Course module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid): array {

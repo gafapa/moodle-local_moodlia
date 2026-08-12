@@ -49,8 +49,8 @@ class audit_course_completion extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param bool $includeok Include ok.
+     * @param int $courseid Courseid.
+     * @param bool $includeok Includeok.
      * @return array
      */
     public static function execute(int $courseid, bool $includeok = false): array {

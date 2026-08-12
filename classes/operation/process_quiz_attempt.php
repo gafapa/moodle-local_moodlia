@@ -31,12 +31,12 @@ class process_quiz_attempt {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param array $data Attempt response name/value pairs.
-     * @param bool $finishattempt Whether to finish the attempt.
-     * @param bool $timeup Whether processing is due to timer expiry.
-     * @param array $preflightdata Preflight name/value pairs.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param array $data Data.
+     * @param bool $finishattempt Finishattempt.
+     * @param bool $timeup Timeup.
+     * @param array $preflightdata Preflightdata.
      * @return array
      */
     public static function execute(

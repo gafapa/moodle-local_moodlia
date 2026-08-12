@@ -59,17 +59,17 @@ class update_course extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param string|null $fullname Course full name.
-     * @param string|null $shortname Course short name.
-     * @param bool|null $visible Whether the course is visible.
-     * @param string|null $summary Course summary.
-     * @param string|null $summaryformat Course summary format.
-     * @param string|null $courseformat Course format plugin name.
-     * @param bool|null $enablecompletion Whether course completion tracking is enabled.
-     * @param int|null $categoryid Target Moodle course category id.
-     * @param int|null $startdate Course start Unix timestamp.
-     * @param int|null $enddate Course end Unix timestamp, or 0.
+     * @param int $courseid Courseid.
+     * @param string|null $fullname Fullname.
+     * @param string|null $shortname Shortname.
+     * @param bool|null $visible Visible.
+     * @param string|null $summary Summary.
+     * @param string|null $summaryformat Summaryformat.
+     * @param string|null $courseformat Courseformat.
+     * @param bool|null $enablecompletion Enablecompletion.
+     * @param int|null $categoryid Categoryid.
+     * @param int|null $startdate Startdate.
+     * @param int|null $enddate Enddate.
      * @return array
      */
     public static function execute(

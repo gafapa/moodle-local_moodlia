@@ -31,12 +31,12 @@ class get_glossary_entries_by_letter {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Glossary course module id.
-     * @param string $letter Letter, ALL, or SPECIAL.
-     * @param int $from Offset.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $letter Letter.
+     * @param int $from From.
      * @param int $limit Limit.
-     * @param bool $includenotapproved Include non-approved entries where allowed.
+     * @param bool $includenotapproved Includenotapproved.
      * @return array
      */
     public static function execute(

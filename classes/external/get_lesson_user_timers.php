@@ -52,9 +52,9 @@ class get_lesson_user_timers extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Lesson course module id.
-     * @param int $userid Moodle user id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $userid = 0): array {

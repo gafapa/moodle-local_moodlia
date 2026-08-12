@@ -31,8 +31,8 @@ class move_course {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $categoryid Target Moodle course category id.
+     * @param int $courseid Courseid.
+     * @param int $categoryid Categoryid.
      * @return array
      */
     public static function execute(int $courseid, int $categoryid): array {

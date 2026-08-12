@@ -41,8 +41,8 @@ class forum_tools {
     /**
      * Verify that a course module belongs to a forum activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Forum course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_forum_module(\stdClass $course, int $cmid): \cm_info {
@@ -57,7 +57,7 @@ class forum_tools {
     /**
      * Return discussions through Moodle's forum external API.
      *
-     * @param \cm_info $cm Forum course module.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_raw_discussions(\cm_info $cm): array {
@@ -70,7 +70,7 @@ class forum_tools {
     /**
      * Return a Moodle external warning list in the canonical response shape.
      *
-     * @param array $warnings Moodle warnings.
+     * @param array $warnings Warnings.
      * @return array
      */
     public static function warnings_to_response(array $warnings): array {
@@ -91,7 +91,7 @@ class forum_tools {
     /**
      * Return a canonical forum summary from Moodle's forum external API payload.
      *
-     * @param mixed $forum Moodle forum data.
+     * @param mixed $forum Forum.
      * @return array
      */
     public static function forum_summary_to_response($forum): array {
@@ -139,8 +139,8 @@ class forum_tools {
     /**
      * Return course forums in the canonical response shape.
      *
-     * @param \stdClass $course Moodle course.
-     * @param array $forums Moodle forum payloads.
+     * @param \stdClass $course Course.
+     * @param array $forums Forums.
      * @return array
      */
     public static function course_forums_to_response(\stdClass $course, array $forums): array {
@@ -163,8 +163,8 @@ class forum_tools {
     /**
      * Find a discussion in a forum.
      *
-     * @param \cm_info $cm Forum course module.
-     * @param int $discussionid Moodle forum discussion id.
+     * @param \cm_info $cm Cm.
+     * @param int $discussionid Discussionid.
      * @return array
      */
     public static function get_raw_discussion(\cm_info $cm, int $discussionid): array {
@@ -181,9 +181,9 @@ class forum_tools {
     /**
      * Return a canonical discussion response.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Forum course module.
-     * @param array $discussion Moodle forum discussion data.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param array $discussion Discussion.
      * @return array
      */
     public static function discussion_to_response(\stdClass $course, \cm_info $cm, array $discussion): array {
@@ -211,7 +211,7 @@ class forum_tools {
     /**
      * Return discussion posts through Moodle's forum external API.
      *
-     * @param int $discussionid Moodle forum discussion id.
+     * @param int $discussionid Discussionid.
      * @return array
      */
     public static function get_raw_posts(int $discussionid): array {
@@ -224,8 +224,8 @@ class forum_tools {
     /**
      * Find a post in a discussion.
      *
-     * @param int $discussionid Moodle forum discussion id.
-     * @param int $postid Moodle forum post id.
+     * @param int $discussionid Discussionid.
+     * @param int $postid Postid.
      * @return array
      */
     public static function get_raw_post(int $discussionid, int $postid): array {
@@ -242,10 +242,10 @@ class forum_tools {
     /**
      * Return a canonical post response.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Forum course module.
-     * @param int $discussionid Moodle forum discussion id.
-     * @param mixed $post Moodle forum post data.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param int $discussionid Discussionid.
+     * @param mixed $post Post.
      * @return array
      */
     public static function post_to_response(\stdClass $course, \cm_info $cm, int $discussionid, $post): array {
@@ -270,8 +270,8 @@ class forum_tools {
     /**
      * Return forum settings and discussion totals exposed through Moodle forum APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Forum course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_forum_details(\stdClass $course, \cm_info $cm): array {
@@ -334,8 +334,8 @@ class forum_tools {
     /**
      * Return a forum instance payload from Moodle external APIs where available.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Forum course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     private static function find_forum_instance(\stdClass $course, \cm_info $cm): array {
@@ -362,9 +362,9 @@ class forum_tools {
     /**
      * Return a scalar value from cm_info custom data when Moodle exposes it there.
      *
-     * @param \cm_info $cm Course module info.
-     * @param string $key Custom data key.
-     * @param mixed $default Default value.
+     * @param \cm_info $cm Cm.
+     * @param string $key Key.
+     * @param mixed $default Default.
      * @return mixed
      */
     private static function custom_data_value(\cm_info $cm, string $key, $default) {

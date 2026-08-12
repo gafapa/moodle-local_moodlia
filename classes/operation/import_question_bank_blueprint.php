@@ -31,13 +31,13 @@ class import_question_bank_blueprint {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $blueprintjson JSON blueprint.
-     * @param string|null $bankscope Target question bank scope.
-     * @param int|null $questionbankmoduleid Target course question bank module id.
-     * @param int|null $quizmoduleid Target quiz module id.
-     * @param int|null $categoryid Optional target category id.
-     * @param bool $createcategories Whether to recreate category structure.
+     * @param int $courseid Courseid.
+     * @param string $blueprintjson Blueprintjson.
+     * @param string|null $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
+     * @param int|null $categoryid Categoryid.
+     * @param bool $createcategories Createcategories.
      * @return array
      */
     public static function execute(
@@ -125,7 +125,7 @@ class import_question_bank_blueprint {
     /**
      * Decode and validate a MoodlIA question-bank blueprint.
      *
-     * @param string $blueprintjson JSON blueprint.
+     * @param string $blueprintjson Blueprintjson.
      * @return array
      */
     private static function decode_blueprint(string $blueprintjson): array {
@@ -146,8 +146,8 @@ class import_question_bank_blueprint {
     /**
      * Create one question from a blueprint entry.
      *
-     * @param int $categoryid Target category id.
-     * @param mixed $question Question blueprint entry.
+     * @param int $categoryid Categoryid.
+     * @param mixed $question Question.
      * @return array
      */
     private static function create_blueprint_question(int $categoryid, $question): array {

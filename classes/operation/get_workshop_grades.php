@@ -31,9 +31,9 @@ class get_workshop_grades {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param int $userid User id or 0 for the current user.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $userid = 0): array {

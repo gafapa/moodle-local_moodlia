@@ -56,6 +56,13 @@ class update_glossary_entry extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $entryid Entryid.
+     * @param string|null $concept Concept.
+     * @param string|null $definition Definition.
+     * @param string $definitionformat Definitionformat.
+     * @param string $options Options.
      * @return array
      */
     public static function execute(

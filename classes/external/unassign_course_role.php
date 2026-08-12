@@ -49,9 +49,9 @@ class unassign_course_role extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $userid User id.
-     * @param string $rolearchetype Role archetype.
+     * @param int $courseid Courseid.
+     * @param int $userid Userid.
+     * @param string $rolearchetype Rolearchetype.
      * @return array
      */
     public static function execute(int $courseid, int $userid, string $rolearchetype = 'student'): array {

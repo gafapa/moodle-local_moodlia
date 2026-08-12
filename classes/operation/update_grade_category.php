@@ -31,11 +31,11 @@ class update_grade_category {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $categoryid Grade category id.
-     * @param string|null $name Optional category name.
-     * @param int|null $aggregation Optional aggregation constant.
-     * @param bool|null $hidden Optional hidden state.
+     * @param int $courseid Courseid.
+     * @param int $categoryid Categoryid.
+     * @param string|null $name Name.
+     * @param int|null $aggregation Aggregation.
+     * @param bool|null $hidden Hidden.
      * @return array
      */
     public static function execute(int $courseid, int $categoryid, ?string $name = null, ?int $aggregation = null, ?bool $hidden = null): array {

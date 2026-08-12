@@ -52,10 +52,10 @@ class update_question extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $questionid Question id.
-     * @param string|null $name Question name.
-     * @param string|null $questiontext Question text.
-     * @param string $options JSON-encoded question options.
+     * @param int $questionid Questionid.
+     * @param string|null $name Name.
+     * @param string|null $questiontext Questiontext.
+     * @param string $options Options.
      * @return array
      */
     public static function execute(

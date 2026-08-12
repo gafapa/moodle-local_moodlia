@@ -31,11 +31,11 @@ class update_grade_value {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $itemid Grade item id.
-     * @param int $userid Moodle user id.
-     * @param float $grade Final grade.
-     * @param string|null $feedback Optional feedback.
+     * @param int $courseid Courseid.
+     * @param int $itemid Itemid.
+     * @param int $userid Userid.
+     * @param float $grade Grade.
+     * @param string|null $feedback Feedback.
      * @return array
      */
     public static function execute(int $courseid, int $itemid, int $userid, float $grade, ?string $feedback = null): array {

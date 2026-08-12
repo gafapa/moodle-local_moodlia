@@ -42,8 +42,8 @@ class assignment_tools {
     /**
      * Verify that a course module belongs to an assignment activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Assignment course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_assignment_module(\stdClass $course, int $cmid): \cm_info {
@@ -58,9 +58,9 @@ class assignment_tools {
     /**
      * Return assignment submission status through Moodle's assignment external API.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Assignment course module.
-     * @param int $userid Moodle user id, or 0 for the current user.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param int $userid Userid.
      * @return array
      */
     public static function get_submission_status(\stdClass $course, \cm_info $cm, int $userid = 0): array {
@@ -73,8 +73,8 @@ class assignment_tools {
     /**
      * Return common assignment configuration details.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Assignment course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_assignment_details(\stdClass $course, \cm_info $cm): array {
@@ -117,7 +117,7 @@ class assignment_tools {
     /**
      * Return assignments in a Moodle course through Moodle course and assignment APIs.
      *
-     * @param \stdClass $course Moodle course.
+     * @param \stdClass $course Course.
      * @return array
      */
     public static function get_course_assignments(\stdClass $course): array {
@@ -144,11 +144,11 @@ class assignment_tools {
     /**
      * Return assignment submissions through Moodle's assignment external API.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Assignment course module.
-     * @param string $status Optional submission status filter.
-     * @param int $since Optional modified-since timestamp.
-     * @param int $before Optional modified-before timestamp.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param string $status Status.
+     * @param int $since Since.
+     * @param int $before Before.
      * @return array
      */
     public static function get_submissions(
@@ -189,9 +189,9 @@ class assignment_tools {
     /**
      * Return assignment grades through Moodle's assignment external API.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Assignment course module.
-     * @param int $since Optional modified-since timestamp.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param int $since Since.
      * @return array
      */
     public static function get_grades(\stdClass $course, \cm_info $cm, int $since = 0): array {
@@ -223,9 +223,9 @@ class assignment_tools {
     /**
      * Register an assignment view event through Moodle's assignment external API.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Assignment course module.
-     * @param string $view Assignment view name.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param string $view View.
      * @return array
      */
     public static function view_assignment(\stdClass $course, \cm_info $cm, string $view): array {
@@ -257,10 +257,10 @@ class assignment_tools {
     /**
      * Return a canonical submission status response.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Assignment course module.
-     * @param mixed $status Raw Moodle status payload.
-     * @param int $requesteduserid Requested user id, or 0 for the current user.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param mixed $status Status.
+     * @param int $requesteduserid Requesteduserid.
      * @return array
      */
     public static function status_to_response(\stdClass $course, \cm_info $cm, $status, int $requesteduserid = 0): array {
@@ -296,7 +296,7 @@ class assignment_tools {
     /**
      * Convert a Moodle assignment submission to the canonical response shape.
      *
-     * @param mixed $submission Moodle submission payload.
+     * @param mixed $submission Submission.
      * @return array
      */
     private static function submission_to_response($submission): array {
@@ -320,7 +320,7 @@ class assignment_tools {
     /**
      * Convert a Moodle assignment grade to the canonical response shape.
      *
-     * @param mixed $grade Moodle grade payload.
+     * @param mixed $grade Grade.
      * @return array
      */
     private static function grade_to_response($grade): array {
@@ -342,8 +342,8 @@ class assignment_tools {
     /**
      * Convert a Moodle assignment module to the canonical response shape.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Assignment course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     private static function assignment_summary_to_response(\stdClass $course, \cm_info $cm): array {
@@ -390,7 +390,7 @@ class assignment_tools {
     /**
      * Throw when Moodle returns external API warnings.
      *
-     * @param array $warnings Moodle warning payloads.
+     * @param array $warnings Warnings.
      */
     public static function fail_on_warnings(array $warnings): void {
         if (empty($warnings)) {
@@ -405,7 +405,7 @@ class assignment_tools {
     /**
      * Convert objects and nested arrays to arrays.
      *
-     * @param mixed $value Value to convert.
+     * @param mixed $value Value.
      * @return array
      */
     private static function to_array($value): array {
@@ -425,7 +425,7 @@ class assignment_tools {
     /**
      * Return enabled plugin names from Moodle assignment plugin objects.
      *
-     * @param array $plugins Assignment plugin objects.
+     * @param array $plugins Plugins.
      * @return array
      */
     private static function plugin_names(array $plugins): array {
@@ -445,7 +445,7 @@ class assignment_tools {
     /**
      * Extract the online text submission field from Moodle plugin data.
      *
-     * @param array $submission Submission payload.
+     * @param array $submission Submission.
      * @return string
      */
     private static function extract_online_text(array $submission): string {
@@ -469,7 +469,7 @@ class assignment_tools {
     /**
      * Extract the assignment feedback comment from Moodle plugin data.
      *
-     * @param array $feedback Feedback payload.
+     * @param array $feedback Feedback.
      * @return string
      */
     private static function extract_feedback_comment(array $feedback): string {

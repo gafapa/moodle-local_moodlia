@@ -42,8 +42,8 @@ class book_tools {
     /**
      * Verify that a course module belongs to a book activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_book_module(\stdClass $course, int $cmid): \cm_info {
@@ -58,8 +58,8 @@ class book_tools {
     /**
      * Return book instance metadata for a course module.
      *
-     * @param int $courseid Moodle course id.
-     * @param \cm_info $cm Book course module.
+     * @param int $courseid Courseid.
+     * @param \cm_info $cm Cm.
      * @return \stdClass
      */
     public static function get_book_instance(int $courseid, \cm_info $cm): \stdClass {
@@ -84,7 +84,7 @@ class book_tools {
     /**
      * Convert Moodle external warnings to the canonical response shape.
      *
-     * @param array $warnings Moodle warnings.
+     * @param array $warnings Warnings.
      * @return array
      */
     public static function warnings_to_response(array $warnings): array {
@@ -105,7 +105,7 @@ class book_tools {
     /**
      * Return a canonical Book summary from Moodle's Book external API payload.
      *
-     * @param array $book Moodle book payload.
+     * @param array $book Book.
      * @return array
      */
     public static function summary_to_response(array $book): array {
@@ -128,8 +128,8 @@ class book_tools {
     /**
      * Return course books in the canonical response shape.
      *
-     * @param \stdClass $course Moodle course.
-     * @param array $result Moodle external result.
+     * @param \stdClass $course Course.
+     * @param array $result Result.
      * @return array
      */
     public static function course_books_to_response(\stdClass $course, array $result): array {
@@ -152,10 +152,10 @@ class book_tools {
     /**
      * Return chapters for a book activity.
      *
-     * @param \stdClass $book Book instance object.
-     * @param \cm_info $cm Book course module.
-     * @param bool $includecontent Include rendered chapter content.
-     * @param bool $includehidden Include hidden chapters where allowed.
+     * @param \stdClass $book Book.
+     * @param \cm_info $cm Cm.
+     * @param bool $includecontent Includecontent.
+     * @param bool $includehidden Includehidden.
      * @return array
      */
     public static function get_chapters(\stdClass $book, \cm_info $cm, bool $includecontent, bool $includehidden): array {
@@ -179,11 +179,11 @@ class book_tools {
     /**
      * Return a canonical chapter response.
      *
-     * @param \stdClass $book Book instance object.
-     * @param \cm_info $cm Book course module.
-     * @param \context_module $context Module context.
-     * @param \stdClass $chapter Book chapter.
-     * @param bool $includecontent Include rendered chapter content.
+     * @param \stdClass $book Book.
+     * @param \cm_info $cm Cm.
+     * @param \context_module $context Context.
+     * @param \stdClass $chapter Chapter.
+     * @param bool $includecontent Includecontent.
      * @return array
      */
     public static function chapter_to_response(

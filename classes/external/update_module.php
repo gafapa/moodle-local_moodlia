@@ -53,11 +53,11 @@ class update_module extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Course module id.
-     * @param string|null $name Module name.
-     * @param bool|null $visible Module visibility.
-     * @param string $options JSON-encoded module options.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string|null $name Name.
+     * @param bool|null $visible Visible.
+     * @param string $options Options.
      * @return array
      */
     public static function execute(

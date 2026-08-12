@@ -31,10 +31,10 @@ class create_group {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $name Group name.
-     * @param string $description Group description.
-     * @param string $idnumber Optional group idnumber.
+     * @param int $courseid Courseid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param string $idnumber Idnumber.
      * @return array
      */
     public static function execute(int $courseid, string $name, string $description = '', string $idnumber = ''): array {

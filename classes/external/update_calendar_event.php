@@ -53,8 +53,8 @@ class update_calendar_event extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $eventid Event id.
+     * @param int $courseid Courseid.
+     * @param int $eventid Eventid.
      * @param string|null $name Name.
      * @param string|null $description Description.
      * @param int|null $timestart Timestart.

@@ -31,10 +31,10 @@ class update_question {
     /**
      * Execute the operation.
      *
-     * @param int $questionid Question id.
-     * @param string|null $name Question name.
-     * @param string|null $questiontext Question text.
-     * @param array $options Type-specific options.
+     * @param int $questionid Questionid.
+     * @param string|null $name Name.
+     * @param string|null $questiontext Questiontext.
+     * @param array $options Options.
      * @return array
      */
     public static function execute(int $questionid, ?string $name = null, ?string $questiontext = null, array $options = []): array {

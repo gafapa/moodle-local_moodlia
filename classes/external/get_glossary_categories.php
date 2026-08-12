@@ -52,8 +52,8 @@ class get_glossary_categories extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @param int $from From.
      * @param int $limit Limit.
      * @return array

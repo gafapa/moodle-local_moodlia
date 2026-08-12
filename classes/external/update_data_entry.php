@@ -52,10 +52,10 @@ class update_data_entry extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Database course module id.
-     * @param int $entryid Database entry id.
-     * @param string $values JSON object keyed by field name or field id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $entryid Entryid.
+     * @param string $values Values.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $entryid, string $values): array {

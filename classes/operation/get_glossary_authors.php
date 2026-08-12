@@ -31,6 +31,11 @@ class get_glossary_authors {
     /**
      * Execute the operation.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $from From.
+     * @param int $limit Limit.
+     * @param bool $includenotapproved Includenotapproved.
      * @return array
      */
     public static function execute(

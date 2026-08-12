@@ -33,10 +33,10 @@ class duplicate_module {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Course module id.
-     * @param int|null $sectionnumber Target course section number.
-     * @param string|null $name Optional new duplicated module name.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int|null $sectionnumber Sectionnumber.
+     * @param string|null $name Name.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, ?int $sectionnumber = null, ?string $name = null): array {

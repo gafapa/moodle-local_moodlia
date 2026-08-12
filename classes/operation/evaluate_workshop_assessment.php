@@ -31,13 +31,13 @@ class evaluate_workshop_assessment {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param int $assessmentid Workshop assessment id.
-     * @param string $feedbacktext Feedback for the reviewer.
-     * @param string $feedbackformat Feedback format: html or plain.
-     * @param int $weight Assessment weight.
-     * @param string $gradinggradeover Optional overridden grading grade.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $assessmentid Assessmentid.
+     * @param string $feedbacktext Feedbacktext.
+     * @param string $feedbackformat Feedbackformat.
+     * @param int $weight Weight.
+     * @param string $gradinggradeover Gradinggradeover.
      * @return array
      */
     public static function execute(

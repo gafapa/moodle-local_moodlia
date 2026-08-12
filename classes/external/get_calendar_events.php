@@ -51,9 +51,9 @@ class get_calendar_events extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $timefrom Time from.
-     * @param int $timeto Time to.
+     * @param int $courseid Courseid.
+     * @param int $timefrom Timefrom.
+     * @param int $timeto Timeto.
      * @return array
      */
     public static function execute(int $courseid, int $timefrom, int $timeto): array {

@@ -31,10 +31,10 @@ class set_workshop_grading_form {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param string $strategy Workshop grading strategy.
-     * @param string $definitionjson JSON definition.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $strategy Strategy.
+     * @param string $definitionjson Definitionjson.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, string $strategy, string $definitionjson): array {

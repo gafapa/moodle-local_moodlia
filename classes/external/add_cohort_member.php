@@ -49,8 +49,8 @@ class add_cohort_member extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $cohortid Cohort id.
-     * @param int $userid User id.
+     * @param int $cohortid Cohortid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $cohortid, int $userid): array {

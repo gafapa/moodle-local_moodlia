@@ -31,9 +31,9 @@ class module_common_tools {
     /**
      * Add Moodle's common module fields to module info.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $course Course.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_create_options(\stdClass $course, \stdClass $moduleinfo, array $options): void {
         if (array_key_exists('visible', $options)) {
@@ -106,9 +106,9 @@ class module_common_tools {
     /**
      * Apply common module updates that Moodle exposes through stable partial-update APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Course module.
-     * @param array $options Module options.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param array $options Options.
      */
     public static function apply_update_options(\stdClass $course, \cm_info $cm, array $options): void {
         $allowed = [
@@ -193,7 +193,7 @@ class module_common_tools {
     /**
      * Return Moodle's raw course-page visibility setting for a module.
      *
-     * @param \cm_info $cm Course module info.
+     * @param \cm_info $cm Cm.
      * @return bool
      */
     public static function is_visible_on_course_page(\cm_info $cm): bool {
@@ -203,10 +203,10 @@ class module_common_tools {
     /**
      * Apply Moodle activity completion settings to a module form data object.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \stdClass $moduleinfo Module form data object.
-     * @param array $options Module options.
-     * @param bool $update Whether the data object comes from an existing module.
+     * @param \stdClass $course Course.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
+     * @param bool $update Update.
      */
     private static function apply_completion_options(
         \stdClass $course,
@@ -283,7 +283,7 @@ class module_common_tools {
     /**
      * Return whether options include common completion settings.
      *
-     * @param array $options Module options.
+     * @param array $options Options.
      * @return bool
      */
     private static function has_completion_options(array $options): bool {
@@ -313,7 +313,7 @@ class module_common_tools {
     /**
      * Rebuild module-specific form fields that Moodle update handlers expect.
      *
-     * @param \stdClass $moduleinfo Module form data object.
+     * @param \stdClass $moduleinfo Moduleinfo.
      */
     private static function normalise_update_form_data(\stdClass $moduleinfo): void {
         switch ($moduleinfo->modulename ?? '') {
@@ -370,8 +370,8 @@ class module_common_tools {
     /**
      * Build a Moodle editor form value without creating or moving draft files.
      *
-     * @param string $text Existing editor text.
-     * @param int $format Existing text format.
+     * @param string $text Text.
+     * @param int $format Format.
      * @return array
      */
     private static function editor_array(string $text, int $format): array {
@@ -385,7 +385,7 @@ class module_common_tools {
     /**
      * Convert Moodle-localised decimal strings back to numeric form values.
      *
-     * @param \stdClass $moduleinfo Module form data object.
+     * @param \stdClass $moduleinfo Moduleinfo.
      */
     private static function normalise_numeric_form_fields(\stdClass $moduleinfo): void {
         foreach (['gradepass', 'grade', 'grademax', 'grademin', 'scale'] as $field) {
@@ -398,7 +398,7 @@ class module_common_tools {
     /**
      * Return a numeric form value from a scalar Moodle form value.
      *
-     * @param mixed $value Moodle form value.
+     * @param mixed $value Value.
      * @return mixed
      */
     private static function normalise_numeric_form_value($value) {
@@ -417,7 +417,7 @@ class module_common_tools {
     /**
      * Convert a public completion mode to Moodle's numeric values.
      *
-     * @param mixed $value Public completion tracking value.
+     * @param mixed $value Value.
      * @return int
      */
     private static function normalise_completion_tracking($value): int {
@@ -446,8 +446,8 @@ class module_common_tools {
     /**
      * Validate the public completion grade item number.
      *
-     * @param array $options Module options.
-     * @param \stdClass $moduleinfo Module form data object.
+     * @param array $options Options.
+     * @param \stdClass $moduleinfo Moduleinfo.
      * @return int
      */
     private static function normalise_completion_grade_item_number(array $options, \stdClass $moduleinfo): int {
@@ -475,9 +475,9 @@ class module_common_tools {
     /**
      * Return a boolean option from a list of aliases.
      *
-     * @param array $options Module options.
-     * @param array $keys Candidate option names.
-     * @param bool $default Default value.
+     * @param array $options Options.
+     * @param array $keys Keys.
+     * @param bool $default Default.
      * @return bool
      */
     private static function bool_option(array $options, array $keys, bool $default): bool {
@@ -493,7 +493,7 @@ class module_common_tools {
     /**
      * Convert a public group mode value to Moodle's integer constants.
      *
-     * @param mixed $value Public group mode value.
+     * @param mixed $value Value.
      * @return int
      */
     private static function normalise_group_mode($value): int {
@@ -526,7 +526,7 @@ class module_common_tools {
     /**
      * Validate and serialise an availability restriction object.
      *
-     * @param mixed $value Availability JSON string or object.
+     * @param mixed $value Value.
      * @return string
      */
     private static function normalise_availability($value): string {
@@ -557,7 +557,7 @@ class module_common_tools {
     /**
      * Validate and normalise tag names for module creation.
      *
-     * @param mixed $value Public tag list.
+     * @param mixed $value Value.
      * @return array
      */
     private static function normalise_tags($value): array {

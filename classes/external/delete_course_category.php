@@ -49,7 +49,7 @@ class delete_course_category extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $categoryid Category id.
+     * @param int $categoryid Categoryid.
      * @return array
      */
     public static function execute(int $categoryid): array {

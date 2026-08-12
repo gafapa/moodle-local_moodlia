@@ -51,10 +51,10 @@ class duplicate_module extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Course module id.
-     * @param int|null $sectionnumber Target course section number.
-     * @param string|null $name Duplicated module name.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int|null $sectionnumber Sectionnumber.
+     * @param string|null $name Name.
      * @return array
      */
     public static function execute(

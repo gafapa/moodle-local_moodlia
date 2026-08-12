@@ -2435,7 +2435,7 @@ final class manifest {
     /**
      * Build a JSON schema object for MCP tool arguments.
      *
-     * @param array $parameters Parameter metadata.
+     * @param array $parameters Parameters.
      * @return array
      */
     private static function schema(array $parameters): array {

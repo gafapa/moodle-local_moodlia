@@ -69,8 +69,8 @@ class module_lookup_tools {
     /**
      * Resolve a content item module id for an activity type.
      *
-     * @param \stdClass $course Moodle course.
-     * @param string $modulename Module name.
+     * @param \stdClass $course Course.
+     * @param string $modulename Modulename.
      * @return int
      */
     public static function resolve_content_item_id(\stdClass $course, string $modulename): int {
@@ -91,8 +91,8 @@ class module_lookup_tools {
     /**
      * Load a course module from a course context.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_course_module(\stdClass $course, int $cmid): \cm_info {
@@ -111,8 +111,8 @@ class module_lookup_tools {
     /**
      * Return the canonical module response shape.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return array
      */
     public static function to_response(\stdClass $course, int $cmid): array {
@@ -145,8 +145,8 @@ class module_lookup_tools {
     /**
      * Verify that a course module belongs to a quiz activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_quiz_module(\stdClass $course, int $cmid): \cm_info {

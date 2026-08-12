@@ -31,10 +31,10 @@ class set_forum_discussion_pin {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Forum course module id.
-     * @param int $discussionid Moodle forum discussion id.
-     * @param bool $pinned Target pin state.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $discussionid Discussionid.
+     * @param bool $pinned Pinned.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $discussionid, bool $pinned): array {
@@ -61,9 +61,9 @@ class set_forum_discussion_pin {
     /**
      * Resolve the pin state from Moodle response shapes.
      *
-     * @param array $discussion Raw discussion listing data.
-     * @param mixed $result Moodle external result.
-     * @param bool $fallback Fallback state.
+     * @param array $discussion Discussion.
+     * @param mixed $result Result.
+     * @param bool $fallback Fallback.
      * @return bool
      */
     private static function normalise_pinned_state(array $discussion, $result, bool $fallback): bool {

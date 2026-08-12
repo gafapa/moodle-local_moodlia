@@ -31,11 +31,11 @@ class create_section {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $name Section name.
-     * @param string $summary Section summary.
-     * @param int $position Placement position, or 0 to append.
-     * @param bool $visible Whether the section is visible.
+     * @param int $courseid Courseid.
+     * @param string $name Name.
+     * @param string $summary Summary.
+     * @param int $position Position.
+     * @param bool $visible Visible.
      * @return array
      */
     public static function execute(

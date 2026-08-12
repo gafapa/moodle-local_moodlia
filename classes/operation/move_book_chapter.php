@@ -31,10 +31,10 @@ class move_book_chapter {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Book course module id.
-     * @param int $chapterid Book chapter id.
-     * @param int|null $afterchapterid Destination chapter id, 0 for first, null for last.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $chapterid Chapterid.
+     * @param int|null $afterchapterid Afterchapterid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $chapterid, ?int $afterchapterid = null): array {

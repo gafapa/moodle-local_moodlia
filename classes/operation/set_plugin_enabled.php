@@ -31,8 +31,8 @@ final class set_plugin_enabled {
     /**
      * Execute the operation.
      *
-     * @param string $component Plugin component.
-     * @param bool $enabled Requested state.
+     * @param string $component Component.
+     * @param bool $enabled Enabled.
      * @return array
      */
     public static function execute(string $component, bool $enabled): array {

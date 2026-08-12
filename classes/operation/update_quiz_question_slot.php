@@ -31,9 +31,9 @@ class update_quiz_question_slot {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $slot Slot number.
-     * @param float $maxmark Slot maximum mark.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $slot Slot.
+     * @param float $maxmark Maxmark.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $slot, float $maxmark): array {

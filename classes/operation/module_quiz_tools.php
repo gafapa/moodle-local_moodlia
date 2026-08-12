@@ -31,8 +31,8 @@ class module_quiz_tools {
     /**
      * Add quiz-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_quiz_options(\stdClass $moduleinfo, array $options): void {
         $moduleinfo->intro = (string) ($options['intro'] ?? '');
@@ -83,9 +83,9 @@ class module_quiz_tools {
     /**
      * Return an optional boolean module option as an integer.
      *
-     * @param array $options Module options.
-     * @param string $name Public option name.
-     * @param int $default Default integer value.
+     * @param array $options Options.
+     * @param string $name Name.
+     * @param int $default Default.
      * @return int
      */
     private static function optional_bool(array $options, string $name, int $default): int {
@@ -95,10 +95,10 @@ class module_quiz_tools {
     /**
      * Return an optional positive integer module option.
      *
-     * @param array $options Module options.
-     * @param string $name Public option name.
-     * @param int $default Default integer value.
-     * @param int $minimum Minimum accepted value.
+     * @param array $options Options.
+     * @param string $name Name.
+     * @param int $default Default.
+     * @param int $minimum Minimum.
      * @return int
      */
     private static function optional_int(array $options, string $name, int $default, int $minimum = 0): int {
@@ -113,7 +113,7 @@ class module_quiz_tools {
     /**
      * Map public quiz grade method values.
      *
-     * @param string $value Public grade method.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_quiz_grade_method(string $value): int {
@@ -134,7 +134,7 @@ class module_quiz_tools {
     /**
      * Map public quiz navigation values.
      *
-     * @param string $value Public navigation method.
+     * @param string $value Value.
      * @return string
      */
     private static function normalise_quiz_navigation(string $value): string {
@@ -153,7 +153,7 @@ class module_quiz_tools {
     /**
      * Validate a public quiz question behaviour.
      *
-     * @param string $value Public behaviour name.
+     * @param string $value Value.
      * @return string
      */
     private static function normalise_quiz_behaviour(string $value): string {
@@ -179,7 +179,7 @@ class module_quiz_tools {
     /**
      * Validate quiz overdue handling.
      *
-     * @param string $value Public overdue handling.
+     * @param string $value Value.
      * @return string
      */
     private static function normalise_quiz_overdue_handling(string $value): string {
@@ -195,8 +195,8 @@ class module_quiz_tools {
     /**
      * Validate decimal point settings.
      *
-     * @param mixed $value Public decimal value.
-     * @param bool $allowinherit Whether -1 is allowed.
+     * @param mixed $value Value.
+     * @param bool $allowinherit Allowinherit.
      * @return int
      */
     private static function normalise_decimal_points($value, bool $allowinherit): int {
@@ -215,7 +215,7 @@ class module_quiz_tools {
     /**
      * Map public browser security settings.
      *
-     * @param string $value Public browser security value.
+     * @param string $value Value.
      * @return string
      */
     private static function normalise_quiz_browser_security(string $value): string {
@@ -235,7 +235,7 @@ class module_quiz_tools {
     /**
      * Map public show user picture settings.
      *
-     * @param string $value Public image display value.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_quiz_user_picture(string $value): int {

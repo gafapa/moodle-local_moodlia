@@ -31,9 +31,9 @@ class create_grade_category {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $name Category name.
-     * @param int|null $aggregation Optional aggregation constant.
+     * @param int $courseid Courseid.
+     * @param string $name Name.
+     * @param int|null $aggregation Aggregation.
      * @return array
      */
     public static function execute(int $courseid, string $name, ?int $aggregation = null): array {

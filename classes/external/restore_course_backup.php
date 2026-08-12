@@ -55,10 +55,10 @@ class restore_course_backup extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $backupfileid Backup file id.
+     * @param int $backupfileid Backupfileid.
      * @param string $target Target.
-     * @param int|null $targetcourseid Target course id.
-     * @param int|null $categoryid Category id.
+     * @param int|null $targetcourseid Targetcourseid.
+     * @param int|null $categoryid Categoryid.
      * @param string $fullname Fullname.
      * @param string $shortname Shortname.
      * @return array

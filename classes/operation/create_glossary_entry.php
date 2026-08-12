@@ -31,12 +31,12 @@ class create_glossary_entry {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Glossary course module id.
-     * @param string $concept Entry concept.
-     * @param string $definition Entry definition.
-     * @param string $definitionformat Public definition format.
-     * @param array $options Entry options.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $concept Concept.
+     * @param string $definition Definition.
+     * @param string $definitionformat Definitionformat.
+     * @param array $options Options.
      * @return array
      */
     public static function execute(

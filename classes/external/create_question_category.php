@@ -56,13 +56,13 @@ class create_question_category extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $name Question category name.
-     * @param int|null $parentid Parent question category id.
-     * @param string|null $description Question category description.
-     * @param string $bankscope Question bank scope.
-     * @param int|null $questionbankmoduleid Course question bank module id.
-     * @param int|null $quizmoduleid Quiz module id.
+     * @param int $courseid Courseid.
+     * @param string $name Name.
+     * @param int|null $parentid Parentid.
+     * @param string|null $description Description.
+     * @param string $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
      * @return array
      */
     public static function execute(

@@ -49,8 +49,8 @@ class delete_calendar_event extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $eventid Event id.
+     * @param int $courseid Courseid.
+     * @param int $eventid Eventid.
      * @return array
      */
     public static function execute(int $courseid, int $eventid): array {

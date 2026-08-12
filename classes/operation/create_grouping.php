@@ -31,10 +31,10 @@ class create_grouping {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $name Grouping name.
-     * @param string $description Grouping description.
-     * @param string $idnumber Optional grouping idnumber.
+     * @param int $courseid Courseid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param string $idnumber Idnumber.
      * @return array
      */
     public static function execute(int $courseid, string $name, string $description = '', string $idnumber = ''): array {

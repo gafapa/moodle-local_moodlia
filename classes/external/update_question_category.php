@@ -52,10 +52,10 @@ class update_question_category extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $categoryid Question category id.
-     * @param int $contextid Question bank context id.
-     * @param string|null $name Question category name.
-     * @param string|null $description Question category description.
+     * @param int $categoryid Categoryid.
+     * @param int $contextid Contextid.
+     * @param string|null $name Name.
+     * @param string|null $description Description.
      * @return array
      */
     public static function execute(int $categoryid, int $contextid, ?string $name = null, ?string $description = null): array {

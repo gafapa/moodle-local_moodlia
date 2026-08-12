@@ -56,6 +56,13 @@ class get_workshop_grades_report extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $groupid Groupid.
+     * @param string $sortby Sortby.
+     * @param string $sortdirection Sortdirection.
+     * @param int $page Page.
+     * @param int $perpage Perpage.
      * @return array
      */
     public static function execute(

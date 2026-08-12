@@ -57,7 +57,7 @@ class enrolment_tools {
     /**
      * Return an enabled manual enrolment instance for the course.
      *
-     * @param \stdClass $course Moodle course.
+     * @param \stdClass $course Course.
      * @return \stdClass
      */
     public static function get_manual_instance(\stdClass $course): \stdClass {
@@ -85,7 +85,7 @@ class enrolment_tools {
     /**
      * Find an enabled manual enrolment instance.
      *
-     * @param \stdClass $course Moodle course.
+     * @param \stdClass $course Course.
      * @return \stdClass|null
      */
     private static function find_manual_instance(\stdClass $course): ?\stdClass {
@@ -102,7 +102,7 @@ class enrolment_tools {
     /**
      * Load a Moodle user.
      *
-     * @param int $userid Moodle user id.
+     * @param int $userid Userid.
      * @return \stdClass
      */
     public static function get_user(int $userid): \stdClass {
@@ -116,8 +116,8 @@ class enrolment_tools {
     /**
      * Resolve a role id from a supported role archetype.
      *
-     * @param \context_course $context Moodle course context.
-     * @param string $rolearchetype Role archetype.
+     * @param \context_course $context Context.
+     * @param string $rolearchetype Rolearchetype.
      * @return int
      */
     public static function resolve_role_id(\context_course $context, string $rolearchetype): int {
@@ -146,8 +146,8 @@ class enrolment_tools {
     /**
      * Return role shortnames assigned to a user in a course context.
      *
-     * @param \context_course $context Moodle course context.
-     * @param int $userid Moodle user id.
+     * @param \context_course $context Context.
+     * @param int $userid Userid.
      * @return array
      */
     public static function get_user_role_shortnames(\context_course $context, int $userid): array {
@@ -167,8 +167,8 @@ class enrolment_tools {
     /**
      * Return the canonical enrolled user response shape.
      *
-     * @param \context_course $context Moodle course context.
-     * @param \stdClass $user Moodle user.
+     * @param \context_course $context Context.
+     * @param \stdClass $user User.
      * @return array
      */
     public static function user_to_response(\context_course $context, \stdClass $user): array {

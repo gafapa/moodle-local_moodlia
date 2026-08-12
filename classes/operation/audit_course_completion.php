@@ -31,8 +31,8 @@ class audit_course_completion {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param bool $includeok Include non-issue module rows.
+     * @param int $courseid Courseid.
+     * @param bool $includeok Includeok.
      * @return array
      */
     public static function execute(int $courseid, bool $includeok = false): array {

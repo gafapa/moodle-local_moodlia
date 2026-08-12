@@ -31,9 +31,9 @@ class delete_data_field {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Database course module id.
-     * @param int $fieldid Database field id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $fieldid Fieldid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $fieldid): array {

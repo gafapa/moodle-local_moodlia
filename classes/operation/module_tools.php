@@ -38,7 +38,7 @@ class module_tools {
     /**
      * Decode JSON object parameters passed through Moodle REST.
      *
-     * @param string $json JSON object string.
+     * @param string $json Json.
      * @return array
      */
     public static function decode_options(string $json): array {
@@ -57,8 +57,8 @@ class module_tools {
     /**
      * Resolve a content item module id for an activity type.
      *
-     * @param \stdClass $course Moodle course.
-     * @param string $modulename Module name.
+     * @param \stdClass $course Course.
+     * @param string $modulename Modulename.
      * @return int
      */
     public static function resolve_content_item_id(\stdClass $course, string $modulename): int {
@@ -68,8 +68,8 @@ class module_tools {
     /**
      * Load a course module from a course context.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_course_module(\stdClass $course, int $cmid): \cm_info {
@@ -79,8 +79,8 @@ class module_tools {
     /**
      * Return the canonical module response shape.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return array
      */
     public static function to_response(\stdClass $course, int $cmid): array {
@@ -90,9 +90,9 @@ class module_tools {
     /**
      * Add Moodle's common module fields to module info.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $course Course.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_common_options(\stdClass $course, \stdClass $moduleinfo, array $options): void {
         module_common_tools::apply_create_options($course, $moduleinfo, $options);
@@ -101,9 +101,9 @@ class module_tools {
     /**
      * Apply common module updates that Moodle exposes through stable partial-update APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Course module.
-     * @param array $options Module options.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param array $options Options.
      */
     public static function apply_common_update_options(\stdClass $course, \cm_info $cm, array $options): void {
         module_common_tools::apply_update_options($course, $cm, $options);
@@ -112,7 +112,7 @@ class module_tools {
     /**
      * Return Moodle's raw course-page visibility setting for a module.
      *
-     * @param \cm_info $cm Course module info.
+     * @param \cm_info $cm Cm.
      * @return bool
      */
     public static function is_visible_on_course_page(\cm_info $cm): bool {
@@ -122,8 +122,8 @@ class module_tools {
     /**
      * Add page-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_page_options(\stdClass $moduleinfo, array $options): void {
         module_content_tools::apply_page_options($moduleinfo, $options);
@@ -132,8 +132,8 @@ class module_tools {
     /**
      * Add question-bank-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_qbank_options(\stdClass $moduleinfo, array $options): void {
         module_content_tools::apply_qbank_options($moduleinfo, $options);
@@ -142,8 +142,8 @@ class module_tools {
     /**
      * Add assignment-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_assign_options(\stdClass $moduleinfo, array $options): void {
         module_assignment_tools::apply_assign_options($moduleinfo, $options);
@@ -152,8 +152,8 @@ class module_tools {
     /**
      * Add choice-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_choice_options(\stdClass $moduleinfo, array $options): void {
         module_interaction_tools::apply_choice_options($moduleinfo, $options);
@@ -162,8 +162,8 @@ class module_tools {
     /**
      * Add feedback-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_feedback_options(\stdClass $moduleinfo, array $options): void {
         module_interaction_tools::apply_feedback_options($moduleinfo, $options);
@@ -172,8 +172,8 @@ class module_tools {
     /**
      * Add database-activity-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_data_options(\stdClass $moduleinfo, array $options): void {
         module_interaction_tools::apply_data_options($moduleinfo, $options);
@@ -182,8 +182,8 @@ class module_tools {
     /**
      * Add lesson-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_lesson_options(\stdClass $moduleinfo, array $options): void {
         module_advanced_tools::apply_lesson_options($moduleinfo, $options);
@@ -192,8 +192,8 @@ class module_tools {
     /**
      * Add workshop-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_workshop_options(\stdClass $moduleinfo, array $options): void {
         module_advanced_tools::apply_workshop_options($moduleinfo, $options);
@@ -202,8 +202,8 @@ class module_tools {
     /**
      * Add LTI-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_lti_options(\stdClass $moduleinfo, array $options): void {
         module_advanced_tools::apply_lti_options($moduleinfo, $options);
@@ -212,8 +212,8 @@ class module_tools {
     /**
      * Add book-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_book_options(\stdClass $moduleinfo, array $options): void {
         module_content_tools::apply_book_options($moduleinfo, $options);
@@ -222,8 +222,8 @@ class module_tools {
     /**
      * Add folder-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_folder_options(\stdClass $moduleinfo, array $options): void {
         module_content_tools::apply_folder_options($moduleinfo, $options);
@@ -232,8 +232,8 @@ class module_tools {
     /**
      * Add forum-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_forum_options(\stdClass $moduleinfo, array $options): void {
         module_interaction_tools::apply_forum_options($moduleinfo, $options);
@@ -242,8 +242,8 @@ class module_tools {
     /**
      * Add glossary-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_glossary_options(\stdClass $moduleinfo, array $options): void {
         module_interaction_tools::apply_glossary_options($moduleinfo, $options);
@@ -252,8 +252,8 @@ class module_tools {
     /**
      * Add label-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_label_options(\stdClass $moduleinfo, array $options): void {
         module_content_tools::apply_label_options($moduleinfo, $options);
@@ -262,8 +262,8 @@ class module_tools {
     /**
      * Add file resource-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_resource_options(\stdClass $moduleinfo, array $options): void {
         module_content_tools::apply_resource_options($moduleinfo, $options);
@@ -272,8 +272,8 @@ class module_tools {
     /**
      * Add subsection-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_subsection_options(\stdClass $moduleinfo, array $options): void {
         module_content_tools::apply_subsection_options($moduleinfo, $options);
@@ -282,8 +282,8 @@ class module_tools {
     /**
      * Add URL-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_url_options(\stdClass $moduleinfo, array $options): void {
         module_content_tools::apply_url_options($moduleinfo, $options);
@@ -292,8 +292,8 @@ class module_tools {
     /**
      * Add wiki-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_wiki_options(\stdClass $moduleinfo, array $options): void {
         module_interaction_tools::apply_wiki_options($moduleinfo, $options);
@@ -302,8 +302,8 @@ class module_tools {
     /**
      * Add quiz-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_quiz_options(\stdClass $moduleinfo, array $options): void {
         module_quiz_tools::apply_quiz_options($moduleinfo, $options);
@@ -312,8 +312,8 @@ class module_tools {
     /**
      * Verify that a course module belongs to a quiz activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_quiz_module(\stdClass $course, int $cmid): \cm_info {

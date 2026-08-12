@@ -51,9 +51,9 @@ class save_assignment_submission extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param string $onlinetext Online text submission HTML.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $onlinetext Onlinetext.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, string $onlinetext): array {

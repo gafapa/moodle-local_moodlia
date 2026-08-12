@@ -43,8 +43,8 @@ class glossary_tools {
     /**
      * Verify that a course module belongs to a glossary activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_glossary_module(\stdClass $course, int $cmid): \cm_info {
@@ -59,7 +59,7 @@ class glossary_tools {
     /**
      * Convert a public format name to a Moodle editor format constant.
      *
-     * @param string $format Public format name.
+     * @param string $format Format.
      * @return int
      */
     public static function format_to_constant(string $format): int {
@@ -77,7 +77,7 @@ class glossary_tools {
     /**
      * Convert a Moodle editor format constant to a public format name.
      *
-     * @param int $format Moodle format constant.
+     * @param int $format Format.
      * @return string
      */
     public static function format_from_constant(int $format): string {
@@ -87,7 +87,7 @@ class glossary_tools {
     /**
      * Convert public entry options to Moodle external option pairs.
      *
-     * @param array $options Public options.
+     * @param array $options Options.
      * @return array
      */
     public static function options_to_external(array $options): array {
@@ -113,8 +113,8 @@ class glossary_tools {
     /**
      * Return a canonical glossary entry response.
      *
-     * @param \cm_info $cm Glossary course module.
-     * @param array|\stdClass $entry Moodle external entry record.
+     * @param \cm_info $cm Cm.
+     * @param mixed $entry Entry.
      * @return array
      */
     public static function entry_to_response(\cm_info $cm, $entry): array {
@@ -136,7 +136,7 @@ class glossary_tools {
     /**
      * Normalize Moodle warning payloads.
      *
-     * @param array $warnings Moodle warnings.
+     * @param array $warnings Warnings.
      * @return array
      */
     public static function warnings_to_response(array $warnings): array {
@@ -157,8 +157,8 @@ class glossary_tools {
     /**
      * Return a canonical glossary summary response.
      *
-     * @param \stdClass $course Moodle course.
-     * @param array|\stdClass $glossary Moodle external glossary record.
+     * @param \stdClass $course Course.
+     * @param mixed $glossary Glossary.
      * @return array
      */
     public static function glossary_summary_to_response(\stdClass $course, $glossary): array {
@@ -200,8 +200,8 @@ class glossary_tools {
     /**
      * Return a canonical course glossary listing response.
      *
-     * @param \stdClass $course Moodle course.
-     * @param array $result Moodle external API result.
+     * @param \stdClass $course Course.
+     * @param array $result Result.
      * @return array
      */
     public static function course_glossaries_to_response(\stdClass $course, array $result): array {
@@ -221,8 +221,8 @@ class glossary_tools {
     /**
      * Return a canonical glossary entry listing response.
      *
-     * @param \cm_info $cm Glossary course module.
-     * @param array $result Moodle external API result.
+     * @param \cm_info $cm Cm.
+     * @param array $result Result.
      * @return array
      */
     public static function entries_result_to_response(\cm_info $cm, array $result): array {
@@ -241,8 +241,8 @@ class glossary_tools {
     /**
      * Return a canonical glossary category listing response.
      *
-     * @param \cm_info $cm Glossary course module.
-     * @param array $result Moodle external API result.
+     * @param \cm_info $cm Cm.
+     * @param array $result Result.
      * @return array
      */
     public static function categories_to_response(\cm_info $cm, array $result): array {
@@ -270,8 +270,8 @@ class glossary_tools {
     /**
      * Return a canonical glossary author listing response.
      *
-     * @param \cm_info $cm Glossary course module.
-     * @param array $result Moodle external API result.
+     * @param \cm_info $cm Cm.
+     * @param array $result Result.
      * @return array
      */
     public static function authors_to_response(\cm_info $cm, array $result): array {
@@ -297,8 +297,8 @@ class glossary_tools {
     /**
      * Return a glossary entry and ensure it belongs to the selected module.
      *
-     * @param \cm_info $cm Glossary course module.
-     * @param int $entryid Glossary entry id.
+     * @param \cm_info $cm Cm.
+     * @param int $entryid Entryid.
      * @return array
      */
     public static function get_entry(\cm_info $cm, int $entryid): array {
@@ -316,14 +316,14 @@ class glossary_tools {
     /**
      * Search entries in a glossary module.
      *
-     * @param \cm_info $cm Glossary course module.
-     * @param string $query Search query.
-     * @param bool $fullsearch Whether to search definitions too.
-     * @param string $order Sort field.
-     * @param string $sort Sort direction.
-     * @param int $from Offset.
+     * @param \cm_info $cm Cm.
+     * @param string $query Query.
+     * @param bool $fullsearch Fullsearch.
+     * @param string $order Order.
+     * @param string $sort Sort.
+     * @param int $from From.
      * @param int $limit Limit.
-     * @param bool $includenotapproved Include entries pending approval where allowed.
+     * @param bool $includenotapproved Includenotapproved.
      * @return array
      */
     public static function search_entries(
@@ -360,8 +360,8 @@ class glossary_tools {
     /**
      * Return glossary settings and entry summaries exposed through Moodle glossary APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Glossary course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_glossary_details(\stdClass $course, \cm_info $cm): array {
@@ -408,8 +408,8 @@ class glossary_tools {
     /**
      * Return a glossary instance payload from Moodle external APIs where available.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Glossary course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     private static function find_glossary_instance(\stdClass $course, \cm_info $cm): array {
@@ -435,9 +435,9 @@ class glossary_tools {
     /**
      * Return a scalar value from cm_info custom data when Moodle exposes it there.
      *
-     * @param \cm_info $cm Course module info.
-     * @param string $key Custom data key.
-     * @param mixed $default Default value.
+     * @param \cm_info $cm Cm.
+     * @param string $key Key.
+     * @param mixed $default Default.
      * @return mixed
      */
     private static function custom_data_value(\cm_info $cm, string $key, $default) {

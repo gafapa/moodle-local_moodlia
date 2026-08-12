@@ -41,7 +41,7 @@ class completion_tools {
     /**
      * Convert Moodle warnings to the canonical response shape.
      *
-     * @param array $warnings Moodle warning payloads.
+     * @param array $warnings Warnings.
      * @return array
      */
     public static function warnings_to_response(array $warnings): array {
@@ -62,7 +62,7 @@ class completion_tools {
     /**
      * Return Moodle's flexible values as stable JSON.
      *
-     * @param mixed $value Value to encode.
+     * @param mixed $value Value.
      * @return string
      */
     public static function json_value($value): string {
@@ -73,7 +73,7 @@ class completion_tools {
     /**
      * Convert objects and nested arrays to arrays.
      *
-     * @param mixed $value Value to convert.
+     * @param mixed $value Value.
      * @return array
      */
     public static function to_array($value): array {

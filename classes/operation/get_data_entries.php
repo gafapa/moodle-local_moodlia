@@ -31,12 +31,12 @@ class get_data_entries {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Database course module id.
-     * @param string $search Search text.
-     * @param bool $includecontents Include field contents.
-     * @param int $page Page number.
-     * @param int $perpage Page size.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $search Search.
+     * @param bool $includecontents Includecontents.
+     * @param int $page Page.
+     * @param int $perpage Perpage.
      * @return array
      */
     public static function execute(

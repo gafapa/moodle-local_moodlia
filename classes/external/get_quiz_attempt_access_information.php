@@ -50,8 +50,8 @@ class get_quiz_attempt_access_information extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz module id.
-     * @param int $attemptid Attempt id.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $attemptid = 0): array {

@@ -31,8 +31,8 @@ class get_feedback_items {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Feedback course module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid): array {

@@ -52,9 +52,9 @@ class get_lesson_pages extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Lesson course module id.
-     * @param string $password Optional lesson password.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $password Password.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, string $password = ''): array {

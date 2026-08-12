@@ -31,8 +31,8 @@ class unenrol_user {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $userid Moodle user id.
+     * @param int $courseid Courseid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $courseid, int $userid): array {

@@ -53,10 +53,10 @@ class get_wiki_files extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
-     * @param int $groupid Group id.
-     * @param int $userid User id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $groupid Groupid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $groupid = -1, int $userid = 0): array {

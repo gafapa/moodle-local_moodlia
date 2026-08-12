@@ -64,17 +64,17 @@ class create_lesson_page extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Lesson course module id.
-     * @param string $title Lesson page title.
-     * @param string $content Lesson page content.
-     * @param int $contentformat Moodle text format.
-     * @param string $branches JSON branch definitions.
-     * @param int $afterpageid Previous page id.
-     * @param bool $displayinmenu Menu display setting.
-     * @param bool $horizontal Branch layout setting.
-     * @param string $pagetype Lesson page type.
-     * @param string|null $answers JSON answer definitions.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param string|null $branches Branches.
+     * @param int $afterpageid Afterpageid.
+     * @param bool $displayinmenu Displayinmenu.
+     * @param bool $horizontal Horizontal.
+     * @param string $pagetype Pagetype.
+     * @param string|null $answers Answers.
      * @return array
      */
     public static function execute(

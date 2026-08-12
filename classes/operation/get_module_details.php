@@ -31,8 +31,8 @@ class get_module_details {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Course module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid): array {
@@ -67,8 +67,8 @@ class get_module_details {
     /**
      * Return the section that contains a module.
      *
-     * @param \course_modinfo $modinfo Course module info.
-     * @param \cm_info $cm Course module info.
+     * @param \course_modinfo $modinfo Modinfo.
+     * @param \cm_info $cm Cm.
      * @return \section_info
      */
     private static function get_module_section(\course_modinfo $modinfo, \cm_info $cm): \section_info {
@@ -85,8 +85,8 @@ class get_module_details {
     /**
      * Render the module intro/description where Moodle exposes it through cm_info.
      *
-     * @param \cm_info $cm Course module info.
-     * @param \context_module $context Module context.
+     * @param \cm_info $cm Cm.
+     * @param \context_module $context Context.
      * @return string
      */
     private static function render_description(\cm_info $cm, \context_module $context): string {
@@ -114,7 +114,7 @@ class get_module_details {
     /**
      * Build a small JSON object with optional cm_info details.
      *
-     * @param \cm_info $cm Course module info.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     private static function build_extra_details(\cm_info $cm): array {
@@ -129,7 +129,7 @@ class get_module_details {
     /**
      * Return module-specific details where Moodle exposes safe APIs.
      *
-     * @param \cm_info $cm Course module info.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     private static function build_activity_details(\cm_info $cm): array {
@@ -234,7 +234,7 @@ class get_module_details {
     /**
      * Encode optional cm_info details as JSON.
      *
-     * @param \cm_info $cm Course module info.
+     * @param \cm_info $cm Cm.
      * @return string
      */
     private static function encode_extra_details(\cm_info $cm): string {
@@ -246,7 +246,7 @@ class get_module_details {
     /**
      * Normalise custom data to a JSON-safe shape.
      *
-     * @param mixed $customdata Module custom data.
+     * @param mixed $customdata Customdata.
      * @return mixed
      */
     private static function normalise_custom_data($customdata) {

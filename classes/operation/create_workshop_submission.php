@@ -31,11 +31,11 @@ class create_workshop_submission {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param string $title Submission title.
-     * @param string $content Submission content.
-     * @param string $contentformat Public content format.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param string $contentformat Contentformat.
      * @return array
      */
     public static function execute(

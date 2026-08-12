@@ -61,13 +61,13 @@ class add_random_questions_to_quiz extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $categoryid Question category id.
-     * @param int $number Number of random slots.
-     * @param int|null $slot Requested quiz slot.
-     * @param bool $includesubcategories Include child categories.
-     * @param string $bankscope Source bank scope.
-     * @param int|null $questionbankmoduleid Source course qbank module id.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $categoryid Categoryid.
+     * @param int $number Number.
+     * @param int|null $slot Slot.
+     * @param bool $includesubcategories Includesubcategories.
+     * @param string $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
      * @return array
      */
     public static function execute(

@@ -41,8 +41,8 @@ class choice_tools {
     /**
      * Verify that a course module belongs to a choice activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_choice_module(\stdClass $course, int $cmid): \cm_info {
@@ -57,7 +57,7 @@ class choice_tools {
     /**
      * Decode a JSON array of option ids.
      *
-     * @param string $json JSON array string.
+     * @param string $json Json.
      * @return array
      */
     public static function decode_option_ids(string $json): array {
@@ -81,7 +81,7 @@ class choice_tools {
     /**
      * Decode a JSON array of response ids.
      *
-     * @param string $json JSON array string.
+     * @param string $json Json.
      * @return array
      */
     public static function decode_response_ids(string $json): array {
@@ -109,7 +109,7 @@ class choice_tools {
     /**
      * Normalize Moodle warning payloads.
      *
-     * @param array $warnings Moodle warnings.
+     * @param array $warnings Warnings.
      * @return array
      */
     public static function warnings_to_response(array $warnings): array {
@@ -130,7 +130,7 @@ class choice_tools {
     /**
      * Return a normalized choice option item.
      *
-     * @param array|\stdClass $option Moodle external option item.
+     * @param mixed $option Option.
      * @return array
      */
     public static function option_to_response($option): array {
@@ -149,7 +149,7 @@ class choice_tools {
     /**
      * Return a normalized choice result item.
      *
-     * @param array|\stdClass $result Moodle external result item.
+     * @param mixed $result Result.
      * @return array
      */
     public static function result_to_response($result): array {
@@ -165,9 +165,9 @@ class choice_tools {
     /**
      * Return a normalized choice summary.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info|null $cm Optional Choice course module.
-     * @param array|\stdClass $choice Moodle external choice item.
+     * @param \stdClass $course Course.
+     * @param \cm_info|null $cm Cm.
+     * @param mixed $choice Choice.
      * @return array
      */
     public static function choice_summary_to_response(\stdClass $course, ?\cm_info $cm, $choice): array {
@@ -200,8 +200,8 @@ class choice_tools {
     /**
      * Return a canonical course Choice listing response.
      *
-     * @param \stdClass $course Moodle course.
-     * @param array $result Moodle external API result.
+     * @param \stdClass $course Course.
+     * @param array $result Result.
      * @return array
      */
     public static function course_choices_to_response(\stdClass $course, array $result): array {
@@ -221,8 +221,8 @@ class choice_tools {
     /**
      * Return choice settings, options, and result totals exposed through Moodle choice APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Choice course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_choice_details(\stdClass $course, \cm_info $cm): array {
@@ -262,8 +262,8 @@ class choice_tools {
     /**
      * Return a choice instance payload from Moodle external APIs where available.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Choice course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     private static function find_choice_instance(\stdClass $course, \cm_info $cm): array {
@@ -288,7 +288,7 @@ class choice_tools {
     /**
      * Return normalised choice results, falling back to option counts where Moodle cannot compute percentages.
      *
-     * @param int $choiceid Moodle choice instance id.
+     * @param int $choiceid Choiceid.
      * @return array
      */
     private static function get_normalised_results(int $choiceid): array {

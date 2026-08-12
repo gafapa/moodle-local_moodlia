@@ -31,8 +31,8 @@ class get_quiz_attempt_access_information {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id, or 0 for the current user's last attempt.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $attemptid = 0): array {

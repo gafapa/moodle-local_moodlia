@@ -50,9 +50,9 @@ class get_glossary_entry extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
-     * @param int $entryid Entry id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $entryid Entryid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $entryid): array {

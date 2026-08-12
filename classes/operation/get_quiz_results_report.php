@@ -33,9 +33,9 @@ class get_quiz_results_report {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $limit Maximum users to include.
-     * @param bool $includepreviews Include preview attempts.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $limit Limit.
+     * @param bool $includepreviews Includepreviews.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $limit = 100, bool $includepreviews = true): array {
@@ -141,7 +141,7 @@ class get_quiz_results_report {
     /**
      * Summarise quiz attempts for one user.
      *
-     * @param array $attempts Moodle attempt rows.
+     * @param array $attempts Attempts.
      * @return array
      */
     private static function summarise_attempts(array $attempts): array {
@@ -180,7 +180,7 @@ class get_quiz_results_report {
      * Return a percentage with stable precision.
      *
      * @param float $value Value.
-     * @param float $maximum Maximum value.
+     * @param float $maximum Maximum.
      * @return float
      */
     private static function percentage(float $value, float $maximum): float {
@@ -194,7 +194,7 @@ class get_quiz_results_report {
     /**
      * Average numeric values.
      *
-     * @param array $values Numeric values.
+     * @param array $values Values.
      * @return float
      */
     private static function average(array $values): float {
@@ -208,9 +208,9 @@ class get_quiz_results_report {
     /**
      * Build a report warning for one user.
      *
-     * @param int $userid Moodle user id.
-     * @param string $code Warning code.
-     * @param \Throwable $exception Source exception.
+     * @param int $userid Userid.
+     * @param string $code Code.
+     * @param \Throwable $exception Exception.
      * @return array
      */
     private static function warning_for_user(int $userid, string $code, \Throwable $exception): array {

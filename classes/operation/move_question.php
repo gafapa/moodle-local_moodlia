@@ -31,12 +31,12 @@ class move_question {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $questionid Question id.
-     * @param int $targetcategoryid Destination question category id.
-     * @param string|null $targetbankscope Destination bank scope.
-     * @param int|null $targetquestionbankmoduleid Destination course qbank module id.
-     * @param int|null $targetquizmoduleid Destination quiz module id.
+     * @param int $courseid Courseid.
+     * @param int $questionid Questionid.
+     * @param int $targetcategoryid Targetcategoryid.
+     * @param string|null $targetbankscope Targetbankscope.
+     * @param int|null $targetquestionbankmoduleid Targetquestionbankmoduleid.
+     * @param int|null $targetquizmoduleid Targetquizmoduleid.
      * @return array
      */
     public static function execute(

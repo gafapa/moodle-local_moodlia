@@ -31,9 +31,9 @@ class get_lesson_attempts_overview {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Lesson course module id.
-     * @param int $groupid Moodle group id, or 0 for Moodle's default group resolution.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $groupid Groupid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $groupid = 0): array {

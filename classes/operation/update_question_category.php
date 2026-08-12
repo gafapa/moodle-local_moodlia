@@ -31,9 +31,9 @@ class update_question_category {
     /**
      * Execute the operation.
      *
-     * @param int $categoryid Question category id.
-     * @param string|null $name Category name.
-     * @param string|null $description Category description.
+     * @param int $categoryid Categoryid.
+     * @param string|null $name Name.
+     * @param string|null $description Description.
      * @return array
      */
     public static function execute(int $categoryid, ?string $name = null, ?string $description = null): array {

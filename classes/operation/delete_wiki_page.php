@@ -31,9 +31,9 @@ class delete_wiki_page {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Wiki course module id.
-     * @param int $pageid Wiki page id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $pageid Pageid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $pageid): array {

@@ -52,7 +52,7 @@ class create_calendar_event extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
+     * @param int $courseid Courseid.
      * @param string $name Name.
      * @param int $timestart Timestart.
      * @param string $description Description.

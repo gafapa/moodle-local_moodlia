@@ -54,10 +54,10 @@ class update_forum_discussion_post extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
-     * @param int $discussionid Discussion id.
-     * @param int $postid Post id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $discussionid Discussionid.
+     * @param int $postid Postid.
      * @param string $subject Subject.
      * @param string $message Message.
      * @return array

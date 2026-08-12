@@ -52,10 +52,10 @@ class create_data_entry extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Database course module id.
-     * @param string $values JSON object keyed by field name or field id.
-     * @param int $groupid Group id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $values Values.
+     * @param int $groupid Groupid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, string $values, int $groupid = 0): array {

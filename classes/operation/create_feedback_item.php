@@ -31,16 +31,16 @@ class create_feedback_item {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Feedback course module id.
-     * @param string $type Feedback item type.
-     * @param string|null $name Feedback item name.
-     * @param string $definitionjson JSON item definition.
-     * @param int|null $position Optional one-based position.
-     * @param string|null $label Optional item label.
-     * @param bool|null $required Optional required flag.
-     * @param int|null $dependitemid Optional dependency item id.
-     * @param string|null $dependvalue Optional dependency value.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $type Type.
+     * @param string|null $name Name.
+     * @param string $definitionjson Definitionjson.
+     * @param int|null $position Position.
+     * @param string|null $label Label.
+     * @param bool|null $required Required.
+     * @param int|null $dependitemid Dependitemid.
+     * @param string|null $dependvalue Dependvalue.
      * @return array
      */
     public static function execute(

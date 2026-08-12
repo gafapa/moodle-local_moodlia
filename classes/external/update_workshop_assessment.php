@@ -53,6 +53,10 @@ class update_workshop_assessment extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $assessmentid Assessmentid.
+     * @param string $datajson Datajson.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $assessmentid, string $datajson): array {

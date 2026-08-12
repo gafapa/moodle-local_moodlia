@@ -31,8 +31,8 @@ class module_advanced_tools {
     /**
      * Add lesson-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_lesson_options(\stdClass $moduleinfo, array $options): void {
         $moduleinfo->intro = (string) ($options['intro'] ?? $options['description'] ?? '');
@@ -90,8 +90,8 @@ class module_advanced_tools {
     /**
      * Add workshop-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_workshop_options(\stdClass $moduleinfo, array $options): void {
         $moduleinfo->intro = (string) ($options['intro'] ?? $options['description'] ?? '');
@@ -182,8 +182,8 @@ class module_advanced_tools {
     /**
      * Add LTI-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_lti_options(\stdClass $moduleinfo, array $options): void {
         $moduleinfo->intro = (string) ($options['intro'] ?? $options['description'] ?? '');
@@ -232,9 +232,9 @@ class module_advanced_tools {
     /**
      * Return an optional boolean module option as an integer.
      *
-     * @param array $options Module options.
-     * @param string $name Public option name.
-     * @param int $default Default integer value.
+     * @param array $options Options.
+     * @param string $name Name.
+     * @param int $default Default.
      * @return int
      */
     private static function optional_bool(array $options, string $name, int $default): int {
@@ -244,10 +244,10 @@ class module_advanced_tools {
     /**
      * Return an optional positive integer module option.
      *
-     * @param array $options Module options.
-     * @param string $name Public option name.
-     * @param int $default Default integer value.
-     * @param int $minimum Minimum accepted value.
+     * @param array $options Options.
+     * @param string $name Name.
+     * @param int $default Default.
+     * @param int $minimum Minimum.
      * @return int
      */
     private static function optional_int(array $options, string $name, int $default, int $minimum = 0): int {
@@ -262,11 +262,11 @@ class module_advanced_tools {
     /**
      * Return an optional integer constrained to a public range.
      *
-     * @param array $options Module options.
-     * @param string $name Public option name.
-     * @param int $default Default integer value.
-     * @param int $minimum Minimum accepted value.
-     * @param int $maximum Maximum accepted value.
+     * @param array $options Options.
+     * @param string $name Name.
+     * @param int $default Default.
+     * @param int $minimum Minimum.
+     * @param int $maximum Maximum.
      * @return int
      */
     private static function optional_int_range(array $options, string $name, int $default, int $minimum, int $maximum): int {
@@ -281,11 +281,11 @@ class module_advanced_tools {
     /**
      * Return an optional numeric module option constrained to a public range.
      *
-     * @param array $options Module options.
-     * @param string $name Public option name.
-     * @param float $default Default numeric value.
-     * @param float $minimum Minimum accepted value.
-     * @param float $maximum Maximum accepted value.
+     * @param array $options Options.
+     * @param string $name Name.
+     * @param float $default Default.
+     * @param float $minimum Minimum.
+     * @param float $maximum Maximum.
      * @return float
      */
     private static function optional_number_range(
@@ -306,9 +306,9 @@ class module_advanced_tools {
     /**
      * Return a validated absolute HTTP(S) URL.
      *
-     * @param mixed $value Public URL value.
-     * @param string $option Option name for error messages.
-     * @param bool $required Whether an empty value is allowed.
+     * @param mixed $value Value.
+     * @param string $option Option.
+     * @param bool $required Required.
      * @return string
      */
     private static function normalise_absolute_http_url($value, string $option, bool $required): string {
@@ -331,7 +331,7 @@ class module_advanced_tools {
     /**
      * Map public lesson navigation values.
      *
-     * @param string $value Public next-page value.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_lesson_next_page(string $value): int {
@@ -353,7 +353,7 @@ class module_advanced_tools {
     /**
      * Validate a public HTML hex colour.
      *
-     * @param string $value Colour value.
+     * @param string $value Value.
      * @return string
      */
     private static function normalise_hex_colour(string $value): string {
@@ -368,7 +368,7 @@ class module_advanced_tools {
     /**
      * Map a public workshop grading strategy value to an installed strategy.
      *
-     * @param string $value Public strategy value.
+     * @param string $value Value.
      * @return string
      */
     private static function normalise_workshop_strategy(string $value): string {
@@ -389,8 +389,8 @@ class module_advanced_tools {
     /**
      * Map public workshop submission type values to Moodle constants.
      *
-     * @param string $value Public submission type.
-     * @param string $option Option name for error messages.
+     * @param string $value Value.
+     * @param string $option Option.
      * @return int
      */
     private static function normalise_workshop_submission_type(string $value, string $option): int {
@@ -412,7 +412,7 @@ class module_advanced_tools {
     /**
      * Map public workshop example-mode values.
      *
-     * @param string $value Public examples mode.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_workshop_examples_mode(string $value): int {
@@ -436,10 +436,10 @@ class module_advanced_tools {
     /**
      * Map a public LTI privacy boolean to Moodle's setting values.
      *
-     * @param array $options Module options.
-     * @param string $preferred Preferred option name.
-     * @param string $legacy Legacy option name.
-     * @param bool $default Default value.
+     * @param array $options Options.
+     * @param string $preferred Preferred.
+     * @param string $legacy Legacy.
+     * @param bool $default Default.
      * @return int
      */
     private static function normalise_lti_privacy_setting(
@@ -456,7 +456,7 @@ class module_advanced_tools {
     /**
      * Return Moodle's LTI setting value for a public boolean.
      *
-     * @param bool $enabled Whether the LTI setting is enabled.
+     * @param bool $enabled Enabled.
      * @return int
      */
     private static function lti_setting_from_bool(bool $enabled): int {
@@ -470,7 +470,7 @@ class module_advanced_tools {
     /**
      * Map a public LTI launch container value to Moodle constants.
      *
-     * @param string $value Public launch container.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_lti_launch_container(string $value): int {

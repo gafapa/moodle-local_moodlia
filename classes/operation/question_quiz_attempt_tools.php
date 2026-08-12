@@ -34,8 +34,8 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Start a quiz attempt or preview for the current user.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param bool $forcenew Force a new attempt when Moodle permits it.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param bool $forcenew Forcenew.
      * @return array
      */
     public static function start_quiz_attempt(int $quizmoduleid, bool $forcenew = false): array {
@@ -58,10 +58,10 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Return quiz attempts for a user.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $userid Moodle user id, or 0 for current user.
-     * @param string $status Attempt status: all, finished, or unfinished.
-     * @param bool $includepreviews Include preview attempts.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $userid Userid.
+     * @param string $status Status.
+     * @param bool $includepreviews Includepreviews.
      * @return array
      */
     public static function get_quiz_attempts(
@@ -107,7 +107,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Return Moodle quizzes in selected courses.
      *
-     * @param array $courseids Moodle course ids.
+     * @param array $courseids Courseids.
      * @return array
      */
     public static function get_course_quizzes(array $courseids = []): array {
@@ -141,8 +141,8 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Return access information for a quiz attempt.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id, or 0 for the current user's last attempt.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
      * @return array
      */
     public static function get_quiz_attempt_access_information(int $quizmoduleid, int $attemptid = 0): array {
@@ -177,10 +177,10 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Return rendered data for one page of a quiz attempt.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param int $page Attempt page number.
-     * @param array $preflightdata Preflight data pairs.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param int $page Page.
+     * @param array $preflightdata Preflightdata.
      * @return array
      */
     public static function get_quiz_attempt_data(
@@ -219,9 +219,9 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Return the pre-submit summary for a quiz attempt.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param array $preflightdata Preflight data pairs.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param array $preflightdata Preflightdata.
      * @return array
      */
     public static function get_quiz_attempt_summary(int $quizmoduleid, int $attemptid, array $preflightdata = []): array {
@@ -248,10 +248,10 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Save current responses for a quiz attempt without finishing it.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param array $data Attempt response name/value pairs.
-     * @param array $preflightdata Preflight data pairs.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param array $data Data.
+     * @param array $preflightdata Preflightdata.
      * @return array
      */
     public static function save_quiz_attempt(
@@ -282,12 +282,12 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Process responses for a quiz attempt and optionally finish it.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param array $data Attempt response name/value pairs.
-     * @param bool $finishattempt Whether to finish the attempt.
-     * @param bool $timeup Whether processing is due to timer expiry.
-     * @param array $preflightdata Preflight data pairs.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param array $data Data.
+     * @param bool $finishattempt Finishattempt.
+     * @param bool $timeup Timeup.
+     * @param array $preflightdata Preflightdata.
      * @return array
      */
     public static function process_quiz_attempt(
@@ -322,9 +322,9 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Return review data for a finished quiz attempt.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param int $page Review page number, or -1 for all pages.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param int $page Page.
      * @return array
      */
     public static function get_quiz_attempt_review(int $quizmoduleid, int $attemptid, int $page = -1): array {
@@ -357,8 +357,8 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Register a quiz attempt review view.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
      * @return array
      */
     public static function view_quiz_attempt_review(int $quizmoduleid, int $attemptid): array {
@@ -384,10 +384,10 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Register a quiz attempt page view.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param int $page Attempt page number.
-     * @param array $preflightdata Preflight data pairs.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param int $page Page.
+     * @param array $preflightdata Preflightdata.
      * @return array
      */
     public static function view_quiz_attempt(
@@ -423,9 +423,9 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Register a quiz attempt summary view.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param array $preflightdata Preflight data pairs.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param array $preflightdata Preflightdata.
      * @return array
      */
     public static function view_quiz_attempt_summary(int $quizmoduleid, int $attemptid, array $preflightdata = []): array {
@@ -451,7 +451,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Return access information for a quiz.
      *
-     * @param int $quizmoduleid Quiz course module id.
+     * @param int $quizmoduleid Quizmoduleid.
      * @return array
      */
     public static function get_quiz_access_information(int $quizmoduleid): array {
@@ -481,8 +481,8 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Return combined quiz review option visibility.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $userid Moodle user id, or 0 for current user.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function get_quiz_combined_review_options(int $quizmoduleid, int $userid = 0): array {
@@ -512,7 +512,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Register a quiz view event and completion progress.
      *
-     * @param int $quizmoduleid Quiz course module id.
+     * @param int $quizmoduleid Quizmoduleid.
      * @return array
      */
     public static function view_quiz(int $quizmoduleid): array {
@@ -535,8 +535,8 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Return the best grade for a quiz user.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $userid Moodle user id, or 0 for current user.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function get_quiz_user_best_grade(int $quizmoduleid, int $userid = 0): array {
@@ -569,8 +569,8 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Return quiz overall feedback for a grade value.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param float $grade Grade value.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param float $grade Grade.
      * @return array
      */
     public static function get_quiz_feedback_for_grade(int $quizmoduleid, float $grade): array {
@@ -595,7 +595,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Return question types required by a quiz.
      *
-     * @param int $quizmoduleid Quiz course module id.
+     * @param int $quizmoduleid Quizmoduleid.
      * @return array
      */
     public static function get_quiz_required_question_types(int $quizmoduleid): array {
@@ -618,7 +618,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Convert a Moodle quiz attempt to the canonical response shape.
      *
-     * @param mixed $attempt Moodle attempt payload.
+     * @param mixed $attempt Attempt.
      * @return array
      */
     private static function quiz_attempt_to_response($attempt): array {
@@ -643,7 +643,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Convert Moodle quiz summary payload to the canonical response shape.
      *
-     * @param mixed $quiz Moodle quiz payload.
+     * @param mixed $quiz Quiz.
      * @return array
      */
     private static function quiz_summary_to_response($quiz): array {
@@ -674,7 +674,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Convert Moodle quiz review options into name/value rows.
      *
-     * @param mixed $options Moodle review options payload.
+     * @param mixed $options Options.
      * @return array
      */
     private static function quiz_review_options_to_response($options): array {
@@ -695,7 +695,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Decode preflight data JSON into Moodle external name/value pairs.
      *
-     * @param string $json JSON array string.
+     * @param string $json Json.
      * @return array
      */
     public static function decode_preflight_data(string $json): array {
@@ -726,7 +726,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Decode attempt response JSON into Moodle external name/value pairs.
      *
-     * @param string $json JSON array string.
+     * @param string $json Json.
      * @return array
      */
     public static function decode_quiz_attempt_data(string $json): array {
@@ -757,7 +757,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Decode an integer id list from JSON, comma-separated text, or one scalar id.
      *
-     * @param string $json JSON array string, comma-separated ids, or one id.
+     * @param string $json Json.
      * @return array
      */
     public static function decode_id_list(string $json): array {
@@ -790,8 +790,8 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Validate that an attempt belongs to the selected quiz module.
      *
-     * @param quiz_settings $quizobj Quiz settings object.
-     * @param int $attemptid Attempt id.
+     * @param quiz_settings $quizobj Quizobj.
+     * @param int $attemptid Attemptid.
      */
     private static function validate_quiz_attempt_module(quiz_settings $quizobj, int $attemptid): void {
         if ($attemptid <= 0) {
@@ -807,7 +807,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Convert Moodle attempt questions into canonical response rows.
      *
-     * @param array $questions Moodle question payloads.
+     * @param array $questions Questions.
      * @return array
      */
     private static function quiz_attempt_questions_to_response(array $questions): array {
@@ -841,7 +841,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Convert Moodle attempt review additional data into canonical rows.
      *
-     * @param array $additionaldata Moodle additional data payloads.
+     * @param array $additionaldata Additionaldata.
      * @return array
      */
     private static function quiz_attempt_additional_data_to_response(array $additionaldata): array {
@@ -861,7 +861,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Normalize Moodle warning payloads.
      *
-     * @param array $warnings Moodle warning payloads.
+     * @param array $warnings Warnings.
      * @return array
      */
     private static function warnings_to_response(array $warnings): array {
@@ -882,7 +882,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Throw when Moodle returns quiz external API warnings.
      *
-     * @param array $warnings Moodle warning payloads.
+     * @param array $warnings Warnings.
      */
     private static function fail_on_quiz_warnings(array $warnings): void {
         if (empty($warnings)) {
@@ -897,7 +897,7 @@ class question_quiz_attempt_tools extends question_tools {
     /**
      * Convert objects and nested arrays to arrays.
      *
-     * @param mixed $value Value to convert.
+     * @param mixed $value Value.
      * @return array
      */
     private static function value_to_array($value): array {

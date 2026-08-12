@@ -51,9 +51,9 @@ class delete_question_category extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $categoryid Question category id.
-     * @param int $contextid Question bank context id.
-     * @param string $deletemode Delete mode.
+     * @param int $categoryid Categoryid.
+     * @param int $contextid Contextid.
+     * @param string $deletemode Deletemode.
      * @return array
      */
     public static function execute(int $categoryid, int $contextid, string $deletemode = 'delete'): array {

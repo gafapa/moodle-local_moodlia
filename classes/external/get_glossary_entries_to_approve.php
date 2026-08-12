@@ -56,8 +56,8 @@ class get_glossary_entries_to_approve extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @param string $letter Letter.
      * @param string $order Order.
      * @param string $sort Sort.

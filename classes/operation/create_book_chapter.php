@@ -31,14 +31,14 @@ class create_book_chapter {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Book course module id.
-     * @param string $title Chapter title.
-     * @param string $content Chapter content.
-     * @param int $contentformat Moodle content format.
-     * @param bool $subchapter Whether the chapter is a subchapter.
-     * @param int|null $afterchapterid Chapter after which to insert.
-     * @param bool $hidden Whether the chapter is hidden.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param bool $subchapter Subchapter.
+     * @param int|null $afterchapterid Afterchapterid.
+     * @param bool $hidden Hidden.
      * @return array
      */
     public static function execute(

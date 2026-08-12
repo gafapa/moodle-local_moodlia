@@ -33,6 +33,7 @@ for (const filePath of phpFiles) {
     /^([ \t]*)(?:(?:public|protected|private)\s+)?const\s+([A-Za-z_][A-Za-z0-9_]*)\b/gm,
     constantDocblock
   );
+  source = normalizeFunctionParameterDocs(source);
 
   const output = source.replaceAll('\n', lineEnding);
   if (output === original) {
@@ -128,6 +129,47 @@ function constantDocblock(source, match) {
     `${indent} */`,
     ''
   ].join('\n');
+}
+
+function normalizeFunctionParameterDocs(source) {
+  const updates = [];
+  const pattern = /^([ \t]*)(?:(?:public|protected|private)\s+)?(?:(?:static|final|abstract)\s+)*function\s+&?\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(/gm;
+  for (const match of source.matchAll(pattern)) {
+    const declarationIndex = match.index + match[1].length;
+    const openParenthesis = source.indexOf('(', declarationIndex);
+    const closeParenthesis = findMatchingParenthesis(source, openParenthesis);
+    const parameters = splitParameters(source.slice(openParenthesis + 1, closeParenthesis));
+    const prefix = source.slice(0, match.index).trimEnd();
+    if (!prefix.endsWith('*/')) {
+      continue;
+    }
+    const docblockEnd = prefix.length;
+    const docblockStart = prefix.lastIndexOf('/**');
+    if (docblockStart < 0) {
+      continue;
+    }
+    const indent = match[1];
+    let docblock = source.slice(docblockStart, docblockEnd);
+    docblock = docblock.replace(/^[ \t]*\*[ \t]+@param\b[^\n]*\n/gm, '');
+    if (parameters.length > 0) {
+      const returnMarker = `\n${indent} * @return`;
+      const closeMarker = `\n${indent} */`;
+      let insertionIndex = docblock.indexOf(returnMarker);
+      if (insertionIndex < 0) {
+        insertionIndex = docblock.lastIndexOf(closeMarker);
+      }
+      const parameterLines = parameters.map((parameter) => {
+        return `${indent} * @param ${parameter.type} $${parameter.name} ${sentenceFromIdentifier(parameter.name)}.`;
+      }).join('\n');
+      docblock = docblock.slice(0, insertionIndex) + `\n${parameterLines}` + docblock.slice(insertionIndex);
+    }
+    updates.push({ start: docblockStart, end: docblockEnd, text: docblock });
+  }
+
+  for (const update of updates.reverse()) {
+    source = source.slice(0, update.start) + update.text + source.slice(update.end);
+  }
+  return source;
 }
 
 function findMatchingParenthesis(source, openIndex) {

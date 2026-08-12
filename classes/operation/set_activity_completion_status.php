@@ -31,8 +31,8 @@ class set_activity_completion_status {
     /**
      * Execute the operation.
      *
-     * @param int $moduleid Moodle course module id.
-     * @param bool $completed Desired completion state.
+     * @param int $moduleid Moduleid.
+     * @param bool $completed Completed.
      * @return array
      */
     public static function execute(int $moduleid, bool $completed): array {

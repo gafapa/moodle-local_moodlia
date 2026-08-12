@@ -53,11 +53,11 @@ class update_wiki_page extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Wiki course module id.
-     * @param int $pageid Wiki page id.
-     * @param string $content Wiki page content.
-     * @param string|null $section Optional wiki page section.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $pageid Pageid.
+     * @param string $content Content.
+     * @param string|null $section Section.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $pageid, string $content, ?string $section = null): array {

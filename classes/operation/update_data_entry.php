@@ -31,10 +31,10 @@ class update_data_entry {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Database course module id.
-     * @param int $entryid Database entry id.
-     * @param array $values Entry values keyed by field name or field id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $entryid Entryid.
+     * @param array $values Values.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $entryid, array $values): array {

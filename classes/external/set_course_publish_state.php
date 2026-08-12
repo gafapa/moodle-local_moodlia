@@ -49,8 +49,8 @@ class set_course_publish_state extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param string $publishstate Publish state.
+     * @param int $courseid Courseid.
+     * @param string $publishstate Publishstate.
      * @return array
      */
     public static function execute(int $courseid, string $publishstate): array {

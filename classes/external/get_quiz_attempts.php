@@ -52,10 +52,10 @@ class get_quiz_attempts extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $userid Moodle user id, or 0 for current user.
-     * @param string $status Attempt status: all, finished, or unfinished.
-     * @param bool $includepreviews Include preview attempts.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $userid Userid.
+     * @param string $status Status.
+     * @param bool $includepreviews Includepreviews.
      * @return array
      */
     public static function execute(

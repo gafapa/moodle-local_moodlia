@@ -31,9 +31,9 @@ class get_user_grades {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $userid Moodle user id, or 0 for current user.
-     * @param int $groupid Moodle group id, or 0 for all allowed groups.
+     * @param int $courseid Courseid.
+     * @param int $userid Userid.
+     * @param int $groupid Groupid.
      * @return array
      */
     public static function execute(int $courseid, int $userid = 0, int $groupid = 0): array {

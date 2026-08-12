@@ -31,9 +31,9 @@ class get_lesson_user_timers {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Lesson course module id.
-     * @param int $userid Moodle user id, or 0 for current user.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $userid = 0): array {

@@ -51,9 +51,9 @@ class delete_data_entry extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Database course module id.
-     * @param int $entryid Database entry id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $entryid Entryid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $entryid): array {

@@ -53,6 +53,11 @@ class create_workshop_submission extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param string $contentformat Contentformat.
      * @return array
      */
     public static function execute(

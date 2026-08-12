@@ -31,10 +31,10 @@ class repair_course_completion {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $mode Repair mode.
-     * @param bool $dryrun Whether to only report changes.
-     * @param bool $resetstates Whether Moodle should reset existing completion states.
+     * @param int $courseid Courseid.
+     * @param string $mode Mode.
+     * @param bool $dryrun Dryrun.
+     * @param bool $resetstates Resetstates.
      * @return array
      */
     public static function execute(

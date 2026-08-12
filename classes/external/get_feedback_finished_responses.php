@@ -51,8 +51,8 @@ class get_feedback_finished_responses extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid): array {

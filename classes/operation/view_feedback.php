@@ -31,9 +31,9 @@ class view_feedback {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Feedback course module id.
-     * @param bool $moduleviewed Mark module viewed for completion tracking.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param bool $moduleviewed Moduleviewed.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, bool $moduleviewed = false): array {

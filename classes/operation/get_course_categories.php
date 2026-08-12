@@ -31,7 +31,7 @@ class get_course_categories {
     /**
      * Execute the operation.
      *
-     * @param int $parentid Parent category id, or -1 for all categories.
+     * @param int $parentid Parentid.
      * @return array
      */
     public static function execute(int $parentid = -1): array {

@@ -31,10 +31,10 @@ class create_forum_discussion {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Forum course module id.
-     * @param string $name Discussion name.
-     * @param string $message Discussion message.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $name Name.
+     * @param string $message Message.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, string $name, string $message): array {

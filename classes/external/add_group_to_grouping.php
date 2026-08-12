@@ -50,9 +50,9 @@ class add_group_to_grouping extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $groupingid Grouping id.
-     * @param int $groupid Group id.
+     * @param int $courseid Courseid.
+     * @param int $groupingid Groupingid.
+     * @param int $groupid Groupid.
      * @return array
      */
     public static function execute(int $courseid, int $groupingid, int $groupid): array {

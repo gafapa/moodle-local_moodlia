@@ -31,8 +31,8 @@ class delete_grade_category {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $categoryid Grade category id.
+     * @param int $courseid Courseid.
+     * @param int $categoryid Categoryid.
      * @return array
      */
     public static function execute(int $courseid, int $categoryid): array {

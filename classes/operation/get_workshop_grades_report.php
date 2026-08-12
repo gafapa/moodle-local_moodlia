@@ -31,13 +31,13 @@ class get_workshop_grades_report {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param int $groupid Group id or 0.
-     * @param string $sortby Sort field.
-     * @param string $sortdirection Sort direction.
-     * @param int $page Page number.
-     * @param int $perpage Page size.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $groupid Groupid.
+     * @param string $sortby Sortby.
+     * @param string $sortdirection Sortdirection.
+     * @param int $page Page.
+     * @param int $perpage Perpage.
      * @return array
      */
     public static function execute(
@@ -76,7 +76,7 @@ class get_workshop_grades_report {
     /**
      * Validate and normalize a public report sort field.
      *
-     * @param string $sortby Sort field.
+     * @param string $sortby Sortby.
      * @return string
      */
     private static function normalise_sort_by(string $sortby): string {
@@ -94,7 +94,7 @@ class get_workshop_grades_report {
     /**
      * Validate and normalize a public report sort direction.
      *
-     * @param string $sortdirection Sort direction.
+     * @param string $sortdirection Sortdirection.
      * @return string
      */
     private static function normalise_sort_direction(string $sortdirection): string {

@@ -31,8 +31,8 @@ class module_file_tools {
     /**
      * Create a user draft file for a Moodle resource module.
      *
-     * @param string $filename Target filename.
-     * @param string $uploadreference Base64-encoded file content.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
      * @return int Draft item id.
      */
     public static function create_resource_draft_file(string $filename, string $uploadreference): int {
@@ -70,8 +70,8 @@ class module_file_tools {
     /**
      * Verify that a course module belongs to a folder activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_folder_module(\stdClass $course, int $cmid): \cm_info {
@@ -86,8 +86,8 @@ class module_file_tools {
     /**
      * Verify that a course module belongs to a file resource.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_resource_module(\stdClass $course, int $cmid): \cm_info {
@@ -102,8 +102,8 @@ class module_file_tools {
     /**
      * Return the canonical folder file response shape.
      *
-     * @param \cm_info $cm Folder course module.
-     * @param \stored_file $file Stored file.
+     * @param \cm_info $cm Cm.
+     * @param \stored_file $file File.
      * @return array
      */
     public static function folder_file_download_to_response(\cm_info $cm, \stored_file $file): array {
@@ -128,8 +128,8 @@ class module_file_tools {
     /**
      * Return the canonical folder file list item response shape.
      *
-     * @param \cm_info $cm Folder course module.
-     * @param \stored_file $file Stored file.
+     * @param \cm_info $cm Cm.
+     * @param \stored_file $file File.
      * @return array
      */
     public static function folder_file_to_response(\cm_info $cm, \stored_file $file): array {
@@ -146,7 +146,7 @@ class module_file_tools {
     /**
      * Return files stored inside a folder activity.
      *
-     * @param \cm_info $cm Folder course module.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_folder_files(\cm_info $cm): array {
@@ -167,8 +167,8 @@ class module_file_tools {
     /**
      * Return the canonical resource file response shape.
      *
-     * @param \cm_info $cm Resource course module.
-     * @param \stored_file $file Stored file.
+     * @param \cm_info $cm Cm.
+     * @param \stored_file $file File.
      * @return array
      */
     public static function resource_file_to_response(\cm_info $cm, \stored_file $file): array {
@@ -197,7 +197,7 @@ class module_file_tools {
     /**
      * Return files stored inside a resource activity.
      *
-     * @param \cm_info $cm Resource course module.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_resource_files(\cm_info $cm): array {
@@ -218,9 +218,9 @@ class module_file_tools {
     /**
      * Find a file inside a resource activity.
      *
-     * @param \cm_info $cm Resource course module.
-     * @param int|null $fileid Stored file id.
-     * @param string|null $path Filename or relative path.
+     * @param \cm_info $cm Cm.
+     * @param int|null $fileid Fileid.
+     * @param string|null $path Path.
      * @return \stored_file
      */
     public static function get_resource_file(\cm_info $cm, ?int $fileid = null, ?string $path = null): \stored_file {
@@ -230,9 +230,9 @@ class module_file_tools {
     /**
      * Find a file inside a folder activity.
      *
-     * @param \cm_info $cm Folder course module.
-     * @param int|null $fileid Stored file id.
-     * @param string|null $path Filename or relative path.
+     * @param \cm_info $cm Cm.
+     * @param int|null $fileid Fileid.
+     * @param string|null $path Path.
      * @return \stored_file
      */
     public static function get_folder_file(\cm_info $cm, ?int $fileid = null, ?string $path = null): \stored_file {
@@ -242,10 +242,10 @@ class module_file_tools {
     /**
      * Find a file inside a module content file area.
      *
-     * @param \cm_info $cm Course module.
-     * @param string $component Moodle file component.
-     * @param int|null $fileid Stored file id.
-     * @param string|null $path Filename or relative path.
+     * @param \cm_info $cm Cm.
+     * @param string $component Component.
+     * @param int|null $fileid Fileid.
+     * @param string|null $path Path.
      * @return \stored_file
      */
     private static function get_module_file(

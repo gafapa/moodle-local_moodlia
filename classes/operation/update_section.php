@@ -31,12 +31,12 @@ class update_section {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int|null $sectionid Course section id.
-     * @param int|null $sectionnumber Course section number.
-     * @param string|null $name New section name.
-     * @param string|null $summary New section summary.
-     * @param bool|null $visible New section visibility state.
+     * @param int $courseid Courseid.
+     * @param int|null $sectionid Sectionid.
+     * @param int|null $sectionnumber Sectionnumber.
+     * @param string|null $name Name.
+     * @param string|null $summary Summary.
+     * @param bool|null $visible Visible.
      * @return array
      */
     public static function execute(

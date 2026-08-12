@@ -31,9 +31,9 @@ final class list_plugins {
     /**
      * Execute the operation.
      *
-     * @param string $plugintype Optional Moodle plugin type.
-     * @param string $source Source filter.
-     * @param string $status Status filter.
+     * @param string $plugintype Plugintype.
+     * @param string $source Source.
+     * @param string $status Status.
      * @return array
      */
     public static function execute(string $plugintype = '', string $source = 'all', string $status = 'all'): array {

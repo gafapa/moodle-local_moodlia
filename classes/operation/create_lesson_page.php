@@ -31,17 +31,17 @@ class create_lesson_page {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Lesson course module id.
-     * @param string $title Page title.
-     * @param string $content Page content.
-     * @param int $contentformat Moodle text format.
-     * @param string|null $branchesjson Optional JSON branch definitions for content pages.
-     * @param int $afterpageid Previous page id or 0 for first.
-     * @param bool $displayinmenu Whether the page appears in the Lesson menu.
-     * @param bool $horizontal Whether branch buttons are horizontal.
-     * @param string $pagetype Lesson page type.
-     * @param string|null $answersjson Optional JSON answer definitions for question pages.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param string|null $branchesjson Branchesjson.
+     * @param int $afterpageid Afterpageid.
+     * @param bool $displayinmenu Displayinmenu.
+     * @param bool $horizontal Horizontal.
+     * @param string $pagetype Pagetype.
+     * @param string|null $answersjson Answersjson.
      * @return array
      */
     public static function execute(

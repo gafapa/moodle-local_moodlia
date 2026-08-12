@@ -31,8 +31,8 @@ class get_course_backup_files {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Optional course id.
-     * @param bool $includeprivate Include current user's private backup files.
+     * @param int $courseid Courseid.
+     * @param bool $includeprivate Includeprivate.
      * @return array
      */
     public static function execute(int $courseid = 0, bool $includeprivate = true): array {

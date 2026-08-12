@@ -31,11 +31,11 @@ class get_question_categories {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string|null $bankscope Bank scope.
-     * @param int|null $questionbankmoduleid Course qbank module id.
-     * @param int|null $quizmoduleid Quiz module id.
-     * @param bool $includetop Include the synthetic top category.
+     * @param int $courseid Courseid.
+     * @param string|null $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
+     * @param bool $includetop Includetop.
      * @return array
      */
     public static function execute(

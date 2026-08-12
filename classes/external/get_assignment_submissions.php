@@ -54,8 +54,8 @@ class get_assignment_submissions extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @param string $status Status.
      * @param int $since Since.
      * @param int $before Before.

@@ -53,12 +53,12 @@ class get_glossary_entries_by_term extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @param string $term Term.
      * @param int $from From.
      * @param int $limit Limit.
-     * @param bool $includenotapproved Include not approved.
+     * @param bool $includenotapproved Includenotapproved.
      * @return array
      */
     public static function execute(

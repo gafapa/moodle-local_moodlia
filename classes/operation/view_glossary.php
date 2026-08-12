@@ -31,9 +31,9 @@ class view_glossary {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Glossary course module id.
-     * @param string $mode Glossary browse mode.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $mode Mode.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, string $mode = 'letter'): array {

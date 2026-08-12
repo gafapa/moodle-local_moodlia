@@ -31,7 +31,7 @@ class get_quiz_questions {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
+     * @param int $quizmoduleid Quizmoduleid.
      * @return array
      */
     public static function execute(int $quizmoduleid): array {

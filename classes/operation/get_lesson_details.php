@@ -31,9 +31,9 @@ class get_lesson_details {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Lesson course module id.
-     * @param string $password Optional Lesson password.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $password Password.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, string $password = ''): array {

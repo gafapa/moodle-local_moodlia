@@ -31,16 +31,16 @@ class update_lesson_page {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Lesson course module id.
-     * @param int $pageid Lesson page id.
-     * @param string|null $title Optional page title.
-     * @param string|null $content Optional page content.
-     * @param int|null $contentformat Optional Moodle text format.
-     * @param string|null $branchesjson Optional JSON branch definitions.
-     * @param bool|null $displayinmenu Optional menu display setting.
-     * @param bool|null $horizontal Optional branch layout setting.
-     * @param string|null $answersjson Optional JSON answer definitions for question pages.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $pageid Pageid.
+     * @param string|null $title Title.
+     * @param string|null $content Content.
+     * @param int|null $contentformat Contentformat.
+     * @param string|null $branchesjson Branchesjson.
+     * @param bool|null $displayinmenu Displayinmenu.
+     * @param bool|null $horizontal Horizontal.
+     * @param string|null $answersjson Answersjson.
      * @return array
      */
     public static function execute(

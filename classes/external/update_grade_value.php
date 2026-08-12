@@ -52,9 +52,9 @@ class update_grade_value extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $itemid Item id.
-     * @param int $userid User id.
+     * @param int $courseid Courseid.
+     * @param int $itemid Itemid.
+     * @param int $userid Userid.
      * @param float $grade Grade.
      * @param string|null $feedback Feedback.
      * @return array

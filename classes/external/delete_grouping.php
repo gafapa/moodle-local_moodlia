@@ -49,8 +49,8 @@ class delete_grouping extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $groupingid Grouping id.
+     * @param int $courseid Courseid.
+     * @param int $groupingid Groupingid.
      * @return array
      */
     public static function execute(int $courseid, int $groupingid): array {

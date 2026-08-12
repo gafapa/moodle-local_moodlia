@@ -53,6 +53,11 @@ class allocate_workshop_submission extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $submissionid Submissionid.
+     * @param int $reviewerid Reviewerid.
+     * @param int $weight Weight.
      * @return array
      */
     public static function execute(

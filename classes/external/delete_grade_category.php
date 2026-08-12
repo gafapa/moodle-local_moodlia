@@ -49,8 +49,8 @@ class delete_grade_category extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $categoryid Category id.
+     * @param int $courseid Courseid.
+     * @param int $categoryid Categoryid.
      * @return array
      */
     public static function execute(int $courseid, int $categoryid): array {

@@ -52,8 +52,8 @@ class get_feedback_page_items extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @param int $page Page.
      * @return array
      */

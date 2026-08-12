@@ -51,9 +51,9 @@ class get_quiz_results_report extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $limit Maximum users to include.
-     * @param bool $includepreviews Include preview attempts.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $limit Limit.
+     * @param bool $includepreviews Includepreviews.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $limit = 100, bool $includepreviews = true): array {

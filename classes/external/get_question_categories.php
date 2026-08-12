@@ -54,11 +54,11 @@ class get_question_categories extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $bankscope Question bank scope.
-     * @param int|null $questionbankmoduleid Course qbank module id.
-     * @param int|null $quizmoduleid Quiz module id.
-     * @param bool $includetop Include top category.
+     * @param int $courseid Courseid.
+     * @param string $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
+     * @param bool $includetop Includetop.
      * @return array
      */
     public static function execute(

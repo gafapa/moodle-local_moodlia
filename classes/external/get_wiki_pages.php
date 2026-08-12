@@ -56,13 +56,13 @@ class get_wiki_pages extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Wiki course module id.
-     * @param int $groupid Group id.
-     * @param int $userid User id.
-     * @param string $sortby Sort field.
-     * @param string $sortdirection Sort direction.
-     * @param bool $includecontent Include page content.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $groupid Groupid.
+     * @param int $userid Userid.
+     * @param string $sortby Sortby.
+     * @param string $sortdirection Sortdirection.
+     * @param bool $includecontent Includecontent.
      * @return array
      */
     public static function execute(

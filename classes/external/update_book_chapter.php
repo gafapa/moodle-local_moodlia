@@ -54,12 +54,12 @@ class update_book_chapter extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
-     * @param int $chapterid Chapter id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $chapterid Chapterid.
      * @param string|null $title Title.
      * @param string|null $content Content.
-     * @param int|null $contentformat Content format.
+     * @param int|null $contentformat Contentformat.
      * @param bool|null $subchapter Subchapter.
      * @param bool|null $hidden Hidden.
      * @return array

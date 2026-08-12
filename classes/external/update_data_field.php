@@ -55,6 +55,13 @@ class update_data_field extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $fieldid Fieldid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param bool $required Required.
+     * @param string $options Options.
      * @return array
      */
     public static function execute(

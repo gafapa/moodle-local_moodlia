@@ -31,13 +31,13 @@ class create_question_category {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $name Category name.
-     * @param int|null $parentid Parent category id.
-     * @param string|null $description Category description.
-     * @param string|null $bankscope Question bank scope.
-     * @param int|null $questionbankmoduleid Course question bank module id.
-     * @param int|null $quizmoduleid Quiz module id.
+     * @param int $courseid Courseid.
+     * @param string $name Name.
+     * @param int|null $parentid Parentid.
+     * @param string|null $description Description.
+     * @param string|null $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
      * @return array
      */
     public static function execute(

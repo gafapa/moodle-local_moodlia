@@ -31,8 +31,8 @@ class delete_question_category {
     /**
      * Execute the operation.
      *
-     * @param int $categoryid Question category id.
-     * @param string $deletemode Delete mode.
+     * @param int $categoryid Categoryid.
+     * @param string $deletemode Deletemode.
      * @return array
      */
     public static function execute(int $categoryid, string $deletemode = 'delete'): array {

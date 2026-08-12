@@ -51,9 +51,9 @@ class delete_book_chapter extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
-     * @param int $chapterid Chapter id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $chapterid Chapterid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $chapterid): array {

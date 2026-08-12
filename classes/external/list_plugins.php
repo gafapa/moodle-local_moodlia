@@ -51,7 +51,7 @@ final class list_plugins extends external_api {
     /**
      * Execute the operation.
      *
-     * @param string $plugintype Plugin type.
+     * @param string $plugintype Plugintype.
      * @param string $source Source.
      * @param string $status Status.
      * @return array

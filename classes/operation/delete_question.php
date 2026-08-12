@@ -31,7 +31,7 @@ class delete_question {
     /**
      * Execute the operation.
      *
-     * @param int $questionid Question id.
+     * @param int $questionid Questionid.
      * @return array
      */
     public static function execute(int $questionid): array {

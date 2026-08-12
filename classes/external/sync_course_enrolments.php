@@ -51,9 +51,9 @@ class sync_course_enrolments extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
+     * @param int $courseid Courseid.
      * @param string $enrolments Enrolments.
-     * @param bool $unenrolmissing Unenrol missing.
+     * @param bool $unenrolmissing Unenrolmissing.
      * @return array
      */
     public static function execute(int $courseid, string $enrolments, bool $unenrolmissing = false): array {

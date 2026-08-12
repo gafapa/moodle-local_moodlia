@@ -49,8 +49,8 @@ class delete_grade_item extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $itemid Item id.
+     * @param int $courseid Courseid.
+     * @param int $itemid Itemid.
      * @return array
      */
     public static function execute(int $courseid, int $itemid): array {

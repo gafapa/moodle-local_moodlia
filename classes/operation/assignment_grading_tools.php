@@ -45,8 +45,8 @@ class assignment_grading_tools {
     /**
      * Return the current grading form definition.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @return array
      */
     public static function get_form(int $courseid, int $moduleid): array {
@@ -66,12 +66,12 @@ class assignment_grading_tools {
     /**
      * Create or update a rubric definition and activate it.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param string $name Definition name.
-     * @param string $description Definition description.
-     * @param string $criteriajson JSON payload with criteria.
-     * @param string $optionsjson JSON payload with optional rubric options.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param string $criteriajson Criteriajson.
+     * @param string $optionsjson Optionsjson.
      * @return array
      */
     public static function set_rubric(
@@ -104,11 +104,11 @@ class assignment_grading_tools {
     /**
      * Create a binary checklist as a Moodle rubric and activate it.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param string $name Definition name.
-     * @param string $description Definition description.
-     * @param string $itemsjson JSON payload with checklist items.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param string $itemsjson Itemsjson.
      * @return array
      */
     public static function set_checklist(
@@ -143,13 +143,13 @@ class assignment_grading_tools {
     /**
      * Create or update a marking guide definition and activate it.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param string $name Definition name.
-     * @param string $description Definition description.
-     * @param string $criteriajson JSON payload with criteria.
-     * @param string $commentsjson JSON payload with reusable comments.
-     * @param string $optionsjson JSON payload with optional guide options.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param string $criteriajson Criteriajson.
+     * @param string $commentsjson Commentsjson.
+     * @param string $optionsjson Optionsjson.
      * @return array
      */
     public static function set_marking_guide(
@@ -185,12 +185,12 @@ class assignment_grading_tools {
     /**
      * Grade an assignment using the active rubric.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param int $userid Student user id.
-     * @param string $gradesjson JSON payload with criterion grades.
-     * @param string $feedbackcomment Feedback comment HTML.
-     * @param int $attemptnumber Attempt number.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
+     * @param string $gradesjson Gradesjson.
+     * @param string $feedbackcomment Feedbackcomment.
+     * @param int $attemptnumber Attemptnumber.
      * @return array
      */
     public static function grade_with_rubric(
@@ -211,12 +211,12 @@ class assignment_grading_tools {
     /**
      * Grade an assignment checklist generated as a binary rubric.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param int $userid Student user id.
-     * @param string $itemsjson JSON payload with checklist item grades.
-     * @param string $feedbackcomment Feedback comment HTML.
-     * @param int $attemptnumber Attempt number.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
+     * @param string $itemsjson Itemsjson.
+     * @param string $feedbackcomment Feedbackcomment.
+     * @param int $attemptnumber Attemptnumber.
      * @return array
      */
     public static function grade_with_checklist(
@@ -252,12 +252,12 @@ class assignment_grading_tools {
     /**
      * Grade an assignment using the active marking guide.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param int $userid Student user id.
-     * @param string $gradesjson JSON payload with criterion scores.
-     * @param string $feedbackcomment Feedback comment HTML.
-     * @param int $attemptnumber Attempt number.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
+     * @param string $gradesjson Gradesjson.
+     * @param string $feedbackcomment Feedbackcomment.
+     * @param int $attemptnumber Attemptnumber.
      * @return array
      */
     public static function grade_with_marking_guide(
@@ -278,8 +278,8 @@ class assignment_grading_tools {
     /**
      * Return Moodle course and assignment module.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @return array
      */
     private static function get_course_and_assignment_module(int $courseid, int $moduleid): array {
@@ -290,7 +290,7 @@ class assignment_grading_tools {
     /**
      * Return the advanced grading manager for assignment submissions.
      *
-     * @param \cm_info $cm Assignment course module.
+     * @param \cm_info $cm Cm.
      * @return \grading_manager
      */
     private static function get_manager(\cm_info $cm): \grading_manager {
@@ -301,9 +301,9 @@ class assignment_grading_tools {
     /**
      * Return a configured grading controller.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Assignment course module.
-     * @param string $method Grading method.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param string $method Method.
      * @return \gradingform_controller
      */
     private static function get_controller(\stdClass $course, \cm_info $cm, string $method): \gradingform_controller {
@@ -317,9 +317,9 @@ class assignment_grading_tools {
     /**
      * Require an active advanced grading method and return its form response.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param string $method Expected method.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $method Method.
      * @return array
      */
     private static function require_active_method(int $courseid, int $moduleid, string $method): array {
@@ -333,12 +333,12 @@ class assignment_grading_tools {
     /**
      * Save an advanced grade through Moodle's Assignment external API.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param int $userid Student user id.
-     * @param array $advancedgradingdata Advanced grading payload.
-     * @param string $feedbackcomment Feedback comment HTML.
-     * @param int $attemptnumber Attempt number.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
+     * @param array $advancedgradingdata Advancedgradingdata.
+     * @param string $feedbackcomment Feedbackcomment.
+     * @param int $attemptnumber Attemptnumber.
      * @return array
      */
     private static function save_advanced_grade(
@@ -377,9 +377,9 @@ class assignment_grading_tools {
     /**
      * Return a response when the active method is absent or unsupported.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Assignment course module.
-     * @param string $method Active method.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param string $method Method.
      * @return array
      */
     private static function empty_response(\stdClass $course, \cm_info $cm, string $method): array {
@@ -402,10 +402,10 @@ class assignment_grading_tools {
     /**
      * Convert a grading definition to the canonical response.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Assignment course module.
-     * @param string $method Grading method.
-     * @param \gradingform_controller $controller Grading controller.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param string $method Method.
+     * @param \gradingform_controller $controller Controller.
      * @return array
      */
     private static function definition_response(
@@ -444,8 +444,8 @@ class assignment_grading_tools {
     /**
      * Create a base Moodle grading definition object.
      *
-     * @param string $name Definition name.
-     * @param string $description Definition description.
+     * @param string $name Name.
+     * @param string $description Description.
      * @return \stdClass
      */
     private static function base_definition(string $name, string $description): \stdClass {
@@ -470,7 +470,7 @@ class assignment_grading_tools {
     /**
      * Convert rubric criteria for controller update.
      *
-     * @param array $criteria Public criteria.
+     * @param array $criteria Criteria.
      * @return array
      */
     private static function rubric_criteria_for_update(array $criteria): array {
@@ -511,7 +511,7 @@ class assignment_grading_tools {
     /**
      * Convert guide criteria for controller update.
      *
-     * @param array $criteria Public criteria.
+     * @param array $criteria Criteria.
      * @return array
      */
     private static function guide_criteria_for_update(array $criteria): array {
@@ -544,7 +544,7 @@ class assignment_grading_tools {
     /**
      * Convert reusable guide comments for controller update.
      *
-     * @param array $comments Public comments.
+     * @param array $comments Comments.
      * @return array
      */
     private static function guide_comments_for_update(array $comments): array {
@@ -567,7 +567,7 @@ class assignment_grading_tools {
     /**
      * Convert rubric grading payload for Assignment external API.
      *
-     * @param array $criteria Public criterion fillings.
+     * @param array $criteria Criteria.
      * @return array
      */
     private static function rubric_fillings_for_save(array $criteria): array {
@@ -600,7 +600,7 @@ class assignment_grading_tools {
     /**
      * Convert guide grading payload for Assignment external API.
      *
-     * @param array $criteria Public criterion fillings.
+     * @param array $criteria Criteria.
      * @return array
      */
     private static function guide_fillings_for_save(array $criteria): array {
@@ -636,7 +636,7 @@ class assignment_grading_tools {
     /**
      * Convert rubric criteria to canonical response.
      *
-     * @param array $criteria Moodle criteria.
+     * @param array $criteria Criteria.
      * @return array
      */
     private static function rubric_criteria_to_response(array $criteria): array {
@@ -675,7 +675,7 @@ class assignment_grading_tools {
     /**
      * Convert guide criteria to canonical response.
      *
-     * @param array $criteria Moodle criteria.
+     * @param array $criteria Criteria.
      * @return array
      */
     private static function guide_criteria_to_response(array $criteria): array {
@@ -702,7 +702,7 @@ class assignment_grading_tools {
     /**
      * Convert guide comments to canonical response.
      *
-     * @param array $comments Moodle comments.
+     * @param array $comments Comments.
      * @return array
      */
     private static function guide_comments_to_response(array $comments): array {
@@ -725,8 +725,8 @@ class assignment_grading_tools {
     /**
      * Return levels for a rubric criterion.
      *
-     * @param array $form Grading form response.
-     * @param int $criterionid Criterion id.
+     * @param array $form Form.
+     * @param int $criterionid Criterionid.
      * @return array
      */
     private static function levels_for_criterion(array $form, int $criterionid): array {
@@ -749,7 +749,7 @@ class assignment_grading_tools {
     /**
      * Detect whether a rubric can behave as a binary checklist.
      *
-     * @param array $criteria Canonical criteria.
+     * @param array $criteria Criteria.
      * @return bool
      */
     private static function is_binary_rubric(array $criteria): bool {
@@ -767,8 +767,8 @@ class assignment_grading_tools {
     /**
      * Decode a JSON object.
      *
-     * @param string $json JSON string.
-     * @param string $name Parameter name.
+     * @param string $json Json.
+     * @param string $name Name.
      * @return array
      */
     private static function decode_object(string $json, string $name): array {
@@ -782,10 +782,10 @@ class assignment_grading_tools {
     /**
      * Decode a JSON object containing a list.
      *
-     * @param string $json JSON string.
-     * @param string $property List property.
-     * @param string $name Parameter name.
-     * @param bool $allowempty Whether an empty payload is allowed.
+     * @param string $json Json.
+     * @param string $property Property.
+     * @param string $name Name.
+     * @param bool $allowempty Allowempty.
      * @return array
      */
     private static function decode_list_payload(string $json, string $property, string $name, bool $allowempty = false): array {
@@ -806,8 +806,8 @@ class assignment_grading_tools {
     /**
      * Ensure a value is an array.
      *
-     * @param mixed $value Input value.
-     * @param string $name Value name.
+     * @param mixed $value Value.
+     * @param string $name Name.
      * @return array
      */
     private static function ensure_array($value, string $name): array {
@@ -820,8 +820,8 @@ class assignment_grading_tools {
     /**
      * Ensure a value is a list.
      *
-     * @param mixed $value Input value.
-     * @param string $name Value name.
+     * @param mixed $value Value.
+     * @param string $name Name.
      * @return array
      */
     private static function ensure_list($value, string $name): array {
@@ -834,8 +834,8 @@ class assignment_grading_tools {
     /**
      * Return an update key for existing or new advanced grading records.
      *
-     * @param mixed $id Existing id.
-     * @param int $index New record index.
+     * @param mixed $id Id.
+     * @param int $index Index.
      * @return int|string
      */
     private static function record_key($id, int $index) {

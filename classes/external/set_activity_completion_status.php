@@ -52,7 +52,7 @@ class set_activity_completion_status extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $moduleid Module id.
+     * @param int $moduleid Moduleid.
      * @param bool $completed Completed.
      * @return array
      */

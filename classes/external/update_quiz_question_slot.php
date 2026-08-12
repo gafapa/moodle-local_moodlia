@@ -51,9 +51,9 @@ class update_quiz_question_slot extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $slot Quiz slot number.
-     * @param float $maxmark Slot maximum mark.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $slot Slot.
+     * @param float $maxmark Maxmark.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $slot, float $maxmark): array {

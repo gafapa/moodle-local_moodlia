@@ -42,8 +42,8 @@ class workshop_tools {
     /**
      * Verify that a course module belongs to a workshop activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_workshop_module(\stdClass $course, int $cmid): \cm_info {
@@ -58,8 +58,8 @@ class workshop_tools {
     /**
      * Return workshop instance data exposed through Moodle's workshop external API.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Workshop course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_workshop_instance_data(\stdClass $course, \cm_info $cm): array {
@@ -82,8 +82,8 @@ class workshop_tools {
     /**
      * Return a workshop domain object.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Workshop course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return \workshop
      */
     public static function get_workshop_object(\stdClass $course, \cm_info $cm): \workshop {
@@ -100,8 +100,8 @@ class workshop_tools {
     /**
      * Prepare Moodle page globals required by Workshop form component APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Workshop course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return \stdClass Course-module record.
      */
     public static function prepare_page_context(\stdClass $course, \cm_info $cm): \stdClass {
@@ -117,7 +117,7 @@ class workshop_tools {
     /**
      * Decode and validate an accumulative grading-form definition.
      *
-     * @param string $definitionjson JSON object with a dimensions array.
+     * @param string $definitionjson Definitionjson.
      * @return array
      */
     public static function decode_accumulative_definition(string $definitionjson): array {
@@ -160,7 +160,7 @@ class workshop_tools {
     /**
      * Decode and validate a comments grading-form definition.
      *
-     * @param string $definitionjson JSON object with a dimensions array.
+     * @param string $definitionjson Definitionjson.
      * @return array
      */
     public static function decode_comments_definition(string $definitionjson): array {
@@ -199,7 +199,7 @@ class workshop_tools {
     /**
      * Decode and validate a number-of-errors grading-form definition.
      *
-     * @param string $definitionjson JSON object with dimensions and optional mappings.
+     * @param string $definitionjson Definitionjson.
      * @return array
      */
     public static function decode_numerrors_definition(string $definitionjson): array {
@@ -304,7 +304,7 @@ class workshop_tools {
     /**
      * Decode and validate a rubric grading-form definition.
      *
-     * @param string $definitionjson JSON object with layout and dimensions.
+     * @param string $definitionjson Definitionjson.
      * @return array
      */
     public static function decode_rubric_definition(string $definitionjson): array {
@@ -389,9 +389,9 @@ class workshop_tools {
     /**
      * Build form-shaped data for Workshop accumulative strategy saving.
      *
-     * @param \workshop $workshop Workshop domain object.
-     * @param array $dimensions New dimension rows.
-     * @param array $existing Existing dimension info keyed by id.
+     * @param \workshop $workshop Workshop.
+     * @param array $dimensions Dimensions.
+     * @param array $existing Existing.
      * @return \stdClass
      */
     public static function accumulative_edit_form_data(\workshop $workshop, array $dimensions, array $existing = []): \stdClass {
@@ -430,9 +430,9 @@ class workshop_tools {
     /**
      * Build form-shaped data for Workshop comments strategy saving.
      *
-     * @param \workshop $workshop Workshop domain object.
-     * @param array $dimensions New dimension rows.
-     * @param array $existing Existing dimension info keyed by id.
+     * @param \workshop $workshop Workshop.
+     * @param array $dimensions Dimensions.
+     * @param array $existing Existing.
      * @return \stdClass
      */
     public static function comments_edit_form_data(\workshop $workshop, array $dimensions, array $existing = []): \stdClass {
@@ -467,9 +467,9 @@ class workshop_tools {
     /**
      * Build form-shaped data for Workshop number-of-errors strategy saving.
      *
-     * @param \workshop $workshop Workshop domain object.
-     * @param array $definition Validated number-of-errors definition.
-     * @param array $existing Existing dimension info keyed by id.
+     * @param \workshop $workshop Workshop.
+     * @param array $definition Definition.
+     * @param array $existing Existing.
      * @return \stdClass
      */
     public static function numerrors_edit_form_data(\workshop $workshop, array $definition, array $existing = []): \stdClass {
@@ -517,7 +517,7 @@ class workshop_tools {
     /**
      * Return rubric dimensions and levels loaded by Moodle's rubric strategy object.
      *
-     * @param object $strategyinstance Workshop rubric strategy instance.
+     * @param object $strategyinstance Strategyinstance.
      * @return array
      */
     public static function rubric_existing_dimensions(object $strategyinstance): array {
@@ -543,9 +543,9 @@ class workshop_tools {
     /**
      * Build form-shaped data for Workshop rubric strategy saving.
      *
-     * @param \workshop $workshop Workshop domain object.
-     * @param array $definition Validated rubric definition.
-     * @param array $existing Existing rubric dimensions from the strategy object.
+     * @param \workshop $workshop Workshop.
+     * @param array $definition Definition.
+     * @param array $existing Existing.
      * @return \stdClass
      */
     public static function rubric_edit_form_data(\workshop $workshop, array $definition, array $existing = []): \stdClass {
@@ -600,7 +600,7 @@ class workshop_tools {
     /**
      * Convert a public phase name to a Moodle workshop phase constant.
      *
-     * @param string $phase Public phase.
+     * @param string $phase Phase.
      * @return int
      */
     public static function phase_to_constant(string $phase): int {
@@ -625,7 +625,7 @@ class workshop_tools {
     /**
      * Convert a Moodle workshop phase constant to a public phase name.
      *
-     * @param int $phase Moodle phase constant.
+     * @param int $phase Phase.
      * @return string
      */
     public static function phase_from_constant(int $phase): string {
@@ -645,7 +645,7 @@ class workshop_tools {
     /**
      * Convert a public content format name to a Moodle format constant.
      *
-     * @param string $format Public format.
+     * @param string $format Format.
      * @return int
      */
     public static function format_to_constant(string $format): int {
@@ -663,7 +663,7 @@ class workshop_tools {
     /**
      * Convert a Moodle format constant to a public format name.
      *
-     * @param int $format Moodle format.
+     * @param int $format Format.
      * @return string
      */
     public static function format_from_constant(int $format): string {
@@ -673,8 +673,8 @@ class workshop_tools {
     /**
      * Return a canonical workshop submission response.
      *
-     * @param \cm_info $cm Workshop course module.
-     * @param array|\stdClass $submission Moodle submission payload.
+     * @param \cm_info $cm Cm.
+     * @param mixed $submission Submission.
      * @return array
      */
     public static function submission_to_response(\cm_info $cm, $submission): array {
@@ -701,8 +701,8 @@ class workshop_tools {
     /**
      * Return a submission and ensure it belongs to the selected module.
      *
-     * @param \cm_info $cm Workshop course module.
-     * @param int $submissionid Submission id.
+     * @param \cm_info $cm Cm.
+     * @param int $submissionid Submissionid.
      * @return array
      */
     public static function get_submission(\cm_info $cm, int $submissionid): array {
@@ -720,8 +720,8 @@ class workshop_tools {
     /**
      * Return an assessment and ensure it belongs to the selected module.
      *
-     * @param \cm_info $cm Workshop course module.
-     * @param int $assessmentid Assessment id.
+     * @param \cm_info $cm Cm.
+     * @param int $assessmentid Assessmentid.
      * @return array
      */
     public static function get_assessment(\cm_info $cm, int $assessmentid): array {
@@ -746,8 +746,8 @@ class workshop_tools {
     /**
      * Return a canonical workshop assessment response.
      *
-     * @param \cm_info $cm Workshop course module.
-     * @param array|\stdClass $assessment Moodle assessment payload.
+     * @param \cm_info $cm Cm.
+     * @param mixed $assessment Assessment.
      * @return array
      */
     public static function assessment_to_response(\cm_info $cm, $assessment): array {
@@ -776,8 +776,8 @@ class workshop_tools {
     /**
      * Return canonical workshop assessment response rows.
      *
-     * @param \cm_info $cm Workshop course module.
-     * @param mixed $assessments Moodle assessment rows.
+     * @param \cm_info $cm Cm.
+     * @param mixed $assessments Assessments.
      * @return array
      */
     public static function assessments_to_response(\cm_info $cm, $assessments): array {
@@ -792,7 +792,7 @@ class workshop_tools {
     /**
      * Convert Moodle warning rows to the canonical response shape.
      *
-     * @param mixed $warnings Moodle warning rows.
+     * @param mixed $warnings Warnings.
      * @return array
      */
     public static function warnings_to_response($warnings): array {
@@ -813,7 +813,7 @@ class workshop_tools {
     /**
      * Encode flexible Moodle payloads as stable JSON strings.
      *
-     * @param mixed $value Raw value.
+     * @param mixed $value Value.
      * @return string
      */
     public static function json_value($value): string {
@@ -824,9 +824,9 @@ class workshop_tools {
     /**
      * Return a canonical workshop user plan response.
      *
-     * @param \cm_info $cm Workshop course module.
-     * @param int $userid User id.
-     * @param array $result Moodle workshop external result.
+     * @param \cm_info $cm Cm.
+     * @param int $userid Userid.
+     * @param array $result Result.
      * @return array
      */
     public static function user_plan_to_response(\cm_info $cm, int $userid, array $result): array {
@@ -895,9 +895,9 @@ class workshop_tools {
     /**
      * Return a canonical workshop grades response.
      *
-     * @param \cm_info $cm Workshop course module.
-     * @param int $userid User id.
-     * @param array $result Moodle workshop external result.
+     * @param \cm_info $cm Cm.
+     * @param int $userid Userid.
+     * @param array $result Result.
      * @return array
      */
     public static function grades_to_response(\cm_info $cm, int $userid, array $result): array {
@@ -917,13 +917,13 @@ class workshop_tools {
     /**
      * Return a canonical workshop grades report response.
      *
-     * @param \cm_info $cm Workshop course module.
-     * @param array $result Moodle workshop external result.
-     * @param int $groupid Resolved group id.
-     * @param string $sortby Sort field.
-     * @param string $sortdirection Sort direction.
-     * @param int $page Page number.
-     * @param int $perpage Page size.
+     * @param \cm_info $cm Cm.
+     * @param array $result Result.
+     * @param int $groupid Groupid.
+     * @param string $sortby Sortby.
+     * @param string $sortdirection Sortdirection.
+     * @param int $page Page.
+     * @param int $perpage Perpage.
      * @return array
      */
     public static function grades_report_to_response(
@@ -971,7 +971,7 @@ class workshop_tools {
     /**
      * Return an optional float response value.
      *
-     * @param array $data Payload.
+     * @param array $data Data.
      * @param string $key Key.
      * @return float
      */
@@ -982,7 +982,7 @@ class workshop_tools {
     /**
      * Return Moodle's flexible completion value as a stable string.
      *
-     * @param mixed $completed Completion payload.
+     * @param mixed $completed Completed.
      * @return string
      */
     private static function completed_to_string($completed): string {
@@ -999,7 +999,7 @@ class workshop_tools {
     /**
      * Return canonical assessment review rows for a grades report row.
      *
-     * @param mixed $reviews Moodle review rows.
+     * @param mixed $reviews Reviews.
      * @return array
      */
     private static function report_reviews_to_response($reviews): array {

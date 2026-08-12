@@ -31,9 +31,9 @@ class get_quiz_attempt_review {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param int $page Review page number, or -1 for all pages.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param int $page Page.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $attemptid, int $page = -1): array {

@@ -31,9 +31,9 @@ class remove_question_from_quiz {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int|null $slot Quiz slot number.
-     * @param int|null $questionid Question id.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int|null $slot Slot.
+     * @param int|null $questionid Questionid.
      * @return array
      */
     public static function execute(int $quizmoduleid, ?int $slot = null, ?int $questionid = null): array {

@@ -31,11 +31,11 @@ class allocate_workshop_submission {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param int $submissionid Workshop submission id.
-     * @param int $reviewerid Reviewer user id or 0 for the current user.
-     * @param int $weight Assessment weight.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $submissionid Submissionid.
+     * @param int $reviewerid Reviewerid.
+     * @param int $weight Weight.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $submissionid, int $reviewerid = 0, int $weight = 1): array {

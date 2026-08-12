@@ -31,8 +31,8 @@ class module_interaction_tools {
     /**
      * Add choice-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_choice_options(\stdClass $moduleinfo, array $options): void {
         $rawoptions = $options['choices'] ?? $options['options'] ?? [];
@@ -98,8 +98,8 @@ class module_interaction_tools {
     /**
      * Add feedback-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_feedback_options(\stdClass $moduleinfo, array $options): void {
         $moduleinfo->intro = (string) ($options['intro'] ?? $options['description'] ?? '');
@@ -134,8 +134,8 @@ class module_interaction_tools {
     /**
      * Add database-activity-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_data_options(\stdClass $moduleinfo, array $options): void {
         $moduleinfo->intro = (string) ($options['intro'] ?? $options['description'] ?? '');
@@ -176,8 +176,8 @@ class module_interaction_tools {
     /**
      * Add forum-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_forum_options(\stdClass $moduleinfo, array $options): void {
         $forumtype = clean_param((string) ($options['forum_type'] ?? $options['type'] ?? 'general'), PARAM_ALPHA);
@@ -220,8 +220,8 @@ class module_interaction_tools {
     /**
      * Add glossary-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_glossary_options(\stdClass $moduleinfo, array $options): void {
         $moduleinfo->intro = (string) ($options['intro'] ?? $options['description'] ?? '');
@@ -271,8 +271,8 @@ class module_interaction_tools {
     /**
      * Add wiki-specific fields to module info.
      *
-     * @param \stdClass $moduleinfo Module info object.
-     * @param array $options Module options.
+     * @param \stdClass $moduleinfo Moduleinfo.
+     * @param array $options Options.
      */
     public static function apply_wiki_options(\stdClass $moduleinfo, array $options): void {
         $moduleinfo->intro = (string) ($options['intro'] ?? $options['description'] ?? '');
@@ -304,9 +304,9 @@ class module_interaction_tools {
     /**
      * Return an optional boolean module option as an integer.
      *
-     * @param array $options Module options.
-     * @param string $name Public option name.
-     * @param int $default Default integer value.
+     * @param array $options Options.
+     * @param string $name Name.
+     * @param int $default Default.
      * @return int
      */
     private static function optional_bool(array $options, string $name, int $default): int {
@@ -316,10 +316,10 @@ class module_interaction_tools {
     /**
      * Return an optional positive integer module option.
      *
-     * @param array $options Module options.
-     * @param string $name Public option name.
-     * @param int $default Default integer value.
-     * @param int $minimum Minimum accepted value.
+     * @param array $options Options.
+     * @param string $name Name.
+     * @param int $default Default.
+     * @param int $minimum Minimum.
      * @return int
      */
     private static function optional_int(array $options, string $name, int $default, int $minimum = 0): int {
@@ -334,11 +334,11 @@ class module_interaction_tools {
     /**
      * Return an optional integer constrained to a public range.
      *
-     * @param array $options Module options.
-     * @param string $name Public option name.
-     * @param int $default Default integer value.
-     * @param int $minimum Minimum accepted value.
-     * @param int $maximum Maximum accepted value.
+     * @param array $options Options.
+     * @param string $name Name.
+     * @param int $default Default.
+     * @param int $minimum Minimum.
+     * @param int $maximum Maximum.
      * @return int
      */
     private static function optional_int_range(array $options, string $name, int $default, int $minimum, int $maximum): int {
@@ -353,7 +353,7 @@ class module_interaction_tools {
     /**
      * Map public choice display values.
      *
-     * @param string $value Public display value.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_choice_display(string $value): int {
@@ -372,7 +372,7 @@ class module_interaction_tools {
     /**
      * Map public choice result visibility values.
      *
-     * @param string $value Public result visibility value.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_choice_show_results(string $value): int {
@@ -393,7 +393,7 @@ class module_interaction_tools {
     /**
      * Map public choice publish values.
      *
-     * @param string $value Public publish value.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_choice_publish(string $value): int {
@@ -412,7 +412,7 @@ class module_interaction_tools {
     /**
      * Map public feedback anonymity values to Moodle form values.
      *
-     * @param string $value Public anonymous value.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_feedback_anonymous(string $value): int {
@@ -434,7 +434,7 @@ class module_interaction_tools {
     /**
      * Map public database sort direction values.
      *
-     * @param string $value Public sort direction.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_data_sort_direction(string $value): int {
@@ -455,7 +455,7 @@ class module_interaction_tools {
     /**
      * Map public forum subscription values to Moodle constants.
      *
-     * @param string $value Public subscription value.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_forum_subscription(string $value): int {
@@ -476,7 +476,7 @@ class module_interaction_tools {
     /**
      * Map public forum tracking values to Moodle constants.
      *
-     * @param string $value Public tracking value.
+     * @param string $value Value.
      * @return int
      */
     private static function normalise_forum_tracking(string $value): int {
@@ -496,7 +496,7 @@ class module_interaction_tools {
     /**
      * Validate forum post blocking settings.
      *
-     * @param \stdClass $moduleinfo Module info object.
+     * @param \stdClass $moduleinfo Moduleinfo.
      */
     private static function validate_forum_blocking(\stdClass $moduleinfo): void {
         if ($moduleinfo->blockperiod <= 0 && ($moduleinfo->warnafter > 0 || $moduleinfo->blockafter > 0)) {
@@ -510,7 +510,7 @@ class module_interaction_tools {
     /**
      * Validate forum dates.
      *
-     * @param \stdClass $moduleinfo Module info object.
+     * @param \stdClass $moduleinfo Moduleinfo.
      */
     private static function validate_forum_dates(\stdClass $moduleinfo): void {
         if ($moduleinfo->duedate > 0 && $moduleinfo->cutoffdate > 0 && $moduleinfo->cutoffdate < $moduleinfo->duedate) {

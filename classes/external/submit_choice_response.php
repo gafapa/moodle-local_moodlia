@@ -50,9 +50,9 @@ class submit_choice_response extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $choicemoduleid Choice course module id.
-     * @param string $optionids JSON array of choice option ids.
+     * @param int $courseid Courseid.
+     * @param int $choicemoduleid Choicemoduleid.
+     * @param string $optionids Optionids.
      * @return array
      */
     public static function execute(int $courseid, int $choicemoduleid, string $optionids): array {

@@ -37,7 +37,7 @@ class book_chapter_tools {
     /**
      * Return a Book record for the selected course module.
      *
-     * @param \cm_info $cm Book course module.
+     * @param \cm_info $cm Cm.
      * @return \stdClass
      */
     public static function get_book_record(\cm_info $cm): \stdClass {
@@ -51,8 +51,8 @@ class book_chapter_tools {
     /**
      * Return a Book chapter record and verify Book ownership.
      *
-     * @param \stdClass $book Book record.
-     * @param int $chapterid Book chapter id.
+     * @param \stdClass $book Book.
+     * @param int $chapterid Chapterid.
      * @return \stdClass
      */
     public static function get_chapter_record(\stdClass $book, int $chapterid): \stdClass {
@@ -68,9 +68,9 @@ class book_chapter_tools {
     /**
      * Create a chapter response from the latest Book structure.
      *
-     * @param \stdClass $book Book record.
-     * @param \cm_info $cm Book course module.
-     * @param int $chapterid Book chapter id.
+     * @param \stdClass $book Book.
+     * @param \cm_info $cm Cm.
+     * @param int $chapterid Chapterid.
      * @return array
      */
     public static function chapter_response(\stdClass $book, \cm_info $cm, int $chapterid): array {
@@ -86,14 +86,14 @@ class book_chapter_tools {
     /**
      * Create a Book chapter.
      *
-     * @param \stdClass $book Book record.
-     * @param \cm_info $cm Book course module.
-     * @param string $title Chapter title.
-     * @param string $content Chapter HTML content.
-     * @param int $contentformat Moodle text format.
-     * @param bool $subchapter Whether the chapter is a subchapter.
-     * @param int|null $afterchapterid Chapter id after which to insert, or 0 for first.
-     * @param bool $hidden Whether the chapter is hidden.
+     * @param \stdClass $book Book.
+     * @param \cm_info $cm Cm.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param int $contentformat Contentformat.
+     * @param bool $subchapter Subchapter.
+     * @param int|null $afterchapterid Afterchapterid.
+     * @param bool $hidden Hidden.
      * @return array
      */
     public static function create_chapter(
@@ -151,14 +151,14 @@ class book_chapter_tools {
     /**
      * Update a Book chapter.
      *
-     * @param \stdClass $book Book record.
-     * @param \cm_info $cm Book course module.
-     * @param int $chapterid Book chapter id.
-     * @param string|null $title New title.
-     * @param string|null $content New content.
-     * @param int|null $contentformat New content format.
-     * @param bool|null $subchapter New subchapter flag.
-     * @param bool|null $hidden New hidden flag.
+     * @param \stdClass $book Book.
+     * @param \cm_info $cm Cm.
+     * @param int $chapterid Chapterid.
+     * @param string|null $title Title.
+     * @param string|null $content Content.
+     * @param int|null $contentformat Contentformat.
+     * @param bool|null $subchapter Subchapter.
+     * @param bool|null $hidden Hidden.
      * @return array
      */
     public static function update_chapter(
@@ -223,10 +223,10 @@ class book_chapter_tools {
     /**
      * Move a Book chapter or top-level chapter block after another chapter.
      *
-     * @param \stdClass $book Book record.
-     * @param \cm_info $cm Book course module.
-     * @param int $chapterid Chapter id to move.
-     * @param int|null $afterchapterid Destination chapter id, 0 for first, or null for last.
+     * @param \stdClass $book Book.
+     * @param \cm_info $cm Cm.
+     * @param int $chapterid Chapterid.
+     * @param int|null $afterchapterid Afterchapterid.
      * @return array
      */
     public static function move_chapter(\stdClass $book, \cm_info $cm, int $chapterid, ?int $afterchapterid = null): array {
@@ -285,9 +285,9 @@ class book_chapter_tools {
     /**
      * Delete a Book chapter using Moodle Book's delete semantics.
      *
-     * @param \stdClass $book Book record.
-     * @param \cm_info $cm Book course module.
-     * @param int $chapterid Chapter id.
+     * @param \stdClass $book Book.
+     * @param \cm_info $cm Cm.
+     * @param int $chapterid Chapterid.
      * @return array
      */
     public static function delete_chapter(\stdClass $book, \cm_info $cm, int $chapterid): array {
@@ -330,7 +330,7 @@ class book_chapter_tools {
     /**
      * Return all chapter records ordered by page number.
      *
-     * @param \stdClass $book Book record.
+     * @param \stdClass $book Book.
      * @return array
      */
     private static function ordered_chapter_records(\stdClass $book): array {
@@ -342,8 +342,8 @@ class book_chapter_tools {
     /**
      * Resolve insert page number.
      *
-     * @param \stdClass $book Book record.
-     * @param int|null $afterchapterid Chapter after which to insert, null for append.
+     * @param \stdClass $book Book.
+     * @param int|null $afterchapterid Afterchapterid.
      * @return int
      */
     private static function resolve_insert_page_number(\stdClass $book, ?int $afterchapterid): int {
@@ -367,8 +367,8 @@ class book_chapter_tools {
     /**
      * Return the ids that move together.
      *
-     * @param array $ordered Ordered chapter records.
-     * @param \stdClass $chapter Selected chapter.
+     * @param array $ordered Ordered.
+     * @param \stdClass $chapter Chapter.
      * @return array
      */
     private static function moving_block_ids(array $ordered, \stdClass $chapter): array {
@@ -398,10 +398,10 @@ class book_chapter_tools {
     /**
      * Delete one chapter record and its files/tags/events.
      *
-     * @param \stdClass $book Book record.
-     * @param \context_module $context Book module context.
-     * @param \stdClass $chapter Chapter record.
-     * @param \file_storage $fs Moodle file storage.
+     * @param \stdClass $book Book.
+     * @param \context_module $context Context.
+     * @param \stdClass $chapter Chapter.
+     * @param \file_storage $fs Fs.
      */
     private static function delete_single_chapter(
         \stdClass $book,
@@ -420,7 +420,7 @@ class book_chapter_tools {
     /**
      * Increment Book revision.
      *
-     * @param \stdClass $book Book record.
+     * @param \stdClass $book Book.
      */
     private static function bump_revision(\stdClass $book): void {
         global $DB;
@@ -432,7 +432,7 @@ class book_chapter_tools {
     /**
      * Validate and normalize chapter title.
      *
-     * @param string $title Raw title.
+     * @param string $title Title.
      * @return string
      */
     private static function normalise_title(string $title): string {
@@ -450,7 +450,7 @@ class book_chapter_tools {
     /**
      * Validate chapter content.
      *
-     * @param string $content Raw content.
+     * @param string $content Content.
      */
     private static function validate_content(string $content): void {
         if (trim($content) === '') {

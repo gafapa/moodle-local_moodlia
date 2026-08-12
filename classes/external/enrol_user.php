@@ -51,9 +51,9 @@ class enrol_user extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $userid Moodle user id.
-     * @param string $rolearchetype Role archetype.
+     * @param int $courseid Courseid.
+     * @param int $userid Userid.
+     * @param string $rolearchetype Rolearchetype.
      * @return array
      */
     public static function execute(int $courseid, int $userid, string $rolearchetype = 'student'): array {

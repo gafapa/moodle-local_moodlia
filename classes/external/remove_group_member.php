@@ -50,9 +50,9 @@ class remove_group_member extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $groupid Group id.
-     * @param int $userid User id.
+     * @param int $courseid Courseid.
+     * @param int $groupid Groupid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $courseid, int $groupid, int $userid): array {

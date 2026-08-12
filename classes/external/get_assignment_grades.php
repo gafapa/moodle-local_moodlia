@@ -51,8 +51,8 @@ class get_assignment_grades extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @param int $since Since.
      * @return array
      */

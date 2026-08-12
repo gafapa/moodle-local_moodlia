@@ -31,9 +31,9 @@ class delete_feedback_item {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Feedback course module id.
-     * @param int $itemid Feedback item id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $itemid Itemid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $itemid): array {

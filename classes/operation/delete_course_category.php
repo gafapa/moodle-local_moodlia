@@ -31,7 +31,7 @@ class delete_course_category {
     /**
      * Execute the operation.
      *
-     * @param int $categoryid Moodle course category id.
+     * @param int $categoryid Categoryid.
      * @return array
      */
     public static function execute(int $categoryid): array {

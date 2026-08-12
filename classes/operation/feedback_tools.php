@@ -42,8 +42,8 @@ class feedback_tools {
     /**
      * Verify that a course module belongs to a feedback activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_feedback_module(\stdClass $course, int $cmid): \cm_info {
@@ -58,7 +58,7 @@ class feedback_tools {
     /**
      * Return feedback items exposed through Moodle's feedback external API.
      *
-     * @param \cm_info $cm Feedback course module.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_items(\cm_info $cm): array {
@@ -76,8 +76,8 @@ class feedback_tools {
     /**
      * Return one feedback page through Moodle's external API.
      *
-     * @param \cm_info $cm Feedback course module.
-     * @param int $page Zero-based page number.
+     * @param \cm_info $cm Cm.
+     * @param int $page Page.
      * @return array
      */
     public static function get_page_items(\cm_info $cm, int $page): array {
@@ -94,8 +94,8 @@ class feedback_tools {
     /**
      * Return feedback analysis through Moodle's external API.
      *
-     * @param \cm_info $cm Feedback course module.
-     * @param int $groupid Moodle group id.
+     * @param \cm_info $cm Cm.
+     * @param int $groupid Groupid.
      * @return array
      */
     public static function get_analysis(\cm_info $cm, int $groupid = 0): array {
@@ -109,7 +109,7 @@ class feedback_tools {
     /**
      * Return current user's finished feedback responses through Moodle's external API.
      *
-     * @param \cm_info $cm Feedback course module.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_finished_responses(\cm_info $cm): array {
@@ -122,8 +122,8 @@ class feedback_tools {
     /**
      * Return one feedback item visible in a course module.
      *
-     * @param \cm_info $cm Feedback course module.
-     * @param int $itemid Feedback item id.
+     * @param \cm_info $cm Cm.
+     * @param int $itemid Itemid.
      * @return array
      */
     public static function get_item(\cm_info $cm, int $itemid): array {
@@ -143,7 +143,7 @@ class feedback_tools {
     /**
      * Decode and validate a Feedback item definition payload.
      *
-     * @param string $definitionjson JSON object.
+     * @param string $definitionjson Definitionjson.
      * @return array
      */
     public static function decode_item_definition(string $definitionjson): array {
@@ -158,17 +158,17 @@ class feedback_tools {
     /**
      * Create or update a Feedback item through Moodle item classes.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Feedback course module.
-     * @param string $type Feedback item type.
-     * @param string|null $name Item name.
-     * @param array $definition Item definition.
-     * @param int|null $position Target one-based position.
-     * @param string|null $label Optional item label.
-     * @param bool|null $required Required flag.
-     * @param int|null $dependitemid Dependency item id.
-     * @param string|null $dependvalue Dependency value.
-     * @param array|null $existing Existing item response for updates.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param string $type Type.
+     * @param string|null $name Name.
+     * @param array $definition Definition.
+     * @param int|null $position Position.
+     * @param string|null $label Label.
+     * @param bool|null $required Required.
+     * @param int|null $dependitemid Dependitemid.
+     * @param string|null $dependvalue Dependvalue.
+     * @param array|null $existing Existing.
      * @return array
      */
     public static function save_item(
@@ -263,8 +263,8 @@ class feedback_tools {
     /**
      * Build a minimal Moodle feedback record for item APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Feedback course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return \stdClass
      */
     private static function feedback_record(\stdClass $course, \cm_info $cm): \stdClass {
@@ -291,7 +291,7 @@ class feedback_tools {
     /**
      * Validate a supported Feedback item type.
      *
-     * @param string $type Raw item type.
+     * @param string $type Type.
      * @return string
      */
     private static function clean_item_type(string $type): string {
@@ -307,12 +307,12 @@ class feedback_tools {
     /**
      * Validate the narrow Feedback captcha writer contract before Moodle item code can call notice()/exit.
      *
-     * @param array $definition Definition payload.
-     * @param array $currentitems Existing Feedback items.
-     * @param bool $isupdate Whether this is an update.
-     * @param bool|null $required Requested required flag.
-     * @param int|null $dependitemid Requested dependency item id.
-     * @param string|null $dependvalue Requested dependency value.
+     * @param array $definition Definition.
+     * @param array $currentitems Currentitems.
+     * @param bool $isupdate Isupdate.
+     * @param bool|null $required Required.
+     * @param int|null $dependitemid Dependitemid.
+     * @param string|null $dependvalue Dependvalue.
      */
     private static function validate_captcha_definition(
         array $definition,
@@ -344,8 +344,8 @@ class feedback_tools {
     /**
      * Resolve and validate the item name.
      *
-     * @param string|null $name Raw name.
-     * @param array|null $existing Existing item response.
+     * @param string|null $name Name.
+     * @param array|null $existing Existing.
      * @return string
      */
     private static function resolve_item_name(?string $name, ?array $existing): string {
@@ -360,8 +360,8 @@ class feedback_tools {
     /**
      * Resolve an optional string preserving current values on update.
      *
-     * @param string|null $value Raw value.
-     * @param string $fallback Existing value.
+     * @param string|null $value Value.
+     * @param string $fallback Fallback.
      * @return string
      */
     private static function resolve_optional_string(?string $value, string $fallback): string {
@@ -371,8 +371,8 @@ class feedback_tools {
     /**
      * Resolve an optional bool preserving current values on update.
      *
-     * @param bool|null $value Raw value.
-     * @param bool $fallback Existing value.
+     * @param bool|null $value Value.
+     * @param bool $fallback Fallback.
      * @return bool
      */
     private static function resolve_optional_bool(?bool $value, bool $fallback): bool {
@@ -382,10 +382,10 @@ class feedback_tools {
     /**
      * Validate and resolve item dependency ownership.
      *
-     * @param \cm_info $cm Feedback course module.
-     * @param int|null $requested Requested dependency id.
-     * @param int $fallback Existing dependency id.
-     * @param int $selfid Current item id.
+     * @param \cm_info $cm Cm.
+     * @param int|null $requested Requested.
+     * @param int $fallback Fallback.
+     * @param int $selfid Selfid.
      * @return int
      */
     private static function resolve_dependency_item(\cm_info $cm, ?int $requested, int $fallback, int $selfid): int {
@@ -406,9 +406,9 @@ class feedback_tools {
     /**
      * Validate one-based target position.
      *
-     * @param int|null $position Raw position.
-     * @param int $itemcount Current item count.
-     * @param bool $isupdate Whether this is an update.
+     * @param int|null $position Position.
+     * @param int $itemcount Itemcount.
+     * @param bool $isupdate Isupdate.
      * @return int|null
      */
     private static function validate_target_position(?int $position, int $itemcount, bool $isupdate): ?int {
@@ -426,11 +426,11 @@ class feedback_tools {
     /**
      * Apply type-specific definition values.
      *
-     * @param \stdClass $item Feedback item data.
-     * @param string $type Feedback item type.
-     * @param array $definition Definition payload.
-     * @param array|null $existing Existing item response.
-     * @param int $feedbackanonymous Feedback anonymity setting.
+     * @param \stdClass $item Item.
+     * @param string $type Type.
+     * @param array $definition Definition.
+     * @param array|null $existing Existing.
+     * @param int $feedbackanonymous Feedbackanonymous.
      */
     private static function apply_type_definition(
         \stdClass $item,
@@ -572,11 +572,11 @@ class feedback_tools {
     /**
      * Return an integer option within bounds.
      *
-     * @param array $definition Definition payload.
-     * @param string $key Option key.
-     * @param int $default Default value.
-     * @param int $min Minimum value.
-     * @param int $max Maximum value.
+     * @param array $definition Definition.
+     * @param string $key Key.
+     * @param int $default Default.
+     * @param int $min Min.
+     * @param int $max Max.
      * @return int
      */
     private static function int_option(array $definition, string $key, int $default, int $min, int $max): int {
@@ -591,8 +591,8 @@ class feedback_tools {
     /**
      * Return a nullable float option.
      *
-     * @param array $definition Definition payload.
-     * @param string $key Option key.
+     * @param array $definition Definition.
+     * @param string $key Key.
      * @return float|null
      */
     private static function nullable_float_option(array $definition, string $key): ?float {
@@ -609,7 +609,7 @@ class feedback_tools {
     /**
      * Format a Feedback numeric boundary.
      *
-     * @param float|null $value Numeric value.
+     * @param float|null $value Value.
      * @return string
      */
     private static function feedback_number(?float $value): string {
@@ -623,9 +623,9 @@ class feedback_tools {
     /**
      * Return a trimmed string option.
      *
-     * @param array $definition Definition payload.
-     * @param string $key Option key.
-     * @param string $default Default value.
+     * @param array $definition Definition.
+     * @param string $key Key.
+     * @param string $default Default.
      * @return string
      */
     private static function string_option(array $definition, string $key, string $default): string {
@@ -635,7 +635,7 @@ class feedback_tools {
     /**
      * Validate multichoice options.
      *
-     * @param array $definition Definition payload.
+     * @param array $definition Definition.
      * @return array
      */
     private static function choice_options(array $definition): array {
@@ -668,7 +668,7 @@ class feedback_tools {
     /**
      * Validate multichoice rated options.
      *
-     * @param array $definition Definition payload.
+     * @param array $definition Definition.
      * @return array
      */
     private static function rated_choice_options(array $definition): array {
@@ -713,7 +713,7 @@ class feedback_tools {
     /**
      * Convert Moodle external warnings to the canonical response shape.
      *
-     * @param array $warnings Moodle warnings.
+     * @param array $warnings Warnings.
      * @return array
      */
     public static function warnings_to_response(array $warnings): array {
@@ -734,7 +734,7 @@ class feedback_tools {
     /**
      * Convert a Moodle feedback summary payload to the canonical response shape.
      *
-     * @param array $feedback Moodle feedback summary payload.
+     * @param array $feedback Feedback.
      * @return array
      */
     public static function summary_to_response(array $feedback): array {
@@ -768,8 +768,8 @@ class feedback_tools {
     /**
      * Convert Moodle feedback course listing to the canonical response shape.
      *
-     * @param \stdClass $course Moodle course.
-     * @param array $result Moodle external result.
+     * @param \stdClass $course Course.
+     * @param array $result Result.
      * @return array
      */
     public static function course_feedbacks_to_response(\stdClass $course, array $result): array {
@@ -792,8 +792,8 @@ class feedback_tools {
     /**
      * Convert Moodle feedback access information to the canonical response shape.
      *
-     * @param \cm_info $cm Feedback course module.
-     * @param array $result Moodle external result.
+     * @param \cm_info $cm Cm.
+     * @param array $result Result.
      * @return array
      */
     public static function access_to_response(\cm_info $cm, array $result): array {
@@ -817,8 +817,8 @@ class feedback_tools {
     /**
      * Convert a Moodle feedback item payload to the canonical response shape.
      *
-     * @param \cm_info $cm Feedback course module.
-     * @param array $item Moodle feedback item payload.
+     * @param \cm_info $cm Cm.
+     * @param array $item Item.
      * @return array
      */
     public static function item_to_response(\cm_info $cm, array $item): array {
@@ -846,9 +846,9 @@ class feedback_tools {
     /**
      * Convert a Moodle feedback page payload to the canonical response shape.
      *
-     * @param \cm_info $cm Feedback course module.
-     * @param int $page Zero-based page number.
-     * @param array $result Moodle page items result.
+     * @param \cm_info $cm Cm.
+     * @param int $page Page.
+     * @param array $result Result.
      * @return array
      */
     public static function page_items_to_response(\cm_info $cm, int $page, array $result): array {
@@ -872,9 +872,9 @@ class feedback_tools {
     /**
      * Convert a Moodle feedback analysis payload to the canonical response shape.
      *
-     * @param \cm_info $cm Feedback course module.
-     * @param int $groupid Moodle group id.
-     * @param array $result Moodle analysis result.
+     * @param \cm_info $cm Cm.
+     * @param int $groupid Groupid.
+     * @param array $result Result.
      * @return array
      */
     public static function analysis_to_response(\cm_info $cm, int $groupid, array $result): array {
@@ -901,8 +901,8 @@ class feedback_tools {
     /**
      * Convert Moodle feedback response values to the canonical response shape.
      *
-     * @param \cm_info $cm Feedback course module.
-     * @param array $result Moodle finished responses result.
+     * @param \cm_info $cm Cm.
+     * @param array $result Result.
      * @return array
      */
     public static function finished_responses_to_response(\cm_info $cm, array $result): array {
@@ -929,7 +929,7 @@ class feedback_tools {
     /**
      * Convert a Moodle value to a stable string response.
      *
-     * @param mixed $value Moodle value.
+     * @param mixed $value Value.
      * @return string
      */
     private static function string_value($value): string {
@@ -944,7 +944,7 @@ class feedback_tools {
     /**
      * Encode flexible Moodle payloads as stable JSON strings.
      *
-     * @param mixed $value Raw value.
+     * @param mixed $value Value.
      * @return string
      */
     private static function json_value($value): string {

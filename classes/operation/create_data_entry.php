@@ -31,10 +31,10 @@ class create_data_entry {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Database course module id.
-     * @param array $values Entry values keyed by field name or field id.
-     * @param int $groupid Group id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param array $values Values.
+     * @param int $groupid Groupid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, array $values, int $groupid = 0): array {

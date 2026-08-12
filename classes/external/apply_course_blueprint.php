@@ -50,7 +50,7 @@ class apply_course_blueprint extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
+     * @param int $courseid Courseid.
      * @param string $blueprint Blueprint.
      * @return array
      */

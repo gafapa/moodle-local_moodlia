@@ -31,6 +31,13 @@ class get_glossary_entries_by_date {
     /**
      * Execute the operation.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $order Order.
+     * @param string $sort Sort.
+     * @param int $from From.
+     * @param int $limit Limit.
+     * @param bool $includenotapproved Includenotapproved.
      * @return array
      */
     public static function execute(

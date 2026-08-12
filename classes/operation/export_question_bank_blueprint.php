@@ -36,12 +36,12 @@ class export_question_bank_blueprint {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param string|null $bankscope Question bank scope.
-     * @param int|null $questionbankmoduleid Course question bank module id.
-     * @param int|null $quizmoduleid Quiz module id.
-     * @param int|null $categoryid Optional single category id.
-     * @param bool $includeunsupported Include unsupported questions as skipped entries.
+     * @param int $courseid Courseid.
+     * @param string|null $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
+     * @param int|null $categoryid Categoryid.
+     * @param bool $includeunsupported Includeunsupported.
      * @return array
      */
     public static function execute(

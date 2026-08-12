@@ -31,9 +31,9 @@ class delete_choice_responses {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $choicemoduleid Choice course module id.
-     * @param string $responseidsjson Optional JSON array of response ids. Empty array deletes current-user responses.
+     * @param int $courseid Courseid.
+     * @param int $choicemoduleid Choicemoduleid.
+     * @param string $responseidsjson Responseidsjson.
      * @return array
      */
     public static function execute(int $courseid, int $choicemoduleid, string $responseidsjson = '[]'): array {

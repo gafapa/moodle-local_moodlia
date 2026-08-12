@@ -65,6 +65,18 @@ jobs:
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: MOODLE_502_STABLE
+      - name: Apply official Moodle style fixes for inspection
+        if: ${{ matrix.php == '8.3' && matrix.database == 'pgsql' }}
+        run: |
+          ./moodle/vendor/bin/phpcbf --standard=moodle ./repository || true
+          git -C repository diff --binary -- '*.php' > "$RUNNER_TEMP/moodle-phpcbf.patch"
+      - name: Upload Moodle style patch
+        if: ${{ matrix.php == '8.3' && matrix.database == 'pgsql' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: moodle-phpcbf-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/moodle-phpcbf.patch
+          retention-days: 1
       - name: Lint PHP
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phplint

@@ -51,8 +51,8 @@ class update_grade_category extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $categoryid Category id.
+     * @param int $courseid Courseid.
+     * @param int $categoryid Categoryid.
      * @param string|null $name Name.
      * @param int|null $aggregation Aggregation.
      * @param bool|null $hidden Hidden.

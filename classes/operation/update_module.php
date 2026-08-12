@@ -33,11 +33,11 @@ class update_module {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Course module id.
-     * @param string|null $name New module name.
-     * @param bool|null $visible Module visibility state.
-     * @param array $options Type-specific options.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string|null $name Name.
+     * @param bool|null $visible Visible.
+     * @param array $options Options.
      * @return array
      */
     public static function execute(

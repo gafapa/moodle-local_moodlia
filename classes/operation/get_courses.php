@@ -31,7 +31,7 @@ class get_courses {
     /**
      * Execute the operation.
      *
-     * @param int $limit Maximum number of courses to return.
+     * @param int $limit Limit.
      * @return array
      */
     public static function execute(int $limit = 100): array {

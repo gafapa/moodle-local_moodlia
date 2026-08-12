@@ -49,7 +49,7 @@ class delete_question extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $questionid Question id.
+     * @param int $questionid Questionid.
      * @return array
      */
     public static function execute(int $questionid): array {

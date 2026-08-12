@@ -54,12 +54,12 @@ class export_question_bank_blueprint extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param string $bankscope Bank scope.
-     * @param int|null $questionbankmoduleid Question bank module id.
-     * @param int|null $quizmoduleid Quiz module id.
-     * @param int|null $categoryid Category id.
-     * @param bool $includeunsupported Include unsupported.
+     * @param int $courseid Courseid.
+     * @param string $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
+     * @param int|null $categoryid Categoryid.
+     * @param bool $includeunsupported Includeunsupported.
      * @return array
      */
     public static function execute(

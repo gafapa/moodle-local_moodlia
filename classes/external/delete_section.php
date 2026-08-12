@@ -51,10 +51,10 @@ class delete_section extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int|null $sectionid Course section id.
-     * @param int|null $sectionnumber Course section number.
-     * @param string $deletemode Delete mode.
+     * @param int $courseid Courseid.
+     * @param int|null $sectionid Sectionid.
+     * @param int|null $sectionnumber Sectionnumber.
+     * @param string $deletemode Deletemode.
      * @return array
      */
     public static function execute(

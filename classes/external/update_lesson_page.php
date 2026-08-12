@@ -58,6 +58,16 @@ class update_lesson_page extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $pageid Pageid.
+     * @param string|null $title Title.
+     * @param string|null $content Content.
+     * @param int|null $contentformat Contentformat.
+     * @param string|null $branches Branches.
+     * @param bool|null $displayinmenu Displayinmenu.
+     * @param bool|null $horizontal Horizontal.
+     * @param string|null $answers Answers.
      * @return array
      */
     public static function execute(

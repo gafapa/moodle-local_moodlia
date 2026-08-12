@@ -52,6 +52,9 @@ class get_workshop_reviewer_assessments extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $userid = 0): array {

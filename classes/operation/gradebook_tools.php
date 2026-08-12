@@ -42,7 +42,7 @@ class gradebook_tools {
     /**
      * Convert Moodle grade item data to the canonical response shape.
      *
-     * @param mixed $item Moodle grade item payload.
+     * @param mixed $item Item.
      * @return array
      */
     public static function grade_item_to_response($item): array {
@@ -58,7 +58,7 @@ class gradebook_tools {
     /**
      * Convert a grade category object to the canonical response shape.
      *
-     * @param \grade_category $category Moodle grade category.
+     * @param \grade_category $category Category.
      * @return array
      */
     public static function grade_category_to_response(\grade_category $category): array {
@@ -75,7 +75,7 @@ class gradebook_tools {
     /**
      * Convert a grade item object to an advanced canonical response shape.
      *
-     * @param \grade_item $item Moodle grade item.
+     * @param \grade_item $item Item.
      * @return array
      */
     public static function manual_grade_item_to_response(\grade_item $item): array {
@@ -97,7 +97,7 @@ class gradebook_tools {
     /**
      * Convert Moodle user grade item data to the canonical response shape.
      *
-     * @param mixed $item Moodle user grade item payload.
+     * @param mixed $item Item.
      * @return array
      */
     public static function user_grade_item_to_response($item): array {
@@ -126,7 +126,7 @@ class gradebook_tools {
     /**
      * Throw when Moodle returns external API warnings.
      *
-     * @param array $warnings Moodle warning payloads.
+     * @param array $warnings Warnings.
      */
     public static function fail_on_warnings(array $warnings): void {
         if (empty($warnings)) {
@@ -141,8 +141,8 @@ class gradebook_tools {
     /**
      * Load and validate a grade category in a course.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $categoryid Grade category id.
+     * @param int $courseid Courseid.
+     * @param int $categoryid Categoryid.
      * @return \grade_category
      */
     public static function get_grade_category(int $courseid, int $categoryid): \grade_category {
@@ -163,8 +163,8 @@ class gradebook_tools {
     /**
      * Load and validate a grade item in a course.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $itemid Grade item id.
+     * @param int $courseid Courseid.
+     * @param int $itemid Itemid.
      * @return \grade_item
      */
     public static function get_grade_item(int $courseid, int $itemid): \grade_item {
@@ -185,7 +185,7 @@ class gradebook_tools {
     /**
      * Ensure that a grade item is manually owned.
      *
-     * @param \grade_item $item Moodle grade item.
+     * @param \grade_item $item Item.
      */
     public static function require_manual_grade_item(\grade_item $item): void {
         if (($item->itemtype ?? '') !== 'manual') {
@@ -196,7 +196,7 @@ class gradebook_tools {
     /**
      * Convert objects and nested arrays to arrays.
      *
-     * @param mixed $value Value to convert.
+     * @param mixed $value Value.
      * @return array
      */
     private static function to_array($value): array {

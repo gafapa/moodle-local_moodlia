@@ -31,10 +31,10 @@ class update_workshop_assessment {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param int $assessmentid Workshop assessment id.
-     * @param string $datajson JSON array of name/value rows accepted by Moodle's workshop external API.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $assessmentid Assessmentid.
+     * @param string $datajson Datajson.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $assessmentid, string $datajson): array {

@@ -31,9 +31,9 @@ class get_assignment_grades {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param int $since Optional modified-since timestamp.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $since Since.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $since = 0): array {

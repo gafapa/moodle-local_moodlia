@@ -31,10 +31,10 @@ class move_module {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Course module id.
-     * @param int $sectionnumber Target course section number.
-     * @param int|null $beforemoduleid Module id before which the moved module should be inserted.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $sectionnumber Sectionnumber.
+     * @param int|null $beforemoduleid Beforemoduleid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $sectionnumber, ?int $beforemoduleid = null): array {

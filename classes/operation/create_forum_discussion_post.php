@@ -31,12 +31,12 @@ class create_forum_discussion_post {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Forum course module id.
-     * @param int $discussionid Moodle forum discussion id.
-     * @param int|null $parentpostid Parent post id.
-     * @param string $subject Reply subject.
-     * @param string $message Reply message.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $discussionid Discussionid.
+     * @param int|null $parentpostid Parentpostid.
+     * @param string $subject Subject.
+     * @param string $message Message.
      * @return array
      */
     public static function execute(

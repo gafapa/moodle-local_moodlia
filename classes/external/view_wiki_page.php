@@ -51,9 +51,9 @@ class view_wiki_page extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
-     * @param int $pageid Page id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $pageid Pageid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $pageid): array {

@@ -31,8 +31,8 @@ class start_quiz_attempt {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param bool $forcenew Force a new attempt when Moodle permits it.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param bool $forcenew Forcenew.
      * @return array
      */
     public static function execute(int $quizmoduleid, bool $forcenew = false): array {

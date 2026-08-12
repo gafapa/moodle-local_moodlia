@@ -31,8 +31,8 @@ class delete_grouping {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $groupingid Moodle grouping id.
+     * @param int $courseid Courseid.
+     * @param int $groupingid Groupingid.
      * @return array
      */
     public static function execute(int $courseid, int $groupingid): array {

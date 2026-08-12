@@ -31,7 +31,7 @@ final class get_plugin_dependencies {
     /**
      * Execute the operation.
      *
-     * @param string $component Plugin component.
+     * @param string $component Component.
      * @return array
      */
     public static function execute(string $component): array {

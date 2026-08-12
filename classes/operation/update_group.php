@@ -31,11 +31,11 @@ class update_group {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $groupid Moodle group id.
-     * @param string|null $name Group name.
-     * @param string|null $description Group description.
-     * @param string|null $idnumber Optional group idnumber.
+     * @param int $courseid Courseid.
+     * @param int $groupid Groupid.
+     * @param string|null $name Name.
+     * @param string|null $description Description.
+     * @param string|null $idnumber Idnumber.
      * @return array
      */
     public static function execute(

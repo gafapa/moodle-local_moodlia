@@ -58,6 +58,15 @@ class search_glossary_entries extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $query Query.
+     * @param bool $fullsearch Fullsearch.
+     * @param string $order Order.
+     * @param string $sort Sort.
+     * @param int $from From.
+     * @param int $limit Limit.
+     * @param bool $includenotapproved Includenotapproved.
      * @return array
      */
     public static function execute(

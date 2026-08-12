@@ -31,8 +31,8 @@ class delete_calendar_event {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $eventid Moodle calendar event id.
+     * @param int $courseid Courseid.
+     * @param int $eventid Eventid.
      * @return array
      */
     public static function execute(int $courseid, int $eventid): array {

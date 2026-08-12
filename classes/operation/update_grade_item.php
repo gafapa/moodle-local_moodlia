@@ -31,15 +31,15 @@ class update_grade_item {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $itemid Grade item id.
-     * @param string|null $name Optional item name.
-     * @param float|null $grademax Optional maximum grade.
-     * @param float|null $grademin Optional minimum grade.
-     * @param float|null $gradepass Optional passing grade.
-     * @param int|null $categoryid Optional category id.
-     * @param bool|null $hidden Optional hidden state.
-     * @param bool|null $locked Optional locked state.
+     * @param int $courseid Courseid.
+     * @param int $itemid Itemid.
+     * @param string|null $name Name.
+     * @param float|null $grademax Grademax.
+     * @param float|null $grademin Grademin.
+     * @param float|null $gradepass Gradepass.
+     * @param int|null $categoryid Categoryid.
+     * @param bool|null $hidden Hidden.
+     * @param bool|null $locked Locked.
      * @return array
      */
     public static function execute(

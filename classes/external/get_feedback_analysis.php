@@ -52,9 +52,9 @@ class get_feedback_analysis extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
-     * @param int $groupid Group id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $groupid Groupid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $groupid = 0): array {

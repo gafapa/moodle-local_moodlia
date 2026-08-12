@@ -31,7 +31,7 @@ class get_questions {
     /**
      * Execute the operation.
      *
-     * @param int $categoryid Question category id.
+     * @param int $categoryid Categoryid.
      * @return array
      */
     public static function execute(int $categoryid): array {

@@ -60,8 +60,8 @@ class course_workflow_tools {
     /**
      * Decode a JSON object parameter.
      *
-     * @param string $json JSON object.
-     * @param string $name Parameter name.
+     * @param string $json Json.
+     * @param string $name Name.
      * @return array
      */
     public static function decode_object(string $json, string $name): array {
@@ -76,8 +76,8 @@ class course_workflow_tools {
     /**
      * Decode a JSON array parameter.
      *
-     * @param string $json JSON array.
-     * @param string $name Parameter name.
+     * @param string $json Json.
+     * @param string $name Name.
      * @return array
      */
     public static function decode_array(string $json, string $name): array {
@@ -92,7 +92,7 @@ class course_workflow_tools {
     /**
      * Encode a response fragment as JSON.
      *
-     * @param mixed $value Value to encode.
+     * @param mixed $value Value.
      * @return string
      */
     public static function encode_json($value): string {
@@ -102,8 +102,8 @@ class course_workflow_tools {
     /**
      * Create a course from a portable MoodlIA blueprint.
      *
-     * @param array $blueprint Blueprint object.
-     * @param callable|null $coursewritevalidator Optional validator called with the created course id before workflow writes.
+     * @param array $blueprint Blueprint.
+     * @param callable|null $coursewritevalidator Coursewritevalidator.
      * @return array
      */
     public static function create_from_blueprint(array $blueprint, ?callable $coursewritevalidator = null): array {
@@ -155,8 +155,8 @@ class course_workflow_tools {
     /**
      * Apply a portable blueprint to an existing course.
      *
-     * @param int $courseid Moodle course id.
-     * @param array $blueprint Blueprint object.
+     * @param int $courseid Courseid.
+     * @param array $blueprint Blueprint.
      * @return array
      */
     public static function apply_to_course(int $courseid, array $blueprint): array {
@@ -251,9 +251,9 @@ class course_workflow_tools {
     /**
      * Export a course as a portable MoodlIA blueprint.
      *
-     * @param int $courseid Moodle course id.
-     * @param bool $includecontents Whether to include sections and module shells.
-     * @param bool $includegroups Whether to include groups.
+     * @param int $courseid Courseid.
+     * @param bool $includecontents Includecontents.
+     * @param bool $includegroups Includegroups.
      * @return array
      */
     public static function export_blueprint(int $courseid, bool $includecontents = true, bool $includegroups = true): array {
@@ -324,7 +324,7 @@ class course_workflow_tools {
     /**
      * Return basic quality issues for a course.
      *
-     * @param int $courseid Moodle course id.
+     * @param int $courseid Courseid.
      * @return array
      */
     public static function audit_course(int $courseid): array {
@@ -383,8 +383,8 @@ class course_workflow_tools {
     /**
      * Convert a publish state to visibility.
      *
-     * @param string $state Publish state.
-     * @param bool $fallback Fallback visibility.
+     * @param string $state State.
+     * @param bool $fallback Fallback.
      * @return bool
      */
     public static function visible_for_state(string $state, bool $fallback = false): bool {
@@ -401,7 +401,7 @@ class course_workflow_tools {
     /**
      * Validate a publish state.
      *
-     * @param string $state Publish state.
+     * @param string $state State.
      * @return string
      */
     public static function normalise_publish_state(string $state): string {
@@ -416,9 +416,9 @@ class course_workflow_tools {
     /**
      * Validate a portable course blueprint before applying side effects.
      *
-     * @param array $blueprint Blueprint object.
-     * @param bool $requirecourse Whether course metadata is required.
-     * @param bool $allowemptyworkflow Whether sections, groups, and enrolments may all be empty.
+     * @param array $blueprint Blueprint.
+     * @param bool $requirecourse Requirecourse.
+     * @param bool $allowemptyworkflow Allowemptyworkflow.
      */
     public static function validate_blueprint(
         array $blueprint,
@@ -482,8 +482,8 @@ class course_workflow_tools {
     /**
      * Validate enrolment payloads before attempting writes.
      *
-     * @param array $enrolments Enrolment list.
-     * @param string $prefix Error path prefix.
+     * @param array $enrolments Enrolments.
+     * @param string $prefix Prefix.
      */
     public static function validate_enrolments(array $enrolments, string $prefix = 'enrolments'): void {
         foreach ($enrolments as $index => $enrolment) {
@@ -506,7 +506,7 @@ class course_workflow_tools {
     /**
      * Infer the public state from course metadata.
      *
-     * @param array $course Course response.
+     * @param array $course Course.
      * @return string
      */
     private static function state_from_course(array $course): string {
@@ -522,9 +522,9 @@ class course_workflow_tools {
     /**
      * Validate a blueprint module object.
      *
-     * @param mixed $module Module value.
-     * @param int $sectionindex Section index.
-     * @param int $moduleindex Module index.
+     * @param mixed $module Module.
+     * @param int $sectionindex Sectionindex.
+     * @param int $moduleindex Moduleindex.
      */
     private static function validate_blueprint_module($module, int $sectionindex, int $moduleindex): void {
         $prefix = 'blueprint.sections[' . $sectionindex . '].modules[' . $moduleindex . ']';
@@ -560,8 +560,8 @@ class course_workflow_tools {
     /**
      * Export supported activity subelements for a course blueprint module.
      *
-     * @param int $courseid Moodle course id.
-     * @param array $module Course-content module response.
+     * @param int $courseid Courseid.
+     * @param array $module Module.
      * @return array
      */
     private static function export_module_subelements(int $courseid, array $module): array {
@@ -596,9 +596,9 @@ class course_workflow_tools {
     /**
      * Apply supported activity subelements after a module shell is created.
      *
-     * @param int $courseid Moodle course id.
-     * @param array $createdmodule Created module response.
-     * @param array $blueprintmodule Original blueprint module.
+     * @param int $courseid Courseid.
+     * @param array $createdmodule Createdmodule.
+     * @param array $blueprintmodule Blueprintmodule.
      * @return array
      */
     private static function apply_module_subelements(int $courseid, array $createdmodule, array $blueprintmodule): array {
@@ -642,7 +642,7 @@ class course_workflow_tools {
     /**
      * Convert a Feedback item response to a portable blueprint item.
      *
-     * @param array $item Feedback item response.
+     * @param array $item Item.
      * @return array
      */
     private static function feedback_item_to_blueprint(array $item): array {
@@ -668,7 +668,7 @@ class course_workflow_tools {
     /**
      * Return a portable definition object for a supported Feedback item.
      *
-     * @param array $item Feedback item response.
+     * @param array $item Item.
      * @return array
      */
     private static function feedback_item_definition(array $item): array {
@@ -716,9 +716,9 @@ class course_workflow_tools {
     /**
      * Apply Feedback item blueprints after a Feedback module shell is created.
      *
-     * @param int $courseid Moodle course id.
-     * @param array $createdmodule Created Feedback module response.
-     * @param array $blueprintmodule Original blueprint module.
+     * @param int $courseid Courseid.
+     * @param array $createdmodule Createdmodule.
+     * @param array $blueprintmodule Blueprintmodule.
      * @return array
      */
     private static function apply_feedback_items(int $courseid, array $createdmodule, array $blueprintmodule): array {
@@ -767,8 +767,8 @@ class course_workflow_tools {
     /**
      * Validate Book chapter blueprints.
      *
-     * @param mixed $chapters Chapter list.
-     * @param string $prefix Error path prefix.
+     * @param mixed $chapters Chapters.
+     * @param string $prefix Prefix.
      */
     private static function validate_book_chapters($chapters, string $prefix): void {
         if (!is_array($chapters) || !array_is_list($chapters)) {
@@ -807,8 +807,8 @@ class course_workflow_tools {
     /**
      * Validate Feedback item blueprints before course workflow side effects.
      *
-     * @param mixed $items Feedback item list.
-     * @param string $prefix Error path prefix.
+     * @param mixed $items Items.
+     * @param string $prefix Prefix.
      */
     private static function validate_feedback_items($items, string $prefix): void {
         if (!is_array($items) || !array_is_list($items)) {
@@ -894,9 +894,9 @@ class course_workflow_tools {
     /**
      * Validate a Feedback item definition.
      *
-     * @param string $type Feedback item type.
-     * @param array $definition Definition object.
-     * @param string $prefix Error path prefix.
+     * @param string $type Type.
+     * @param array $definition Definition.
+     * @param string $prefix Prefix.
      */
     private static function validate_feedback_item_definition(string $type, array $definition, string $prefix): void {
         switch ($type) {
@@ -951,9 +951,9 @@ class course_workflow_tools {
     /**
      * Split a pipe-delimited Feedback presentation pair.
      *
-     * @param string $presentation Feedback item presentation.
-     * @param string $firstdefault First fallback.
-     * @param string $seconddefault Second fallback.
+     * @param string $presentation Presentation.
+     * @param string $firstdefault Firstdefault.
+     * @param string $seconddefault Seconddefault.
      * @return array
      */
     private static function split_pair(string $presentation, string $firstdefault, string $seconddefault): array {
@@ -967,9 +967,9 @@ class course_workflow_tools {
     /**
      * Convert a Feedback choice presentation string to a portable definition.
      *
-     * @param string $presentation Feedback item presentation.
-     * @param bool $rated Whether choices include numeric ratings.
-     * @param string $options Feedback item options flags.
+     * @param string $presentation Presentation.
+     * @param bool $rated Rated.
+     * @param string $options Options.
      * @return array
      */
     private static function feedback_choice_definition(string $presentation, bool $rated, string $options): array {
@@ -1010,11 +1010,11 @@ class course_workflow_tools {
     /**
      * Validate an optional integer definition field.
      *
-     * @param array $definition Definition object.
-     * @param string $key Definition key.
-     * @param string $prefix Error path prefix.
-     * @param int $min Minimum value.
-     * @param int $max Maximum value.
+     * @param array $definition Definition.
+     * @param string $key Key.
+     * @param string $prefix Prefix.
+     * @param int $min Min.
+     * @param int $max Max.
      */
     private static function validate_optional_int_range(
         array $definition,
@@ -1035,8 +1035,8 @@ class course_workflow_tools {
     /**
      * Return a nullable numeric definition value.
      *
-     * @param mixed $value Input value.
-     * @param string $path Error path.
+     * @param mixed $value Value.
+     * @param string $path Path.
      * @return float|null
      */
     private static function nullable_numeric_value($value, string $path): ?float {
@@ -1053,9 +1053,9 @@ class course_workflow_tools {
     /**
      * Validate a Feedback multichoice definition.
      *
-     * @param array $definition Definition object.
-     * @param string $prefix Error path prefix.
-     * @param bool $allowcheckbox Whether checkbox subtype is allowed.
+     * @param array $definition Definition.
+     * @param string $prefix Prefix.
+     * @param bool $allowcheckbox Allowcheckbox.
      */
     private static function validate_feedback_choice_definition(array $definition, string $prefix, bool $allowcheckbox): void {
         $subtype = (string) ($definition['subtype'] ?? 'radio');
@@ -1097,8 +1097,8 @@ class course_workflow_tools {
     /**
      * Validate a Feedback rated-choice definition.
      *
-     * @param array $definition Definition object.
-     * @param string $prefix Error path prefix.
+     * @param array $definition Definition.
+     * @param string $prefix Prefix.
      */
     private static function validate_feedback_rated_choice_definition(array $definition, string $prefix): void {
         self::validate_feedback_choice_definition([
@@ -1145,8 +1145,8 @@ class course_workflow_tools {
     /**
      * Reject Moodle Feedback presentation separators inside public text.
      *
-     * @param string $text Text value.
-     * @param string $path Error path.
+     * @param string $text Text.
+     * @param string $path Path.
      */
     private static function reject_feedback_separator(string $text, string $path): void {
         foreach (['|', '####', '>>>>>', '<<<<<'] as $separator) {
@@ -1159,8 +1159,8 @@ class course_workflow_tools {
     /**
      * Return a validated list field from a blueprint.
      *
-     * @param array $blueprint Blueprint object.
-     * @param string $field Field name.
+     * @param array $blueprint Blueprint.
+     * @param string $field Field.
      * @return array
      */
     private static function validated_list_field(array $blueprint, string $field): array {
@@ -1177,7 +1177,7 @@ class course_workflow_tools {
     /**
      * Return whether a blueprint contains writeable course workflow items.
      *
-     * @param array $blueprint Blueprint object.
+     * @param array $blueprint Blueprint.
      * @return bool
      */
     private static function blueprint_has_workflow(array $blueprint): bool {
@@ -1189,7 +1189,7 @@ class course_workflow_tools {
     /**
      * Return a positive integer value when the input is strictly integer-like.
      *
-     * @param mixed $value Input value.
+     * @param mixed $value Value.
      * @return int|null
      */
     private static function positive_integer_value($value): ?int {
@@ -1206,7 +1206,7 @@ class course_workflow_tools {
     /**
      * Return a non-negative integer value when the input is strictly integer-like.
      *
-     * @param mixed $value Input value.
+     * @param mixed $value Value.
      * @return int|null
      */
     private static function non_negative_integer_value($value): ?int {
@@ -1223,7 +1223,7 @@ class course_workflow_tools {
     /**
      * Return whether a JSON value is safely boolean-like.
      *
-     * @param mixed $value Input value.
+     * @param mixed $value Value.
      * @return bool
      */
     private static function boolean_like_value($value): bool {
@@ -1233,7 +1233,7 @@ class course_workflow_tools {
     /**
      * Return whether a JSON value can be safely used as text.
      *
-     * @param mixed $value Input value.
+     * @param mixed $value Value.
      * @return bool
      */
     private static function text_like_value($value): bool {
@@ -1243,7 +1243,7 @@ class course_workflow_tools {
     /**
      * Return course input from root or nested course key.
      *
-     * @param array $blueprint Blueprint object.
+     * @param array $blueprint Blueprint.
      * @return array
      */
     private static function course_input(array $blueprint): array {
@@ -1260,7 +1260,7 @@ class course_workflow_tools {
     /**
      * Return a list value or an empty list.
      *
-     * @param mixed $value Input value.
+     * @param mixed $value Value.
      * @return array
      */
     private static function list_or_empty($value): array {
@@ -1270,7 +1270,7 @@ class course_workflow_tools {
     /**
      * Return an object-like array or an empty array.
      *
-     * @param mixed $value Input value.
+     * @param mixed $value Value.
      * @return array
      */
     private static function array_or_empty($value): array {
@@ -1280,10 +1280,10 @@ class course_workflow_tools {
     /**
      * Build an audit issue.
      *
-     * @param string $severity Issue severity.
-     * @param string $code Issue code.
-     * @param string $message Human-readable message.
-     * @param array $details Extra details.
+     * @param string $severity Severity.
+     * @param string $code Code.
+     * @param string $message Message.
+     * @param array $details Details.
      * @return array
      */
     private static function issue(string $severity, string $code, string $message, array $details = []): array {

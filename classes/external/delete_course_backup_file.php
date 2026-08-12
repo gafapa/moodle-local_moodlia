@@ -49,7 +49,7 @@ class delete_course_backup_file extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $fileid File id.
+     * @param int $fileid Fileid.
      * @return array
      */
     public static function execute(int $fileid): array {

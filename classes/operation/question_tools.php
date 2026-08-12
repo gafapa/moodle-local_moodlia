@@ -82,7 +82,7 @@ class question_tools {
     /**
      * Return the default question category for a course.
      *
-     * @param int $courseid Moodle course id.
+     * @param int $courseid Courseid.
      * @return \stdClass
      */
     public static function get_course_default_category(int $courseid): \stdClass {
@@ -103,10 +103,10 @@ class question_tools {
     /**
      * Return the default question category for a resolved bank location.
      *
-     * @param int $courseid Moodle course id.
-     * @param string|null $bankscope Bank scope.
-     * @param int|null $questionbankmoduleid Course qbank module id.
-     * @param int|null $quizmoduleid Quiz module id.
+     * @param int $courseid Courseid.
+     * @param string|null $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
      * @return \stdClass
      */
     public static function get_default_category_for_bank(
@@ -129,10 +129,10 @@ class question_tools {
     /**
      * Resolve the Moodle context that owns a question bank.
      *
-     * @param int $courseid Moodle course id.
-     * @param string|null $bankscope Bank scope.
-     * @param int|null $questionbankmoduleid Course qbank module id.
-     * @param int|null $quizmoduleid Quiz module id.
+     * @param int $courseid Courseid.
+     * @param string|null $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
      * @return array
      */
     public static function resolve_question_bank_location(
@@ -189,10 +189,10 @@ class question_tools {
     /**
      * Resolve an existing Moodle context that owns a question bank without creating modules.
      *
-     * @param int $courseid Moodle course id.
-     * @param string|null $bankscope Bank scope.
-     * @param int|null $questionbankmoduleid Course qbank module id.
-     * @param int|null $quizmoduleid Quiz module id.
+     * @param int $courseid Courseid.
+     * @param string|null $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
      * @return array|null
      */
     public static function resolve_existing_question_bank_location(
@@ -264,8 +264,8 @@ class question_tools {
     /**
      * Return question banks visible inside a course.
      *
-     * @param int $courseid Moodle course id.
-     * @param bool $includequizprivate Include quiz-owned private banks.
+     * @param int $courseid Courseid.
+     * @param bool $includequizprivate Includequizprivate.
      * @return array
      */
     public static function get_question_banks(int $courseid, bool $includequizprivate = true): array {
@@ -311,11 +311,11 @@ class question_tools {
     /**
      * Return question categories in a resolved question bank.
      *
-     * @param int $courseid Moodle course id.
-     * @param string|null $bankscope Bank scope.
-     * @param int|null $questionbankmoduleid Course qbank module id.
-     * @param int|null $quizmoduleid Quiz module id.
-     * @param bool $includetop Include the synthetic top category.
+     * @param int $courseid Courseid.
+     * @param string|null $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
+     * @param int|null $quizmoduleid Quizmoduleid.
+     * @param bool $includetop Includetop.
      * @return array
      */
     public static function get_question_categories(
@@ -365,7 +365,7 @@ class question_tools {
     /**
      * Get or create the course question bank module used to own question categories.
      *
-     * @param \stdClass $course Moodle course.
+     * @param \stdClass $course Course.
      * @return int Course module id.
      */
     public static function get_or_create_course_qbank_module(\stdClass $course): int {
@@ -398,9 +398,10 @@ class question_tools {
     /**
      * Return the canonical question category response shape.
      *
-     * @param int $categoryid Question category id.
-     * @param string $name Category name.
-     * @param int $contextid Context id.
+     * @param int $categoryid Categoryid.
+     * @param string $name Name.
+     * @param int $contextid Contextid.
+     * @param array|null $location Location.
      * @return array
      */
     public static function category_to_response(
@@ -428,7 +429,7 @@ class question_tools {
     /**
      * Decode JSON object parameters passed through Moodle REST.
      *
-     * @param string $json JSON object string.
+     * @param string $json Json.
      * @return array
      */
     public static function decode_options(string $json): array {
@@ -438,11 +439,11 @@ class question_tools {
     /**
      * Build the form object expected by Moodle question types.
      *
-     * @param int $categoryid Question category id.
-     * @param string $questiontype Question type.
-     * @param string $name Question name.
-     * @param string $questiontext Question text.
-     * @param array $options Type-specific options.
+     * @param int $categoryid Categoryid.
+     * @param string $questiontype Questiontype.
+     * @param string $name Name.
+     * @param string $questiontext Questiontext.
+     * @param array $options Options.
      * @return \stdClass
      */
     public static function build_question_form(
@@ -548,12 +549,12 @@ class question_tools {
     /**
      * Save a Moodle question through the question type API.
      *
-     * @param int|null $questionid Existing question id, or null for a new question.
-     * @param int $categoryid Question category id.
-     * @param string $questiontype Question type.
-     * @param string $name Question name.
-     * @param string $questiontext Question text.
-     * @param array $options Type-specific options.
+     * @param int|null $questionid Questionid.
+     * @param int $categoryid Categoryid.
+     * @param string $questiontype Questiontype.
+     * @param string $name Name.
+     * @param string $questiontext Questiontext.
+     * @param array $options Options.
      * @return array
      */
     public static function save_question(
@@ -593,9 +594,9 @@ class question_tools {
     /**
      * Persist calculated-question dataset items through Moodle's qtype API.
      *
-     * @param object $qtype Moodle calculated question type instance.
-     * @param \stdClass $question Saved question object.
-     * @param \stdClass $form Question form object.
+     * @param mixed $qtype Qtype.
+     * @param \stdClass $question Question.
+     * @param \stdClass $form Form.
      */
     private static function persist_calculated_datasets($qtype, \stdClass $question, \stdClass $form): void {
         $desiredcount = max(0, (int) ($form->selectadd ?? 0));
@@ -643,7 +644,7 @@ class question_tools {
     /**
      * Convert public question type names to Moodle qtype names.
      *
-     * @param string $questiontype Public or Moodle question type.
+     * @param string $questiontype Questiontype.
      * @return string Moodle question type.
      */
     private static function to_moodle_question_type(string $questiontype): string {
@@ -653,7 +654,7 @@ class question_tools {
     /**
      * Convert Moodle qtype names to public contract names.
      *
-     * @param string $questiontype Moodle question type.
+     * @param string $questiontype Questiontype.
      * @return string Public question type.
      */
     private static function to_contract_question_type(string $questiontype): string {
@@ -663,7 +664,7 @@ class question_tools {
     /**
      * Load a question through Moodle question APIs.
      *
-     * @param int $questionid Question id.
+     * @param int $questionid Questionid.
      * @return \stdClass
      */
     public static function get_question(int $questionid): \stdClass {
@@ -684,8 +685,8 @@ class question_tools {
     /**
      * Return and validate the context that owns a question category.
      *
-     * @param int $categoryid Question category id.
-     * @param int $contextid Question bank context id.
+     * @param int $categoryid Categoryid.
+     * @param int $contextid Contextid.
      * @return \context
      */
     public static function require_question_category_context(int $categoryid, int $contextid): \context {
@@ -707,8 +708,8 @@ class question_tools {
     /**
      * Validate that a category belongs to a question bank context.
      *
-     * @param int $categoryid Question category id.
-     * @param \context $context Question bank context.
+     * @param int $categoryid Categoryid.
+     * @param \context $context Context.
      */
     public static function validate_category_in_context(int $categoryid, \context $context): void {
         self::require_question_api();
@@ -726,7 +727,7 @@ class question_tools {
     /**
      * Return the canonical question response shape.
      *
-     * @param \stdClass $question Question object.
+     * @param \stdClass $question Question.
      * @return array
      */
     public static function question_to_response(\stdClass $question): array {
@@ -743,7 +744,7 @@ class question_tools {
     /**
      * Return the canonical detailed question response shape.
      *
-     * @param \stdClass $question Question object.
+     * @param \stdClass $question Question.
      * @return array
      */
     public static function question_to_detailed_response(\stdClass $question): array {
@@ -761,7 +762,7 @@ class question_tools {
     /**
      * Return ready questions in a question category through Moodle question APIs.
      *
-     * @param int $categoryid Question category id.
+     * @param int $categoryid Categoryid.
      * @return array
      */
     public static function get_questions(int $categoryid): array {
@@ -790,7 +791,7 @@ class question_tools {
     /**
      * Return raw question objects from a question category.
      *
-     * @param int $categoryid Question category id.
+     * @param int $categoryid Categoryid.
      * @return \stdClass[]
      */
     public static function get_question_objects(int $categoryid): array {
@@ -819,7 +820,7 @@ class question_tools {
     /**
      * Convert a Moodle question to a portable MoodlIA blueprint entry.
      *
-     * @param \stdClass $question Question object.
+     * @param \stdClass $question Question.
      * @return array
      */
     public static function question_to_blueprint(\stdClass $question): array {
@@ -839,8 +840,8 @@ class question_tools {
     /**
      * Convert loaded Moodle question options to create_question-compatible options.
      *
-     * @param \stdClass $question Question object.
-     * @param string $type Public question type.
+     * @param \stdClass $question Question.
+     * @param string $type Type.
      * @return array
      */
     private static function question_options_to_blueprint(\stdClass $question, string $type): array {
@@ -947,7 +948,7 @@ class question_tools {
     /**
      * Convert a Moodle answers collection to public blueprint answers.
      *
-     * @param mixed $answers Moodle answers.
+     * @param mixed $answers Answers.
      * @return array
      */
     private static function answers_to_blueprint($answers): array {
@@ -977,7 +978,7 @@ class question_tools {
     /**
      * Return formatted answer feedback text.
      *
-     * @param mixed $answer Moodle answer object.
+     * @param mixed $answer Answer.
      * @return string
      */
     private static function answer_feedback_to_text($answer): string {
@@ -991,8 +992,8 @@ class question_tools {
     /**
      * Format question text consistently for blueprint output.
      *
-     * @param string $text Raw text.
-     * @param int $format Moodle text format.
+     * @param string $text Text.
+     * @param int $format Format.
      * @return string
      */
     private static function format_question_text(string $text, int $format): string {
@@ -1002,12 +1003,12 @@ class question_tools {
     /**
      * Move a question to another question category.
      *
-     * @param int $courseid Moodle course id used to resolve the destination bank.
-     * @param int $questionid Question id.
-     * @param int $targetcategoryid Destination question category id.
-     * @param string|null $targetbankscope Destination bank scope.
-     * @param int|null $targetquestionbankmoduleid Destination course qbank module id.
-     * @param int|null $targetquizmoduleid Destination quiz module id.
+     * @param int $courseid Courseid.
+     * @param int $questionid Questionid.
+     * @param int $targetcategoryid Targetcategoryid.
+     * @param string|null $targetbankscope Targetbankscope.
+     * @param int|null $targetquestionbankmoduleid Targetquestionbankmoduleid.
+     * @param int|null $targetquizmoduleid Targetquizmoduleid.
      * @return array
      */
     public static function move_question(
@@ -1084,7 +1085,7 @@ class question_tools {
     /**
      * Delete or hide a Moodle question through Moodle question APIs.
      *
-     * @param int $questionid Question id.
+     * @param int $questionid Questionid.
      * @return array
      */
     public static function delete_question(int $questionid): array {
@@ -1103,8 +1104,8 @@ class question_tools {
     /**
      * Add true/false-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
      */
     private static function apply_truefalse_options(\stdClass $form, array $options): void {
         $correct = (bool) ($options['correct_answer'] ?? true);
@@ -1123,8 +1124,8 @@ class question_tools {
     /**
      * Add short-answer-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
      */
     private static function apply_shortanswer_options(\stdClass $form, array $options): void {
         $answers = $options['answers'] ?? null;
@@ -1159,8 +1160,8 @@ class question_tools {
     /**
      * Add multiple-choice-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
      */
     private static function apply_multichoice_options(\stdClass $form, array $options): void {
         $answers = $options['answers'] ?? null;
@@ -1239,8 +1240,8 @@ class question_tools {
     /**
      * Add numerical-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
      */
     private static function apply_numerical_options(\stdClass $form, array $options): void {
         $answers = $options['answers'] ?? null;
@@ -1299,10 +1300,10 @@ class question_tools {
     /**
      * Add calculated-question-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param string $questiontext Question text.
-     * @param array $options Type-specific options.
-     * @param string $questiontype Moodle calculated qtype.
+     * @param \stdClass $form Form.
+     * @param string $questiontext Questiontext.
+     * @param array $options Options.
+     * @param string $questiontype Questiontype.
      */
     private static function apply_calculated_options(
         \stdClass $form,
@@ -1437,10 +1438,10 @@ class question_tools {
     /**
      * Build calculated dataset variable definitions.
      *
-     * @param string $questiontext Question text.
-     * @param array $formulas Answer formulas.
-     * @param array $options Type-specific options.
-     * @param string $questiontype Moodle calculated qtype.
+     * @param string $questiontext Questiontext.
+     * @param array $formulas Formulas.
+     * @param array $options Options.
+     * @param string $questiontype Questiontype.
      * @return array
      */
     private static function build_calculated_variables(
@@ -1496,9 +1497,9 @@ class question_tools {
     /**
      * Detect dataset variable names from question text and answer formulas.
      *
-     * @param string $questiontext Question text.
-     * @param array $formulas Answer formulas.
-     * @param string $questiontype Moodle calculated qtype.
+     * @param string $questiontext Questiontext.
+     * @param array $formulas Formulas.
+     * @param string $questiontype Questiontype.
      * @return array
      */
     private static function detect_calculated_variable_names(string $questiontext, array $formulas, string $questiontype): array {
@@ -1515,9 +1516,9 @@ class question_tools {
     /**
      * Build dataset rows for calculated variables.
      *
-     * @param array $variables Variable definitions.
-     * @param array $options Type-specific options.
-     * @param string $questiontype Moodle calculated qtype.
+     * @param array $variables Variables.
+     * @param array $options Options.
+     * @param string $questiontype Questiontype.
      * @return array
      */
     private static function build_calculated_dataset_values(array $variables, array $options, string $questiontype): array {
@@ -1565,9 +1566,9 @@ class question_tools {
     /**
      * Apply calculated dataset definitions and items.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $variables Variable definitions.
-     * @param array $datasetvalues Dataset rows.
+     * @param \stdClass $form Form.
+     * @param array $variables Variables.
+     * @param array $datasetvalues Datasetvalues.
      */
     private static function apply_calculated_datasets(\stdClass $form, array $variables, array $datasetvalues): void {
         $form->calcmin = [];
@@ -1610,8 +1611,8 @@ class question_tools {
     /**
      * Clean and validate a calculated variable name.
      *
-     * @param string $name Variable name.
-     * @param string $questiontype Moodle calculated qtype.
+     * @param string $name Name.
+     * @param string $questiontype Questiontype.
      * @return string
      */
     private static function clean_calculated_variable_name(string $name, string $questiontype): string {
@@ -1626,9 +1627,9 @@ class question_tools {
     /**
      * Validate a calculated numeric value.
      *
-     * @param mixed $value Raw value.
-     * @param string $label Error label.
-     * @param string $questiontype Moodle calculated qtype.
+     * @param mixed $value Value.
+     * @param string $label Label.
+     * @param string $questiontype Questiontype.
      * @return float
      */
     private static function validate_calculated_number($value, string $label, string $questiontype): float {
@@ -1642,8 +1643,8 @@ class question_tools {
     /**
      * Validate calculated generated-value decimal length.
      *
-     * @param mixed $value Raw value.
-     * @param string $questiontype Moodle calculated qtype.
+     * @param mixed $value Value.
+     * @param string $questiontype Questiontype.
      * @return int
      */
     private static function validate_calculated_decimals($value, string $questiontype): int {
@@ -1658,8 +1659,8 @@ class question_tools {
     /**
      * Validate calculated generated-value distribution.
      *
-     * @param mixed $value Raw value.
-     * @param string $questiontype Moodle calculated qtype.
+     * @param mixed $value Value.
+     * @param string $questiontype Questiontype.
      * @return int|string
      */
     private static function validate_calculated_distribution($value, string $questiontype) {
@@ -1686,8 +1687,8 @@ class question_tools {
     /**
      * Add matching-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
      */
     private static function apply_matching_options(\stdClass $form, array $options): void {
         $subquestions = $options['subquestions'] ?? ($options['pairs'] ?? null);
@@ -1772,8 +1773,8 @@ class question_tools {
     /**
      * Add essay-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
      */
     private static function apply_essay_options(\stdClass $form, array $options): void {
         $responseformat = clean_param((string) ($options['response_format'] ?? 'editor'), PARAM_ALPHANUMEXT);
@@ -1839,8 +1840,8 @@ class question_tools {
     /**
      * Add description-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
      */
     private static function apply_description_options(\stdClass $form, array $options): void {
         $form->defaultmark = 0.0;
@@ -1850,9 +1851,9 @@ class question_tools {
     /**
      * Add random short-answer matching-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
-     * @param int $categoryid Question category id.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
+     * @param int $categoryid Categoryid.
      */
     private static function apply_randomsamatch_options(\stdClass $form, array $options, int $categoryid): void {
         $choose = (int) ($options['choose'] ?? 2);
@@ -1887,9 +1888,9 @@ class question_tools {
     /**
      * Add gapselect-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param string $questiontext Question text containing [[n]] slots.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param string $questiontext Questiontext.
+     * @param array $options Options.
      */
     private static function apply_gapselect_options(\stdClass $form, string $questiontext, array $options): void {
         $form->shuffleanswers = array_key_exists('shuffle_answers', $options) ? (int) !empty($options['shuffle_answers']) : 1;
@@ -1900,9 +1901,9 @@ class question_tools {
     /**
      * Add drag-and-drop-words-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param string $questiontext Question text containing [[n]] slots.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param string $questiontext Questiontext.
+     * @param array $options Options.
      */
     private static function apply_ddwtos_options(\stdClass $form, string $questiontext, array $options): void {
         $form->shuffleanswers = array_key_exists('shuffle_answers', $options) ? (int) !empty($options['shuffle_answers']) : 1;
@@ -1913,9 +1914,9 @@ class question_tools {
     /**
      * Build choices for embedded-slot qtypes such as gapselect and ddwtos.
      *
-     * @param string $questiontext Question text containing [[n]] slots.
-     * @param array $options Type-specific options.
-     * @param bool $includeinfinite Whether the qtype supports repeated choices.
+     * @param string $questiontext Questiontext.
+     * @param array $options Options.
+     * @param bool $includeinfinite Includeinfinite.
      * @return array
      */
     private static function build_embedded_choice_options(string $questiontext, array $options, bool $includeinfinite): array {
@@ -1974,7 +1975,7 @@ class question_tools {
     /**
      * Extract Moodle embedded-slot numbers from question text.
      *
-     * @param string $questiontext Question text.
+     * @param string $questiontext Questiontext.
      * @return array
      */
     private static function extract_embedded_slot_numbers(string $questiontext): array {
@@ -1997,8 +1998,8 @@ class question_tools {
     /**
      * Add combined feedback fields shared by several qtypes.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
      */
     private static function apply_combined_feedback_options(\stdClass $form, array $options): void {
         $form->correctfeedback = [
@@ -2018,8 +2019,8 @@ class question_tools {
     /**
      * Add drag-and-drop-marker-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
      */
     private static function apply_ddmarker_options(\stdClass $form, array $options): void {
         \question_bank::get_qtype('ddmarker');
@@ -2039,8 +2040,8 @@ class question_tools {
     /**
      * Add drag-and-drop-onto-image-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
      */
     private static function apply_ddimageortext_options(\stdClass $form, array $options): void {
         \question_bank::get_qtype('ddimageortext');
@@ -2064,9 +2065,9 @@ class question_tools {
     /**
      * Create a Moodle draft image file from a base64 option payload.
      *
-     * @param string $base64 Base64 image payload or data URL.
-     * @param string $filename Requested file name.
-     * @param string $fieldname Public option name used in validation errors.
+     * @param string $base64 Base64.
+     * @param string $filename Filename.
+     * @param string $fieldname Fieldname.
      * @return int Draft item id.
      */
     private static function create_question_draft_image(string $base64, string $filename, string $fieldname): int {
@@ -2114,7 +2115,7 @@ class question_tools {
     /**
      * Build draggable text/image items for Moodle's ddimageortext qtype.
      *
-     * @param array $options Type-specific options.
+     * @param array $options Options.
      * @return array
      */
     private static function build_ddimageortext_drags(array $options): array {
@@ -2175,8 +2176,8 @@ class question_tools {
     /**
      * Build drop zones for Moodle's ddimageortext qtype.
      *
-     * @param array $options Type-specific options.
-     * @param int $dragcount Number of configured drags.
+     * @param array $options Options.
+     * @param int $dragcount Dragcount.
      * @return array
      */
     private static function build_ddimageortext_drops(array $options, int $dragcount): array {
@@ -2212,8 +2213,8 @@ class question_tools {
     /**
      * Validate a non-negative numeric image coordinate.
      *
-     * @param mixed $value Coordinate value.
-     * @param string $message Validation message.
+     * @param mixed $value Value.
+     * @param string $message Message.
      * @return int|float
      */
     private static function validate_non_negative_coordinate($value, string $message) {
@@ -2228,7 +2229,7 @@ class question_tools {
     /**
      * Build marker drag records for Moodle's ddmarker qtype.
      *
-     * @param array $options Type-specific options.
+     * @param array $options Options.
      * @return array
      */
     private static function build_ddmarker_drags(array $options): array {
@@ -2268,8 +2269,8 @@ class question_tools {
     /**
      * Build marker drop zones for Moodle's ddmarker qtype.
      *
-     * @param array $options Type-specific options.
-     * @param int $dragcount Number of configured marker drags.
+     * @param array $options Options.
+     * @param int $dragcount Dragcount.
      * @return array
      */
     private static function build_ddmarker_drops(array $options, int $dragcount): array {
@@ -2308,8 +2309,8 @@ class question_tools {
     /**
      * Validate public ddmarker coordinate strings before Moodle stores them.
      *
-     * @param string $shape Drop shape.
-     * @param string $coords Coordinate string.
+     * @param string $shape Shape.
+     * @param string $coords Coords.
      */
     private static function validate_ddmarker_coords(string $shape, string $coords): void {
         if ($coords === '') {
@@ -2335,8 +2336,8 @@ class question_tools {
     /**
      * Add ordering-specific fields to the question form object.
      *
-     * @param \stdClass $form Question form object.
-     * @param array $options Type-specific options.
+     * @param \stdClass $form Form.
+     * @param array $options Options.
      */
     private static function apply_ordering_options(\stdClass $form, array $options): void {
         $items = $options['items'] ?? ($options['answers'] ?? null);
@@ -2390,7 +2391,7 @@ class question_tools {
     /**
      * Map ordering layout option names to Moodle constants.
      *
-     * @param mixed $layout Public option value.
+     * @param mixed $layout Layout.
      * @return int
      */
     private static function map_ordering_layout($layout): int {
@@ -2415,7 +2416,7 @@ class question_tools {
     /**
      * Map ordering item subset option names to Moodle constants.
      *
-     * @param mixed $selection Public option value.
+     * @param mixed $selection Selection.
      * @return int
      */
     private static function map_ordering_selection($selection): int {
@@ -2441,7 +2442,7 @@ class question_tools {
     /**
      * Map ordering grading option names to Moodle constants.
      *
-     * @param mixed $grading Public option value.
+     * @param mixed $grading Grading.
      * @return int
      */
     private static function map_ordering_grading($grading): int {
@@ -2475,7 +2476,7 @@ class question_tools {
     /**
      * Map ordering numbering style option names to Moodle values.
      *
-     * @param mixed $style Public option value.
+     * @param mixed $style Style.
      * @return string
      */
     private static function map_ordering_numbering_style($style): string {
@@ -2491,7 +2492,7 @@ class question_tools {
     /**
      * Validate a Cloze embedded-answers question through Moodle's multianswer parser.
      *
-     * @param \stdClass $form Question form object.
+     * @param \stdClass $form Form.
      */
     private static function apply_multianswer_options(\stdClass $form): void {
         \question_bank::get_qtype('multianswer');
@@ -2510,9 +2511,9 @@ class question_tools {
     /**
      * Add a question to a quiz activity.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $questionid Question id.
-     * @param int|null $slot Requested page slot.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $questionid Questionid.
+     * @param int|null $slot Slot.
      * @return array
      */
     public static function add_question_to_quiz(int $quizmoduleid, int $questionid, ?int $slot = null): array {
@@ -2557,13 +2558,13 @@ class question_tools {
     /**
      * Add random question slots to a quiz from a question category.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $categoryid Question category id.
-     * @param int $number Number of random slots to add.
-     * @param int|null $slot Requested page slot.
-     * @param bool $includesubcategories Include child categories.
-     * @param string|null $bankscope Source bank scope.
-     * @param int|null $questionbankmoduleid Source course qbank module id.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $categoryid Categoryid.
+     * @param int $number Number.
+     * @param int|null $slot Slot.
+     * @param bool $includesubcategories Includesubcategories.
+     * @param string|null $bankscope Bankscope.
+     * @param int|null $questionbankmoduleid Questionbankmoduleid.
      * @return array
      */
     public static function add_random_questions_to_quiz(
@@ -2644,9 +2645,9 @@ class question_tools {
     /**
      * Update a quiz question slot.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $slotnumber Quiz slot number.
-     * @param float $maxmark Slot maximum mark.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $slotnumber Slotnumber.
+     * @param float $maxmark Maxmark.
      * @return array
      */
     public static function update_quiz_question_slot(int $quizmoduleid, int $slotnumber, float $maxmark): array {
@@ -2698,9 +2699,9 @@ class question_tools {
     /**
      * Remove a question slot from a quiz activity.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int|null $slotnumber Quiz slot number.
-     * @param int|null $questionid Question id to remove when slot is omitted.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int|null $slotnumber Slotnumber.
+     * @param int|null $questionid Questionid.
      * @return array
      */
     public static function remove_question_from_quiz(int $quizmoduleid, ?int $slotnumber = null, ?int $questionid = null): array {
@@ -2757,7 +2758,7 @@ class question_tools {
     /**
      * Return questions currently used by a quiz module.
      *
-     * @param int $quizmoduleid Quiz course module id.
+     * @param int $quizmoduleid Quizmoduleid.
      * @return array
      */
     public static function get_quiz_questions(int $quizmoduleid): array {
@@ -2783,9 +2784,9 @@ class question_tools {
     /**
      * Validate that a category belongs to a resolved question bank location.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $categoryid Question category id.
-     * @param array $location Resolved question bank location.
+     * @param int $courseid Courseid.
+     * @param int $categoryid Categoryid.
+     * @param array $location Location.
      */
     public static function validate_category_in_location(int $courseid, int $categoryid, array $location): void {
         $categories = self::get_question_categories(
@@ -2808,9 +2809,9 @@ class question_tools {
     /**
      * Return a canonical quiz slot response.
      *
-     * @param \mod_quiz\structure $structure Quiz structure.
-     * @param \cm_info $cm Quiz course module.
-     * @param int $slotnumber Slot number.
+     * @param \mod_quiz\structure $structure Structure.
+     * @param \cm_info $cm Cm.
+     * @param int $slotnumber Slotnumber.
      * @return array
      */
     private static function quiz_question_slot_to_response(\mod_quiz\structure $structure, \cm_info $cm, int $slotnumber): array {
@@ -2842,8 +2843,8 @@ class question_tools {
     /**
      * Return quiz settings and structure details exposed through Moodle quiz APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Quiz course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_quiz_details(\stdClass $course, \cm_info $cm): array {

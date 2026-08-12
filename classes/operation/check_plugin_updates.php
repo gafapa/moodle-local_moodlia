@@ -31,8 +31,8 @@ final class check_plugin_updates {
     /**
      * Execute the operation.
      *
-     * @param string $component Optional plugin component.
-     * @param bool $refresh Whether to refresh data from Moodle.org.
+     * @param string $component Component.
+     * @param bool $refresh Refresh.
      * @return array
      */
     public static function execute(string $component = '', bool $refresh = false): array {

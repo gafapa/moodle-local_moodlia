@@ -51,8 +51,8 @@ class get_course_quizzes extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param string $courseids Course ids.
+     * @param int $courseid Courseid.
+     * @param string $courseids Courseids.
      * @return array
      */
     public static function execute(int $courseid = 0, string $courseids = '[]'): array {

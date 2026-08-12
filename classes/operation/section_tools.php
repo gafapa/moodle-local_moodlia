@@ -31,7 +31,7 @@ class section_tools {
     /**
      * Load Moodle course APIs and return a course object.
      *
-     * @param int $courseid Moodle course id.
+     * @param int $courseid Courseid.
      * @return \stdClass
      */
     public static function get_course(int $courseid): \stdClass {
@@ -49,9 +49,9 @@ class section_tools {
     /**
      * Resolve a section from either id or section number.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int|null $sectionid Course section id.
-     * @param int|null $sectionnumber Course section number.
+     * @param \stdClass $course Course.
+     * @param int|null $sectionid Sectionid.
+     * @param int|null $sectionnumber Sectionnumber.
      * @return \section_info
      */
     public static function get_section(\stdClass $course, ?int $sectionid, ?int $sectionnumber): \section_info {
@@ -73,8 +73,8 @@ class section_tools {
     /**
      * Return the canonical section response shape.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \section_info $section Course section.
+     * @param \stdClass $course Course.
+     * @param \section_info $section Section.
      * @return array
      */
     public static function to_response(\stdClass $course, \section_info $section): array {
@@ -97,8 +97,8 @@ class section_tools {
     /**
      * Reload a section after a write operation.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $sectionid Course section id.
+     * @param \stdClass $course Course.
+     * @param int $sectionid Sectionid.
      * @return \section_info
      */
     public static function reload_section(\stdClass $course, int $sectionid): \section_info {

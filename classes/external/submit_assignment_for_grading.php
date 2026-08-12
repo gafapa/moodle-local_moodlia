@@ -56,9 +56,9 @@ class submit_assignment_for_grading extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Assignment course module id.
-     * @param bool $acceptsubmissionstatement Whether the Moodle submission statement is accepted.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param bool $acceptsubmissionstatement Acceptsubmissionstatement.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, bool $acceptsubmissionstatement = true): array {

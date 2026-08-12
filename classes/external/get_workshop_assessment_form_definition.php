@@ -53,6 +53,10 @@ class get_workshop_assessment_form_definition extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $assessmentid Assessmentid.
+     * @param string $mode Mode.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $assessmentid, string $mode = 'assessment'): array {

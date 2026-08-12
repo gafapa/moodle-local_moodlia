@@ -55,13 +55,13 @@ class create_wiki_page extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Wiki course module id.
-     * @param string $title Wiki page title.
-     * @param string $content Wiki page content.
-     * @param string $contentformat Wiki content format.
-     * @param int $groupid Group id.
-     * @param int $userid User id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $title Title.
+     * @param string $content Content.
+     * @param string $contentformat Contentformat.
+     * @param int $groupid Groupid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(

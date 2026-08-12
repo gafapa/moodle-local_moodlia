@@ -31,10 +31,10 @@ class get_workshop_assessment_form_definition {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param int $assessmentid Workshop assessment id.
-     * @param string $mode Form mode: assessment or preview.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $assessmentid Assessmentid.
+     * @param string $mode Mode.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $assessmentid, string $mode = 'assessment'): array {

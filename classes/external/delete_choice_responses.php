@@ -50,9 +50,9 @@ class delete_choice_responses extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $choicemoduleid Choice course module id.
-     * @param string $responseids Optional JSON array of response ids.
+     * @param int $courseid Courseid.
+     * @param int $choicemoduleid Choicemoduleid.
+     * @param string $responseids Responseids.
      * @return array
      */
     public static function execute(int $courseid, int $choicemoduleid, string $responseids = '[]'): array {

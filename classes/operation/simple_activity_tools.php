@@ -31,7 +31,8 @@ class simple_activity_tools {
     /**
      * Return page details exposed through course module metadata.
      *
-     * @param \cm_info $cm Page course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_page_details(\stdClass $course, \cm_info $cm): array {
@@ -65,7 +66,8 @@ class simple_activity_tools {
     /**
      * Return label details exposed through course module metadata.
      *
-     * @param \cm_info $cm Label course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_label_details(\stdClass $course, \cm_info $cm): array {
@@ -93,8 +95,8 @@ class simple_activity_tools {
     /**
      * Return question bank activity details through Moodle question APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Question bank course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_qbank_details(\stdClass $course, \cm_info $cm): array {
@@ -131,7 +133,8 @@ class simple_activity_tools {
     /**
      * Return URL details exposed through course module metadata.
      *
-     * @param \cm_info $cm URL course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_url_details(\stdClass $course, \cm_info $cm): array {
@@ -164,8 +167,8 @@ class simple_activity_tools {
     /**
      * Return book settings and chapter summaries exposed through Moodle book APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Book course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_book_details(\stdClass $course, \cm_info $cm): array {
@@ -194,7 +197,8 @@ class simple_activity_tools {
     /**
      * Return folder details and stored file summaries through Moodle File API.
      *
-     * @param \cm_info $cm Folder course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_folder_details(\stdClass $course, \cm_info $cm): array {
@@ -229,7 +233,8 @@ class simple_activity_tools {
     /**
      * Return resource details and stored file summaries through Moodle File API.
      *
-     * @param \cm_info $cm Resource course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_resource_details(\stdClass $course, \cm_info $cm): array {
@@ -270,8 +275,8 @@ class simple_activity_tools {
     /**
      * Return subsection details exposed through course format APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Subsection course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_subsection_details(\stdClass $course, \cm_info $cm): array {
@@ -302,8 +307,8 @@ class simple_activity_tools {
     /**
      * Return feedback settings exposed through Moodle feedback APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Feedback course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_feedback_details(\stdClass $course, \cm_info $cm): array {
@@ -333,8 +338,8 @@ class simple_activity_tools {
     /**
      * Return database activity settings exposed through Moodle data APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Database course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_data_details(\stdClass $course, \cm_info $cm): array {
@@ -397,8 +402,8 @@ class simple_activity_tools {
     /**
      * Return lesson settings exposed through Moodle lesson APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Lesson course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_lesson_details(\stdClass $course, \cm_info $cm): array {
@@ -450,8 +455,8 @@ class simple_activity_tools {
     /**
      * Return external tool settings exposed through Moodle LTI APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm LTI course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_lti_details(\stdClass $course, \cm_info $cm): array {
@@ -492,8 +497,8 @@ class simple_activity_tools {
     /**
      * Return workshop settings exposed through Moodle workshop APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Workshop course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_workshop_details(\stdClass $course, \cm_info $cm): array {
@@ -550,7 +555,7 @@ class simple_activity_tools {
     /**
      * Return cm_info custom data as an array.
      *
-     * @param \cm_info $cm Course module info.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     private static function custom_data(\cm_info $cm): array {
@@ -565,8 +570,8 @@ class simple_activity_tools {
     /**
      * Return module form data reconstructed by Moodle's course module API.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Course module info.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     private static function module_form_data(\stdClass $course, \cm_info $cm): array {
@@ -584,12 +589,12 @@ class simple_activity_tools {
     /**
      * Return activity metadata exposed by a module external API.
      *
-     * @param string $component Module component without mod_ prefix.
-     * @param string $classname External API class name.
-     * @param string $method External API method name.
-     * @param string $listkey Result list key.
-     * @param int $courseid Moodle course id.
-     * @param \cm_info $cm Course module info.
+     * @param string $component Component.
+     * @param string $classname Classname.
+     * @param string $method Method.
+     * @param string $listkey Listkey.
+     * @param int $courseid Courseid.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     private static function find_external_activity(
@@ -622,7 +627,7 @@ class simple_activity_tools {
     /**
      * Load a standard activity external API class if the module provides one.
      *
-     * @param string $component Module component without mod_ prefix.
+     * @param string $component Component.
      */
     private static function load_external_api(string $component): void {
         global $CFG;
@@ -636,7 +641,7 @@ class simple_activity_tools {
     /**
      * Decode Moodle display option metadata when a module returns it as JSON.
      *
-     * @param string $displayoptions Encoded display options.
+     * @param string $displayoptions Displayoptions.
      * @return array
      */
     private static function decode_display_options(string $displayoptions): array {
@@ -652,7 +657,7 @@ class simple_activity_tools {
     /**
      * Return rendered content exposed through cm_info or scalar custom data.
      *
-     * @param \cm_info $cm Course module info.
+     * @param \cm_info $cm Cm.
      * @return string
      */
     private static function rendered_content(\cm_info $cm): string {
@@ -674,8 +679,8 @@ class simple_activity_tools {
     /**
      * Return an optional string custom-data value.
      *
-     * @param array $customdata Custom data.
-     * @param string $key Custom data key.
+     * @param array $customdata Customdata.
+     * @param string $key Key.
      * @return string
      */
     private static function optional_string(array $customdata, string $key): string {
@@ -685,8 +690,8 @@ class simple_activity_tools {
     /**
      * Return an optional integer custom-data value.
      *
-     * @param array $customdata Custom data.
-     * @param string $key Custom data key.
+     * @param array $customdata Customdata.
+     * @param string $key Key.
      * @return int
      */
     private static function optional_int(array $customdata, string $key): int {
@@ -696,8 +701,8 @@ class simple_activity_tools {
     /**
      * Return an optional float custom-data value.
      *
-     * @param array $customdata Custom data.
-     * @param string $key Custom data key.
+     * @param array $customdata Customdata.
+     * @param string $key Key.
      * @return float
      */
     private static function optional_float(array $customdata, string $key): float {
@@ -707,8 +712,8 @@ class simple_activity_tools {
     /**
      * Return an optional boolean custom-data value.
      *
-     * @param array $customdata Custom data.
-     * @param string $key Custom data key.
+     * @param array $customdata Customdata.
+     * @param string $key Key.
      * @return bool
      */
     private static function optional_bool(array $customdata, string $key): bool {
@@ -718,7 +723,7 @@ class simple_activity_tools {
     /**
      * Return feedback completion-submit setting from either summary or cm custom data.
      *
-     * @param array $metadata Feedback metadata.
+     * @param array $metadata Metadata.
      * @return bool
      */
     private static function completion_submit(array $metadata): bool {
@@ -737,7 +742,7 @@ class simple_activity_tools {
     /**
      * Return byte length for rendered content.
      *
-     * @param string $content Rendered content.
+     * @param string $content Content.
      * @return int
      */
     private static function content_length(string $content): int {
@@ -747,7 +752,7 @@ class simple_activity_tools {
     /**
      * Return total file size for file response rows.
      *
-     * @param array $files File response rows.
+     * @param array $files Files.
      * @return int
      */
     private static function total_size(array $files): int {

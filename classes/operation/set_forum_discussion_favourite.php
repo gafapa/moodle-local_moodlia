@@ -31,10 +31,10 @@ class set_forum_discussion_favourite {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Forum course module id.
-     * @param int $discussionid Moodle forum discussion id.
-     * @param bool $favourite Target favourite state.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $discussionid Discussionid.
+     * @param bool $favourite Favourite.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $discussionid, bool $favourite): array {
@@ -60,8 +60,8 @@ class set_forum_discussion_favourite {
     /**
      * Resolve the favourite state from Moodle response shapes.
      *
-     * @param mixed $result Moodle external result.
-     * @param bool $fallback Fallback state.
+     * @param mixed $result Result.
+     * @param bool $fallback Fallback.
      * @return bool
      */
     private static function normalise_favourite_state($result, bool $fallback): bool {

@@ -31,10 +31,10 @@ class set_forum_discussion_lock {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Forum course module id.
-     * @param int $discussionid Moodle forum discussion id.
-     * @param bool $locked Target lock state.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $discussionid Discussionid.
+     * @param bool $locked Locked.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $discussionid, bool $locked): array {

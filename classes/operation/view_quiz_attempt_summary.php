@@ -31,9 +31,9 @@ class view_quiz_attempt_summary {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param array $preflightdata Preflight name/value pairs.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param array $preflightdata Preflightdata.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $attemptid, array $preflightdata = []): array {

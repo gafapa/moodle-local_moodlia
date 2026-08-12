@@ -52,8 +52,8 @@ class create_forum_discussion extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      * @param string $name Name.
      * @param string $message Message.
      * @return array

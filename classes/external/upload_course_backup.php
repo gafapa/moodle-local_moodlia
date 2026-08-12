@@ -50,7 +50,7 @@ class upload_course_backup extends external_api {
      * Execute the operation.
      *
      * @param string $filename Filename.
-     * @param string $uploadreference Upload reference.
+     * @param string $uploadreference Uploadreference.
      * @return array
      */
     public static function execute(string $filename, string $uploadreference): array {

@@ -52,10 +52,10 @@ class set_workshop_grading_form extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param string $strategy Workshop grading strategy.
-     * @param string $definition JSON definition.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $strategy Strategy.
+     * @param string $definition Definition.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, string $strategy, string $definition): array {

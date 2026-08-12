@@ -31,12 +31,12 @@ class update_calendar_event {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $eventid Moodle calendar event id.
-     * @param string|null $name Event name.
-     * @param string|null $description Event description.
-     * @param int|null $timestart Event start timestamp.
-     * @param int|null $timeduration Event duration in seconds.
+     * @param int $courseid Courseid.
+     * @param int $eventid Eventid.
+     * @param string|null $name Name.
+     * @param string|null $description Description.
+     * @param int|null $timestart Timestart.
+     * @param int|null $timeduration Timeduration.
      * @return array
      */
     public static function execute(

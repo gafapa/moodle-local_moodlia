@@ -49,7 +49,7 @@ class get_course_categories extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $parentid Parent id.
+     * @param int $parentid Parentid.
      * @return array
      */
     public static function execute(int $parentid = -1): array {

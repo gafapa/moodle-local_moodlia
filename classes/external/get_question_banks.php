@@ -50,8 +50,8 @@ class get_question_banks extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param bool $includequizprivate Include quiz-owned private banks.
+     * @param int $courseid Courseid.
+     * @param bool $includequizprivate Includequizprivate.
      * @return array
      */
     public static function execute(int $courseid, bool $includequizprivate = true): array {

@@ -31,9 +31,9 @@ class set_workshop_phase {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Workshop course module id.
-     * @param string $phase Public phase name.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $phase Phase.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, string $phase): array {

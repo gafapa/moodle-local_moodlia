@@ -31,6 +31,13 @@ class get_glossary_entries_to_approve {
     /**
      * Execute the operation.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $letter Letter.
+     * @param string $order Order.
+     * @param string $sort Sort.
+     * @param int $from From.
+     * @param int $limit Limit.
      * @return array
      */
     public static function execute(

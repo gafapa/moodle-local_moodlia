@@ -31,9 +31,9 @@ class add_group_member {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $groupid Moodle group id.
-     * @param int $userid Moodle user id.
+     * @param int $courseid Courseid.
+     * @param int $groupid Groupid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $courseid, int $groupid, int $userid): array {

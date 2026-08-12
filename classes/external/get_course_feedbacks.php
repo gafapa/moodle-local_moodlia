@@ -49,7 +49,7 @@ class get_course_feedbacks extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
+     * @param int $courseid Courseid.
      * @return array
      */
     public static function execute(int $courseid): array {

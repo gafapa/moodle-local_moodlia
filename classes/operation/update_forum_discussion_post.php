@@ -31,12 +31,12 @@ class update_forum_discussion_post {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Forum course module id.
-     * @param int $discussionid Moodle forum discussion id.
-     * @param int $postid Moodle forum post id.
-     * @param string|null $subject Updated subject.
-     * @param string|null $message Updated message.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $discussionid Discussionid.
+     * @param int $postid Postid.
+     * @param string|null $subject Subject.
+     * @param string|null $message Message.
      * @return array
      */
     public static function execute(

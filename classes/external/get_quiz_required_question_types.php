@@ -49,7 +49,7 @@ class get_quiz_required_question_types extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz module id.
+     * @param int $quizmoduleid Quizmoduleid.
      * @return array
      */
     public static function execute(int $quizmoduleid): array {

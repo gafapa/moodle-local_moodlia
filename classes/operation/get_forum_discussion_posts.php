@@ -31,9 +31,9 @@ class get_forum_discussion_posts {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Forum course module id.
-     * @param int $discussionid Moodle forum discussion id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $discussionid Discussionid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $discussionid): array {

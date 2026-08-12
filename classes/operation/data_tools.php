@@ -45,8 +45,8 @@ class data_tools {
     /**
      * Verify that a course module belongs to a Database activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_data_module(\stdClass $course, int $cmid): \cm_info {
@@ -61,8 +61,8 @@ class data_tools {
     /**
      * Return a Database activity object suitable for Moodle data field APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return \stdClass
      */
     public static function get_database_instance(\stdClass $course, \cm_info $cm): \stdClass {
@@ -93,8 +93,8 @@ class data_tools {
     /**
      * Decode a JSON object string.
      *
-     * @param string $json JSON object.
-     * @param string $name Parameter name.
+     * @param string $json Json.
+     * @param string $name Name.
      * @return array
      */
     public static function decode_json_object(string $json, string $name): array {
@@ -113,7 +113,7 @@ class data_tools {
     /**
      * Return fields exposed by Moodle's Database activity external API.
      *
-     * @param \cm_info $cm Database course module.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_fields(\cm_info $cm): array {
@@ -131,13 +131,13 @@ class data_tools {
     /**
      * Create a Database activity field through Moodle field APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Database course module.
-     * @param string $type Field type.
-     * @param string $name Field name.
-     * @param string $description Field description.
-     * @param bool $required Whether the field is required.
-     * @param array $options Field options.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param string $type Type.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param bool $required Required.
+     * @param array $options Options.
      * @return array
      */
     public static function create_field(
@@ -195,13 +195,13 @@ class data_tools {
     /**
      * Update a Database activity field through Moodle field APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Database course module.
-     * @param int $fieldid Database field id.
-     * @param string $name Field name.
-     * @param string $description Field description.
-     * @param bool $required Whether the field is required.
-     * @param array $options Field options.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param int $fieldid Fieldid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param bool $required Required.
+     * @param array $options Options.
      * @return array
      */
     public static function update_field(
@@ -270,9 +270,9 @@ class data_tools {
     /**
      * Delete a Database activity field through Moodle field APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Database course module.
-     * @param int $fieldid Database field id.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param int $fieldid Fieldid.
      * @return array
      */
     public static function delete_field(\stdClass $course, \cm_info $cm, int $fieldid): array {
@@ -306,8 +306,8 @@ class data_tools {
     /**
      * Return a field object and validate that it belongs to the selected database.
      *
-     * @param \stdClass $database Database activity instance.
-     * @param int $fieldid Database field id.
+     * @param \stdClass $database Database.
+     * @param int $fieldid Fieldid.
      * @return object
      */
     private static function get_field_object(\stdClass $database, int $fieldid): object {
@@ -322,8 +322,8 @@ class data_tools {
     /**
      * Return a field response from the public field listing.
      *
-     * @param \cm_info $cm Database course module.
-     * @param int $fieldid Database field id.
+     * @param \cm_info $cm Cm.
+     * @param int $fieldid Fieldid.
      * @return array
      */
     private static function get_field_response(\cm_info $cm, int $fieldid): array {
@@ -339,9 +339,9 @@ class data_tools {
     /**
      * Convert public field options to Moodle field parameters.
      *
-     * @param \stdClass $fielddata Field data.
-     * @param string $type Field type.
-     * @param array $options Public options.
+     * @param \stdClass $fielddata Fielddata.
+     * @param string $type Type.
+     * @param array $options Options.
      */
     private static function apply_field_options(\stdClass $fielddata, string $type, array $options): void {
         if (in_array($type, ['menu', 'checkbox', 'radiobutton', 'multimenu'], true)) {
@@ -373,7 +373,7 @@ class data_tools {
     /**
      * Return a cleaned list of choices.
      *
-     * @param mixed $choices Public choices.
+     * @param mixed $choices Choices.
      * @return array
      */
     private static function normalise_choices($choices): array {
@@ -401,8 +401,8 @@ class data_tools {
     /**
      * Convert public values to Moodle external entry data.
      *
-     * @param \cm_info $cm Database course module.
-     * @param array $values Field values keyed by field id or name.
+     * @param \cm_info $cm Cm.
+     * @param array $values Values.
      * @return array
      */
     public static function values_to_external(\cm_info $cm, array $values): array {
@@ -441,8 +441,8 @@ class data_tools {
     /**
      * Normalize public Database entry subfield aliases to Moodle's field indexes.
      *
-     * @param array $field Field metadata.
-     * @param string $subfield Public subfield.
+     * @param array $field Field.
+     * @param string $subfield Subfield.
      * @return string
      */
     private static function normalise_value_subfield(array $field, string $subfield): string {
@@ -473,11 +473,11 @@ class data_tools {
     /**
      * Return entries from a Database activity.
      *
-     * @param \cm_info $cm Database course module.
-     * @param string $search Search text.
-     * @param bool $includecontents Include field contents.
-     * @param int $page Page number.
-     * @param int $perpage Page size.
+     * @param \cm_info $cm Cm.
+     * @param string $search Search.
+     * @param bool $includecontents Includecontents.
+     * @param int $page Page.
+     * @param int $perpage Perpage.
      * @return array
      */
     public static function get_entries(\cm_info $cm, string $search, bool $includecontents, int $page, int $perpage): array {
@@ -501,9 +501,9 @@ class data_tools {
     /**
      * Return a Database entry and ensure it belongs to the selected module.
      *
-     * @param \cm_info $cm Database course module.
-     * @param int $entryid Entry id.
-     * @param bool $includecontents Include field contents.
+     * @param \cm_info $cm Cm.
+     * @param int $entryid Entryid.
+     * @param bool $includecontents Includecontents.
      * @return array
      */
     public static function get_entry(\cm_info $cm, int $entryid, bool $includecontents = true): array {
@@ -521,8 +521,8 @@ class data_tools {
     /**
      * Convert a Database field payload to the canonical response shape.
      *
-     * @param \cm_info $cm Database course module.
-     * @param array $field Moodle field payload.
+     * @param \cm_info $cm Cm.
+     * @param array $field Field.
      * @return array
      */
     public static function field_to_response(\cm_info $cm, array $field): array {
@@ -541,8 +541,8 @@ class data_tools {
     /**
      * Convert a Database entry payload to the canonical response shape.
      *
-     * @param \cm_info $cm Database course module.
-     * @param array $entry Moodle entry payload.
+     * @param \cm_info $cm Cm.
+     * @param array $entry Entry.
      * @return array
      */
     public static function entry_to_response(\cm_info $cm, array $entry): array {
@@ -562,7 +562,7 @@ class data_tools {
     /**
      * Convert field parameters to JSON.
      *
-     * @param array $field Field payload.
+     * @param array $field Field.
      * @return string
      */
     private static function encode_params(array $field): string {
@@ -580,7 +580,7 @@ class data_tools {
     /**
      * Convert entry contents to JSON.
      *
-     * @param mixed $contents Entry contents.
+     * @param mixed $contents Contents.
      * @return string
      */
     private static function encode_contents($contents): string {

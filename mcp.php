@@ -22,6 +22,8 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// Script flags must change global state before Moodle configuration is loaded.
+// phpcs:disable moodle.Files.MoodleInternal.MoodleInternalGlobalState
 define('NO_MOODLE_COOKIES', true);
 define('AJAX_SCRIPT', true);
 define('NO_DEBUG_DISPLAY', true);
@@ -48,6 +50,7 @@ const LOCAL_MOODLIA_MCP_MAX_REQUEST_BYTES = 32 * 1024 * 1024;
 const LOCAL_MOODLIA_MCP_SERVER_VERSION = '0.1.190';
 
 require_once(__DIR__ . '/../../config.php');
+// phpcs:enable moodle.Files.MoodleInternal.MoodleInternalGlobalState
 
 /**
  * Send common security and cache headers for MCP responses.
@@ -73,8 +76,8 @@ function local_moodlia_mcp_server_info(): array {
 /**
  * Decorate a result for the stateless 2026 protocol era.
  *
- * @param array $result Result payload.
- * @param bool $cacheable Whether the result supports cache hints.
+ * @param array $result Result.
+ * @param bool $cacheable Cacheable.
  * @return array
  */
 function local_moodlia_mcp_modern_result(array $result, bool $cacheable = false): array {
@@ -93,10 +96,10 @@ function local_moodlia_mcp_modern_result(array $result, bool $cacheable = false)
 /**
  * Send a JSON-RPC response.
  *
- * @param mixed $id Request id.
- * @param mixed $result Result payload.
- * @param bool $modern Whether to add modern protocol metadata.
- * @param bool $cacheable Whether the result may include cache hints.
+ * @param mixed $id Id.
+ * @param mixed $result Result.
+ * @param bool $modern Modern.
+ * @param bool $cacheable Cacheable.
  * @return never
  */
 function local_moodlia_mcp_result($id, $result, bool $modern = false, bool $cacheable = false): never {
@@ -116,13 +119,13 @@ function local_moodlia_mcp_result($id, $result, bool $modern = false, bool $cach
 /**
  * Send a JSON-RPC error.
  *
- * @param mixed $id Request id.
- * @param int $code JSON-RPC error code.
- * @param string $message Error message.
- * @param int $httpstatus HTTP status code.
- * @param string $canonicalcode Canonical transport-independent error code.
- * @param array $details Additional safe error metadata.
- * @param array|null $protocoldata Protocol-specific error metadata.
+ * @param mixed $id Id.
+ * @param int $code Code.
+ * @param string $message Message.
+ * @param int $httpstatus Httpstatus.
+ * @param string $canonicalcode Canonicalcode.
+ * @param array $details Details.
+ * @param array|null $protocoldata Protocoldata.
  * @return never
  */
 function local_moodlia_mcp_error(
@@ -155,8 +158,8 @@ function local_moodlia_mcp_error(
 /**
  * Reject malformed or inconsistent modern HTTP request metadata.
  *
- * @param mixed $id Request id.
- * @param string $message Safe validation message.
+ * @param mixed $id Id.
+ * @param string $message Message.
  * @return never
  */
 function local_moodlia_mcp_header_mismatch($id, string $message): never {
@@ -168,8 +171,8 @@ function local_moodlia_mcp_header_mismatch($id, string $message): never {
 /**
  * Reject a protocol version that is not supported in the modern era.
  *
- * @param mixed $id Request id.
- * @param string $requested Requested protocol version.
+ * @param mixed $id Id.
+ * @param string $requested Requested.
  * @return never
  */
 function local_moodlia_mcp_unsupported_protocol($id, string $requested): never {
@@ -191,7 +194,7 @@ function local_moodlia_mcp_notification_accepted(): never {
 /**
  * Return the scheme and authority portion of a URL.
  *
- * @param string $url Absolute URL.
+ * @param string $url Url.
  * @return string
  */
 function local_moodlia_mcp_origin(string $url): string {
@@ -229,7 +232,7 @@ function local_moodlia_mcp_validate_origin(): void {
 /**
  * Map Moodle REST error payloads to canonical error codes.
  *
- * @param array $payload Moodle REST error payload.
+ * @param array $payload Payload.
  * @return string
  */
 function local_moodlia_mcp_moodle_error_code(array $payload): string {
@@ -277,8 +280,8 @@ function local_moodlia_mcp_bearer_token(): string {
 /**
  * Normalize MCP tool arguments for Moodle REST form encoding.
  *
- * @param mixed $id Request id.
- * @param mixed $arguments Tool arguments.
+ * @param mixed $id Id.
+ * @param mixed $arguments Arguments.
  * @return array
  */
 function local_moodlia_mcp_normalize_arguments($id, $arguments): array {
@@ -313,7 +316,7 @@ function local_moodlia_mcp_normalize_arguments($id, $arguments): array {
 /**
  * Wrap an operation response in the MCP CallToolResult shape.
  *
- * @param mixed $payload Canonical operation response.
+ * @param mixed $payload Payload.
  * @return array
  */
 function local_moodlia_mcp_tool_result($payload): array {
@@ -337,10 +340,10 @@ function local_moodlia_mcp_tool_result($payload): array {
 /**
  * Call the matching Moodle REST web service function.
  *
- * @param string $token Moodle REST token.
- * @param string $toolname Canonical operation name.
- * @param array $arguments Tool arguments.
- * @param mixed $id Request id.
+ * @param string $token Token.
+ * @param string $toolname Toolname.
+ * @param array $arguments Arguments.
+ * @param mixed $id Id.
  * @return mixed
  */
 function local_moodlia_mcp_call_rest(string $token, string $toolname, array $arguments, $id = null) {

@@ -58,7 +58,7 @@ class admin_tools {
     /**
      * Load a Moodle user.
      *
-     * @param int $userid Moodle user id.
+     * @param int $userid Userid.
      * @return \stdClass
      */
     public static function get_user(int $userid): \stdClass {
@@ -72,7 +72,7 @@ class admin_tools {
     /**
      * Return the canonical user response shape.
      *
-     * @param \stdClass $user Moodle user.
+     * @param \stdClass $user User.
      * @return array
      */
     public static function user_to_response(\stdClass $user): array {
@@ -94,7 +94,7 @@ class admin_tools {
     /**
      * Load a Moodle cohort.
      *
-     * @param int $cohortid Moodle cohort id.
+     * @param int $cohortid Cohortid.
      * @return \stdClass
      */
     public static function get_cohort(int $cohortid): \stdClass {
@@ -129,7 +129,7 @@ class admin_tools {
     /**
      * Return the canonical cohort response shape.
      *
-     * @param \stdClass $cohort Moodle cohort.
+     * @param \stdClass $cohort Cohort.
      * @return array
      */
     public static function cohort_to_response(\stdClass $cohort): array {
@@ -149,8 +149,8 @@ class admin_tools {
     /**
      * Validate a supported course-role archetype and return its role id.
      *
-     * @param \context_course $context Course context.
-     * @param string $rolearchetype Role archetype.
+     * @param \context_course $context Context.
+     * @param string $rolearchetype Rolearchetype.
      * @return int
      */
     public static function resolve_course_role_id(\context_course $context, string $rolearchetype): int {

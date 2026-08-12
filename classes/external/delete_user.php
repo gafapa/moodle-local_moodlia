@@ -48,7 +48,7 @@ class delete_user extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $userid User id.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $userid): array {

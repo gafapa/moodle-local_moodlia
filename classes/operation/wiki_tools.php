@@ -42,8 +42,8 @@ class wiki_tools {
     /**
      * Verify that a course module belongs to a wiki activity.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $cmid Course module id.
+     * @param \stdClass $course Course.
+     * @param int $cmid Cmid.
      * @return \cm_info
      */
     public static function get_wiki_module(\stdClass $course, int $cmid): \cm_info {
@@ -58,7 +58,7 @@ class wiki_tools {
     /**
      * Validate a wiki content format.
      *
-     * @param string $format Wiki content format.
+     * @param string $format Format.
      * @return string
      */
     public static function validate_content_format(string $format): string {
@@ -75,8 +75,8 @@ class wiki_tools {
     /**
      * Return a canonical wiki page response.
      *
-     * @param \cm_info $cm Wiki course module.
-     * @param array $page Moodle wiki page data.
+     * @param \cm_info $cm Cm.
+     * @param array $page Page.
      * @return array
      */
     public static function page_to_response(\cm_info $cm, array $page): array {
@@ -101,8 +101,8 @@ class wiki_tools {
     /**
      * Return a wiki page and ensure it belongs to the selected module.
      *
-     * @param \cm_info $cm Wiki course module.
-     * @param int $pageid Wiki page id.
+     * @param \cm_info $cm Cm.
+     * @param int $pageid Pageid.
      * @return array
      */
     public static function get_page(\cm_info $cm, int $pageid): array {
@@ -120,12 +120,12 @@ class wiki_tools {
     /**
      * Return visible pages for a wiki module.
      *
-     * @param \cm_info $cm Wiki course module.
-     * @param int $groupid Group id.
-     * @param int $userid User id.
-     * @param string $sortby Sort field.
-     * @param string $sortdirection Sort direction.
-     * @param bool $includecontent Include rendered content.
+     * @param \cm_info $cm Cm.
+     * @param int $groupid Groupid.
+     * @param int $userid Userid.
+     * @param string $sortby Sortby.
+     * @param string $sortdirection Sortdirection.
+     * @param bool $includecontent Includecontent.
      * @return array
      */
     public static function get_pages(
@@ -156,7 +156,7 @@ class wiki_tools {
     /**
      * Return subwikis visible to the current user.
      *
-     * @param \cm_info $cm Wiki course module.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_subwikis(\cm_info $cm): array {
@@ -177,9 +177,9 @@ class wiki_tools {
     /**
      * Return files attached to a visible subwiki.
      *
-     * @param \cm_info $cm Wiki course module.
-     * @param int $groupid Group id.
-     * @param int $userid User id.
+     * @param \cm_info $cm Cm.
+     * @param int $groupid Groupid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function get_files(\cm_info $cm, int $groupid = -1, int $userid = 0): array {
@@ -200,7 +200,7 @@ class wiki_tools {
     /**
      * Register a wiki activity view through Moodle's external API.
      *
-     * @param \cm_info $cm Wiki course module.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function view_wiki(\cm_info $cm): array {
@@ -213,8 +213,8 @@ class wiki_tools {
     /**
      * Register a wiki page view through Moodle's external API.
      *
-     * @param \cm_info $cm Wiki course module.
-     * @param int $pageid Wiki page id.
+     * @param \cm_info $cm Cm.
+     * @param int $pageid Pageid.
      * @return array
      */
     public static function view_page(\cm_info $cm, int $pageid): array {
@@ -227,7 +227,7 @@ class wiki_tools {
     /**
      * Convert Moodle external warnings to the canonical response shape.
      *
-     * @param array $warnings Moodle warnings.
+     * @param array $warnings Warnings.
      * @return array
      */
     public static function warnings_to_response(array $warnings): array {
@@ -248,8 +248,8 @@ class wiki_tools {
     /**
      * Convert a Moodle subwiki payload to the canonical response shape.
      *
-     * @param \cm_info $cm Wiki course module.
-     * @param array $subwiki Moodle subwiki data.
+     * @param \cm_info $cm Cm.
+     * @param array $subwiki Subwiki.
      * @return array
      */
     public static function subwiki_to_response(\cm_info $cm, array $subwiki): array {
@@ -266,7 +266,7 @@ class wiki_tools {
     /**
      * Convert a Moodle file payload to the canonical response shape.
      *
-     * @param array $file Moodle file data.
+     * @param array $file File.
      * @return array
      */
     public static function file_to_response(array $file): array {
@@ -285,7 +285,7 @@ class wiki_tools {
     /**
      * Convert a Moodle view result to the canonical response shape.
      *
-     * @param array $result Moodle view result.
+     * @param array $result Result.
      * @return array
      */
     public static function view_to_response(array $result): array {
@@ -298,8 +298,8 @@ class wiki_tools {
     /**
      * Return wiki settings and page summaries exposed through Moodle wiki APIs.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Wiki course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     public static function get_wiki_details(\stdClass $course, \cm_info $cm): array {
@@ -342,8 +342,8 @@ class wiki_tools {
     /**
      * Return a wiki instance payload from Moodle external APIs where available.
      *
-     * @param \stdClass $course Moodle course.
-     * @param \cm_info $cm Wiki course module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
      * @return array
      */
     private static function find_wiki_instance(\stdClass $course, \cm_info $cm): array {

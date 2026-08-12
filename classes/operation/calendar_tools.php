@@ -40,8 +40,8 @@ class calendar_tools {
     /**
      * Load a course calendar event and verify ownership.
      *
-     * @param int $eventid Moodle calendar event id.
-     * @param int|null $courseid Expected owning course id.
+     * @param int $eventid Eventid.
+     * @param int|null $courseid Courseid.
      * @return \calendar_event
      */
     public static function get_course_event(int $eventid, ?int $courseid = null): \calendar_event {
@@ -73,7 +73,7 @@ class calendar_tools {
     /**
      * Return the canonical calendar event response shape.
      *
-     * @param \calendar_event $event Moodle calendar event.
+     * @param \calendar_event $event Event.
      * @return array
      */
     public static function to_response(\calendar_event $event): array {
@@ -99,11 +99,11 @@ class calendar_tools {
     /**
      * Normalize a course calendar event payload.
      *
-     * @param int $courseid Moodle course id.
-     * @param string $name Event name.
-     * @param string $description Event description.
-     * @param int $timestart Event start timestamp.
-     * @param int $timeduration Event duration in seconds.
+     * @param int $courseid Courseid.
+     * @param string $name Name.
+     * @param string $description Description.
+     * @param int $timestart Timestart.
+     * @param int $timeduration Timeduration.
      * @return \stdClass
      */
     public static function to_event_data(

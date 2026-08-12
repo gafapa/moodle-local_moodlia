@@ -50,9 +50,9 @@ class add_question_to_quiz extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $questionid Question id.
-     * @param int|null $slot Requested quiz slot.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $questionid Questionid.
+     * @param int|null $slot Slot.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $questionid, ?int $slot = null): array {

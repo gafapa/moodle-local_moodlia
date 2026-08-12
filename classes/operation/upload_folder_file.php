@@ -31,10 +31,10 @@ class upload_folder_file {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Folder course module id.
-     * @param string $filename Target filename.
-     * @param string $uploadreference Base64-encoded file content.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, string $filename, string $uploadreference): array {

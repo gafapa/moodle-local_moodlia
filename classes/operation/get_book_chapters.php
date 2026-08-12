@@ -31,10 +31,10 @@ class get_book_chapters {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Book course module id.
-     * @param bool $includecontent Include rendered chapter content.
-     * @param bool $includehidden Include hidden chapters where allowed.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param bool $includecontent Includecontent.
+     * @param bool $includehidden Includehidden.
      * @return array
      */
     public static function execute(

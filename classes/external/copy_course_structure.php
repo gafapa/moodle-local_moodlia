@@ -51,10 +51,10 @@ class copy_course_structure extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $sourcecourseid Source course id.
-     * @param int $targetcourseid Target course id.
-     * @param bool $includecontents Include contents.
-     * @param bool $includegroups Include groups.
+     * @param int $sourcecourseid Sourcecourseid.
+     * @param int $targetcourseid Targetcourseid.
+     * @param bool $includecontents Includecontents.
+     * @param bool $includegroups Includegroups.
      * @return array
      */
     public static function execute(

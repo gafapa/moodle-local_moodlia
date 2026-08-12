@@ -55,6 +55,12 @@ class get_data_entries extends external_api {
     /**
      * Execute the external function.
      *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $search Search.
+     * @param bool $includecontents Includecontents.
+     * @param int $page Page.
+     * @param int $perpage Perpage.
      * @return array
      */
     public static function execute(

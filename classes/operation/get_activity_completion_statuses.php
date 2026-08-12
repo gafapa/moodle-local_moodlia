@@ -31,8 +31,8 @@ class get_activity_completion_statuses {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $userid Moodle user id, or 0 for the current user.
+     * @param int $courseid Courseid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $courseid, int $userid = 0): array {
@@ -70,7 +70,7 @@ class get_activity_completion_statuses {
     /**
      * Return a canonical status item from Moodle external output.
      *
-     * @param array $status Moodle completion status.
+     * @param array $status Status.
      * @return array
      */
     private static function external_status_to_response(array $status): array {
@@ -94,9 +94,9 @@ class get_activity_completion_statuses {
     /**
      * Build completion statuses through Moodle core completion APIs when an activity breaks the external formatter.
      *
-     * @param \stdClass $course Moodle course.
-     * @param int $userid Moodle user id.
-     * @param string $reason Fallback reason.
+     * @param \stdClass $course Course.
+     * @param int $userid Userid.
+     * @param string $reason Reason.
      * @return array
      */
     private static function fallback_statuses(\stdClass $course, int $userid, string $reason): array {

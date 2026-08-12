@@ -31,7 +31,7 @@ class delete_course_backup_file {
     /**
      * Execute the operation.
      *
-     * @param int $fileid Stored backup file id.
+     * @param int $fileid Fileid.
      * @return array
      */
     public static function execute(int $fileid): array {

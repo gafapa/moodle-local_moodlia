@@ -52,9 +52,9 @@ class set_forum_discussion_lock extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
-     * @param int $discussionid Discussion id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $discussionid Discussionid.
      * @param bool $locked Locked.
      * @return array
      */

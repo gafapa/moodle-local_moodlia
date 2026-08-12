@@ -53,9 +53,9 @@ class create_course_category extends external_api {
      * Execute the operation.
      *
      * @param string $name Name.
-     * @param int $parentid Parent id.
+     * @param int $parentid Parentid.
      * @param bool $visible Visible.
-     * @param bool $reuseexisting Reuse existing.
+     * @param bool $reuseexisting Reuseexisting.
      * @return array
      */
     public static function execute(string $name, int $parentid = 0, bool $visible = true, bool $reuseexisting = false): array {

@@ -52,10 +52,10 @@ class view_quiz_attempt extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz module id.
-     * @param int $attemptid Attempt id.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
      * @param int $page Page.
-     * @param string $preflightdata Preflight data.
+     * @param string $preflightdata Preflightdata.
      * @return array
      */
     public static function execute(

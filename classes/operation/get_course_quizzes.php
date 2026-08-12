@@ -31,7 +31,7 @@ class get_course_quizzes {
     /**
      * Execute the operation.
      *
-     * @param array $courseids Moodle course ids.
+     * @param array $courseids Courseids.
      * @return array
      */
     public static function execute(array $courseids = []): array {

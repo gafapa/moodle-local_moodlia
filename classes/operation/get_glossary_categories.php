@@ -31,9 +31,9 @@ class get_glossary_categories {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Glossary course module id.
-     * @param int $from Offset.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $from From.
      * @param int $limit Limit.
      * @return array
      */

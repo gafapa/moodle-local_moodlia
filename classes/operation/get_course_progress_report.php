@@ -31,8 +31,8 @@ class get_course_progress_report {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $limit Maximum users to include.
+     * @param int $courseid Courseid.
+     * @param int $limit Limit.
      * @return array
      */
     public static function execute(int $courseid, int $limit = 100): array {
@@ -134,7 +134,7 @@ class get_course_progress_report {
     /**
      * Summarise Moodle grade items for one user.
      *
-     * @param array $items User grade items.
+     * @param array $items Items.
      * @return array
      */
     private static function summarise_grades(array $items): array {
@@ -172,7 +172,7 @@ class get_course_progress_report {
     /**
      * Summarise activity completion statuses for one user.
      *
-     * @param array $statuses Moodle activity completion statuses.
+     * @param array $statuses Statuses.
      * @return array
      */
     private static function summarise_activity_completion(array $statuses): array {
@@ -198,9 +198,9 @@ class get_course_progress_report {
     /**
      * Attach Moodle warnings to a user row.
      *
-     * @param int $userid Moodle user id.
-     * @param array $completionwarnings Course completion warnings.
-     * @param array $activitywarnings Activity completion warnings.
+     * @param int $userid Userid.
+     * @param array $completionwarnings Completionwarnings.
+     * @param array $activitywarnings Activitywarnings.
      * @return array
      */
     private static function warnings_for_user(int $userid, array $completionwarnings, array $activitywarnings): array {
@@ -219,7 +219,7 @@ class get_course_progress_report {
     /**
      * Return the largest tracked activity count across user rows.
      *
-     * @param array $rows Report user rows.
+     * @param array $rows Rows.
      * @return int
      */
     private static function maximum_tracked_activity_count(array $rows): int {
@@ -234,7 +234,7 @@ class get_course_progress_report {
     /**
      * Average numeric values.
      *
-     * @param array $values Numeric values.
+     * @param array $values Values.
      * @return float
      */
     private static function average(array $values): float {
@@ -248,7 +248,7 @@ class get_course_progress_report {
     /**
      * Return a safe warning message from an exception.
      *
-     * @param \Throwable $exception Source exception.
+     * @param \Throwable $exception Exception.
      * @return string
      */
     private static function safe_warning_message(\Throwable $exception): string {

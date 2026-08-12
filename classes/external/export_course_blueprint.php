@@ -50,9 +50,9 @@ class export_course_blueprint extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param bool $includecontents Include contents.
-     * @param bool $includegroups Include groups.
+     * @param int $courseid Courseid.
+     * @param bool $includecontents Includecontents.
+     * @param bool $includegroups Includegroups.
      * @return array
      */
     public static function execute(int $courseid, bool $includecontents = true, bool $includegroups = true): array {

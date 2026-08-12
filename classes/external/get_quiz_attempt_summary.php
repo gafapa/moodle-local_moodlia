@@ -52,9 +52,9 @@ class get_quiz_attempt_summary extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz module id.
-     * @param int $attemptid Attempt id.
-     * @param string $preflightdata Preflight data.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param string $preflightdata Preflightdata.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $attemptid, string $preflightdata = '[]'): array {

@@ -49,8 +49,8 @@ class unenrol_user extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $userid Moodle user id.
+     * @param int $courseid Courseid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $courseid, int $userid): array {

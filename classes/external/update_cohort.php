@@ -51,7 +51,7 @@ class update_cohort extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $cohortid Cohort id.
+     * @param int $cohortid Cohortid.
      * @param string|null $name Name.
      * @param string|null $idnumber Idnumber.
      * @param string|null $description Description.

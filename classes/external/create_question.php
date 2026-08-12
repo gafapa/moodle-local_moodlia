@@ -54,12 +54,12 @@ class create_question extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $categoryid Question category id.
-     * @param int $contextid Question bank context id.
-     * @param string $questiontype Question type.
-     * @param string $name Question name.
-     * @param string $questiontext Question text.
-     * @param string $options JSON-encoded question options.
+     * @param int $categoryid Categoryid.
+     * @param int $contextid Contextid.
+     * @param string $questiontype Questiontype.
+     * @param string $name Name.
+     * @param string $questiontext Questiontext.
+     * @param string $options Options.
      * @return array
      */
     public static function execute(

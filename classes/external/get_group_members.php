@@ -50,8 +50,8 @@ class get_group_members extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $groupid Group id.
+     * @param int $courseid Courseid.
+     * @param int $groupid Groupid.
      * @return array
      */
     public static function execute(int $courseid, int $groupid): array {

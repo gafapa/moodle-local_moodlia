@@ -51,9 +51,9 @@ class view_feedback extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
-     * @param bool $moduleviewed Module viewed.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param bool $moduleviewed Moduleviewed.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, bool $moduleviewed = false): array {

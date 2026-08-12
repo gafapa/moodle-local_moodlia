@@ -31,10 +31,10 @@ class get_quiz_attempt_data {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz course module id.
-     * @param int $attemptid Attempt id.
-     * @param int $page Attempt page number.
-     * @param array $preflightdata Preflight name/value pairs.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
+     * @param int $page Page.
+     * @param array $preflightdata Preflightdata.
      * @return array
      */
     public static function execute(int $quizmoduleid, int $attemptid, int $page = 0, array $preflightdata = []): array {

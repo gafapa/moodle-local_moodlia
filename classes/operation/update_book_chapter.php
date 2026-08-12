@@ -31,14 +31,14 @@ class update_book_chapter {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Book course module id.
-     * @param int $chapterid Book chapter id.
-     * @param string|null $title Chapter title.
-     * @param string|null $content Chapter content.
-     * @param int|null $contentformat Moodle content format.
-     * @param bool|null $subchapter Whether the chapter is a subchapter.
-     * @param bool|null $hidden Whether the chapter is hidden.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $chapterid Chapterid.
+     * @param string|null $title Title.
+     * @param string|null $content Content.
+     * @param int|null $contentformat Contentformat.
+     * @param bool|null $subchapter Subchapter.
+     * @param bool|null $hidden Hidden.
      * @return array
      */
     public static function execute(

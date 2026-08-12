@@ -43,7 +43,7 @@ final class plugin_management_tools {
     /**
      * Resolve one plugin by Frankenstyle component name.
      *
-     * @param string $component Plugin component.
+     * @param string $component Component.
      * @return \core\plugininfo\base
      */
     public static function get_plugin(string $component): \core\plugininfo\base {
@@ -63,7 +63,7 @@ final class plugin_management_tools {
     /**
      * Return a stable public source label.
      *
-     * @param \core\plugininfo\base $plugin Plugin metadata.
+     * @param \core\plugininfo\base $plugin Plugin.
      * @return string
      */
     public static function source_label(\core\plugininfo\base $plugin): string {
@@ -77,7 +77,7 @@ final class plugin_management_tools {
     /**
      * Determine whether Moodle exposes an enable/disable implementation for this plugin.
      *
-     * @param \core\plugininfo\base $plugin Plugin metadata.
+     * @param \core\plugininfo\base $plugin Plugin.
      * @return bool
      */
     public static function can_change_enabled(\core\plugininfo\base $plugin): bool {
@@ -102,7 +102,7 @@ final class plugin_management_tools {
     /**
      * Convert Moodle plugin metadata to a transport-safe record.
      *
-     * @param \core\plugininfo\base $plugin Plugin metadata.
+     * @param \core\plugininfo\base $plugin Plugin.
      * @return array
      */
     public static function plugin_record(\core\plugininfo\base $plugin): array {

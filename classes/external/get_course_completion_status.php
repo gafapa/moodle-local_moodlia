@@ -50,8 +50,8 @@ class get_course_completion_status extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $userid User id.
+     * @param int $courseid Courseid.
+     * @param int $userid Userid.
      * @return array
      */
     public static function execute(int $courseid, int $userid = 0): array {

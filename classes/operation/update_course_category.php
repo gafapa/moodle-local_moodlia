@@ -31,9 +31,9 @@ class update_course_category {
     /**
      * Execute the operation.
      *
-     * @param int $categoryid Moodle course category id.
-     * @param string|null $name Category name.
-     * @param bool|null $visible Whether the category is visible.
+     * @param int $categoryid Categoryid.
+     * @param string|null $name Name.
+     * @param bool|null $visible Visible.
      * @return array
      */
     public static function execute(int $categoryid, ?string $name = null, ?bool $visible = null): array {

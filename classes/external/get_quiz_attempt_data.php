@@ -53,10 +53,10 @@ class get_quiz_attempt_data extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz module id.
-     * @param int $attemptid Attempt id.
+     * @param int $quizmoduleid Quizmoduleid.
+     * @param int $attemptid Attemptid.
      * @param int $page Page.
-     * @param string $preflightdata Preflight data.
+     * @param string $preflightdata Preflightdata.
      * @return array
      */
     public static function execute(
@@ -108,7 +108,7 @@ class get_quiz_attempt_data extends external_api {
     /**
      * Validate shared quiz attempt context and capability.
      *
-     * @param int $quizmoduleid Quiz course module id.
+     * @param int $quizmoduleid Quizmoduleid.
      */
     public static function validate_quiz_attempt_context(int $quizmoduleid): void {
         self::validate_context(\context_system::instance());

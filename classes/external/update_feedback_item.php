@@ -58,16 +58,16 @@ class update_feedback_item extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Feedback course module id.
-     * @param int $itemid Feedback item id.
-     * @param string|null $name Optional item name.
-     * @param string|null $definition Optional JSON item definition.
-     * @param int|null $position Optional one-based position.
-     * @param string|null $label Optional item label.
-     * @param bool|null $required Optional required flag.
-     * @param int|null $dependitemid Optional dependency item id.
-     * @param string|null $dependvalue Optional dependency value.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $itemid Itemid.
+     * @param string|null $name Name.
+     * @param string|null $definition Definition.
+     * @param int|null $position Position.
+     * @param string|null $label Label.
+     * @param bool|null $required Required.
+     * @param int|null $dependitemid Dependitemid.
+     * @param string|null $dependvalue Dependvalue.
      * @return array
      */
     public static function execute(
@@ -125,8 +125,8 @@ class update_feedback_item extends external_api {
     /**
      * Validate shared API and Feedback edit capabilities.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Feedback course module id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
      */
     private static function require_edit_capability(int $courseid, int $moduleid): void {
         $systemcontext = \context_system::instance();

@@ -58,16 +58,16 @@ class create_course extends external_api {
     /**
      * Execute the external function.
      *
-     * @param string $fullname Course full name.
-     * @param string $shortname Course short name.
-     * @param int $categoryid Course category id, or 0 for Moodle default.
-     * @param bool $visible Whether the course is visible.
-     * @param string $summary Course summary.
-     * @param string $summaryformat Course summary format.
-     * @param string $courseformat Course format plugin name.
-     * @param bool $enablecompletion Whether course completion tracking is enabled.
-     * @param int $startdate Course start Unix timestamp.
-     * @param int $enddate Course end Unix timestamp, or 0.
+     * @param string $fullname Fullname.
+     * @param string $shortname Shortname.
+     * @param int $categoryid Categoryid.
+     * @param bool $visible Visible.
+     * @param string $summary Summary.
+     * @param string $summaryformat Summaryformat.
+     * @param string $courseformat Courseformat.
+     * @param bool $enablecompletion Enablecompletion.
+     * @param int $startdate Startdate.
+     * @param int $enddate Enddate.
      * @return array
      */
     public static function execute(

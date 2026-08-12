@@ -49,7 +49,7 @@ class get_quiz_feedback_for_grade extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $quizmoduleid Quiz module id.
+     * @param int $quizmoduleid Quizmoduleid.
      * @param float $grade Grade.
      * @return array
      */

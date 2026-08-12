@@ -50,8 +50,8 @@ class get_course_progress_report extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $limit Maximum users to include.
+     * @param int $courseid Courseid.
+     * @param int $limit Limit.
      * @return array
      */
     public static function execute(int $courseid, int $limit = 100): array {

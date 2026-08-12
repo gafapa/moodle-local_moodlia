@@ -53,11 +53,11 @@ class create_module extends external_api {
     /**
      * Execute the external function.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $sectionnumber Course section number.
-     * @param string $moduletype Moodle module type.
-     * @param string $name Module name.
-     * @param string $options JSON-encoded module options.
+     * @param int $courseid Courseid.
+     * @param int $sectionnumber Sectionnumber.
+     * @param string $moduletype Moduletype.
+     * @param string $name Name.
+     * @param string $options Options.
      * @return array
      */
     public static function execute(

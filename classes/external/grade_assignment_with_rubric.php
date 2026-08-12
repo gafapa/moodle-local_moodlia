@@ -53,12 +53,12 @@ class grade_assignment_with_rubric extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Course id.
-     * @param int $moduleid Module id.
-     * @param int $userid User id.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $userid Userid.
      * @param string $criteria Criteria.
-     * @param string $feedbackcomment Feedback comment.
-     * @param int $attemptnumber Attempt number.
+     * @param string $feedbackcomment Feedbackcomment.
+     * @param int $attemptnumber Attemptnumber.
      * @return array
      */
     public static function execute(

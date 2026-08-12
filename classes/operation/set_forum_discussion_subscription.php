@@ -31,10 +31,10 @@ class set_forum_discussion_subscription {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Forum course module id.
-     * @param int $discussionid Moodle forum discussion id.
-     * @param bool $subscribed Target subscription state.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $discussionid Discussionid.
+     * @param bool $subscribed Subscribed.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $discussionid, bool $subscribed): array {
@@ -60,8 +60,8 @@ class set_forum_discussion_subscription {
     /**
      * Resolve the subscription state from Moodle response shapes.
      *
-     * @param mixed $result Moodle external result.
-     * @param bool $fallback Fallback state.
+     * @param mixed $result Result.
+     * @param bool $fallback Fallback.
      * @return bool
      */
     private static function normalise_subscription_state($result, bool $fallback): bool {

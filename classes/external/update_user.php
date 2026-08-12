@@ -53,7 +53,7 @@ class update_user extends external_api {
     /**
      * Execute the operation.
      *
-     * @param int $userid User id.
+     * @param int $userid Userid.
      * @param string|null $firstname Firstname.
      * @param string|null $lastname Lastname.
      * @param string|null $email Email.

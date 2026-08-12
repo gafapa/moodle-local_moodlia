@@ -31,9 +31,9 @@ class view_book {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $moduleid Book course module id.
-     * @param int $chapterid Optional book chapter id. Zero means Moodle selects the first visible chapter.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param int $chapterid Chapterid.
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $chapterid = 0): array {
@@ -58,8 +58,8 @@ class view_book {
     /**
      * Resolve the chapter id Moodle will view when no explicit chapter is provided.
      *
-     * @param \stdClass $book Book instance object.
-     * @param int $chapterid Requested chapter id.
+     * @param \stdClass $book Book.
+     * @param int $chapterid Chapterid.
      * @return int
      */
     private static function resolve_viewed_chapter_id(\stdClass $book, int $chapterid): int {
@@ -79,7 +79,7 @@ class view_book {
     /**
      * Normalize Moodle warning payloads.
      *
-     * @param array $warnings Moodle warnings.
+     * @param array $warnings Warnings.
      * @return array
      */
     private static function warnings_to_response(array $warnings): array {

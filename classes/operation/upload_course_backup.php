@@ -31,8 +31,8 @@ class upload_course_backup {
     /**
      * Execute the operation.
      *
-     * @param string $filename Backup filename.
-     * @param string $uploadreference Base64-encoded backup content.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
      * @return array
      */
     public static function execute(string $filename, string $uploadreference): array {

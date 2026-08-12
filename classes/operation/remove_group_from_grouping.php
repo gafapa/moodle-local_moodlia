@@ -31,9 +31,9 @@ class remove_group_from_grouping {
     /**
      * Execute the operation.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $groupingid Moodle grouping id.
-     * @param int $groupid Moodle group id.
+     * @param int $courseid Courseid.
+     * @param int $groupingid Groupingid.
+     * @param int $groupid Groupid.
      * @return array
      */
     public static function execute(int $courseid, int $groupingid, int $groupid): array {

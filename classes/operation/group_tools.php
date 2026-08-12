@@ -41,8 +41,8 @@ class group_tools {
     /**
      * Load a course group and verify that it belongs to the expected course.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $groupid Moodle group id.
+     * @param int $courseid Courseid.
+     * @param int $groupid Groupid.
      * @return \stdClass
      */
     public static function get_group(int $courseid, int $groupid): \stdClass {
@@ -63,8 +63,8 @@ class group_tools {
     /**
      * Load a course grouping and verify that it belongs to the expected course.
      *
-     * @param int $courseid Moodle course id.
-     * @param int $groupingid Moodle grouping id.
+     * @param int $courseid Courseid.
+     * @param int $groupingid Groupingid.
      * @return \stdClass
      */
     public static function get_grouping(int $courseid, int $groupingid): \stdClass {
@@ -85,7 +85,7 @@ class group_tools {
     /**
      * Return the canonical group response shape.
      *
-     * @param \stdClass $group Moodle group.
+     * @param \stdClass $group Group.
      * @return array
      */
     public static function to_response(\stdClass $group): array {
@@ -101,7 +101,7 @@ class group_tools {
     /**
      * Return the canonical grouping response shape.
      *
-     * @param \stdClass $grouping Moodle grouping.
+     * @param \stdClass $grouping Grouping.
      * @return array
      */
     public static function grouping_to_response(\stdClass $grouping): array {
@@ -117,7 +117,7 @@ class group_tools {
     /**
      * Return the canonical group member response shape.
      *
-     * @param \stdClass $user Moodle user.
+     * @param \stdClass $user User.
      * @return array
      */
     public static function member_to_response(\stdClass $user): array {
@@ -132,7 +132,7 @@ class group_tools {
     /**
      * Return members of a group.
      *
-     * @param int $groupid Moodle group id.
+     * @param int $groupid Groupid.
      * @return array
      */
     public static function get_members(int $groupid): array {
