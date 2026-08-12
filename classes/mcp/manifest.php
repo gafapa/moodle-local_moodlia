@@ -2164,9 +2164,9 @@ final class manifest {
                             'calculatedmulti',
                         ],
                       ],
-                    'name' => ['type' => 'string', 'required' => true],
-                    'question_text' => ['type' => 'string', 'required' => true],
-                    'options' => ['type' => 'object', 'required' => true],
+                      'name' => ['type' => 'string', 'required' => true],
+                      'question_text' => ['type' => 'string', 'required' => true],
+                      'options' => ['type' => 'object', 'required' => true],
                 ]),
             ],
             [

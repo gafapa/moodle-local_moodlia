@@ -453,8 +453,10 @@ class course_workflow_tools {
                     'blueprint.sections[' . $sectionindex . '].name is required.'
                 );
             }
-            if (array_key_exists('modules', $section)
-                    && (!is_array($section['modules']) || !array_is_list($section['modules']))) {
+            if (
+                array_key_exists('modules', $section)
+                    && (!is_array($section['modules']) || !array_is_list($section['modules']))
+            ) {
                 throw new \invalid_parameter_exception(
                     'blueprint.sections[' . $sectionindex . '].modules must be a JSON array.'
                 );
@@ -539,8 +541,10 @@ class course_workflow_tools {
         if (trim((string) ($module['name'] ?? '')) === '') {
             throw new \invalid_parameter_exception($prefix . '.name is required.');
         }
-        if (array_key_exists('options', $module)
-                && (!is_array($module['options']) || array_is_list($module['options']))) {
+        if (
+            array_key_exists('options', $module)
+                && (!is_array($module['options']) || array_is_list($module['options']))
+        ) {
             throw new \invalid_parameter_exception($prefix . '.options must be a JSON object.');
         }
         if (array_key_exists('chapters', $module)) {
@@ -779,15 +783,19 @@ class course_workflow_tools {
             if (!is_array($chapter) || array_is_list($chapter)) {
                 throw new \invalid_parameter_exception($prefix . '[' . $index . '] must be a JSON object.');
             }
-            if (!array_key_exists('title', $chapter) || !self::text_like_value($chapter['title'])
-                    || trim((string) $chapter['title']) === '') {
+            if (
+                !array_key_exists('title', $chapter) || !self::text_like_value($chapter['title'])
+                    || trim((string) $chapter['title']) === ''
+            ) {
                 throw new \invalid_parameter_exception($prefix . '[' . $index . '].title is required.');
             }
             if (array_key_exists('content', $chapter) && !self::text_like_value($chapter['content'])) {
                 throw new \invalid_parameter_exception($prefix . '[' . $index . '].content must be a string.');
             }
-            if (array_key_exists('content_format', $chapter)
-                    && self::non_negative_integer_value($chapter['content_format']) === null) {
+            if (
+                array_key_exists('content_format', $chapter)
+                    && self::non_negative_integer_value($chapter['content_format']) === null
+            ) {
                 throw new \invalid_parameter_exception(
                     $prefix . '[' . $index . '].content_format must be a non-negative integer.'
                 );
@@ -828,9 +836,11 @@ class course_workflow_tools {
             if (!in_array($type, $supported, true)) {
                 throw new \invalid_parameter_exception($itemprefix . '.type is unsupported.');
             }
-            if ($type !== 'pagebreak' && $type !== 'captcha'
+            if (
+                $type !== 'pagebreak' && $type !== 'captcha'
                     && (!array_key_exists('name', $item) || !self::text_like_value($item['name'])
-                        || trim((string) $item['name']) === '')) {
+                        || trim((string) $item['name']) === '')
+            ) {
                 throw new \invalid_parameter_exception($itemprefix . '.name is required.');
             }
             if ($type === 'captcha') {
@@ -882,8 +892,10 @@ class course_workflow_tools {
             }
 
             $definition = self::array_or_empty($item['definition'] ?? []);
-            if (array_key_exists('definition', $item)
-                    && (!is_array($item['definition']) || (!empty($item['definition']) && array_is_list($item['definition'])))) {
+            if (
+                array_key_exists('definition', $item)
+                    && (!is_array($item['definition']) || (!empty($item['definition']) && array_is_list($item['definition'])))
+            ) {
                 throw new \invalid_parameter_exception($itemprefix . '.definition must be a JSON object.');
             }
             self::validate_feedback_item_definition($type, $definition, $itemprefix . '.definition');
@@ -927,8 +939,10 @@ class course_workflow_tools {
                 break;
 
             case 'label':
-                if (!array_key_exists('content', $definition) || !self::text_like_value($definition['content'])
-                        || trim((string) $definition['content']) === '') {
+                if (
+                    !array_key_exists('content', $definition) || !self::text_like_value($definition['content'])
+                        || trim((string) $definition['content']) === ''
+                ) {
                     throw new \invalid_parameter_exception($prefix . '.content must be non-empty.');
                 }
                 break;

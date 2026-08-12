@@ -128,8 +128,10 @@ class module_assignment_tools {
      * @param \stdClass $moduleinfo Moduleinfo.
      */
     private static function validate_assign_dates(\stdClass $moduleinfo): void {
-        if ($moduleinfo->allowsubmissionsfromdate > 0 && $moduleinfo->duedate > 0
-            && $moduleinfo->duedate < $moduleinfo->allowsubmissionsfromdate) {
+        if (
+            $moduleinfo->allowsubmissionsfromdate > 0 && $moduleinfo->duedate > 0
+            && $moduleinfo->duedate < $moduleinfo->allowsubmissionsfromdate
+        ) {
             throw new \invalid_parameter_exception('options.due_date must be greater than options.allow_submissions_from_date.');
         }
         if ($moduleinfo->duedate > 0 && $moduleinfo->cutoffdate > 0 && $moduleinfo->cutoffdate < $moduleinfo->duedate) {

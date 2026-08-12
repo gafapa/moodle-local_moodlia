@@ -134,8 +134,10 @@ class module_advanced_tools {
             (string) ($options['file_submission'] ?? 'available'),
             'file_submission'
         );
-        if ($moduleinfo->submissiontypetext === WORKSHOP_SUBMISSION_TYPE_DISABLED
-            && $moduleinfo->submissiontypefile === WORKSHOP_SUBMISSION_TYPE_DISABLED) {
+        if (
+            $moduleinfo->submissiontypetext === WORKSHOP_SUBMISSION_TYPE_DISABLED
+            && $moduleinfo->submissiontypefile === WORKSHOP_SUBMISSION_TYPE_DISABLED
+        ) {
             throw new \invalid_parameter_exception('At least one of options.text_submission or options.file_submission must be available.');
         }
 
@@ -150,18 +152,24 @@ class module_advanced_tools {
 
         $moduleinfo->submissionstart = self::optional_int($options, 'submission_start', 0);
         $moduleinfo->submissionend = self::optional_int($options, 'submission_end', 0);
-        if ($moduleinfo->submissionstart > 0 && $moduleinfo->submissionend > 0
-            && $moduleinfo->submissionend <= $moduleinfo->submissionstart) {
+        if (
+            $moduleinfo->submissionstart > 0 && $moduleinfo->submissionend > 0
+            && $moduleinfo->submissionend <= $moduleinfo->submissionstart
+        ) {
             throw new \invalid_parameter_exception('options.submission_end must be greater than options.submission_start.');
         }
         $moduleinfo->assessmentstart = self::optional_int($options, 'assessment_start', 0);
         $moduleinfo->assessmentend = self::optional_int($options, 'assessment_end', 0);
-        if ($moduleinfo->assessmentstart > 0 && $moduleinfo->assessmentend > 0
-            && $moduleinfo->assessmentend <= $moduleinfo->assessmentstart) {
+        if (
+            $moduleinfo->assessmentstart > 0 && $moduleinfo->assessmentend > 0
+            && $moduleinfo->assessmentend <= $moduleinfo->assessmentstart
+        ) {
             throw new \invalid_parameter_exception('options.assessment_end must be greater than options.assessment_start.');
         }
-        if (max($moduleinfo->submissionstart, $moduleinfo->submissionend) > 0
-            && max($moduleinfo->assessmentstart, $moduleinfo->assessmentend) > 0) {
+        if (
+            max($moduleinfo->submissionstart, $moduleinfo->submissionend) > 0
+            && max($moduleinfo->assessmentstart, $moduleinfo->assessmentend) > 0
+        ) {
             $submissionend = max($moduleinfo->submissionstart, $moduleinfo->submissionend);
             $assessmentstart = min($moduleinfo->assessmentstart, $moduleinfo->assessmentend);
             if ($assessmentstart === 0) {

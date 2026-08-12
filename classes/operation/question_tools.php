@@ -2887,5 +2887,4 @@ class question_tools {
             'question_count' => (int) $structure->get_question_count(),
         ];
     }
-
 }

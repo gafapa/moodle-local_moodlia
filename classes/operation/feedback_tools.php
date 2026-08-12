@@ -695,8 +695,10 @@ class feedback_tools {
                 throw new \invalid_parameter_exception('Each rated choice value must be numeric.');
             }
             $weight = (int) $weight;
-            if (strpos($text, '|') !== false || strpos($text, '####') !== false ||
-                    strpos($text, '>>>>>') !== false || strpos($text, '<<<<<') !== false) {
+            if (
+                strpos($text, '|') !== false || strpos($text, '####') !== false ||
+                    strpos($text, '>>>>>') !== false || strpos($text, '<<<<<') !== false
+            ) {
                 throw new \invalid_parameter_exception('Rated choice text contains unsupported separator characters.');
             }
             $key = \core_text::strtolower($text);

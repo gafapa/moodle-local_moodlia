@@ -149,14 +149,18 @@ class module_interaction_tools {
         $moduleinfo->rssarticles = self::optional_int_range($options, 'rss_articles', 0, 0, 1000);
         $moduleinfo->timeavailablefrom = self::optional_int($options, 'available_from', 0);
         $moduleinfo->timeavailableto = self::optional_int($options, 'available_to', 0);
-        if ($moduleinfo->timeavailablefrom > 0 && $moduleinfo->timeavailableto > 0
-            && $moduleinfo->timeavailableto < $moduleinfo->timeavailablefrom) {
+        if (
+            $moduleinfo->timeavailablefrom > 0 && $moduleinfo->timeavailableto > 0
+            && $moduleinfo->timeavailableto < $moduleinfo->timeavailablefrom
+        ) {
             throw new \invalid_parameter_exception('options.available_to must be greater than options.available_from.');
         }
         $moduleinfo->timeviewfrom = self::optional_int($options, 'view_from', 0);
         $moduleinfo->timeviewto = self::optional_int($options, 'view_to', 0);
-        if ($moduleinfo->timeviewfrom > 0 && $moduleinfo->timeviewto > 0
-            && $moduleinfo->timeviewto < $moduleinfo->timeviewfrom) {
+        if (
+            $moduleinfo->timeviewfrom > 0 && $moduleinfo->timeviewto > 0
+            && $moduleinfo->timeviewto < $moduleinfo->timeviewfrom
+        ) {
             throw new \invalid_parameter_exception('options.view_to must be greater than options.view_from.');
         }
         $moduleinfo->scale = 0;

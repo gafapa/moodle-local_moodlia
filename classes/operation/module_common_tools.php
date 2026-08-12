@@ -287,7 +287,8 @@ class module_common_tools {
      * @return bool
      */
     private static function has_completion_options(array $options): bool {
-        foreach ([
+        foreach (
+            [
             'completion_tracking',
             'completion',
             'completion_view_required',
@@ -301,7 +302,8 @@ class module_common_tools {
             'completionpassgrade',
             'completion_expected',
             'completionexpected',
-        ] as $key) {
+            ] as $key
+        ) {
             if (array_key_exists($key, $options)) {
                 return true;
             }
@@ -458,8 +460,10 @@ class module_common_tools {
             }
         }
 
-        if (array_key_exists('completion_grade_item_number', $options)
-                || array_key_exists('completiongradeitemnumber', $options)) {
+        if (
+            array_key_exists('completion_grade_item_number', $options)
+                || array_key_exists('completiongradeitemnumber', $options)
+        ) {
             $gradeitemnumber = (int) ($options['completion_grade_item_number'] ?? $options['completiongradeitemnumber']);
         } else {
             $gradeitemnumber = (int) ($moduleinfo->completiongradeitemnumber ?? 0);
