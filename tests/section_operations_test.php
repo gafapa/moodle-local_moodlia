@@ -54,7 +54,7 @@ final class section_operations_test extends \advanced_testcase {
         );
 
         $this->assertSame('<p>Rich summary</p>', $stored->summary);
-        $this->assertSame(FORMAT_HTML, (int) $stored->summaryformat);
+        $this->assertSame((int) FORMAT_HTML, (int) $stored->summaryformat);
         $this->assertSame('html', $created['summary_format']);
     }
 
@@ -84,7 +84,7 @@ final class section_operations_test extends \advanced_testcase {
         );
 
         $this->assertSame('<p>Updated summary</p>', $stored->summary);
-        $this->assertSame(FORMAT_HTML, (int) $stored->summaryformat);
+        $this->assertSame((int) FORMAT_HTML, (int) $stored->summaryformat);
         $this->assertSame('html', $updated['summary_format']);
     }
 
