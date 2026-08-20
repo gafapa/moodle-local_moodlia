@@ -35,11 +35,16 @@ class upload_folder_file {
      * @param int $moduleid Moduleid.
      * @param string $filename Filename.
      * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
-    public static function execute(int $courseid, int $moduleid, string $filename, string $uploadreference): array {
-        global $USER;
-
+    public static function execute(
+        int $courseid,
+        int $moduleid,
+        string $filename,
+        string $uploadreference = '',
+        int $draftitemid = 0
+    ): array {
         module_tools::require_module_api();
 
         $course = course_tools::get_course($courseid);
@@ -51,15 +56,13 @@ class upload_folder_file {
             throw new \invalid_parameter_exception('filename is required.');
         }
 
-        $content = base64_decode($uploadreference, true);
-        if ($content === false) {
-            throw new \invalid_parameter_exception('upload_reference must be base64-encoded file content.');
-        }
-
-        $maxbytes = 2 * 1024 * 1024;
-        if (strlen($content) > $maxbytes) {
-            throw new \invalid_parameter_exception('File content exceeds the 2 MB API limit.');
-        }
+        $draftfile = module_file_tools::prepare_user_draft_file(
+            $filename,
+            $uploadreference,
+            $draftitemid,
+            $context,
+            (int) ($course->maxbytes ?? 0)
+        );
 
         $fs = get_file_storage();
         $filerecord = [
@@ -72,26 +75,16 @@ class upload_folder_file {
         ];
         $existing = $fs->get_file($context->id, 'mod_folder', 'content', 0, '/', $filename);
 
-        if ($existing && !$existing->is_directory()) {
-            $draftitemid = file_get_unused_draft_itemid();
-            $draftfile = $fs->create_file_from_string([
-                'contextid' => \context_user::instance($USER->id)->id,
-                'component' => 'user',
-                'filearea' => 'draft',
-                'itemid' => $draftitemid,
-                'filepath' => '/',
-                'filename' => $filename,
-            ], $content);
-
-            try {
+        try {
+            if ($existing && !$existing->is_directory()) {
                 $existing->replace_file_with($draftfile);
                 $existing->set_timemodified(time());
                 $file = $existing;
-            } finally {
-                $draftfile->delete();
+            } else {
+                $file = $fs->create_file_from_storedfile($filerecord, $draftfile);
             }
-        } else {
-            $file = $fs->create_file_from_string($filerecord, $content);
+        } finally {
+            $draftfile->delete();
         }
 
         rebuild_course_cache($course->id, true);

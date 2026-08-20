@@ -2,23 +2,23 @@
 
 The public npm package is named `moodlia`.
 
-It is a consumer package for the Node CLI and shared REST/MCP client. It is not the Moodle plugin package and it is not the development repository.
+It is the consumer package for the Node CLI and reusable REST client. It is not the Moodle plugin package.
 
 ## Purpose
 
 The npm package lets external users automate an installed MoodlIA Moodle site from Node.js or a shell:
 
 - Run `moodlia <command>` from a terminal or CI job.
-- Import the REST or MCP client from Node.js code.
+- Import the REST client from Node.js code.
 - Read the publishable operation contract and generated TypeScript declarations.
 
-The CLI calls Moodle REST directly through `/webservice/rest/server.php`. Node consumers may use the same contract through REST or the plugin endpoint at `/local/moodlia/mcp.php`. Neither transport requires a browser session, and the package does not include deployment or test automation.
+The CLI and Node client call Moodle REST directly through `/webservice/rest/server.php`. MCP remains a separate plugin integration at `/local/moodlia/mcp.php` and is not bundled into the npm package. REST does not require a browser session, and the package does not include deployment or test automation.
 
 User-facing CLI examples are documented in `docs/cli-usage.md` and summarized in the generated package README.
 
 ## Published Contents
 
-The generated package under `packages/moodlia` must contain only:
+The published package from the `moodlia-cli` repository must contain only:
 
 ```text
 package.json
@@ -42,40 +42,18 @@ The npm package intentionally excludes:
 
 ## Source Of Truth
 
-Do not edit `packages/moodlia` manually.
-
-The package is generated from the development repository:
-
-```text
-npm run npm:sync
-```
-
-The sync command copies and adapts:
-
-- `cli/moodle-mcp.mjs` to `cli/moodlia.mjs`.
-- `client/moodle-rest-client.mjs`.
-- `client/moodle-rest-client.d.ts`.
-- `client/generated/operation-types.d.ts`.
-- `contract/operations.json`, filtered to the public CLI/client surface.
-- A generated package README.
-- A generated package license notice.
-
-Check drift with:
-
-```text
-npm run npm:sync:check
-```
+The dedicated `moodlia-cli` repository is the source of truth for the executable, REST client, declarations, and public package documentation. Its bundled operation contract must stay aligned with the Moodle plugin contract.
 
 ## Package Metadata
 
-The generated `package.json` includes:
+The `package.json` includes:
 
 - `name: moodlia`.
-- Version copied from the root development package.
+- A version managed independently from the Moodle plugin.
 - Public GPL-3.0-or-later license metadata.
 - `bin.moodlia` mapped to `cli/moodlia.mjs`.
 - `main`, `types`, and `exports` for client imports.
-- Repository, bugs, and homepage URLs pointing to `gafapa/moodle-local_moodlia`.
+- Repository and bug URLs pointing to `gafapa/moodlia-cli`.
 - `files` limited to the publishable runtime surface.
 - `engines.node >= 22`.
 
@@ -90,7 +68,7 @@ MOODLE_REST_TOKEN=...
 
 The CLI also reads a local `.env` file from the current working directory and from the installed package root when present.
 
-The programmatic MCP client accepts the same token as `token` and either `baseUrl` or an explicit `endpoint`. The CLI remains REST-based.
+The programmatic REST client accepts the same `baseUrl` and `token` values as the CLI environment configuration.
 
 Tokens must never be committed, embedded in examples, passed as CLI arguments, or published to npm.
 
@@ -99,10 +77,8 @@ Tokens must never be committed, embedded in examples, passed as CLI arguments, o
 Before publishing:
 
 ```text
-npm run npm:sync
-npm run npm:sync:check
-npm run test:static
-npm run npm:pack:dry-run
+npm run check
+npm run pack:check
 ```
 
 The static package test verifies that:
@@ -117,10 +93,9 @@ The dry-run pack command shows the exact files and package size npm will publish
 
 ## Publish
 
-Publish from the generated package directory only:
+Publish from the `moodlia-cli` repository root only:
 
 ```text
-cd packages/moodlia
 npm publish --access public
 ```
 
@@ -130,14 +105,14 @@ Never paste npm tokens into source files, documentation, logs, or issue comments
 
 ## Versioning
 
-The npm version follows the root project version.
+The npm package has an independent version. Use a minor version change for breaking public API changes while the package remains below `1.0.0`.
 
 Increment the root version when:
 
 - A command is added or removed.
 - A parameter or return shape changes.
-- The REST/MCP client import surface changes.
+- The REST client import surface changes.
 - The required Node.js version changes.
 - The package README or published file list changes in a release-worthy way.
 
-Run `npm run npm:sync` after changing the root version.
+Keep `package.json` and `package-lock.json` versions aligned.

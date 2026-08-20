@@ -34,3 +34,4 @@ $string['pluginname'] = 'MoodlIA';
 $string['pluginstateunsupported'] = 'Plugin {$a} does not expose a supported enable or disable operation.';
 $string['pluginstateverificationfailed'] = 'Moodle did not retain the requested enabled state for plugin {$a}.';
 $string['privacy:metadata'] = 'The MoodlIA plugin does not store personal data in plugin-owned storage.';
+$string['restoreprecheckfailed'] = 'The Moodle backup cannot be restored: {$a}';

@@ -1,0 +1,21 @@
+MoodlIA is an open-source local plugin that securely connects Moodle with AI agents, command-line tools, and automation workflows through REST web services and a Moodle-hosted MCP endpoint. It is designed for administrators, teachers, course designers, developers, and organisations that want to automate Moodle tasks while preserving Moodle as the system of record.
+
+The plugin provides 240 operations covering courses, categories, sections, activities, resources, assignments, submissions, rubrics, marking guides, question banks, quizzes, enrolments, users, roles, groups, cohorts, gradebook workflows, books, forums, glossaries, lessons, wikis, workshops, feedback activities, database activities, calendar events, files, backups, restores, course blueprints, audits, completion checks, and repair operations. The available operations depend on the Moodle features and activity modules installed on the site.
+
+REST, MCP, and the optional moodlia command-line client use the same canonical operation contract. This keeps operation names, parameters, validation rules, and responses consistent across compatible clients. The MCP endpoint supports modern stateless MCP clients while retaining compatibility with legacy session-based lifecycle clients. MCP clients can discover the available tools dynamically through the standard tool-listing workflow.
+
+MoodlIA does not bypass Moodle security. Every request runs as the authenticated Moodle user and is checked against Moodle roles, contexts, login requirements, the dedicated local/moodlia:useapi capability, and the native Moodle capabilities required by each operation. Administrators should use a dedicated service account and grant only the permissions needed for the intended workflow. MoodlIA does not execute arbitrary SQL, provide unrestricted filesystem access, bypass Moodle roles, or install remote plugin code.
+
+MoodlIA creates no plugin-owned database tables and stores no personal data in plugin-owned storage. It can access or modify existing Moodle data only when the authenticated user has the required permissions. Connected clients may receive Moodle data, so administrators remain responsible for choosing trusted clients, protecting tokens, applying least privilege, reviewing external privacy practices, and complying with institutional and legal requirements.
+
+The plugin is free and open-source software released under the GNU GPL v3 or later. It does not require a paid subscription, a MoodlIA cloud account, vendor credentials, a proprietary AI provider, an external licence server, or a vendor-hosted proxy. Administrators choose their own REST, MCP, CLI, automation, or AI clients and connect them directly to their Moodle installation. The plugin itself does not send Moodle data to a MoodlIA-operated service.
+
+Typical uses include creating course structures, publishing educational content, building activities and quizzes, managing question banks, applying assessment rubrics, auditing courses, synchronising enrolments and groups, producing progress reports, creating native backups, repairing course content, and allowing AI assistants to perform narrowly authorised Moodle tasks. Human review is recommended for consequential operations such as grading, enrolment management, deletion, restoration, and publication.
+
+This release supports Moodle 5.2 and is marked as beta while broader production feedback is collected. The automated test matrix covers PHP 8.3 and 8.4 with PostgreSQL and MariaDB, Moodle metadata and coding-standard checks, PHP documentation checks, PHPUnit tests, static security checks, contract validation, and Marketplace package validation.
+
+Source code and documentation: https://github.com/gafapa/moodle-local_moodlia
+
+Issue tracker: https://github.com/gafapa/moodle-local_moodlia/issues
+
+MoodlIA is an independent open-source project. It is not affiliated with, certified by, sponsored by, or endorsed by Moodle HQ. Moodle is a registered trademark of Moodle Pty Ltd.

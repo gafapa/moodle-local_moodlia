@@ -3907,7 +3907,12 @@
         },
         "upload_reference": {
           "type": "string",
-          "required": true
+          "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 1
         }
       },
       "returns": {
@@ -12915,7 +12920,12 @@
         },
         "upload_reference": {
           "type": "string",
-          "required": true
+          "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 1
         }
       },
       "returns": {

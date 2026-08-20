@@ -126,7 +126,7 @@ The course workflow operations compose existing course, section, module, group, 
 - `audit_course`: returns operational readiness issues such as hidden courses, empty summaries, no enrolled users, empty sections, and courses without activities.
 - `backup_course`: creates a native Moodle `.mbz` course backup through Moodle's backup controller and returns stored-file metadata plus a Moodle pluginfile URL.
 - `restore_course_backup`: restores a native Moodle `.mbz` backup into a new course, adds it to an existing course, or deletes existing course content before restore through Moodle's restore controller.
-- `upload_course_backup`: stores an existing base64-encoded `.mbz` backup in the current user's Moodle private files so it can be restored later by file id.
+- `upload_course_backup`: consumes a user-owned Moodle draft item and stores the `.mbz` backup in the current user's private files so it can be restored later by file id. Legacy Base64 content remains supported through `upload_reference`.
 - `get_course_backup_files`: lists `.mbz` backups from the selected course backup area and, optionally, the current user's backup area and private files.
 - `delete_course_backup_file`: deletes a stored `.mbz` backup file when the caller owns the user-private file or can manage backups in the course context.
 - `audit_course_completion`: returns completion-configuration issues such as old Book activities that still require a grade, mixed view-and-grade rules, automatic tracking without an exposed completion rule, or activities tracking completion while course completion is disabled.
@@ -1583,7 +1583,7 @@ Do not expose secrets, local filesystem paths, stack traces, or raw token values
 `upload_folder_file`
 
 - Type: write.
-- Parameters: `course_id`, `module_id`, `filename`, upload reference or file token.
+- Parameters: `course_id`, `module_id`, `filename`, and exactly one of `draft_item_id` or the legacy Base64 `upload_reference`.
 - Context: module.
 - Files: upload.
 - Returns: file id or file metadata, filename, file URL where allowed.

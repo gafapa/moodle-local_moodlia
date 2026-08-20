@@ -33,9 +33,10 @@ class upload_course_backup {
      *
      * @param string $filename Filename.
      * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
-    public static function execute(string $filename, string $uploadreference): array {
-        return course_backup_tools::upload_backup_file($filename, $uploadreference);
+    public static function execute(string $filename, string $uploadreference = '', int $draftitemid = 0): array {
+        return course_backup_tools::upload_backup_file($filename, $uploadreference, $draftitemid);
     }
 }

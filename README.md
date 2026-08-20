@@ -178,8 +178,8 @@ MoodlIA keeps one canonical operation contract and exposes it through several su
 ```text
 Moodle PHP operation classes
     -> Moodle REST external functions
-    -> Moodle-hosted MCP endpoint
-    -> Public Node CLI and REST/MCP client
+        -> Public Node CLI and REST client
+    -> Moodle-hosted MCP endpoint for AI integrations
 ```
 
 The CLI does not call MCP. It calls Moodle REST directly through `/webservice/rest/server.php`.
@@ -234,7 +234,9 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 ### 0.1.183
 
 - Implements the MCP initialization lifecycle and standard structured tool results.
-- Validates MCP origins, JSON content types, bearer token size, and request body size.
+- Validates MCP origins, JSON content types, and bearer token structure.
+- Streams large external files through Moodle's core multipart draft endpoint and passes only a draft item id to MoodlIA operations, avoiding Base64 expansion in PHP memory.
+- Applies Moodle's configured upload limit to files without adding MoodlIA-specific byte caps; PHP and the web server may still enforce their own request limits.
 - Preserves Moodle subdirectory paths in Node clients and automation tools.
 - Replaces existing folder and private backup files atomically through Moodle draft files.
 - Resolves token users from the authenticated Moodle session instead of assuming user id 2.

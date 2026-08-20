@@ -247,11 +247,14 @@ List Moodle backup files that are available to the token. With `--include-privat
 moodlia get-course-backup-files --course-id <course_id> --include-private true
 ```
 
-Upload an existing `.mbz` backup into the current user's Moodle private files for later restore. `upload-reference` is base64-encoded `.mbz` content, so for large production backups prefer passing it from a script or CI secret store instead of typing it in a shell history:
+Upload an existing `.mbz` backup into the current user's Moodle private files for later restore. The CLI streams the file through Moodle's core multipart draft endpoint, avoiding Base64 expansion:
 
 ```text
-moodlia upload-course-backup --filename "course-backup.mbz" --upload-reference <base64_mbz_content>
+moodlia upload-course-backup --upload-file "./course-backup.mbz"
 ```
+
+The legacy `--upload-reference <base64_mbz_content>` input remains supported for
+older integrations.
 
 Restore a native Moodle `.mbz` backup into a new course:
 
@@ -369,10 +372,11 @@ Use `completion_use_grade:false` or `completionusegrade:false` when an existing 
 
 ## Files
 
-Folder uploads use a Moodle upload reference created by Moodle's upload flow. After the upload reference exists:
+Folder uploads stream a local file to a user-owned Moodle draft before the
+operation moves it into the Folder activity:
 
 ```text
-moodlia upload-folder-file --course-id <course_id> --module-id <folder_module_id> --filename "notes.txt" --upload-reference <upload_reference>
+moodlia upload-folder-file --course-id <course_id> --module-id <folder_module_id> --upload-file "./notes.txt"
 ```
 
 List and download folder files:

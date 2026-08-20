@@ -663,7 +663,8 @@ final class manifest {
                 'description' => 'Upload a native Moodle .mbz backup file for later restore.',
                 'inputSchema' => self::schema([
                     'filename' => ['type' => 'string', 'required' => true],
-                    'upload_reference' => ['type' => 'string', 'required' => true],
+                    'upload_reference' => ['type' => 'string', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -2010,7 +2011,8 @@ final class manifest {
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'filename' => ['type' => 'string', 'required' => true],
-                    'upload_reference' => ['type' => 'string', 'required' => true],
+                    'upload_reference' => ['type' => 'string', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [

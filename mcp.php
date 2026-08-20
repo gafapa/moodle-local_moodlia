@@ -41,13 +41,9 @@ const LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS = [
     '2025-03-26',
 ];
 /**
- * LOCAL MOODLIA MCP MAX REQUEST BYTES.
- */
-const LOCAL_MOODLIA_MCP_MAX_REQUEST_BYTES = 32 * 1024 * 1024;
-/**
  * LOCAL MOODLIA MCP SERVER VERSION.
  */
-const LOCAL_MOODLIA_MCP_SERVER_VERSION = '0.1.190';
+const LOCAL_MOODLIA_MCP_SERVER_VERSION = '0.1.193';
 
 require_once(__DIR__ . '/../../config.php');
 // phpcs:enable moodle.Files.MoodleInternal.MoodleInternalGlobalState
@@ -389,10 +385,14 @@ function local_moodlia_mcp_call_rest(string $token, string $toolname, array $arg
         $message = $canonicalcode === 'internal_error'
             ? 'Moodle could not complete the request.'
             : ($payload['message'] ?? $payload['errorcode'] ?? 'Moodle REST error.');
-        local_moodlia_mcp_error($id, -32005, $message, 200, $canonicalcode, [
+        $details = [
             'moodle_errorcode' => $payload['errorcode'] ?? null,
             'moodle_exception' => $payload['exception'] ?? null,
-        ]);
+        ];
+        if ($canonicalcode !== 'internal_error' && !empty($payload['debuginfo'])) {
+            $details['moodle_debuginfo'] = $payload['debuginfo'];
+        }
+        local_moodlia_mcp_error($id, -32005, $message, 200, $canonicalcode, $details);
     }
 
     return $payload;
@@ -409,15 +409,7 @@ if ($contenttype !== 'application/json') {
     local_moodlia_mcp_error(null, -32600, 'Content-Type must be application/json.', 415, 'invalid_parameters');
 }
 
-$contentlength = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
-if ($contentlength > LOCAL_MOODLIA_MCP_MAX_REQUEST_BYTES) {
-    local_moodlia_mcp_error(null, -32600, 'MCP request body is too large.', 413, 'invalid_parameters');
-}
-
 $rawrequest = file_get_contents('php://input');
-if ($rawrequest !== false && strlen($rawrequest) > LOCAL_MOODLIA_MCP_MAX_REQUEST_BYTES) {
-    local_moodlia_mcp_error(null, -32600, 'MCP request body is too large.', 413, 'invalid_parameters');
-}
 $request = json_decode($rawrequest ?: '', true);
 
 if (!is_array($request)) {

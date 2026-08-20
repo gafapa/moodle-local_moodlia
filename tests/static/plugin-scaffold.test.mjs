@@ -52,6 +52,40 @@ test('MCP endpoint supports modern stateless and legacy lifecycle clients', asyn
   assert.match(source, /notifications\/initialized/);
 });
 
+test('file uploads use Moodle drafts and Moodle limits without MoodlIA byte caps', async () => {
+  const [mcpSource, fileToolsSource, folderSource, backupSource, servicesSource] = await Promise.all([
+    fs.readFile(path.join(pluginRoot, 'mcp.php'), 'utf8'),
+    fs.readFile(path.join(pluginRoot, 'classes', 'operation', 'module_file_tools.php'), 'utf8'),
+    fs.readFile(path.join(pluginRoot, 'classes', 'operation', 'upload_folder_file.php'), 'utf8'),
+    fs.readFile(path.join(pluginRoot, 'classes', 'operation', 'course_backup_tools.php'), 'utf8'),
+    fs.readFile(path.join(pluginRoot, 'db', 'services.php'), 'utf8')
+  ]);
+
+  assert.doesNotMatch(mcpSource, /MCP_MAX_REQUEST_BYTES|MCP request body is too large/);
+  assert.match(fileToolsSource, /get_user_max_upload_file_size\s*\(/);
+  assert.match(fileToolsSource, /'user',\s*'draft'/);
+  assert.match(folderSource, /create_file_from_storedfile\s*\(/);
+  assert.match(backupSource, /create_file_from_storedfile\s*\(/);
+  assert.match(servicesSource, /'uploadfiles'\s*=>\s*1/);
+  for (const source of [fileToolsSource, folderSource, backupSource]) {
+    assert.doesNotMatch(source, /(?:2|20) MB API limit|(?:2|20) \* 1024 \* 1024/);
+  }
+});
+
+test('course restore distinguishes warnings from fatal precheck errors', async () => {
+  const [backupSource, mcpSource] = await Promise.all([
+    fs.readFile(path.join(pluginRoot, 'classes', 'operation', 'course_backup_tools.php'), 'utf8'),
+    fs.readFile(path.join(pluginRoot, 'mcp.php'), 'utf8')
+  ]);
+
+  assert.match(backupSource, /get_precheck_results\s*\(\s*\)/);
+  assert.match(backupSource, /\$precheckresults\['warnings'\]/);
+  assert.match(backupSource, /\$precheckresults\['errors'\]/);
+  assert.match(backupSource, /if\s*\(\$errors\s*!==\s*\[\]\)/);
+  assert.doesNotMatch(backupSource, /precheck_message\s*\(\s*\$precheck\s*\)/);
+  assert.match(mcpSource, /moodle_debuginfo/);
+});
+
 test('operation code avoids raw SQL execution', async () => {
   const operationRoot = path.join(pluginRoot, 'classes', 'operation');
   const files = await fs.readdir(operationRoot);

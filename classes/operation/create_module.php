@@ -134,7 +134,7 @@ class create_module {
         } else if ($moduletype === 'label') {
             module_tools::apply_label_options($moduleinfo, $options);
         } else if ($moduletype === 'resource') {
-            module_tools::apply_resource_options($moduleinfo, $options);
+            module_tools::apply_resource_options($course, $moduleinfo, $options);
         } else if ($moduletype === 'subsection') {
             module_tools::apply_subsection_options($moduleinfo, $options);
         } else if ($moduletype === 'url') {

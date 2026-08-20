@@ -2192,6 +2192,7 @@ $services = [
             'local_moodlia_remove_question_from_quiz',
         ],
         'restrictedusers' => 1,
+        'uploadfiles' => 1,
         'enabled' => 1,
         'shortname' => 'local_moodlia',
     ],

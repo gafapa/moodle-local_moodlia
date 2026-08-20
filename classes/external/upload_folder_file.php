@@ -44,7 +44,13 @@ class upload_folder_file extends external_api {
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
             'module_id' => new external_value(PARAM_INT, 'Folder course module id'),
             'filename' => new external_value(PARAM_FILE, 'Target filename'),
-            'upload_reference' => new external_value(PARAM_RAW, 'Base64-encoded file content'),
+            'upload_reference' => new external_value(
+                PARAM_RAW,
+                'Legacy base64-encoded file content',
+                VALUE_DEFAULT,
+                ''
+            ),
+            'draft_item_id' => new external_value(PARAM_INT, 'Moodle user draft item id', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -55,19 +61,28 @@ class upload_folder_file extends external_api {
      * @param int $moduleid Moduleid.
      * @param string $filename Filename.
      * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
-    public static function execute(int $courseid, int $moduleid, string $filename, string $uploadreference): array {
+    public static function execute(
+        int $courseid,
+        int $moduleid,
+        string $filename,
+        string $uploadreference = '',
+        int $draftitemid = 0
+    ): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'filename' => $filename,
             'upload_reference' => $uploadreference,
+            'draft_item_id' => $draftitemid,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'filename' => $filename,
             'upload_reference' => $uploadreference,
+            'draft_item_id' => $draftitemid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -79,7 +94,13 @@ class upload_folder_file extends external_api {
         require_capability('moodle/course:managefiles', $coursecontext);
         require_capability('moodle/course:manageactivities', $coursecontext);
 
-        return upload_folder_file_operation::execute((int) $courseid, (int) $moduleid, $filename, $uploadreference);
+        return upload_folder_file_operation::execute(
+            (int) $courseid,
+            (int) $moduleid,
+            $filename,
+            $uploadreference,
+            (int) $draftitemid
+        );
     }
 
     /**

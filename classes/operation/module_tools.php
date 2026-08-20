@@ -262,11 +262,12 @@ class module_tools {
     /**
      * Add file resource-specific fields to module info.
      *
+     * @param \stdClass $course Course.
      * @param \stdClass $moduleinfo Moduleinfo.
      * @param array $options Options.
      */
-    public static function apply_resource_options(\stdClass $moduleinfo, array $options): void {
-        module_content_tools::apply_resource_options($moduleinfo, $options);
+    public static function apply_resource_options(\stdClass $course, \stdClass $moduleinfo, array $options): void {
+        module_content_tools::apply_resource_options($course, $moduleinfo, $options);
     }
 
     /**

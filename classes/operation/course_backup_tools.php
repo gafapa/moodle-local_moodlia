@@ -37,6 +37,7 @@ class course_backup_tools {
     public static function require_backup_api(): void {
         global $CFG;
 
+        require_once($CFG->dirroot . '/course/lib.php');
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
         require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
     }
@@ -107,6 +108,7 @@ class course_backup_tools {
         $tempdir = \restore_controller::get_tempdir_name($courseid, (int) $USER->id);
         $path = make_backup_temp_directory($tempdir);
         $warnings = [];
+        $deletecourseonfailure = $target === 'new_course';
 
         $controller = null;
         try {
@@ -120,13 +122,23 @@ class course_backup_tools {
                 self::restore_target_constant($target)
             );
 
-            $precheck = $controller->execute_precheck();
-            if ($precheck !== true) {
-                $warnings[] = [
-                    'code' => 'restore_precheck',
-                    'message' => self::precheck_message($precheck),
-                ];
-                throw new \moodle_exception('restoreprecheckfailed', 'backup');
+            $precheckpassed = $controller->execute_precheck();
+            $precheckresults = $precheckpassed ? [] : $controller->get_precheck_results();
+            $warnings = self::normalise_precheck_notices(
+                $precheckresults['warnings'] ?? [],
+                'restore_precheck_warning'
+            );
+            $errors = self::normalise_precheck_notices(
+                $precheckresults['errors'] ?? [],
+                'restore_precheck_error'
+            );
+            if ($errors !== []) {
+                throw new \moodle_exception(
+                    'restoreprecheckfailed',
+                    'local_moodlia',
+                    '',
+                    self::precheck_message($errors)
+                );
             }
 
             $controller->execute_plan();
@@ -142,6 +154,15 @@ class course_backup_tools {
                 'category_id' => (int) $course->category,
                 'warnings_json' => course_workflow_tools::encode_json($warnings),
             ];
+        } catch (\Throwable $error) {
+            if ($controller !== null) {
+                $controller->destroy();
+                $controller = null;
+            }
+            if ($deletecourseonfailure) {
+                self::delete_failed_restore_course($courseid);
+            }
+            throw $error;
         } finally {
             if ($controller !== null) {
                 $controller->destroy();
@@ -211,9 +232,14 @@ class course_backup_tools {
      *
      * @param string $filename Filename.
      * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
-    public static function upload_backup_file(string $filename, string $uploadreference): array {
+    public static function upload_backup_file(
+        string $filename,
+        string $uploadreference = '',
+        int $draftitemid = 0
+    ): array {
         global $USER;
 
         self::require_backup_api();
@@ -226,17 +252,13 @@ class course_backup_tools {
             throw new \invalid_parameter_exception('filename must end with .mbz.');
         }
 
-        $content = base64_decode($uploadreference, true);
-        if ($content === false) {
-            throw new \invalid_parameter_exception('upload_reference must be base64-encoded backup content.');
-        }
-
-        $maxbytes = 20 * 1024 * 1024;
-        if (strlen($content) > $maxbytes) {
-            throw new \invalid_parameter_exception('Backup content exceeds the 20 MB API limit.');
-        }
-
         $context = \context_user::instance((int) $USER->id);
+        $draftfile = module_file_tools::prepare_user_draft_file(
+            $filename,
+            $uploadreference,
+            $draftitemid,
+            $context
+        );
         $fs = get_file_storage();
         $filerecord = [
             'contextid' => $context->id,
@@ -248,26 +270,16 @@ class course_backup_tools {
         ];
         $existing = $fs->get_file($context->id, 'user', 'private', 0, '/', $filename);
 
-        if ($existing && !$existing->is_directory()) {
-            $draftitemid = file_get_unused_draft_itemid();
-            $draftfile = $fs->create_file_from_string([
-                'contextid' => $context->id,
-                'component' => 'user',
-                'filearea' => 'draft',
-                'itemid' => $draftitemid,
-                'filepath' => '/',
-                'filename' => $filename,
-            ], $content);
-
-            try {
+        try {
+            if ($existing && !$existing->is_directory()) {
                 $existing->replace_file_with($draftfile);
                 $existing->set_timemodified(time());
                 $file = $existing;
-            } finally {
-                $draftfile->delete();
+            } else {
+                $file = $fs->create_file_from_storedfile($filerecord, $draftfile);
             }
-        } else {
-            $file = $fs->create_file_from_string($filerecord, $content);
+        } finally {
+            $draftfile->delete();
         }
 
         return self::backup_file_to_response($file, 0);
@@ -466,16 +478,103 @@ class course_backup_tools {
     }
 
     /**
-     * Convert a restore precheck result to a compact message.
+     * Convert Moodle restore precheck notices to the operation warning format.
      *
-     * @param mixed $precheck Precheck.
+     * @param mixed $notices Notices.
+     * @param string $code Code.
+     * @return array
+     */
+    private static function normalise_precheck_notices($notices, string $code): array {
+        $messages = [];
+        self::collect_precheck_messages($notices, $messages);
+
+        $result = [];
+        foreach (array_values(array_unique($messages)) as $message) {
+            $result[] = [
+                'code' => $code,
+                'message' => $message,
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Collect readable messages from Moodle's mixed precheck result structure.
+     *
+     * @param mixed $value Value.
+     * @param array $messages Messages.
+     */
+    private static function collect_precheck_messages($value, array &$messages): void {
+        if (is_array($value)) {
+            if (array_key_exists('message', $value)) {
+                self::collect_precheck_messages($value['message'], $messages);
+                return;
+            }
+            foreach ($value as $item) {
+                self::collect_precheck_messages($item, $messages);
+            }
+            return;
+        }
+
+        if ($value instanceof \Throwable) {
+            self::collect_precheck_messages($value->getMessage(), $messages);
+            return;
+        }
+        if (is_object($value)) {
+            if (isset($value->message)) {
+                self::collect_precheck_messages($value->message, $messages);
+                return;
+            }
+            if (method_exists($value, '__toString')) {
+                self::collect_precheck_messages((string) $value, $messages);
+                return;
+            }
+            $value = json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        }
+        if (!is_scalar($value) || is_bool($value) || $value === null) {
+            return;
+        }
+
+        $message = html_entity_decode(strip_tags((string) $value), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $message = preg_replace('/\s+/u', ' ', $message);
+        $message = trim($message ?? '');
+        if ($message !== '') {
+            $messages[] = $message;
+        }
+    }
+
+    /**
+     * Convert normalised restore errors to a compact exception message.
+     *
+     * @param array $errors Errors.
      * @return string
      */
-    private static function precheck_message($precheck): string {
-        if (is_string($precheck)) {
-            return $precheck;
+    private static function precheck_message(array $errors): string {
+        $messages = array_column($errors, 'message');
+        return $messages === [] ? 'Restore precheck failed.' : implode('; ', $messages);
+    }
+
+    /**
+     * Remove a course created solely for a restore that did not complete.
+     *
+     * @param int $courseid Courseid.
+     */
+    private static function delete_failed_restore_course(int $courseid): void {
+        global $DB;
+
+        $course = $DB->get_record('course', ['id' => $courseid]);
+        if (!$course) {
+            return;
         }
-        $encoded = json_encode($precheck, JSON_UNESCAPED_SLASHES);
-        return $encoded === false ? 'Restore precheck failed.' : $encoded;
+
+        try {
+            delete_course($course, false);
+        } catch (\Throwable $cleanupfailure) {
+            debugging(
+                'MoodlIA could not remove the incomplete restore course: ' . $cleanupfailure->getMessage(),
+                DEBUG_DEVELOPER
+            );
+        }
     }
 }

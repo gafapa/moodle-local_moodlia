@@ -33,38 +33,157 @@ class module_file_tools {
      *
      * @param string $filename Filename.
      * @param string $uploadreference Uploadreference.
+     * @param \context $context Context.
+     * @param int $coursebytes Coursebytes.
+     * @param int $draftitemid Draftitemid.
      * @return int Draft item id.
      */
-    public static function create_resource_draft_file(string $filename, string $uploadreference): int {
-        global $USER;
-
+    public static function create_resource_draft_file(
+        string $filename,
+        string $uploadreference,
+        \context $context,
+        int $coursebytes = 0,
+        int $draftitemid = 0
+    ): int {
         $filename = clean_param(trim($filename), PARAM_FILE);
         if ($filename === '') {
             throw new \invalid_parameter_exception('options.filename is required for resource modules.');
         }
 
+        $draftfile = self::prepare_user_draft_file(
+            $filename,
+            $uploadreference,
+            $draftitemid,
+            $context,
+            $coursebytes
+        );
+
+        return (int) $draftfile->get_itemid();
+    }
+
+    /**
+     * Resolve a streamed Moodle draft upload or create a legacy base64 draft.
+     *
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
+     * @param \context $context Context.
+     * @param int $coursebytes Coursebytes.
+     * @param int $modulebytes Modulebytes.
+     * @return \stored_file
+     */
+    public static function prepare_user_draft_file(
+        string $filename,
+        string $uploadreference,
+        int $draftitemid,
+        \context $context,
+        int $coursebytes = 0,
+        int $modulebytes = 0
+    ): \stored_file {
+        global $USER;
+
+        $filename = clean_param(trim($filename), PARAM_FILE);
+        if ($filename === '') {
+            throw new \invalid_parameter_exception('filename is required.');
+        }
+
+        $hasreference = trim($uploadreference) !== '';
+        $hasdraftitem = $draftitemid > 0;
+        if ($hasreference === $hasdraftitem) {
+            throw new \invalid_parameter_exception(
+                'Provide exactly one of upload_reference or draft_item_id.'
+            );
+        }
+
+        $usercontext = \context_user::instance((int) $USER->id);
+        $fs = get_file_storage();
+        if ($hasdraftitem) {
+            $file = $fs->get_file(
+                $usercontext->id,
+                'user',
+                'draft',
+                $draftitemid,
+                '/',
+                $filename
+            );
+            if (!$file || $file->is_directory()) {
+                throw new \invalid_parameter_exception(
+                    'draft_item_id must reference the named file in the current user draft area.'
+                );
+            }
+            self::require_file_size_within_moodle_upload_limit(
+                (int) $file->get_filesize(),
+                $context,
+                $coursebytes,
+                $modulebytes
+            );
+            return $file;
+        }
+
         $content = base64_decode($uploadreference, true);
         if ($content === false) {
-            throw new \invalid_parameter_exception('options.upload_reference must be base64-encoded file content.');
+            throw new \invalid_parameter_exception('upload_reference must be base64-encoded file content.');
         }
-
-        $maxbytes = 2 * 1024 * 1024;
-        if (strlen($content) > $maxbytes) {
-            throw new \invalid_parameter_exception('File content exceeds the 2 MB API limit.');
-        }
+        self::require_within_moodle_upload_limit($content, $context, $coursebytes, $modulebytes);
 
         $draftitemid = file_get_unused_draft_itemid();
-        $fs = get_file_storage();
-        $fs->create_file_from_string([
-            'contextid' => \context_user::instance($USER->id)->id,
+        return $fs->create_file_from_string([
+            'contextid' => $usercontext->id,
             'component' => 'user',
             'filearea' => 'draft',
             'itemid' => $draftitemid,
             'filepath' => '/',
             'filename' => $filename,
         ], $content);
+    }
 
-        return $draftitemid;
+    /**
+     * Enforce Moodle's configured upload limit without adding a MoodlIA limit.
+     *
+     * @param string $content Content.
+     * @param \context $context Context.
+     * @param int $coursebytes Coursebytes.
+     * @param int $modulebytes Modulebytes.
+     */
+    public static function require_within_moodle_upload_limit(
+        string $content,
+        \context $context,
+        int $coursebytes = 0,
+        int $modulebytes = 0
+    ): void {
+        self::require_file_size_within_moodle_upload_limit(
+            strlen($content),
+            $context,
+            $coursebytes,
+            $modulebytes
+        );
+    }
+
+    /**
+     * Enforce Moodle's configured upload limit for a stored file.
+     *
+     * @param int $filesize Filesize.
+     * @param \context $context Context.
+     * @param int $coursebytes Coursebytes.
+     * @param int $modulebytes Modulebytes.
+     */
+    public static function require_file_size_within_moodle_upload_limit(
+        int $filesize,
+        \context $context,
+        int $coursebytes = 0,
+        int $modulebytes = 0
+    ): void {
+        global $CFG;
+
+        $maxbytes = get_user_max_upload_file_size(
+            $context,
+            (int) ($CFG->maxbytes ?? 0),
+            max(0, $coursebytes),
+            max(0, $modulebytes)
+        );
+        if ($maxbytes > 0 && $filesize > $maxbytes) {
+            throw new \invalid_parameter_exception('File content exceeds Moodle\'s configured upload limit.');
+        }
     }
 
     /**

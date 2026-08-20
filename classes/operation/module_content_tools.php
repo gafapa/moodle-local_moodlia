@@ -116,13 +116,17 @@ class module_content_tools {
     /**
      * Add file resource-specific fields to module info.
      *
+     * @param \stdClass $course Course.
      * @param \stdClass $moduleinfo Moduleinfo.
      * @param array $options Options.
      */
-    public static function apply_resource_options(\stdClass $moduleinfo, array $options): void {
+    public static function apply_resource_options(\stdClass $course, \stdClass $moduleinfo, array $options): void {
         $moduleinfo->files = module_file_tools::create_resource_draft_file(
             (string) ($options['filename'] ?? ''),
-            (string) ($options['upload_reference'] ?? '')
+            (string) ($options['upload_reference'] ?? ''),
+            \context_course::instance((int) $course->id),
+            (int) ($course->maxbytes ?? 0),
+            (int) ($options['draft_item_id'] ?? 0)
         );
         $moduleinfo->display = self::normalise_resource_display((string) ($options['display'] ?? 'auto'), true);
         $moduleinfo->printintro = array_key_exists('print_intro', $options) ? (int) (bool) $options['print_intro'] : 1;

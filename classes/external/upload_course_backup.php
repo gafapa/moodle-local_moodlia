@@ -42,7 +42,13 @@ class upload_course_backup extends external_api {
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'filename' => new external_value(PARAM_FILE, 'Target .mbz filename'),
-            'upload_reference' => new external_value(PARAM_RAW, 'Base64-encoded .mbz backup content'),
+            'upload_reference' => new external_value(
+                PARAM_RAW,
+                'Legacy base64-encoded .mbz backup content',
+                VALUE_DEFAULT,
+                ''
+            ),
+            'draft_item_id' => new external_value(PARAM_INT, 'Moodle user draft item id', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -51,22 +57,29 @@ class upload_course_backup extends external_api {
      *
      * @param string $filename Filename.
      * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
-    public static function execute(string $filename, string $uploadreference): array {
+    public static function execute(string $filename, string $uploadreference = '', int $draftitemid = 0): array {
         [
             'filename' => $filename,
             'upload_reference' => $uploadreference,
+            'draft_item_id' => $draftitemid,
         ] = self::validate_parameters(self::execute_parameters(), [
             'filename' => $filename,
             'upload_reference' => $uploadreference,
+            'draft_item_id' => $draftitemid,
         ]);
 
         $systemcontext = \context_system::instance();
         self::validate_context($systemcontext);
         require_capability('local/moodlia:useapi', $systemcontext);
 
-        return upload_course_backup_operation::execute((string) $filename, (string) $uploadreference);
+        return upload_course_backup_operation::execute(
+            (string) $filename,
+            (string) $uploadreference,
+            (int) $draftitemid
+        );
     }
 
     /**

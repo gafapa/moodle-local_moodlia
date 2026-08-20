@@ -12,9 +12,9 @@ Implemented:
 - `get_module_details` returns common module metadata plus activity-specific details for Assignment, Book, Choice, Database, Feedback, Lesson, LTI/External tool, Folder, Forum, Glossary, Label, Page, Question bank, Quiz, Resource, Subsection, URL, Wiki, and Workshop using Moodle public APIs, File API helpers, question APIs, and course format APIs.
 - Moodle-hosted MCP endpoint with `tools/list` and `tools/call` over the same REST-backed operation surface.
 - MCP token validation for `tools/list` and `tools/call` using the shared Moodle REST token.
-- `MoodleClient` facade with `RestTransport` and `McpTransport`, canonical snake_case methods, contract-backed parameter validation, transport-aware serialization, lazy MCP lifecycle negotiation, and normalized REST/JSON-RPC errors.
-- Node CLI at `cli/moodle-mcp.mjs` that maps contract operations to kebab-case commands and calls Moodle REST directly.
-- Public npm package generator for `moodlia`, containing only the external CLI, REST client, generated types, filtered operation contract, README, and license.
+- `MoodleClient` facade with `RestTransport`, canonical snake_case methods, contract-backed parameter validation, Moodle-compatible form serialization, and normalized REST errors.
+- Independent Node CLI that maps contract operations to kebab-case commands and calls Moodle REST directly.
+- Public `moodlia` npm package containing only the external CLI, REST client, generated types, filtered operation contract, README, and license.
 - Static contract and parity checks.
 - Runtime transport parity checks compare REST, MCP, and CLI response shapes for stable read operations.
 - REST smoke/write tests that generate course categories, courses, calendar events, assignment course listing, assignment submissions and grades, gradebook item/user-grade/progress-report checks, Choice course listing, view, submission, response deletion, and result operations, Database field and entry CRUD, Feedback creation, course listing, view, access/status reads, item creation/update/listing, Lesson course listing, settings/details, content page lifecycle, access/page/jump/view/grade/timer/attempt-report operations, LTI, Question bank, Subsection, Workshop activities, Workshop accumulative, comments, number-of-errors, and rubric grading forms, Workshop user plans, Workshop grades, Workshop grade reports, Workshop submissions, forum course listing, view, discussions, replies, discussion pin/favourite/subscription/lock state, forum post deletion, glossary course listing, view events, entry browse/search/create/update/delete operations, category reads, author reads, and wiki page create/update/delete operations as needed, including `truefalse`, `shortanswer`, `multichoice`, `numerical`, `essay`, `matching`, `description`, `randomsamatch`, `gapselect`, `ddwtos`, `ordering`, `multianswer`, `ddmarker`, `ddimageortext`, `calculatedsimple`, `calculated`, and `calculatedmulti` questions.
@@ -100,12 +100,11 @@ Verification:
 
 ## Phase 3: TypeScript Client And Node CLI
 
-Status: complete. The Node CLI calls REST directly through the shared `MoodleClient` facade, while Node consumers can select `RestTransport` or `McpTransport`. The MCP transport negotiates the Moodle-hosted endpoint lifecycle and dispatches the same canonical operations through `tools/call`.
+Status: complete. The Node CLI and public Node client call REST directly through the shared `MoodleClient` facade. MCP is maintained as an independent Moodle-hosted integration surface and is not bundled into the CLI package.
 
 Deliverables:
 
 - `RestTransport`.
-- `McpTransport`.
 - `MoodleClient` facade.
 - Node CLI binary.
 - JSON output mode.

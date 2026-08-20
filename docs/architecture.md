@@ -130,7 +130,7 @@ The Moodle-hosted MCP adapter is exposed at `/local/moodlia/mcp.php`. It support
 - `tools/list`: returns tool schemas derived from the contract.
 - `tools/call`: dispatches a tool name and arguments through the existing Moodle REST external functions.
 
-The HTTP adapter is stateless and does not issue an MCP session id. Modern requests can therefore be served by any application instance without shared transport state. The endpoint validates same-origin browser requests, modern header/body consistency, JSON POST bodies, request size, and the Moodle bearer token on every call. Modern complete results carry `resultType` and server identity metadata; cacheable authenticated results use private cache scope. Legacy responses retain their original wire shape so strict 2025 clients remain compatible.
+The HTTP adapter is stateless and does not issue an MCP session id. Modern requests can therefore be served by any application instance without shared transport state. The endpoint validates same-origin browser requests, modern header/body consistency, JSON POST bodies, and the Moodle bearer token on every call. It does not impose a MoodlIA request-size cap. Binary uploads use Moodle core `/webservice/upload.php` multipart handling and operations receive the resulting user-owned draft item id, while PHP and the web server retain their normal request limits. Legacy Base64 upload references remain supported for compatibility. Modern complete results carry `resultType` and server identity metadata; cacheable authenticated results use private cache scope. Legacy responses retain their original wire shape so strict 2025 clients remain compatible.
 
 MCP tool names stay in `snake_case`:
 
@@ -145,12 +145,11 @@ The MCP adapter should not define independent schemas by hand. The current PHP m
 
 ### TypeScript Client Layer
 
-The shared client layer provides a `MoodleClient` facade over interchangeable REST and MCP transports without changing canonical operation semantics:
+The public client layer provides a `MoodleClient` facade over Moodle REST without changing canonical operation semantics:
 
 ```text
 MoodleClient
     -> RestTransport
-    -> McpTransport
 ```
 
 Client methods use canonical snake_case names only:
@@ -161,24 +160,13 @@ create_module() -> create_module
 update_question() -> update_question
 ```
 
-The current client is implemented in `client/moodle-rest-client.mjs`. It validates and coerces parameters against `contract/operations.json`, maps canonical operations to `local_moodlia_*` REST functions or MCP `tools/call`, and normalizes REST and JSON-RPC errors. Object and boolean parameters use form-compatible encoding for REST and native JSON encoding for MCP.
-
-`McpTransport` derives `/local/moodlia/mcp.php` from the Moodle base URL or accepts an explicit endpoint. In automatic mode it probes `server/discover` and uses stateless `2026-07-28` requests when available. If the server only supports the earlier era, it falls back to `initialize`, sends `notifications/initialized`, retains any server-issued `Mcp-Session-Id`, and can terminate that session with `close()`. The transport accepts JSON and request-scoped SSE responses, exposes `ping`, `listTools`, and canonical operation calls, and authenticates every request with the Moodle bearer token.
+The current client is implemented in `client/moodle-rest-client.mjs`. It validates and coerces parameters against `contract/operations.json`, maps canonical operations to `local_moodlia_*` REST functions, and normalizes REST errors. Object and boolean parameters use Moodle-compatible form encoding.
 
 ### Node CLI
 
 The current Node CLI calls the Moodle REST API directly through `MoodleClient`. It reads the canonical operation contract, maps `snake_case` operations to kebab-case commands, validates command arguments, and invokes the matching `local_moodlia_*` web service function.
 
 CLI commands use kebab-case names derived from canonical operations:
-
-```text
-moodle-mcp get-courses
-moodle-mcp create-module
-moodle-mcp update-question
-moodle-mcp delete-folder-file
-```
-
-The development repository keeps the internal script at `cli/moodle-mcp.mjs` for continuity with existing automation. The public npm package rewrites that entry point to the external binary name:
 
 ```text
 moodlia get-courses
@@ -195,11 +183,11 @@ The CLI should:
 - Print JSON by default for automation.
 - Offer concise table output only as an optional presentation mode.
 
-This keeps the CLI faster and simpler for automation than routing through MCP. The shared Node client can select REST or MCP without changing canonical operation names or response validation.
+This keeps the CLI and public Node client focused on direct REST automation. MCP remains an independent Moodle-hosted integration surface that uses the same canonical operation names and response schemas.
 
 ### Public Npm Package
 
-The generated npm package under `packages/moodlia` contains only the external consumer surface:
+The independently versioned `moodlia-cli` repository publishes only the external consumer surface:
 
 - `cli/moodlia.mjs`.
 - `client/moodle-rest-client.mjs`.
@@ -208,7 +196,7 @@ The generated npm package under `packages/moodlia` contains only the external co
 - `contract/operations.json`.
 - `README.md`, `LICENSE`, and `package.json`.
 
-It is generated by `npm run npm:sync` and checked by `npm run npm:sync:check` plus the static package test. The package must not include Moodle plugin PHP source, deployment scripts, test fixtures, reports, local env files, or unpublished transport metadata.
+It is checked with `npm run check` and `npm run pack:check`. The package must not include Moodle plugin PHP source, deployment scripts, test fixtures, reports, local env files, or MCP transport code.
 
 ### Moodle Pages
 
