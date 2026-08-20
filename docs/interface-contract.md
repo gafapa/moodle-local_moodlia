@@ -562,17 +562,17 @@ Do not expose secrets, local filesystem paths, stack traces, or raw token values
 `create_section`
 
 - Type: write.
-- Parameters: `course_id`, `name`, optional `summary`, optional `position`, optional `visible`.
+- Parameters: `course_id`, `name`, optional `summary`, optional `summary_format` (`html` or `plain`), optional `position`, optional `visible`.
 - Context: course.
-- Returns: section id, course id, section number, name, rendered summary, and visibility.
+- Returns: section id, course id, section number, name, rendered summary, stored summary format, and visibility.
 - Uses Moodle's `course_create_section` and `course_update_section` APIs. `position=0` appends by using Moodle's native append mode. It must not write directly to course section tables.
 
 `update_section`
 
 - Type: write.
-- Parameters: `course_id`, `section_id` or `section_number`, optional `name`, optional `summary`, optional `visible`.
+- Parameters: `course_id`, `section_id` or `section_number`, optional `name`, optional `summary`, optional `summary_format` (`html` or `plain`), optional `visible`.
 - Context: course.
-- Returns: updated section summary including rendered summary and visibility.
+- Returns: updated section summary including rendered summary, stored summary format, and visibility.
 - Uses Moodle's `course_update_section` API. It must not write directly to course section tables.
 
 `delete_section`

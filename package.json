@@ -1,6 +1,6 @@
 {
   "name": "moodlia-moodle-plugin",
-  "version": "0.1.193",
+  "version": "0.1.194",
   "private": true,
   "description": "Moodle local plugin that exposes MoodlIA operations over REST and MCP.",
   "homepage": "https://github.com/gafapa/moodle-local_moodlia#readme",

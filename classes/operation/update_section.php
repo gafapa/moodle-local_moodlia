@@ -36,6 +36,7 @@ class update_section {
      * @param int|null $sectionnumber Sectionnumber.
      * @param string|null $name Name.
      * @param string|null $summary Summary.
+     * @param string|null $summaryformat Summaryformat.
      * @param bool|null $visible Visible.
      * @return array
      */
@@ -45,6 +46,7 @@ class update_section {
         ?int $sectionnumber = null,
         ?string $name = null,
         ?string $summary = null,
+        ?string $summaryformat = null,
         ?bool $visible = null
     ): array {
         $course = section_tools::get_course($courseid);
@@ -61,7 +63,9 @@ class update_section {
 
         if ($summary !== null) {
             $data['summary'] = $summary;
-            $data['summaryformat'] = FORMAT_PLAIN;
+            $data['summaryformat'] = course_tools::format_to_constant($summaryformat ?? 'plain');
+        } else if ($summaryformat !== null) {
+            throw new \invalid_parameter_exception('summary is required when summary_format is provided.');
         }
 
         if ($visible !== null) {

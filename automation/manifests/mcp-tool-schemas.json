@@ -73,6 +73,18 @@
         "plain"
       ]
     },
+    "create_section": {
+      "summary_format": [
+        "html",
+        "plain"
+      ]
+    },
+    "update_section": {
+      "summary_format": [
+        "html",
+        "plain"
+      ]
+    },
     "delete_section": {
       "delete_mode": [
         "delete",

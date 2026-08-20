@@ -34,6 +34,7 @@ class create_section {
      * @param int $courseid Courseid.
      * @param string $name Name.
      * @param string $summary Summary.
+     * @param string $summaryformat Summaryformat.
      * @param int $position Position.
      * @param bool $visible Visible.
      * @return array
@@ -42,6 +43,7 @@ class create_section {
         int $courseid,
         string $name,
         string $summary = '',
+        string $summaryformat = 'plain',
         int $position = 0,
         bool $visible = true
     ): array {
@@ -60,7 +62,7 @@ class create_section {
         course_update_section($course, $section, [
             'name' => $name,
             'summary' => $summary,
-            'summaryformat' => FORMAT_PLAIN,
+            'summaryformat' => course_tools::format_to_constant($summaryformat),
             'visible' => $visible ? 1 : 0,
         ]);
 

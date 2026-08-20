@@ -325,7 +325,7 @@ Use dry runs first in production. The repair response includes `changes_json` an
 Create a section:
 
 ```text
-moodlia create-section --course-id <course_id> --name "Unit 1" --summary "<p>Introduction.</p>" --visible true
+moodlia create-section --course-id <course_id> --name "Unit 1" --summary "<p>Introduction.</p>" --summary-format html --visible true
 ```
 
 Some Moodle course formats or plugin combinations may reject direct section creation. In that case, create `subsection` modules and use the generated section numbers as placement targets:

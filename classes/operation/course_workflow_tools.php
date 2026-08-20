@@ -174,6 +174,7 @@ class course_workflow_tools {
                 $courseid,
                 (string) ($section['name'] ?? 'Generated section'),
                 (string) ($section['summary'] ?? ''),
+                'plain',
                 0,
                 (bool) ($section['visible'] ?? true)
             );

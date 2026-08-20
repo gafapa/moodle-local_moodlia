@@ -2,6 +2,12 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
+## 0.1.194 - 2026-08-21
+
+- Added explicit `html` and `plain` summary formats to section creation and
+  updates across REST, MCP, and the CLI contract.
+- Returned the stored section summary format from create and update operations.
+
 ## 0.1.193 - 2026-08-20
 
 - Restored backups when Moodle reports warnings without fatal precheck errors.

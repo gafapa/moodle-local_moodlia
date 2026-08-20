@@ -45,7 +45,14 @@ class update_section extends external_api {
             'section_id' => new external_value(PARAM_INT, 'Course section id', VALUE_DEFAULT, null, NULL_ALLOWED),
             'section_number' => new external_value(PARAM_INT, 'Course section number', VALUE_DEFAULT, null, NULL_ALLOWED),
             'name' => new external_value(PARAM_TEXT, 'Section name', VALUE_DEFAULT, null, NULL_ALLOWED),
-            'summary' => new external_value(PARAM_TEXT, 'Section summary', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'summary' => new external_value(PARAM_RAW, 'Section summary', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'summary_format' => new external_value(
+                PARAM_ALPHA,
+                'Section summary format: html or plain',
+                VALUE_DEFAULT,
+                null,
+                NULL_ALLOWED
+            ),
             'visible' => new external_value(PARAM_BOOL, 'Whether the section is visible', VALUE_DEFAULT, null, NULL_ALLOWED),
         ]);
     }
@@ -58,6 +65,7 @@ class update_section extends external_api {
      * @param int|null $sectionnumber Sectionnumber.
      * @param string|null $name Name.
      * @param string|null $summary Summary.
+     * @param string|null $summaryformat Summaryformat.
      * @param bool|null $visible Visible.
      * @return array
      */
@@ -67,6 +75,7 @@ class update_section extends external_api {
         ?int $sectionnumber = null,
         ?string $name = null,
         ?string $summary = null,
+        ?string $summaryformat = null,
         ?bool $visible = null
     ): array {
         [
@@ -75,6 +84,7 @@ class update_section extends external_api {
             'section_number' => $sectionnumber,
             'name' => $name,
             'summary' => $summary,
+            'summary_format' => $summaryformat,
             'visible' => $sectionvisible,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
@@ -82,6 +92,7 @@ class update_section extends external_api {
             'section_number' => $sectionnumber,
             'name' => $name,
             'summary' => $summary,
+            'summary_format' => $summaryformat,
             'visible' => $visible,
         ]);
 
@@ -99,6 +110,7 @@ class update_section extends external_api {
             $sectionnumber === null ? null : (int) $sectionnumber,
             $name,
             $summary,
+            $summaryformat,
             $sectionvisible === null ? null : (bool) $sectionvisible
         );
     }
@@ -115,6 +127,7 @@ class update_section extends external_api {
             'section_number' => new external_value(PARAM_INT, 'Course section number'),
             'name' => new external_value(PARAM_TEXT, 'Resolved section name'),
             'summary' => new external_value(PARAM_RAW, 'Rendered section summary'),
+            'summary_format' => new external_value(PARAM_ALPHA, 'Section summary format'),
             'visible' => new external_value(PARAM_BOOL, 'Whether the section is visible'),
         ]);
     }

@@ -52,3 +52,14 @@ test('plugin management writes require the dedicated capability', async () => {
   assert.ok(operation.capabilities.includes('local/moodlia:manageplugins'));
   assert.ok(operation.tests.includes('parity'));
 });
+
+test('section summary inputs preserve HTML through the REST adapters', async () => {
+  for (const operation of ['create_section', 'update_section']) {
+    const source = await fs.readFile(fromRoot('classes/external', `${operation}.php`), 'utf8');
+    assert.match(
+      source,
+      /'summary'\s*=>\s*new external_value\(PARAM_RAW,/,
+      `${operation} must preserve HTML summary input before Moodle stores it.`
+    );
+  }
+});

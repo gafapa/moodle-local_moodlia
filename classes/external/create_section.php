@@ -43,7 +43,13 @@ class create_section extends external_api {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
             'name' => new external_value(PARAM_TEXT, 'Section name'),
-            'summary' => new external_value(PARAM_TEXT, 'Section summary', VALUE_DEFAULT, ''),
+            'summary' => new external_value(PARAM_RAW, 'Section summary', VALUE_DEFAULT, ''),
+            'summary_format' => new external_value(
+                PARAM_ALPHA,
+                'Section summary format: html or plain',
+                VALUE_DEFAULT,
+                'plain'
+            ),
             'position' => new external_value(PARAM_INT, 'Placement position, or 0 to append', VALUE_DEFAULT, 0),
             'visible' => new external_value(PARAM_BOOL, 'Whether the section is visible', VALUE_DEFAULT, true),
         ]);
@@ -55,6 +61,7 @@ class create_section extends external_api {
      * @param int $courseid Courseid.
      * @param string $name Name.
      * @param string $summary Summary.
+     * @param string $summaryformat Summaryformat.
      * @param int $position Position.
      * @param bool $visible Visible.
      * @return array
@@ -63,6 +70,7 @@ class create_section extends external_api {
         int $courseid,
         string $name,
         string $summary = '',
+        string $summaryformat = 'plain',
         int $position = 0,
         bool $visible = true
     ): array {
@@ -70,12 +78,14 @@ class create_section extends external_api {
             'course_id' => $courseid,
             'name' => $name,
             'summary' => $summary,
+            'summary_format' => $summaryformat,
             'position' => $position,
             'visible' => $sectionvisible,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'name' => $name,
             'summary' => $summary,
+            'summary_format' => $summaryformat,
             'position' => $position,
             'visible' => $visible,
         ]);
@@ -88,7 +98,14 @@ class create_section extends external_api {
         self::validate_context($coursecontext);
         require_capability('moodle/course:update', $coursecontext);
 
-        return create_section_operation::execute((int) $courseid, $name, $summary, (int) $position, (bool) $sectionvisible);
+        return create_section_operation::execute(
+            (int) $courseid,
+            $name,
+            $summary,
+            $summaryformat,
+            (int) $position,
+            (bool) $sectionvisible
+        );
     }
 
     /**
@@ -103,6 +120,7 @@ class create_section extends external_api {
             'section_number' => new external_value(PARAM_INT, 'Course section number'),
             'name' => new external_value(PARAM_TEXT, 'Resolved section name'),
             'summary' => new external_value(PARAM_RAW, 'Rendered section summary'),
+            'summary_format' => new external_value(PARAM_ALPHA, 'Section summary format'),
             'visible' => new external_value(PARAM_BOOL, 'Whether the section is visible'),
         ]);
     }

@@ -90,6 +90,7 @@ class section_tools {
                 $section->summaryformat ?? FORMAT_HTML,
                 ['context' => $coursecontext]
             ),
+            'summary_format' => course_tools::format_from_constant((int) ($section->summaryformat ?? FORMAT_HTML)),
             'visible' => (bool) $section->visible,
         ];
     }
