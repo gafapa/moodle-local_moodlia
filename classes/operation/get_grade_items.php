@@ -38,12 +38,9 @@ class get_grade_items {
         gradebook_tools::require_gradebook_api();
 
         $course = course_tools::get_course($courseid);
-        $result = \core_grades\external\get_gradeitems::execute((int) $course->id);
-        $warnings = $result['warnings'] ?? [];
-        gradebook_tools::fail_on_warnings($warnings);
-
+        $gradeitems = \grade_item::fetch_all(['courseid' => (int) $course->id]) ?: [];
         $items = [];
-        foreach (($result['gradeItems'] ?? []) as $item) {
+        foreach ($gradeitems as $item) {
             $items[] = gradebook_tools::grade_item_to_response($item);
         }
 

@@ -34,9 +34,19 @@ class create_grade_category {
      * @param int $courseid Courseid.
      * @param string $name Name.
      * @param int|null $aggregation Aggregation.
+     * @param float|null $gradepass Gradepass.
+     * @param float|null $grademax Grademax.
+     * @param bool|null $excludeemptygrades Excludeemptygrades.
      * @return array
      */
-    public static function execute(int $courseid, string $name, ?int $aggregation = null): array {
+    public static function execute(
+        int $courseid,
+        string $name,
+        ?int $aggregation = null,
+        ?float $gradepass = null,
+        ?float $grademax = null,
+        ?bool $excludeemptygrades = null
+    ): array {
         gradebook_tools::require_gradebook_api();
 
         $course = course_tools::get_course($courseid);
@@ -48,12 +58,37 @@ class create_grade_category {
         if (trim($name) === '') {
             throw new \invalid_parameter_exception('name is required.');
         }
+        if ($grademax !== null && $grademax <= 0) {
+            throw new \invalid_parameter_exception('grade_max must be greater than zero.');
+        }
+        if ($gradepass !== null && $grademax !== null && ($gradepass < 0 || $gradepass > $grademax)) {
+            throw new \invalid_parameter_exception('grade_pass must be inside the category total grade range.');
+        }
 
         if ($aggregation !== null) {
             $category->aggregation = $aggregation;
         }
 
+        if ($excludeemptygrades !== null) {
+            $category->aggregateonlygraded = $excludeemptygrades ? 1 : 0;
+        }
+
         $category->insert('local_moodlia');
+
+        $totalitem = $category->get_grade_item();
+        if ($grademax !== null) {
+            $totalitem->grademax = $grademax;
+        }
+        if ((float) $totalitem->grademax <= (float) $totalitem->grademin) {
+            throw new \invalid_parameter_exception('grade_max must be greater than grade_min.');
+        }
+        if ($gradepass !== null) {
+            if ($gradepass < (float) $totalitem->grademin || $gradepass > (float) $totalitem->grademax) {
+                throw new \invalid_parameter_exception('grade_pass must be inside the category total grade range.');
+            }
+            $totalitem->gradepass = $gradepass;
+        }
+        $totalitem->update('local_moodlia');
 
         return gradebook_tools::grade_category_to_response(
             gradebook_tools::get_grade_category((int) $course->id, (int) $category->id)

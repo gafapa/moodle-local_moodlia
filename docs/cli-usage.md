@@ -456,14 +456,15 @@ moodlia get-activity-completion-statuses --course-id <course_id> --user-id <user
 moodlia get-course-progress-report --course-id <course_id> --limit 50
 ```
 
-Manage Gradebook categories and manual grade items:
+Manage Gradebook categories and grade items:
 
 ```text
 moodlia get-grade-categories --course-id <course_id>
 moodlia create-grade-category --course-id <course_id> --name "Portfolio"
-moodlia update-grade-category --course-id <course_id> --category-id <category_id> --name "Portfolio Updated" --hidden false
+moodlia update-grade-category --course-id <course_id> --category-id <category_id> --name "Portfolio Updated" --grade-pass 50 --grade-max 100 --exclude-empty-grades true
 moodlia create-grade-item --course-id <course_id> --name "Participation" --grade-max 10 --grade-min 0 --grade-pass 5 --category-id <category_id>
 moodlia update-grade-item --course-id <course_id> --item-id <item_id> --name "Participation Updated" --grade-max 20 --hidden false
+moodlia update-grade-item --course-id <course_id> --item-id <quiz_grade_item_id> --grade-pass 8 --category-id <category_id> --weight 1
 moodlia update-grade-value --course-id <course_id> --item-id <item_id> --user-id <user_id> --grade 8 --feedback "<p>Good participation.</p>"
 moodlia delete-grade-item --course-id <course_id> --item-id <item_id>
 moodlia delete-grade-category --course-id <course_id> --category-id <category_id>
@@ -719,6 +720,16 @@ Read course gradebook items:
 ```text
 moodlia get-grade-items --course-id <course_id>
 ```
+
+Configure the course total and its global completion criteria:
+
+```text
+moodlia set-course-grade-pass --course-id <course_id> --grade-pass-percent 80
+moodlia set-course-completion-criteria --course-id <course_id> --required-module-ids '[12591,12592,12593,12594,12595,12596]' --require-all-activities true --required-course-grade-percent 80 --criteria-aggregation all
+moodlia get-course-completion-criteria --course-id <course_id>
+```
+
+`required_module_ids` are Moodle course-module ids, not activity instance ids. Each selected activity must already have completion tracking enabled. Replacing global criteria is refused once Moodle has completion records for the course, so existing learner completion data is never discarded by this command. `get-grade-items` returns the grade range, pass grade, category, weight, visibility, lock state, owning activity, and course-total contribution required to verify the configuration.
 
 Read one user's grades, or all visible grades allowed by the token:
 

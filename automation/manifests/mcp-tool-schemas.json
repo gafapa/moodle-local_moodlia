@@ -18,6 +18,12 @@
         "missing"
       ]
     },
+    "set_course_completion_criteria": {
+      "criteria_aggregation": [
+        "all",
+        "any"
+      ]
+    },
     "assign_course_role": {
       "role_archetype": [
         "student",

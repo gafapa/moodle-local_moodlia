@@ -63,3 +63,17 @@ test('section summary inputs preserve HTML through the REST adapters', async () 
     );
   }
 });
+
+test('gradebook and course completion operations expose the global configuration contract', async () => {
+  const contract = await loadContract();
+  const operations = Object.fromEntries(contract.operations.map((operation) => [operation.name, operation]));
+
+  assert.equal(operations.update_grade_item.parameters.weight.type, 'number');
+  assert.equal(operations.update_grade_category.parameters.exclude_empty_grades.type, 'boolean');
+  assert.equal(operations.get_grade_items.returns.items[0].item_type, 'string');
+  assert.equal(operations.get_grade_items.returns.items[0].grade_pass, 'number');
+  assert.equal(operations.get_grade_items.returns.items[0].weight, 'number');
+  assert.equal(operations.set_course_grade_pass.type, 'write');
+  assert.equal(operations.get_course_completion_criteria.type, 'read');
+  assert.equal(operations.set_course_completion_criteria.parameters.required_module_ids.type, 'array');
+});

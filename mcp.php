@@ -296,7 +296,17 @@ function local_moodlia_mcp_normalize_arguments($id, $arguments): array {
             continue;
         }
 
-        if (is_array($value) || is_object($value)) {
+        if (is_array($value)) {
+            foreach (array_values($value) as $index => $item) {
+                if (is_array($item) || is_object($item)) {
+                    local_moodlia_mcp_error($id, -32602, 'Nested tool argument arrays are not supported.', 200, 'invalid_parameters');
+                }
+                $normalized[$key . '[' . $index . ']'] = is_bool($item) ? ($item ? '1' : '0') : (string) $item;
+            }
+            continue;
+        }
+
+        if (is_object($value)) {
             $normalized[$key] = json_encode($value, JSON_UNESCAPED_SLASHES);
             continue;
         }

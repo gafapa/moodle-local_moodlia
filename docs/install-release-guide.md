@@ -39,8 +39,8 @@ The Moodle plugin and public npm client use independent semantic release streams
 
 | Release stream | Current version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
-| Moodle plugin | `0.1.190` | `version.php` | `local_moodlia-0.1.190.zip` |
-| npm CLI/client | `0.1.20` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.1.20` |
+| Moodle plugin | `0.1.195` | `version.php` | `local_moodlia-0.1.195.zip` |
+| npm CLI/client | `0.2.2` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.2.2` |
 
 These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.190” or “moodlia npm 0.1.20”, rather than an unqualified version.
 

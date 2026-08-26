@@ -45,6 +45,11 @@ class update_grade_category extends external_api {
             'name' => new external_value(PARAM_TEXT, 'Grade category name', VALUE_DEFAULT, null, NULL_ALLOWED),
             'aggregation' => new external_value(PARAM_INT, 'Moodle aggregation constant', VALUE_DEFAULT, null, NULL_ALLOWED),
             'hidden' => new external_value(PARAM_BOOL, 'Hidden state', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'grade_pass' => new external_value(PARAM_FLOAT, 'Passing category total grade', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'grade_max' => new external_value(PARAM_FLOAT, 'Maximum category total grade', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'exclude_empty_grades' => new external_value(PARAM_BOOL, 'Whether ungraded items are excluded from aggregation', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'keep_highest' => new external_value(PARAM_INT, 'Number of highest grades kept', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'drop_lowest' => new external_value(PARAM_INT, 'Number of lowest grades dropped', VALUE_DEFAULT, null, NULL_ALLOWED),
         ]);
     }
 
@@ -56,21 +61,47 @@ class update_grade_category extends external_api {
      * @param string|null $name Name.
      * @param int|null $aggregation Aggregation.
      * @param bool|null $hidden Hidden.
+     * @param float|null $gradepass Gradepass.
+     * @param float|null $grademax Grademax.
+     * @param bool|null $excludeemptygrades Excludeemptygrades.
+     * @param int|null $keephighest Keephighest.
+     * @param int|null $droplowest Droplowest.
      * @return array
      */
-    public static function execute(int $courseid, int $categoryid, ?string $name = null, ?int $aggregation = null, ?bool $hidden = null): array {
+    public static function execute(
+        int $courseid,
+        int $categoryid,
+        ?string $name = null,
+        ?int $aggregation = null,
+        ?bool $hidden = null,
+        ?float $gradepass = null,
+        ?float $grademax = null,
+        ?bool $excludeemptygrades = null,
+        ?int $keephighest = null,
+        ?int $droplowest = null
+    ): array {
         [
             'course_id' => $courseid,
             'category_id' => $categoryid,
             'name' => $categoryname,
             'aggregation' => $categoryaggregation,
             'hidden' => $categoryhidden,
+            'grade_pass' => $gradepass,
+            'grade_max' => $grademax,
+            'exclude_empty_grades' => $excludeemptygrades,
+            'keep_highest' => $keephighest,
+            'drop_lowest' => $droplowest,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'category_id' => $categoryid,
             'name' => $name,
             'aggregation' => $aggregation,
             'hidden' => $hidden,
+            'grade_pass' => $gradepass,
+            'grade_max' => $grademax,
+            'exclude_empty_grades' => $excludeemptygrades,
+            'keep_highest' => $keephighest,
+            'drop_lowest' => $droplowest,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -86,7 +117,12 @@ class update_grade_category extends external_api {
             (int) $categoryid,
             $categoryname,
             $categoryaggregation === null ? null : (int) $categoryaggregation,
-            $categoryhidden
+            $categoryhidden,
+            $gradepass === null ? null : (float) $gradepass,
+            $grademax === null ? null : (float) $grademax,
+            $excludeemptygrades,
+            $keephighest === null ? null : (int) $keephighest,
+            $droplowest === null ? null : (int) $droplowest
         );
     }
 

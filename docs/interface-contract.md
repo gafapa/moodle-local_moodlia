@@ -1125,7 +1125,7 @@ Do not expose secrets, local filesystem paths, stack traces, or raw token values
 - Parameters: `course_id`.
 - Context: course.
 - Capabilities: `moodle/grade:viewall`.
-- Returns gradebook item ids, names, and category names using Moodle's gradebook APIs.
+- Returns gradebook item ids, names, type, owning activity, grade range, pass grade, category, weight, visibility, lock state, course-total contribution, and modification timestamp using Moodle's gradebook APIs.
 
 `get_user_grades`
 
@@ -1139,18 +1139,18 @@ Do not expose secrets, local filesystem paths, stack traces, or raw token values
 - Parameters: `course_id`.
 - Context: course.
 - Capabilities: `moodle/grade:viewall`.
-- Returns Gradebook categories for the selected course with category id, name, aggregation constant, hidden state, and modification timestamp.
+- Returns Gradebook categories for the selected course with category id, name, aggregation constant, hidden state, empty-grade handling, keep/drop rules, and total-item grade settings.
 
 `create_grade_category`
 
-- Parameters: `course_id`, `name`, optional `aggregation`.
+- Parameters: `course_id`, `name`, optional `aggregation`, optional `grade_pass`, optional `grade_max`, optional `exclude_empty_grades`.
 - Context: course.
 - Capabilities: `moodle/grade:manage`.
 - Creates a Moodle Gradebook category through Moodle's grade category API and returns normalized category metadata.
 
 `update_grade_category`
 
-- Parameters: `course_id`, `category_id`, optional `name`, optional `aggregation`, optional `hidden`.
+- Parameters: `course_id`, `category_id`, optional `name`, optional `aggregation`, optional `hidden`, optional `grade_pass`, optional `grade_max`, optional `exclude_empty_grades`, optional `keep_highest`, optional `drop_lowest`.
 - Context: course.
 - Capabilities: `moodle/grade:manage`.
 - Updates a Moodle Gradebook category through Moodle's grade category API and returns normalized category metadata.
@@ -1167,14 +1167,35 @@ Do not expose secrets, local filesystem paths, stack traces, or raw token values
 - Parameters: `course_id`, `name`, optional `grade_max`, optional `grade_min`, optional `grade_pass`, optional `category_id`, optional `hidden`.
 - Context: course.
 - Capabilities: `moodle/grade:manage`.
-- Creates a manual Gradebook item. MoodlIA does not use this operation to create or mutate module-owned grade items.
+- Creates a manual Gradebook item. Module-owned grade items remain owned by their Moodle activity.
 
 `update_grade_item`
 
-- Parameters: `course_id`, `item_id`, optional `name`, optional `grade_max`, optional `grade_min`, optional `grade_pass`, optional `category_id`, optional `hidden`, optional `locked`.
+- Parameters: `course_id`, `item_id`, optional `name`, optional `grade_max`, optional `grade_min`, optional `grade_pass`, optional `category_id`, optional `hidden`, optional `locked`, optional `weight`.
 - Context: course.
 - Capabilities: `moodle/grade:manage`.
-- Updates only manual Gradebook items. Module-owned grade items must be changed through their owning activity.
+- Updates manual grade items and safe gradebook settings for module-owned items. For module-owned items, MoodlIA supports `grade_pass`, `category_id`, `weight`, `hidden`, and `locked`; names and grade ranges remain controlled by the owning activity.
+
+`set_course_grade_pass`
+
+- Parameters: `course_id`, exactly one of `grade_pass` or `grade_pass_percent`.
+- Context: course.
+- Capabilities: `moodle/grade:manage`.
+- Sets the passing threshold of the course total and returns the total item configuration.
+
+`get_course_completion_criteria`
+
+- Parameters: `course_id`.
+- Context: course.
+- Capabilities: `moodle/course:view`.
+- Returns the global completion rule, required course modules, grade criterion, course-total threshold, and whether Moodle has locked the criteria.
+
+`set_course_completion_criteria`
+
+- Parameters: `course_id`, optional `required_module_ids`, optional `require_all_activities`, optional `required_course_grade_percent`, optional `criteria_aggregation`.
+- Context: course.
+- Capabilities: `moodle/course:update`, `moodle/grade:manage`.
+- Replaces an unlocked course's global completion criteria. Required modules must have activity completion tracking enabled. The operation refuses locked criteria to preserve existing completion records.
 
 `delete_grade_item`
 

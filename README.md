@@ -154,7 +154,7 @@ This is useful for LLM clients that can connect to an MCP server and need struct
 
 ## Capabilities
 
-This release exposes 240 Moodle external functions.
+This release exposes 243 Moodle external functions.
 
 Major operation areas include:
 

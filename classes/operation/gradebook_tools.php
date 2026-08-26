@@ -42,16 +42,41 @@ class gradebook_tools {
     /**
      * Convert Moodle grade item data to the canonical response shape.
      *
-     * @param mixed $item Item.
+     * @param \grade_item $item Item.
      * @return array
      */
-    public static function grade_item_to_response($item): array {
-        $item = self::to_array($item);
+    public static function grade_item_to_response(\grade_item $item): array {
+        $coursemoduleid = 0;
+        if (($item->itemtype ?? '') === 'mod' && !empty($item->itemmodule) && !empty($item->iteminstance)) {
+            $coursemodule = get_coursemodule_from_instance(
+                (string) $item->itemmodule,
+                (int) $item->iteminstance,
+                (int) $item->courseid,
+                false,
+                IGNORE_MISSING
+            );
+            $coursemoduleid = $coursemodule ? (int) $coursemodule->id : 0;
+        }
 
         return [
-            'item_id' => (int) ($item['id'] ?? 0),
-            'name' => (string) ($item['itemname'] ?? ''),
-            'category' => (string) ($item['category'] ?? ''),
+            'item_id' => (int) $item->id,
+            'course_id' => (int) $item->courseid,
+            'category_id' => (int) ($item->categoryid ?? 0),
+            'name' => (string) ($item->itemname ?? ''),
+            'item_type' => (string) ($item->itemtype ?? ''),
+            'item_module' => (string) ($item->itemmodule ?? ''),
+            'item_instance' => (int) ($item->iteminstance ?? 0),
+            'item_number' => (int) ($item->itemnumber ?? 0),
+            'course_module_id' => $coursemoduleid,
+            'grade_min' => (float) ($item->grademin ?? 0),
+            'grade_max' => (float) ($item->grademax ?? 0),
+            'grade_pass' => (float) ($item->gradepass ?? 0),
+            'weight' => (float) ($item->aggregationcoef2 ?? 0),
+            'weight_overridden' => (bool) ($item->weightoverride ?? false),
+            'hidden' => (bool) ($item->hidden ?? false),
+            'locked' => (bool) ($item->locked ?? false),
+            'contributes_to_course_total' => !in_array((string) ($item->itemtype ?? ''), ['course'], true),
+            'time_modified' => (int) ($item->timemodified ?? 0),
         ];
     }
 
@@ -62,12 +87,22 @@ class gradebook_tools {
      * @return array
      */
     public static function grade_category_to_response(\grade_category $category): array {
+        $totalitem = $category->get_grade_item();
+
         return [
             'category_id' => (int) $category->id,
             'course_id' => (int) $category->courseid,
             'name' => (string) $category->fullname,
             'aggregation' => (int) $category->aggregation,
+            'exclude_empty_grades' => (bool) ($category->aggregateonlygraded ?? false),
+            'keep_highest' => (int) ($category->keephigh ?? 0),
+            'drop_lowest' => (int) ($category->droplow ?? 0),
+            'total_item_id' => (int) $totalitem->id,
+            'grade_min' => (float) ($totalitem->grademin ?? 0),
+            'grade_max' => (float) ($totalitem->grademax ?? 0),
+            'grade_pass' => (float) ($totalitem->gradepass ?? 0),
             'hidden' => (bool) $category->hidden,
+            'locked' => (bool) ($totalitem->locked ?? false),
             'time_modified' => (int) $category->timemodified,
         ];
     }
@@ -79,19 +114,7 @@ class gradebook_tools {
      * @return array
      */
     public static function manual_grade_item_to_response(\grade_item $item): array {
-        return [
-            'item_id' => (int) $item->id,
-            'course_id' => (int) $item->courseid,
-            'category_id' => (int) ($item->categoryid ?? 0),
-            'name' => (string) ($item->itemname ?? ''),
-            'item_type' => (string) ($item->itemtype ?? ''),
-            'grade_min' => (float) ($item->grademin ?? 0),
-            'grade_max' => (float) ($item->grademax ?? 0),
-            'grade_pass' => (float) ($item->gradepass ?? 0),
-            'hidden' => (bool) ($item->hidden ?? false),
-            'locked' => (bool) ($item->locked ?? false),
-            'time_modified' => (int) ($item->timemodified ?? 0),
-        ];
+        return self::grade_item_to_response($item);
     }
 
     /**

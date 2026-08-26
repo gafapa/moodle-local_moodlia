@@ -201,6 +201,15 @@ final class manifest {
                 ]),
             ],
             [
+                'name' => 'set_course_grade_pass',
+                'description' => 'Set the Moodle course total passing grade by grade or percentage.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'grade_pass' => ['type' => 'number', 'required' => false],
+                    'grade_pass_percent' => ['type' => 'number', 'required' => false],
+                ]),
+            ],
+            [
                 'name' => 'get_user_grades',
                 'description' => 'Return Moodle gradebook grades for a user in a course.',
                 'inputSchema' => self::schema([
@@ -223,6 +232,9 @@ final class manifest {
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'name' => ['type' => 'string', 'required' => true],
                     'aggregation' => ['type' => 'integer', 'required' => false],
+                    'grade_pass' => ['type' => 'number', 'required' => false],
+                    'grade_max' => ['type' => 'number', 'required' => false],
+                    'exclude_empty_grades' => ['type' => 'boolean', 'required' => false],
                 ]),
             ],
             [
@@ -234,6 +246,11 @@ final class manifest {
                     'name' => ['type' => 'string', 'required' => false],
                     'aggregation' => ['type' => 'integer', 'required' => false],
                     'hidden' => ['type' => 'boolean', 'required' => false],
+                    'grade_pass' => ['type' => 'number', 'required' => false],
+                    'grade_max' => ['type' => 'number', 'required' => false],
+                    'exclude_empty_grades' => ['type' => 'boolean', 'required' => false],
+                    'keep_highest' => ['type' => 'integer', 'required' => false],
+                    'drop_lowest' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -259,7 +276,7 @@ final class manifest {
             ],
             [
                 'name' => 'update_grade_item',
-                'description' => 'Update a manual Moodle gradebook item.',
+                'description' => 'Update safe settings for a Moodle gradebook item.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'item_id' => ['type' => 'integer', 'required' => true],
@@ -270,6 +287,7 @@ final class manifest {
                     'category_id' => ['type' => 'integer', 'required' => false],
                     'hidden' => ['type' => 'boolean', 'required' => false],
                     'locked' => ['type' => 'boolean', 'required' => false],
+                    'weight' => ['type' => 'number', 'required' => false],
                 ]),
             ],
             [
@@ -289,6 +307,24 @@ final class manifest {
                     'user_id' => ['type' => 'integer', 'required' => true],
                     'grade' => ['type' => 'number', 'required' => true],
                     'feedback' => ['type' => 'string', 'required' => false],
+                ]),
+            ],
+            [
+                'name' => 'get_course_completion_criteria',
+                'description' => 'Return the global completion criteria configured for a Moodle course.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                ]),
+            ],
+            [
+                'name' => 'set_course_completion_criteria',
+                'description' => 'Set global activity and course-grade completion criteria for an unlocked Moodle course.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'required_module_ids' => ['type' => 'array', 'items' => ['type' => 'integer'], 'required' => false],
+                    'require_all_activities' => ['type' => 'boolean', 'required' => false],
+                    'required_course_grade_percent' => ['type' => 'number', 'required' => false],
+                    'criteria_aggregation' => ['type' => 'string', 'required' => false, 'enum' => ['all', 'any']],
                 ]),
             ],
             [
@@ -2453,6 +2489,9 @@ final class manifest {
 
             if (!empty($definition['enum'])) {
                 $properties[$name]['enum'] = $definition['enum'];
+            }
+            if (!empty($definition['items'])) {
+                $properties[$name]['items'] = $definition['items'];
             }
 
             if (!empty($definition['required'])) {

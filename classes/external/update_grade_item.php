@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Update manual grade item external function.
+ * Update grade item external function.
  *
  * @package    local_moodlia
  * @copyright  2026 Pablo Gallego
@@ -49,6 +49,7 @@ class update_grade_item extends external_api {
             'category_id' => new external_value(PARAM_INT, 'Grade category id', VALUE_DEFAULT, null, NULL_ALLOWED),
             'hidden' => new external_value(PARAM_BOOL, 'Hidden state', VALUE_DEFAULT, null, NULL_ALLOWED),
             'locked' => new external_value(PARAM_BOOL, 'Locked state', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'weight' => new external_value(PARAM_FLOAT, 'Parent-category aggregation weight', VALUE_DEFAULT, null, NULL_ALLOWED),
         ]);
     }
 
@@ -64,6 +65,7 @@ class update_grade_item extends external_api {
      * @param int|null $categoryid Categoryid.
      * @param bool|null $hidden Hidden.
      * @param bool|null $locked Locked.
+     * @param float|null $weight Weight.
      * @return array
      */
     public static function execute(
@@ -75,7 +77,8 @@ class update_grade_item extends external_api {
         ?float $gradepass = null,
         ?int $categoryid = null,
         ?bool $hidden = null,
-        ?bool $locked = null
+        ?bool $locked = null,
+        ?float $weight = null
     ): array {
         [
             'course_id' => $courseid,
@@ -87,6 +90,7 @@ class update_grade_item extends external_api {
             'category_id' => $categoryid,
             'hidden' => $itemhidden,
             'locked' => $itemlocked,
+            'weight' => $itemweight,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'item_id' => $itemid,
@@ -97,6 +101,7 @@ class update_grade_item extends external_api {
             'category_id' => $categoryid,
             'hidden' => $hidden,
             'locked' => $locked,
+            'weight' => $weight,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -116,7 +121,8 @@ class update_grade_item extends external_api {
             $gradepass === null ? null : (float) $gradepass,
             $categoryid === null ? null : (int) $categoryid,
             $itemhidden,
-            $itemlocked
+            $itemlocked,
+            $itemweight === null ? null : (float) $itemweight
         );
     }
 

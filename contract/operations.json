@@ -1098,8 +1098,23 @@
         "items": [
           {
             "item_id": "integer",
+            "course_id": "integer",
+            "category_id": "integer",
             "name": "string",
-            "category": "string"
+            "item_type": "string",
+            "item_module": "string",
+            "item_instance": "integer",
+            "item_number": "integer",
+            "course_module_id": "integer",
+            "grade_min": "number",
+            "grade_max": "number",
+            "grade_pass": "number",
+            "weight": "number",
+            "weight_overridden": "boolean",
+            "hidden": "boolean",
+            "locked": "boolean",
+            "contributes_to_course_total": "boolean",
+            "time_modified": "integer"
           }
         ]
       },
@@ -1117,6 +1132,73 @@
         "mcp",
         "cli",
         "browser"
+      ]
+    },
+    {
+      "name": "set_course_grade_pass",
+      "summary": "Set the Moodle course total passing grade by absolute grade or percentage.",
+      "type": "write",
+      "context": "course",
+      "capabilities": [
+        "moodle/grade:manage"
+      ],
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "none",
+      "parameters": {
+        "course_id": {
+          "type": "integer",
+          "required": true,
+          "minimum": 1
+        },
+        "grade_pass": {
+          "type": "number",
+          "required": false,
+          "minimum": 0
+        },
+        "grade_pass_percent": {
+          "type": "number",
+          "required": false,
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "returns": {
+        "item_id": "integer",
+        "course_id": "integer",
+        "category_id": "integer",
+        "name": "string",
+        "item_type": "string",
+        "item_module": "string",
+        "item_instance": "integer",
+        "item_number": "integer",
+        "course_module_id": "integer",
+        "grade_min": "number",
+        "grade_max": "number",
+        "grade_pass": "number",
+        "weight": "number",
+        "weight_overridden": "boolean",
+        "hidden": "boolean",
+        "locked": "boolean",
+        "contributes_to_course_total": "boolean",
+        "time_modified": "integer"
+      },
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "not_found",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli"
       ]
     },
     {
@@ -1185,6 +1267,135 @@
         "mcp",
         "cli",
         "browser"
+      ]
+    },
+    {
+      "name": "get_course_completion_criteria",
+      "summary": "Return the global completion criteria configured for a Moodle course.",
+      "type": "read",
+      "context": "course",
+      "capabilities": [
+        "moodle/course:view"
+      ],
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "none",
+      "parameters": {
+        "course_id": {
+          "type": "integer",
+          "required": true,
+          "minimum": 1
+        }
+      },
+      "returns": {
+        "course_id": "integer",
+        "course_completion_enabled": "boolean",
+        "criteria_locked": "boolean",
+        "criteria_aggregation": "string",
+        "activity_aggregation": "string",
+        "required_module_ids": ["integer"],
+        "criteria_count": "integer",
+        "grade_criterion_enabled": "boolean",
+        "required_course_grade": "number",
+        "required_course_grade_percent": "number",
+        "course_grade_pass": "number",
+        "course_grade_pass_percent": "number",
+        "course_grade_min": "number",
+        "course_grade_max": "number"
+      },
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "not_found",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli"
+      ]
+    },
+    {
+      "name": "set_course_completion_criteria",
+      "summary": "Set global activity and course-grade completion criteria for an unlocked Moodle course.",
+      "type": "write",
+      "context": "course",
+      "capabilities": [
+        "moodle/course:update",
+        "moodle/grade:manage"
+      ],
+      "capability_mode": "all",
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "none",
+      "parameters": {
+        "course_id": {
+          "type": "integer",
+          "required": true,
+          "minimum": 1
+        },
+        "required_module_ids": {
+          "type": "array",
+          "required": false,
+          "items": "integer"
+        },
+        "require_all_activities": {
+          "type": "boolean",
+          "required": false
+        },
+        "required_course_grade_percent": {
+          "type": "number",
+          "required": false,
+          "minimum": 0,
+          "maximum": 100
+        },
+        "criteria_aggregation": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "all",
+            "any"
+          ]
+        }
+      },
+      "returns": {
+        "course_id": "integer",
+        "course_completion_enabled": "boolean",
+        "criteria_locked": "boolean",
+        "criteria_aggregation": "string",
+        "activity_aggregation": "string",
+        "required_module_ids": ["integer"],
+        "criteria_count": "integer",
+        "grade_criterion_enabled": "boolean",
+        "required_course_grade": "number",
+        "required_course_grade_percent": "number",
+        "course_grade_pass": "number",
+        "course_grade_pass_percent": "number",
+        "course_grade_min": "number",
+        "course_grade_max": "number"
+      },
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "not_found",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli"
       ]
     },
     {
@@ -1340,7 +1551,15 @@
             "course_id": "integer",
             "name": "string",
             "aggregation": "integer",
+            "exclude_empty_grades": "boolean",
+            "keep_highest": "integer",
+            "drop_lowest": "integer",
+            "total_item_id": "integer",
+            "grade_min": "number",
+            "grade_max": "number",
+            "grade_pass": "number",
             "hidden": "boolean",
+            "locked": "boolean",
             "time_modified": "integer"
           }
         ]
@@ -1387,6 +1606,20 @@
         "aggregation": {
           "type": "integer",
           "required": false
+        },
+        "grade_pass": {
+          "type": "number",
+          "required": false,
+          "minimum": 0
+        },
+        "grade_max": {
+          "type": "number",
+          "required": false,
+          "minimum": 0
+        },
+        "exclude_empty_grades": {
+          "type": "boolean",
+          "required": false
         }
       },
       "returns": {
@@ -1394,7 +1627,15 @@
         "course_id": "integer",
         "name": "string",
         "aggregation": "integer",
+        "exclude_empty_grades": "boolean",
+        "keep_highest": "integer",
+        "drop_lowest": "integer",
+        "total_item_id": "integer",
+        "grade_min": "number",
+        "grade_max": "number",
+        "grade_pass": "number",
         "hidden": "boolean",
+        "locked": "boolean",
         "time_modified": "integer"
       },
       "errors": [
@@ -1448,6 +1689,30 @@
         "hidden": {
           "type": "boolean",
           "required": false
+        },
+        "grade_pass": {
+          "type": "number",
+          "required": false,
+          "minimum": 0
+        },
+        "grade_max": {
+          "type": "number",
+          "required": false,
+          "minimum": 0
+        },
+        "exclude_empty_grades": {
+          "type": "boolean",
+          "required": false
+        },
+        "keep_highest": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
+        },
+        "drop_lowest": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
         }
       },
       "returns": {
@@ -1455,7 +1720,15 @@
         "course_id": "integer",
         "name": "string",
         "aggregation": "integer",
+        "exclude_empty_grades": "boolean",
+        "keep_highest": "integer",
+        "drop_lowest": "integer",
+        "total_item_id": "integer",
+        "grade_min": "number",
+        "grade_max": "number",
+        "grade_pass": "number",
         "hidden": "boolean",
+        "locked": "boolean",
         "time_modified": "integer"
       },
       "errors": [
@@ -1574,11 +1847,18 @@
         "category_id": "integer",
         "name": "string",
         "item_type": "string",
+        "item_module": "string",
+        "item_instance": "integer",
+        "item_number": "integer",
+        "course_module_id": "integer",
         "grade_min": "number",
         "grade_max": "number",
         "grade_pass": "number",
+        "weight": "number",
+        "weight_overridden": "boolean",
         "hidden": "boolean",
         "locked": "boolean",
+        "contributes_to_course_total": "boolean",
         "time_modified": "integer"
       },
       "errors": [
@@ -1598,7 +1878,7 @@
     },
     {
       "name": "update_grade_item",
-      "summary": "Update a manual Moodle gradebook item.",
+      "summary": "Update safe settings for a Moodle gradebook item, including module-owned items.",
       "type": "write",
       "context": "course",
       "capabilities": [
@@ -1652,6 +1932,11 @@
         "locked": {
           "type": "boolean",
           "required": false
+        },
+        "weight": {
+          "type": "number",
+          "required": false,
+          "minimum": 0
         }
       },
       "returns": {
@@ -1660,11 +1945,18 @@
         "category_id": "integer",
         "name": "string",
         "item_type": "string",
+        "item_module": "string",
+        "item_instance": "integer",
+        "item_number": "integer",
+        "course_module_id": "integer",
         "grade_min": "number",
         "grade_max": "number",
         "grade_pass": "number",
+        "weight": "number",
+        "weight_overridden": "boolean",
         "hidden": "boolean",
         "locked": "boolean",
+        "contributes_to_course_total": "boolean",
         "time_modified": "integer"
       },
       "errors": [

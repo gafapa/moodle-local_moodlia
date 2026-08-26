@@ -2,6 +2,15 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
+## 0.1.195 - 2026-08-26
+
+- Added course-total passing-grade configuration and global course completion
+  criteria across REST, MCP, and the CLI contract.
+- Added safe gradebook updates for module-owned grade items, including passing
+  grades, category placement, aggregation weights, visibility, and locking.
+- Expanded grade item and category responses with the settings required to
+  verify gradebook and completion configuration.
+
 ## 0.1.194 - 2026-08-21
 
 - Added explicit `html` and `plain` summary formats to section creation and

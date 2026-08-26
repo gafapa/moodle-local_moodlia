@@ -43,6 +43,9 @@ class create_grade_category extends external_api {
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
             'name' => new external_value(PARAM_TEXT, 'Grade category name'),
             'aggregation' => new external_value(PARAM_INT, 'Moodle aggregation constant', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'grade_pass' => new external_value(PARAM_FLOAT, 'Passing category total grade', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'grade_max' => new external_value(PARAM_FLOAT, 'Maximum category total grade', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'exclude_empty_grades' => new external_value(PARAM_BOOL, 'Whether ungraded items are excluded from aggregation', VALUE_DEFAULT, null, NULL_ALLOWED),
         ]);
     }
 
@@ -52,17 +55,33 @@ class create_grade_category extends external_api {
      * @param int $courseid Courseid.
      * @param string $name Name.
      * @param int|null $aggregation Aggregation.
+     * @param float|null $gradepass Gradepass.
+     * @param float|null $grademax Grademax.
+     * @param bool|null $excludeemptygrades Excludeemptygrades.
      * @return array
      */
-    public static function execute(int $courseid, string $name, ?int $aggregation = null): array {
+    public static function execute(
+        int $courseid,
+        string $name,
+        ?int $aggregation = null,
+        ?float $gradepass = null,
+        ?float $grademax = null,
+        ?bool $excludeemptygrades = null
+    ): array {
         [
             'course_id' => $courseid,
             'name' => $categoryname,
             'aggregation' => $categoryaggregation,
+            'grade_pass' => $gradepass,
+            'grade_max' => $grademax,
+            'exclude_empty_grades' => $excludeemptygrades,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'name' => $name,
             'aggregation' => $aggregation,
+            'grade_pass' => $gradepass,
+            'grade_max' => $grademax,
+            'exclude_empty_grades' => $excludeemptygrades,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -73,7 +92,14 @@ class create_grade_category extends external_api {
         self::validate_context($coursecontext);
         require_capability('moodle/grade:manage', $coursecontext);
 
-        return create_grade_category_operation::execute((int) $courseid, (string) $categoryname, $categoryaggregation === null ? null : (int) $categoryaggregation);
+        return create_grade_category_operation::execute(
+            (int) $courseid,
+            (string) $categoryname,
+            $categoryaggregation === null ? null : (int) $categoryaggregation,
+            $gradepass === null ? null : (float) $gradepass,
+            $grademax === null ? null : (float) $grademax,
+            $excludeemptygrades
+        );
     }
 
     /**
