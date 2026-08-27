@@ -2,6 +2,12 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
+## 0.1.198 - 2026-08-27
+
+- Added the grade-pass and global course-completion operations to the default
+  `local_moodlia` external service so existing authorised tokens can invoke
+  them after the plugin upgrade.
+
 ## 0.1.197 - 2026-08-27
 
 - Fixed the Moodle coding-style format of the grade-item validation condition.
