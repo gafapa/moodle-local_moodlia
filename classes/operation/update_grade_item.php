@@ -107,8 +107,10 @@ class update_grade_item {
             $item->weightoverride = 1;
         }
 
-        if (($gradepass !== null || $grademin !== null || $grademax !== null)
-            && ($item->gradepass < (float) $item->grademin || $item->gradepass > (float) $item->grademax)) {
+        if (
+            ($gradepass !== null || $grademin !== null || $grademax !== null)
+            && ($item->gradepass < (float) $item->grademin || $item->gradepass > (float) $item->grademax)
+        ) {
             throw new \invalid_parameter_exception('grade_pass must be inside the grade item range.');
         }
 

@@ -2,6 +2,10 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
+## 0.1.197 - 2026-08-27
+
+- Fixed the Moodle coding-style format of the grade-item validation condition.
+
 ## 0.1.196 - 2026-08-27
 
 - Restored the complete Moodle source boilerplate in the new course-completion
