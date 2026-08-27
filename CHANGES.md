@@ -2,6 +2,12 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
+## 0.1.196 - 2026-08-27
+
+- Restored the complete Moodle source boilerplate in the new course-completion
+  classes so the official Moodle coding-style check can run successfully.
+- Made the GitHub release workflow idempotent when a release already exists.
+
 ## 0.1.195 - 2026-08-26
 
 - Added course-total passing-grade configuration and global course completion

@@ -41,10 +41,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           RELEASE="${GITHUB_REF_NAME#v}"
-          gh release create "$GITHUB_REF_NAME" \
-            "empaquetado/local_moodlia-${RELEASE}.zip" \
-            "empaquetado/SHA256SUMS.txt" \
-            --verify-tag \
-            --generate-notes \
-            --prerelease \
-            --title "MoodlIA ${RELEASE}"
+          ASSETS=(
+            "empaquetado/local_moodlia-${RELEASE}.zip"
+            "empaquetado/SHA256SUMS.txt"
+          )
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "${ASSETS[@]}" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" "${ASSETS[@]}" \
+              --verify-tag \
+              --generate-notes \
+              --prerelease \
+              --title "MoodlIA ${RELEASE}"
+          fi
