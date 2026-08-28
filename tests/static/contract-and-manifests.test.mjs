@@ -74,6 +74,7 @@ test('section updates preserve the stored format and resolve section-file URLs',
   assert.doesNotMatch(operationSource, /format_to_constant\(\$summaryformat \?\? 'plain'\)/);
   assert.match(sectionToolsSource, /file_rewrite_pluginfile_urls\(/);
   assert.match(sectionToolsSource, /'course',\s*'section'/);
+  assert.match(sectionToolsSource, /'clean'\s*=>\s*false/);
 });
 
 test('gradebook and course completion operations expose the global configuration contract', async () => {

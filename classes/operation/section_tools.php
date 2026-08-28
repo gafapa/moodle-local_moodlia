@@ -110,7 +110,11 @@ class section_tools {
         return format_text(
             $summary,
             $section->summaryformat ?? FORMAT_HTML,
-            ['context' => $coursecontext]
+            [
+                'context' => $coursecontext,
+                // The API response must retain supported portable HTML elements.
+                'clean' => false,
+            ]
         );
     }
 

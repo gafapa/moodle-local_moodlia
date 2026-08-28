@@ -2,6 +2,11 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
+## 0.1.200 - 2026-08-28
+
+- Kept portable HTML section summaries intact in MoodlIA API responses so
+  `<details>` and `<summary>` elements render for REST and MCP consumers.
+
 ## 0.1.199 - 2026-08-28
 
 - Preserved the existing section summary format when a section summary is
