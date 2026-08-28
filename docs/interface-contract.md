@@ -573,7 +573,7 @@ Do not expose secrets, local filesystem paths, stack traces, or raw token values
 - Parameters: `course_id`, `section_id` or `section_number`, optional `name`, optional `summary`, optional `summary_format` (`html` or `plain`), optional `visible`.
 - Context: course.
 - Returns: updated section summary including rendered summary, stored summary format, and visibility.
-- Uses Moodle's `course_update_section` API. It must not write directly to course section tables.
+- Uses Moodle's `course_update_section` API. It must not write directly to course section tables. `summary_format` requires `summary`; when it is omitted, updating `summary` retains the section's stored format. Existing section files remain in place and `@@PLUGINFILE@@` references are resolved in the returned rendered summary.
 
 `delete_section`
 

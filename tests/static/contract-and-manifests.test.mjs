@@ -64,6 +64,18 @@ test('section summary inputs preserve HTML through the REST adapters', async () 
   }
 });
 
+test('section updates preserve the stored format and resolve section-file URLs', async () => {
+  const [operationSource, sectionToolsSource] = await Promise.all([
+    fs.readFile(fromRoot('classes/operation/update_section.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/section_tools.php'), 'utf8')
+  ]);
+
+  assert.match(operationSource, /\$section->summaryformat/);
+  assert.doesNotMatch(operationSource, /format_to_constant\(\$summaryformat \?\? 'plain'\)/);
+  assert.match(sectionToolsSource, /file_rewrite_pluginfile_urls\(/);
+  assert.match(sectionToolsSource, /'course',\s*'section'/);
+});
+
 test('gradebook and course completion operations expose the global configuration contract', async () => {
   const contract = await loadContract();
   const operations = Object.fromEntries(contract.operations.map((operation) => [operation.name, operation]));

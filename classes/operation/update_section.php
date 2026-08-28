@@ -63,7 +63,9 @@ class update_section {
 
         if ($summary !== null) {
             $data['summary'] = $summary;
-            $data['summaryformat'] = course_tools::format_to_constant($summaryformat ?? 'plain');
+            $data['summaryformat'] = $summaryformat === null
+                ? (int) ($section->summaryformat ?? FORMAT_HTML)
+                : course_tools::format_to_constant($summaryformat);
         } else if ($summaryformat !== null) {
             throw new \invalid_parameter_exception('summary is required when summary_format is provided.');
         }

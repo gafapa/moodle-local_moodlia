@@ -328,6 +328,14 @@ Create a section:
 moodlia create-section --course-id <course_id> --name "Unit 1" --summary "<p>Introduction.</p>" --summary-format html --visible true
 ```
 
+Update a section with HTML while preserving native Moodle section files:
+
+```text
+moodlia update-section --course-id <course_id> --section-id <section_id> --summary "<details><summary>More information</summary><p>Open this section for details.</p></details>" --summary-format html --format json
+```
+
+If `--summary-format` is omitted, the update retains the section's existing summary format. Use `html` for real HTML; `plain` stores plain text.
+
 Some Moodle course formats or plugin combinations may reject direct section creation. In that case, create `subsection` modules and use the generated section numbers as placement targets:
 
 ```text

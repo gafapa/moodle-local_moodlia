@@ -78,21 +78,40 @@ class section_tools {
      * @return array
      */
     public static function to_response(\stdClass $course, \section_info $section): array {
-        $coursecontext = \context_course::instance((int) $course->id);
-
         return [
             'section_id' => (int) $section->id,
             'course_id' => (int) $course->id,
             'section_number' => (int) $section->section,
             'name' => get_section_name($course, $section),
-            'summary' => format_text(
-                $section->summary ?? '',
-                $section->summaryformat ?? FORMAT_HTML,
-                ['context' => $coursecontext]
-            ),
+            'summary' => self::render_summary($course, $section),
             'summary_format' => course_tools::format_from_constant((int) ($section->summaryformat ?? FORMAT_HTML)),
             'visible' => (bool) $section->visible,
         ];
+    }
+
+    /**
+     * Render a section summary and resolve its existing section-file references.
+     *
+     * @param \stdClass $course Course.
+     * @param \section_info $section Section.
+     * @return string
+     */
+    public static function render_summary(\stdClass $course, \section_info $section): string {
+        $coursecontext = \context_course::instance((int) $course->id);
+        $summary = file_rewrite_pluginfile_urls(
+            (string) ($section->summary ?? ''),
+            'pluginfile.php',
+            $coursecontext->id,
+            'course',
+            'section',
+            (int) $section->id
+        );
+
+        return format_text(
+            $summary,
+            $section->summaryformat ?? FORMAT_HTML,
+            ['context' => $coursecontext]
+        );
     }
 
     /**

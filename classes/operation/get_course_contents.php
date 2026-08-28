@@ -37,7 +37,6 @@ class get_course_contents {
     public static function execute(int $courseid): array {
         $course = section_tools::get_course($courseid);
         $modinfo = get_fast_modinfo($course);
-        $coursecontext = \context_course::instance($course->id);
         $sections = [];
 
         foreach ($modinfo->get_section_info_all() as $section) {
@@ -69,7 +68,7 @@ class get_course_contents {
                 'course_id' => (int) $course->id,
                 'section_number' => (int) $section->section,
                 'name' => get_section_name($course, $section),
-                'summary' => format_text($section->summary ?? '', $section->summaryformat ?? FORMAT_HTML, ['context' => $coursecontext]),
+                'summary' => section_tools::render_summary($course, $section),
                 'visible' => (bool) $section->visible,
                 'modules' => $modules,
             ];

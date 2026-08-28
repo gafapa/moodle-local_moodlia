@@ -2,6 +2,14 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
+## 0.1.199 - 2026-08-28
+
+- Preserved the existing section summary format when a section summary is
+  updated without an explicit format.
+- Rendered HTML section summaries with Moodle's file URL rewriting, preserving
+  existing section files and resolving `@@PLUGINFILE@@` references in responses.
+- Added coverage for portable HTML `<details>` and `<summary>` section content.
+
 ## 0.1.198 - 2026-08-27
 
 - Added the grade-pass and global course-completion operations to the default

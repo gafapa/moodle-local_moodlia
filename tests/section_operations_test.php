@@ -89,6 +89,64 @@ final class section_operations_test extends \advanced_testcase {
     }
 
     /**
+     * Section updates retain the current format and existing section files.
+     */
+    public function test_update_section_renders_html_details_and_retains_section_files(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $created = create_section::execute(
+            (int) $course->id,
+            'HTML section',
+            '<p>Initial summary</p>',
+            'html'
+        );
+        $coursecontext = \context_course::instance((int) $course->id);
+        $filestorage = get_file_storage();
+        $filestorage->create_file_from_string([
+            'contextid' => $coursecontext->id,
+            'component' => 'course',
+            'filearea' => 'section',
+            'itemid' => (int) $created['section_id'],
+            'filepath' => '/',
+            'filename' => 'section-guide.txt',
+        ], 'Section guide');
+        $summary = '<details><summary>Teaching notes</summary><p>Read the '
+            . '<a href="@@PLUGINFILE@@/section-guide.txt">section guide</a>.</p></details>';
+
+        $updated = update_section::execute(
+            (int) $course->id,
+            (int) $created['section_id'],
+            null,
+            null,
+            $summary
+        );
+        $stored = $DB->get_record(
+            'course_sections',
+            ['id' => $created['section_id']],
+            'id, summary, summaryformat',
+            MUST_EXIST
+        );
+
+        $this->assertSame($summary, $stored->summary);
+        $this->assertSame((int) FORMAT_HTML, (int) $stored->summaryformat);
+        $this->assertSame('html', $updated['summary_format']);
+        $this->assertStringContainsString('<details>', $updated['summary']);
+        $this->assertStringContainsString('<summary>Teaching notes</summary>', $updated['summary']);
+        $this->assertStringContainsString('/pluginfile.php/', $updated['summary']);
+        $this->assertStringNotContainsString('@@PLUGINFILE@@', $updated['summary']);
+        $this->assertNotFalse($filestorage->get_file(
+            $coursecontext->id,
+            'course',
+            'section',
+            (int) $created['section_id'],
+            '/',
+            'section-guide.txt'
+        ));
+    }
+
+    /**
      * Updating only the format is rejected because no replacement summary was supplied.
      */
     public function test_update_section_rejects_format_without_summary(): void {
