@@ -86,14 +86,24 @@ after copying the plugin folder.
 
 After installation, enable and configure Moodle web services:
 
-1. Enable Moodle web services if they are not already enabled.
-2. Enable the MoodlIA external service.
-3. Create or assign a token for a user allowed to call MoodlIA.
-4. Grant `local/moodlia:useapi` and the relevant Moodle capabilities for the operations that user should perform.
+1. Enable Moodle web services and the REST protocol.
+2. Create a dedicated service user and a system role that allows
+   `webservice/rest:use` and `local/moodlia:useapi`.
+3. Grant only the course, category, activity, or administrative capabilities
+   required by the intended operations.
+4. Add the user to the restricted **MoodlIA service** external service.
+5. Create a token for that user and service, then store it as a secret.
+
+The detailed
+[user enablement procedure](https://github.com/gafapa/moodle-local_moodlia/blob/main/docs/web-installation.md#enable-a-user-to-use-moodlia)
+also covers role assignment, token restrictions, CLI/MCP configuration, and
+permission troubleshooting.
 
 Plugin administration is intentionally separated from normal course automation. Grant `local/moodlia:manageplugins` only to a dedicated, tightly controlled service account that needs plugin inventory or state operations.
 
-Use a dedicated service user for automation whenever possible. Avoid reusing a full administrator token for external agents unless the environment is strictly controlled.
+Use a dedicated service user for automation whenever possible. Avoid reusing a
+full administrator token for external agents unless the environment is
+strictly controlled.
 
 ## CLI Installation
 

@@ -120,27 +120,179 @@ An unauthenticated browser request is not a functional MCP test. The endpoint
 requires the supported HTTP method, MCP headers, and a Moodle REST token
 authorised for the MoodlIA service.
 
-## Configure Access After Installation
+## Enable a User to Use MoodlIA
 
-Installing the plugin does not grant an external client access to Moodle.
-Complete the following separately:
+MoodlIA is an integration layer, not an activity that a user opens inside a
+course. A user operates it through the `moodlia` CLI, a REST client, or an MCP
+client. Every request runs as the Moodle user that owns the token and is
+limited by that user's Moodle permissions.
 
-1. Enable Moodle web services under **Site administration → General → Advanced
-   features** if they are disabled.
-2. Open **Site administration → Server → Web services → External services** and
-   confirm that **MoodlIA service** is enabled. Its short name is
-   `local_moodlia` and it is restricted to authorised users.
-3. Create a dedicated Moodle user for automation.
-4. Assign `local/moodlia:useapi` at system context and only the Moodle
-   capabilities required by that user's intended operations.
-5. Add the user to **MoodlIA service**.
-6. Create a REST token for that user and service under **Manage tokens**.
-7. Store the token outside source control and test a read-only operation before
-   permitting write operations.
+Use a dedicated service user rather than a site administrator or a teacher's
+personal account. This gives the integration its own audit identity and allows
+its token to be revoked without affecting a human login.
 
-Do not grant `local/moodlia:manageplugins` unless the service user explicitly
-needs plugin inventory or enabled-state operations. Never reuse a full site
-administrator token for general automation.
+### 1. Enable Moodle Web Services and REST
+
+1. Open **Site administration → General → Advanced features**.
+2. Enable **Web services** and save the page.
+3. Open **Site administration → Server → Web services → Manage protocols**.
+4. Enable **REST protocol**. Disable unused protocols.
+
+The public CLI calls Moodle REST directly. The Moodle-hosted MCP endpoint uses
+the same token and operation permissions.
+
+### 2. Create a Dedicated User
+
+Open **Site administration → Users → Accounts → Add a new user** and create an
+account such as `moodlia-service` with:
+
+- A strong, unique password.
+- A real administrator-controlled email address.
+- No site administrator status.
+- No broad system role inherited from an unrelated human account.
+
+The password is used only to manage the account. External clients authenticate
+with the token created later.
+
+### 3. Create the Minimum System Role
+
+Open **Site administration → Users → Permissions → Define roles**, select **Add
+a new role**, choose **No role** as the preset, and continue. Configure:
+
+- Short name: `moodlia_service_user`
+- Custom full name: `MoodlIA service user`
+- Role archetype: **None**
+- Context types where this role may be assigned: **System**
+
+Allow these two capabilities:
+
+| Capability | Why it is required |
+| --- | --- |
+| `webservice/rest:use` | Allows the user to call Moodle through the REST protocol used by the CLI. |
+| `local/moodlia:useapi` | Opens the MoodlIA operation layer for the authenticated user. |
+
+Do not allow `local/moodlia:manageplugins` by default. It is a separate
+administrative capability for plugin inventory and guarded enabled-state
+changes. Add it only to an account created specifically for that purpose.
+
+If the service user must create its own tokens, also allow
+`moodle/webservice:createtoken`. This is not required when an administrator
+creates and manages the token, which is the recommended workflow.
+
+Save the role, then open **Site administration → Users → Permissions → Assign
+system roles**, select **MoodlIA service user**, and add the dedicated account.
+
+### 4. Grant Only the Required Moodle Permissions
+
+The system role above only permits transport and entry into MoodlIA. Every
+operation also checks its normal Moodle capability. Prefer existing,
+scope-limited Moodle roles:
+
+- Enrol the account as a teacher only in courses it must manage.
+- Assign category roles only when it must create or manage courses in that
+  category.
+- Add grade, question-bank, backup, or activity capabilities only when the
+  intended workflow requires them.
+- Avoid assigning Manager at system context merely to make an operation pass.
+
+Examples:
+
+| Intended operation | Additional access typically required |
+| --- | --- |
+| Read a course | Course visibility and `moodle/course:view` |
+| Create or update activities | `moodle/course:manageactivities` in the target course |
+| Manage question banks | The relevant `moodle/question:*` capabilities in the target context |
+| Configure Workshop grading forms | `mod/workshop:editdimensions` in the target course |
+| Back up a course | `moodle/backup:backupcourse` in the source course |
+| Restore a course | `moodle/restore:restorecourse` in the destination course or category; source backup access may also be required |
+
+The [canonical interface contract](interface-contract.md) and the plugin's web
+service definitions are authoritative for the exact capability set of each
+operation.
+
+### 5. Authorise the User for MoodlIA Service
+
+1. Open **Site administration → Server → Web services → External services**.
+2. Locate **MoodlIA service** with short name `local_moodlia`.
+3. Select **Authorised users**.
+4. Select the dedicated account under **Not authorised users** and select
+   **Add**.
+
+MoodlIA service is intentionally restricted to explicitly authorised users.
+Having the role capabilities alone is not enough.
+
+### 6. Create and Protect the Token
+
+1. Open **Site administration → Server → Web services → Manage tokens**.
+2. Select **Create token**.
+3. Enter a descriptive name such as `MoodlIA CLI - curriculum team`.
+4. Select the dedicated user and **MoodlIA service**.
+5. Set an expiry date. Add an IP restriction when the client has a stable
+   address and the restriction is operationally safe.
+6. Save the token and move it immediately into the client's secret store.
+
+Never place a token in documentation, source control, screenshots, shell
+history, issue reports, or chat messages. Create separate tokens for separate
+clients so that one integration can be revoked independently.
+
+### 7. Use the Plugin Through the CLI
+
+Install the public client on the computer that will operate Moodle:
+
+```bash
+npm install -g moodlia
+```
+
+See [CLI Usage](cli-usage.md) for local installation, shell-specific
+configuration, and the full command workflow.
+
+Keep connection settings in environment variables or a protected `.env` file:
+
+```text
+MOODLE_BASE_URL=https://your-moodle.example
+MOODLE_REST_TOKEN=replace-with-the-protected-token
+```
+
+Start with read-only checks:
+
+```bash
+moodlia get-current-user --format json
+moodlia get-moodlia-status --format json
+moodlia get-courses --limit 10 --format json
+```
+
+The returned current user must be the dedicated account, not the administrator
+who created the token.
+
+### 8. Use the Plugin Through MCP
+
+Configure the MCP client with:
+
+```text
+Endpoint: https://your-moodle.example/local/moodlia/mcp.php
+Authentication: Bearer token from MoodlIA service
+```
+
+Store the bearer token using the MCP client's secret mechanism. A compatible
+client discovers the server, lists tools, and calls them using the same
+operation names and permissions as the CLI and REST surfaces.
+
+### 9. Diagnose Access Failures
+
+Check access in this order:
+
+1. The token is current and belongs to the expected user and service.
+2. Moodle web services and REST are enabled.
+3. The user is listed under **MoodlIA service → Authorised users**.
+4. The system role allows `webservice/rest:use` and
+   `local/moodlia:useapi`.
+5. The user has the operation-specific capability in the target course,
+   category, module, or system context.
+6. The target object is visible to that user.
+
+A successful `get-current-user` followed by a permission error on another
+operation usually means authentication is working and only the
+operation-specific Moodle capability or target context is missing.
 
 ## Common Problems
 
