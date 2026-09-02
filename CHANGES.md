@@ -7,9 +7,10 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 - Added an illustrated, end-to-end guide for installing the plugin ZIP through
   Moodle 5.2's web administration interface and verifying the installed
   component and version.
-- Documented how to create a least-privilege MoodlIA service user, enable REST,
-  assign the required system capabilities, authorise the user for the external
-  service, create a protected token, and connect through CLI or MCP.
+- Added an illustrated guide for creating a least-privilege MoodlIA service
+  user, enabling REST, assigning the required system capabilities, authorising
+  the external service, creating a protected token, and connecting through CLI
+  or MCP.
 
 ## 0.1.200 - 2026-08-28
 

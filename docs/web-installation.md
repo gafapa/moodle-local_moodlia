@@ -14,8 +14,9 @@ clean environment:
 | MariaDB | 11.4.12 |
 | MoodlIA | 0.1.200 (`2026082802`) |
 
-The screenshots show that validation run. Labels can differ slightly in other
-Moodle themes or language packs.
+The screenshots show that validation run. The user-enablement examples use the
+fictional account `moodlia-service@example.invalid`; no token value appears in
+the guide. Labels can differ slightly in other Moodle themes or language packs.
 
 ## Before You Start
 
@@ -135,8 +136,16 @@ its token to be revoked without affecting a human login.
 
 1. Open **Site administration → General → Advanced features**.
 2. Enable **Web services** and save the page.
+
+![Enabled Moodle web services setting](images/web-installation/moodlia-enable-web-services.png)
+
 3. Open **Site administration → Server → Web services → Manage protocols**.
 4. Enable **REST protocol**. Disable unused protocols.
+
+The open-eye icon indicates that REST is enabled. The crossed-out eye in this
+example indicates that the unused SOAP protocol is disabled.
+
+![REST enabled under Manage protocols](images/web-installation/moodlia-manage-protocols.png)
 
 The public CLI calls Moodle REST directly. The Moodle-hosted MCP endpoint uses
 the same token and operation permissions.
@@ -154,15 +163,21 @@ account such as `moodlia-service` with:
 The password is used only to manage the account. External clients authenticate
 with the token created later.
 
+![Dedicated MoodlIA service account prepared in Moodle](images/web-installation/moodlia-add-service-user.png)
+
 ### 3. Create the Minimum System Role
 
 Open **Site administration → Users → Permissions → Define roles**, select **Add
 a new role**, choose **No role** as the preset, and continue. Configure:
 
+![No role selected as the new-role preset](images/web-installation/moodlia-role-preset.png)
+
 - Short name: `moodlia_service_user`
 - Custom full name: `MoodlIA service user`
 - Role archetype: **None**
 - Context types where this role may be assigned: **System**
+
+![Minimum system role identity and assignment context](images/web-installation/moodlia-create-service-role.png)
 
 Allow these two capabilities:
 
@@ -170,6 +185,16 @@ Allow these two capabilities:
 | --- | --- |
 | `webservice/rest:use` | Allows the user to call Moodle through the REST protocol used by the CLI. |
 | `local/moodlia:useapi` | Opens the MoodlIA operation layer for the authenticated user. |
+
+Filter the capability table by `MoodlIA`, allow **Use MoodlIA external
+functions**, and leave the plugin-management capability disabled unless the
+account explicitly needs it.
+
+![MoodlIA API capability allowed without plugin-management access](images/web-installation/moodlia-role-useapi-capability.png)
+
+Then filter by `webservice/rest:use` and allow **Use REST protocol**.
+
+![REST protocol capability allowed for the service role](images/web-installation/moodlia-role-rest-capability.png)
 
 Do not allow `local/moodlia:manageplugins` by default. It is a separate
 administrative capability for plugin inventory and guarded enabled-state
@@ -181,6 +206,8 @@ creates and manages the token, which is the recommended workflow.
 
 Save the role, then open **Site administration → Users → Permissions → Assign
 system roles**, select **MoodlIA service user**, and add the dedicated account.
+
+![Dedicated account selected for the MoodlIA system role](images/web-installation/moodlia-assign-system-role.png)
 
 ### 4. Grant Only the Required Moodle Permissions
 
@@ -218,6 +245,10 @@ operation.
 4. Select the dedicated account under **Not authorised users** and select
    **Add**.
 
+![MoodlIA external service and its Authorised users link](images/web-installation/moodlia-external-service.png)
+
+![Dedicated account selected for MoodlIA service authorisation](images/web-installation/moodlia-authorise-service-user.png)
+
 MoodlIA service is intentionally restricted to explicitly authorised users.
 Having the role capabilities alone is not enough.
 
@@ -230,6 +261,8 @@ Having the role capabilities alone is not enough.
 5. Set an expiry date. Add an IP restriction when the client has a stable
    address and the restriction is operationally safe.
 6. Save the token and move it immediately into the client's secret store.
+
+![Token form scoped to the dedicated user and MoodlIA service](images/web-installation/moodlia-create-service-token.png)
 
 Never place a token in documentation, source control, screenshots, shell
 history, issue reports, or chat messages. Create separate tokens for separate
