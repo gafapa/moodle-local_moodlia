@@ -310,6 +310,11 @@ Store the bearer token using the MCP client's secret mechanism. A compatible
 client discovers the server, lists tools, and calls them using the same
 operation names and permissions as the CLI and REST surfaces.
 
+For detailed ChatGPT Desktop, Codex, Claude Code, and hosted-client setup,
+including secure environment-variable examples and current authentication
+limitations, see [Connect ChatGPT or Claude to the MoodlIA MCP
+Server](mcp-client-setup.md).
+
 ### 9. Diagnose Access Failures
 
 Check access in this order:

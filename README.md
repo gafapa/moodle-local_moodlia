@@ -173,6 +173,11 @@ https://your-moodle.example/local/moodlia/mcp.php
 
 MCP clients should authenticate with a bearer token using a Moodle REST token authorised for the MoodlIA service.
 
+Follow the [ChatGPT and Claude MCP configuration
+guide](https://github.com/gafapa/moodle-local_moodlia/blob/main/docs/mcp-client-setup.md)
+for secure token handling, tested client setup, verification, and current
+hosted-client compatibility limits.
+
 The endpoint supports the standard tool discovery and tool call flow used by MCP clients. It exposes the same operation contract as the REST and CLI surfaces, so tool names, parameter schemas, enum values, and permission expectations stay aligned across integrations.
 
 The server supports both MCP protocol eras on the same Streamable HTTP endpoint. Modern `2026-07-28` clients use stateless, self-describing requests with `server/discover`, per-request `_meta`, and the standard routing headers. Legacy `2025-03-26`, `2025-06-18`, and `2025-11-25` clients continue to use `initialize` and `notifications/initialized`. Both eras support `ping`, `tools/list`, and `tools/call`; modern responses include `resultType`, server metadata, and private cache hints where the protocol permits them. Tool calls return standard text content plus `structuredContent`. Browser-originated requests are accepted only from the Moodle site's own origin; non-browser clients normally omit the `Origin` header.

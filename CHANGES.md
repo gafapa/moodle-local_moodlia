@@ -11,6 +11,9 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
   user, enabling REST, assigning the required system capabilities, authorising
   the external service, creating a protected token, and connecting through CLI
   or MCP.
+- Added a detailed ChatGPT and Claude MCP client configuration guide covering
+  secure token injection, direct client setup, safe verification, hosted-client
+  authentication limits, troubleshooting, and token rotation.
 
 ## 0.1.200 - 2026-08-28
 
