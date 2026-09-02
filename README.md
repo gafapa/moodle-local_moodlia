@@ -188,6 +188,14 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 
 ## Release Notes
 
+The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
+
+### 0.1.200
+
+- Preserves portable HTML section summaries in REST and MCP responses, including `<details>` and `<summary>` content.
+- Preserves section summary formats and resolves Moodle file URLs during section updates.
+- Adds grade-pass and global course-completion operations to the default MoodlIA external service.
+
 ### 0.1.190
 
 - Makes the repository root directly installable as `local/moodlia`, following

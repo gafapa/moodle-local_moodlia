@@ -13,7 +13,7 @@ included in the installable plugin ZIP.
 - Maturity: Beta
 - Licence: GNU GPL v3 or later
 - Supported Moodle versions: 5.2
-- Release: 0.1.190
+- Release: 0.1.200
 - Source code: https://github.com/gafapa/moodle-local_moodlia
 - Issue tracker: https://github.com/gafapa/moodle-local_moodlia/issues
 - Documentation: https://github.com/gafapa/moodle-local_moodlia#readme
@@ -60,7 +60,7 @@ those clients, document their use, protect tokens, and apply least privilege.
 
 ## Installation Summary
 
-Upload `local_moodlia-0.1.190.zip` through Moodle's plugin installer or extract
+Upload `local_moodlia-0.1.200.zip` through Moodle's plugin installer or extract
 the `moodlia` directory into `<moodle-root>/local/`. Complete the Moodle upgrade,
 enable web services, grant the MoodlIA capability to a dedicated service user,
 and create a token for the included `MoodlIA` external service.
@@ -91,7 +91,7 @@ MCP, AI, automation, REST, CLI, course authoring, question bank, administration
 - Sign in to Moodle Marketplace with the maintainer account.
 - Confirm that `local_moodlia` is available and register the listing.
 - Enter the listing copy above.
-- Upload `empaquetado/local_moodlia-0.1.190.zip`.
+- Upload `empaquetado/local_moodlia-0.1.200.zip`.
 - Add the maintainer profile and support contact required by Marketplace.
 - Accept the Marketplace provider terms and submit the listing for review.
 
