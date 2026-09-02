@@ -64,8 +64,13 @@ The target Moodle instance must provide:
 - Moodle web access.
 - Moodle admin access for installing/upgrading the plugin.
 - A web service token authorised for the `local_moodlia` external service.
-- SFTP/SSH or equivalent file deployment access.
-- PHP CLI access for Moodle upgrade and cache purge, or admin web access to trigger upgrade.
+- Either Moodle's web-based ZIP installer or SFTP/SSH access for server
+  deployment.
+- Either PHP CLI access for Moodle upgrade and cache purge or administrator web
+  access to trigger the upgrade.
+
+For the complete browser-only procedure, see
+[Install MoodlIA Through Moodle's Web Interface](web-installation.md).
 
 Recommended local tools:
 

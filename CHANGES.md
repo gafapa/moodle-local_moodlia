@@ -2,6 +2,12 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
+## Unreleased
+
+- Added an illustrated, end-to-end guide for installing the plugin ZIP through
+  Moodle 5.2's web administration interface and verifying the installed
+  component and version.
+
 ## 0.1.200 - 2026-08-28
 
 - Kept portable HTML section summaries intact in MoodlIA API responses so

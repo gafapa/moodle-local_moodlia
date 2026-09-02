@@ -40,7 +40,7 @@ Both paths use the same canonical operation names and the same Moodle-side permi
 
 ## Requirements
 
-- Moodle 5.2 or newer.
+- Moodle 5.2. The current release declares support for the 5.2 series only.
 - Moodle web services enabled.
 - A Moodle REST token authorised for the MoodlIA external service.
 - Users calling the service must have `local/moodlia:useapi` and the Moodle capabilities required by each operation.
@@ -55,7 +55,23 @@ plugin author.
 
 ## Moodle Plugin Installation
 
-Install MoodlIA like any standard Moodle local plugin:
+The simplest administrator workflow is to install the release ZIP through
+Moodle:
+
+1. Obtain `local_moodlia-<release>.zip` from the release artifacts, or build it
+   with `npm run plugin:archive`.
+2. Open **Site administration → Plugins → Install plugins**.
+3. Upload the ZIP and confirm that Moodle validates `local_moodlia`.
+4. Continue through the server checks and select **Upgrade Moodle database
+   now**.
+5. Verify the installed release under **Plugins overview → Local plugins**.
+
+See the illustrated
+[web installation guide](https://github.com/gafapa/moodle-local_moodlia/blob/main/docs/web-installation.md)
+for the complete validated
+workflow, security guidance, and troubleshooting.
+
+For a server-managed deployment:
 
 1. Copy the `moodlia` folder to `<moodle-root>/local/moodlia`.
 2. Run the Moodle upgrade process from the Moodle root:
@@ -65,7 +81,8 @@ php admin/cli/upgrade.php --non-interactive
 php admin/cli/purge_caches.php
 ```
 
-You can also complete the upgrade from the Moodle web administration interface after copying the plugin folder.
+You can also complete the upgrade from the Moodle web administration interface
+after copying the plugin folder.
 
 After installation, enable and configure Moodle web services:
 
