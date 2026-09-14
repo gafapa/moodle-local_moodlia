@@ -781,7 +781,7 @@ final class manifest {
             ],
             [
                 'name' => 'update_section',
-                'description' => 'Update a course section name, summary, or visibility.',
+                'description' => 'Update a course section and optionally attach a summary file.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'section_id' => ['type' => 'integer', 'required' => false],
@@ -790,6 +790,9 @@ final class manifest {
                     'summary' => ['type' => 'string', 'required' => false],
                     'summary_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
                     'visible' => ['type' => 'boolean', 'required' => false],
+                    'filename' => ['type' => 'string', 'required' => false],
+                    'upload_reference' => ['type' => 'string', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [

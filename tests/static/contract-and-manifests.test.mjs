@@ -65,16 +65,27 @@ test('section summary inputs preserve HTML through the REST adapters', async () 
 });
 
 test('section updates preserve the stored format and resolve section-file URLs', async () => {
-  const [operationSource, sectionToolsSource] = await Promise.all([
+  const [contract, operationSource, sectionToolsSource, mcpManifestSource] = await Promise.all([
+    loadContract(),
     fs.readFile(fromRoot('classes/operation/update_section.php'), 'utf8'),
-    fs.readFile(fromRoot('classes/operation/section_tools.php'), 'utf8')
+    fs.readFile(fromRoot('classes/operation/section_tools.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/mcp/manifest.php'), 'utf8')
   ]);
+  const updateSection = contract.operations.find((operation) => operation.name === 'update_section');
 
+  assert.equal(updateSection.files, 'upload');
+  assert.equal(updateSection.parameters.filename.type, 'string');
+  assert.equal(updateSection.parameters.upload_reference.type, 'string');
+  assert.equal(updateSection.parameters.draft_item_id.type, 'integer');
+  assert.ok(Array.isArray(updateSection.returns.uploaded_files));
   assert.match(operationSource, /\$section->summaryformat/);
   assert.doesNotMatch(operationSource, /format_to_constant\(\$summaryformat \?\? 'plain'\)/);
   assert.match(sectionToolsSource, /file_rewrite_pluginfile_urls\(/);
   assert.match(sectionToolsSource, /'course',\s*'section'/);
   assert.match(sectionToolsSource, /'clean'\s*=>\s*false/);
+  assert.match(sectionToolsSource, /attach_summary_file/);
+  assert.match(mcpManifestSource, /'name'\s*=>\s*'update_section'[\s\S]*?'upload_reference'/);
+  assert.match(mcpManifestSource, /'name'\s*=>\s*'update_section'[\s\S]*?'draft_item_id'/);
 });
 
 test('gradebook and course completion operations expose the global configuration contract', async () => {

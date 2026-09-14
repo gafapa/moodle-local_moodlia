@@ -4,6 +4,13 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.201 - 2026-09-15
+
+- Added native section summary file uploads to `update_section` across REST,
+  MCP, and CLI contract surfaces, including uploaded-file metadata and Moodle
+  backup/restore portability coverage.
+- Added CLI documentation for combining a UTF-8 `--summary-file` with one
+  streamed `--upload-file` without sending local paths to Moodle.
 - Added an illustrated, end-to-end guide for installing the plugin ZIP through
   Moodle 5.2's web administration interface and verifying the installed
   component and version.

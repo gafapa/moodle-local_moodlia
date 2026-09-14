@@ -277,6 +277,34 @@ change, approve that call, and read the object again to verify the result.
 Client approval prompts are an additional safeguard; Moodle permissions remain
 the authoritative security boundary.
 
+### Attach a File to a Section Summary
+
+The MCP `update_section` tool accepts a section summary and one attached file
+in the same call. Use `filename` with exactly one upload source:
+
+- `upload_reference`: Base64-encoded file content supplied directly by the MCP
+  client.
+- `draft_item_id`: An existing draft area owned by the authenticated Moodle
+  user, normally created through Moodle's core upload endpoint.
+
+For example, an MCP client can call `update_section` with arguments shaped like:
+
+```json
+{
+  "course_id": 2609,
+  "section_id": 7708,
+  "summary": "<p><img src=\"@@PLUGINFILE@@/office-team-hero.jpg\" alt=\"Office team\"></p>",
+  "summary_format": "html",
+  "filename": "office-team-hero.jpg",
+  "upload_reference": "BASE64_FILE_CONTENT"
+}
+```
+
+Do not include both `upload_reference` and `draft_item_id`. The response
+contains `uploaded_files` metadata, and the stored `@@PLUGINFILE@@` reference
+is resolved by Moodle when the summary is rendered. For large local files, the
+CLI's streamed `--upload-file` route avoids Base64 expansion.
+
 ## Troubleshooting
 
 | Symptom | Likely cause and action |

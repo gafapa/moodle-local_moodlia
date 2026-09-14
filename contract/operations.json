@@ -4678,7 +4678,7 @@
     },
     {
       "name": "update_section",
-      "summary": "Update a course section name, summary, or visibility.",
+      "summary": "Update a course section and optionally attach a summary file.",
       "type": "write",
       "context": "course",
       "capabilities": [
@@ -4689,7 +4689,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -4722,6 +4722,18 @@
         "visible": {
           "type": "boolean",
           "required": false
+        },
+        "filename": {
+          "type": "string",
+          "required": false
+        },
+        "upload_reference": {
+          "type": "string",
+          "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false
         }
       },
       "returns": {
@@ -4731,7 +4743,18 @@
         "name": "string",
         "summary": "string",
         "summary_format": "string",
-        "visible": "boolean"
+        "visible": "boolean",
+        "uploaded_files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "time_modified": "integer"
+          }
+        ]
       },
       "errors": [
         "invalid_parameters",

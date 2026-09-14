@@ -43,7 +43,7 @@ const LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS = [
 /**
  * LOCAL MOODLIA MCP SERVER VERSION.
  */
-const LOCAL_MOODLIA_MCP_SERVER_VERSION = '0.1.194';
+const LOCAL_MOODLIA_MCP_SERVER_VERSION = '0.1.201';
 
 require_once(__DIR__ . '/../../config.php');
 // phpcs:enable moodle.Files.MoodleInternal.MoodleInternalGlobalState

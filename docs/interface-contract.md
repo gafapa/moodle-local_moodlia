@@ -570,10 +570,11 @@ Do not expose secrets, local filesystem paths, stack traces, or raw token values
 `update_section`
 
 - Type: write.
-- Parameters: `course_id`, `section_id` or `section_number`, optional `name`, optional `summary`, optional `summary_format` (`html` or `plain`), optional `visible`.
+- Parameters: `course_id`, `section_id` or `section_number`, optional `name`, optional `summary`, optional `summary_format` (`html` or `plain`), optional `visible`, and optional `filename` with exactly one of `draft_item_id` or legacy Base64 `upload_reference`.
 - Context: course.
-- Returns: updated section summary including rendered summary, stored summary format, and visibility.
-- Uses Moodle's `course_update_section` API. It must not write directly to course section tables. `summary_format` requires `summary`; when it is omitted, updating `summary` retains the section's stored format. Existing section files remain in place and `@@PLUGINFILE@@` references are resolved in the returned rendered summary.
+- File handling: upload. A supplied file is copied from the authenticated user's Moodle draft area into the native `course/section` file area. Existing files with other names remain in place; a matching filename is replaced.
+- Returns: updated section summary including rendered summary, stored summary format, visibility, and `uploaded_files` metadata for the file attached by this call.
+- Uses Moodle's `course_update_section` and File APIs. It must not write directly to course section tables or files. `summary_format` requires `summary`; when it is omitted, updating `summary` retains the section's stored format. Existing section files remain in place and `@@PLUGINFILE@@` references are resolved in the returned rendered summary. Native Moodle backup and restore retain files stored in this file area.
 
 `delete_section`
 

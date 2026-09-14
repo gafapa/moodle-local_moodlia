@@ -26,6 +26,7 @@ namespace local_moodlia\external;
 
 use core_external\external_api;
 use core_external\external_function_parameters;
+use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_value;
 use local_moodlia\operation\update_section as update_section_operation;
@@ -54,6 +55,14 @@ class update_section extends external_api {
                 NULL_ALLOWED
             ),
             'visible' => new external_value(PARAM_BOOL, 'Whether the section is visible', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'filename' => new external_value(PARAM_FILE, 'Optional section summary filename', VALUE_DEFAULT, ''),
+            'upload_reference' => new external_value(
+                PARAM_RAW,
+                'Legacy base64-encoded section summary file content',
+                VALUE_DEFAULT,
+                ''
+            ),
+            'draft_item_id' => new external_value(PARAM_INT, 'Moodle user draft item id', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -67,6 +76,9 @@ class update_section extends external_api {
      * @param string|null $summary Summary.
      * @param string|null $summaryformat Summaryformat.
      * @param bool|null $visible Visible.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
     public static function execute(
@@ -76,7 +88,10 @@ class update_section extends external_api {
         ?string $name = null,
         ?string $summary = null,
         ?string $summaryformat = null,
-        ?bool $visible = null
+        ?bool $visible = null,
+        string $filename = '',
+        string $uploadreference = '',
+        int $draftitemid = 0
     ): array {
         [
             'course_id' => $courseid,
@@ -86,6 +101,9 @@ class update_section extends external_api {
             'summary' => $summary,
             'summary_format' => $summaryformat,
             'visible' => $sectionvisible,
+            'filename' => $filename,
+            'upload_reference' => $uploadreference,
+            'draft_item_id' => $draftitemid,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'section_id' => $sectionid,
@@ -94,6 +112,9 @@ class update_section extends external_api {
             'summary' => $summary,
             'summary_format' => $summaryformat,
             'visible' => $visible,
+            'filename' => $filename,
+            'upload_reference' => $uploadreference,
+            'draft_item_id' => $draftitemid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -111,7 +132,10 @@ class update_section extends external_api {
             $name,
             $summary,
             $summaryformat,
-            $sectionvisible === null ? null : (bool) $sectionvisible
+            $sectionvisible === null ? null : (bool) $sectionvisible,
+            $filename,
+            $uploadreference,
+            (int) $draftitemid
         );
     }
 
@@ -129,6 +153,15 @@ class update_section extends external_api {
             'summary' => new external_value(PARAM_RAW, 'Rendered section summary'),
             'summary_format' => new external_value(PARAM_ALPHA, 'Section summary format'),
             'visible' => new external_value(PARAM_BOOL, 'Whether the section is visible'),
+            'uploaded_files' => new external_multiple_structure(new external_single_structure([
+                'file_id' => new external_value(PARAM_INT, 'Moodle stored file id'),
+                'filename' => new external_value(PARAM_FILE, 'Stored filename'),
+                'url' => new external_value(PARAM_URL, 'Download URL'),
+                'filepath' => new external_value(PARAM_PATH, 'Stored file path'),
+                'filesize' => new external_value(PARAM_INT, 'File size in bytes'),
+                'mimetype' => new external_value(PARAM_RAW, 'Detected MIME type'),
+                'time_modified' => new external_value(PARAM_INT, 'Last modification time'),
+            ])),
         ]);
     }
 }

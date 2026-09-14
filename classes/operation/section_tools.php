@@ -119,6 +119,87 @@ class section_tools {
     }
 
     /**
+     * Attach a user draft file to a section summary file area.
+     *
+     * @param \stdClass $course Course.
+     * @param \section_info $section Section.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
+     * @return array
+     */
+    public static function attach_summary_file(
+        \stdClass $course,
+        \section_info $section,
+        string $filename,
+        string $uploadreference,
+        int $draftitemid
+    ): array {
+        $coursecontext = \context_course::instance((int) $course->id);
+        $draftfile = module_file_tools::prepare_user_draft_file(
+            $filename,
+            $uploadreference,
+            $draftitemid,
+            $coursecontext,
+            (int) ($course->maxbytes ?? 0)
+        );
+        $filestorage = get_file_storage();
+        $filepath = $draftfile->get_filepath();
+        $filename = $draftfile->get_filename();
+        $existing = $filestorage->get_file(
+            $coursecontext->id,
+            'course',
+            'section',
+            (int) $section->id,
+            $filepath,
+            $filename
+        );
+        if ($existing && !$existing->is_directory()) {
+            $existing->delete();
+        }
+
+        $storedfile = $filestorage->create_file_from_storedfile([
+            'contextid' => $coursecontext->id,
+            'component' => 'course',
+            'filearea' => 'section',
+            'itemid' => (int) $section->id,
+            'filepath' => $filepath,
+            'filename' => $filename,
+        ], $draftfile);
+
+        return self::summary_file_to_response($section, $storedfile);
+    }
+
+    /**
+     * Return the canonical section summary file response shape.
+     *
+     * @param \section_info $section Section.
+     * @param \stored_file $file File.
+     * @return array
+     */
+    private static function summary_file_to_response(\section_info $section, \stored_file $file): array {
+        $url = \moodle_url::make_pluginfile_url(
+            $file->get_contextid(),
+            'course',
+            'section',
+            (int) $section->id,
+            $file->get_filepath(),
+            $file->get_filename(),
+            false
+        );
+
+        return [
+            'file_id' => (int) $file->get_id(),
+            'filename' => $file->get_filename(),
+            'url' => $url->out(false),
+            'filepath' => $file->get_filepath(),
+            'filesize' => (int) $file->get_filesize(),
+            'mimetype' => (string) ($file->get_mimetype() ?? ''),
+            'time_modified' => (int) $file->get_timemodified(),
+        ];
+    }
+
+    /**
      * Reload a section after a write operation.
      *
      * @param \stdClass $course Course.

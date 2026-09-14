@@ -157,9 +157,16 @@ moodlia get-course-contents --course-id 42
 moodlia audit-course --course-id 42
 moodlia list-plugins --source additional
 moodlia create-module --course-id 42 --section-number 1 --module-type page --name "Reading" --options "{\"content\":\"<p>Hello</p>\"}"
+moodlia update-section --course-id 42 --section-id 7 --summary-file "./section.html" --summary-format html --upload-file "./hero.jpg"
 ```
 
 Object parameters are passed as JSON strings. Commands return JSON by default, which makes them suitable for scripts, agent tools, and CI pipelines.
+
+For section summary assets, `update-section --upload-file` uses Moodle's draft
+upload endpoint and attaches the resulting file to the native section file
+area. The CLI-only `--summary-file` option reads UTF-8 HTML locally and is
+mutually exclusive with `--summary`. Use `@@PLUGINFILE@@/hero.jpg` in the stored
+HTML so Moodle can rewrite the file URL and retain the image in course backups.
 
 The CLI uses Moodle REST directly. It requires this Moodle plugin to be installed and a token authorised for the MoodlIA external service.
 
@@ -221,6 +228,14 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 ## Release Notes
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
+
+### 0.1.201
+
+- Allows `update_section` to attach one native section summary file through
+  REST, MCP, or the CLI upload pipeline.
+- Returns `uploaded_files` metadata and retains the attached file in native
+  Moodle backups and restores.
+- Adds the CLI-only UTF-8 `--summary-file` workflow for large HTML summaries.
 
 ### 0.1.200
 
