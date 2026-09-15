@@ -4,6 +4,15 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.202 - 2026-09-15
+
+- Added `update_assignment` across REST, MCP, and CLI contract surfaces for
+  changing an assignment name, description, or activity instructions without
+  resetting unrelated assignment settings.
+- Added native editor-file uploads to the assignment description and activity
+  instruction areas, including uploaded-file metadata and Moodle backup/restore
+  portability coverage.
+
 ## 0.1.201 - 2026-09-15
 
 - Added native section summary file uploads to `update_section` across REST,

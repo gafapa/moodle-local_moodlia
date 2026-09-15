@@ -1497,6 +1497,14 @@ $functions = [
         'ajax' => true,
         'capabilities' => 'local/moodlia:useapi,moodle/course:view',
     ],
+    'local_moodlia_update_assignment' => [
+        'classname' => 'local_moodlia\external\update_assignment',
+        'methodname' => 'execute',
+        'description' => 'Update a Moodle assignment name, description, or activity instructions.',
+        'type' => 'write',
+        'ajax' => true,
+        'capabilities' => 'local/moodlia:useapi,moodle/course:manageactivities',
+    ],
     'local_moodlia_get_assignment_submission_status' => [
         'classname' => 'local_moodlia\external\get_assignment_submission_status',
         'methodname' => 'execute',
@@ -2158,6 +2166,7 @@ $services = [
             'local_moodlia_set_forum_discussion_lock',
             'local_moodlia_delete_forum_discussion_post',
             'local_moodlia_get_course_assignments',
+            'local_moodlia_update_assignment',
             'local_moodlia_get_assignment_submission_status',
             'local_moodlia_save_assignment_submission',
             'local_moodlia_submit_assignment_for_grading',

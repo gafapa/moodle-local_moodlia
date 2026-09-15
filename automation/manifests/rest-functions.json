@@ -184,6 +184,7 @@
     "local_moodlia_set_forum_discussion_lock",
     "local_moodlia_delete_forum_discussion_post",
     "local_moodlia_get_course_assignments",
+    "local_moodlia_update_assignment",
     "local_moodlia_get_assignment_submission_status",
     "local_moodlia_save_assignment_submission",
     "local_moodlia_submit_assignment_for_grading",

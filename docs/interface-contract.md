@@ -793,6 +793,22 @@ Do not expose secrets, local filesystem paths, stack traces, or raw token values
 - Capabilities: `moodle/course:view`; Moodle controls which assignments the caller can see.
 - Reads assignment modules through Moodle course module APIs and `assign` module APIs, then returns normalized assignment ids, module ids, names, intro and activity text, relevant date and grading settings, enabled submission and feedback plugin names, visibility, and view URL.
 
+`update_assignment`
+
+- Parameters: `course_id`, `module_id`, optional `name`, `intro`,
+  `intro_format`, `activity`, `activity_format`, `filename`,
+  `upload_reference`, `draft_item_id`, and `file_area` (`intro` or
+  `activity`).
+- Context: assignment module.
+- Capabilities: `moodle/course:manageactivities`.
+- Updates only the supplied assignment authoring fields through Moodle's module
+  update API while carrying forward the complete current assignment and plugin
+  configuration.
+- Accepts one native editor file per call. The CLI `--upload-file` workflow
+  streams it to a user draft and the operation merges it with existing files in
+  the selected assignment editor area. Use `@@PLUGINFILE@@/filename.ext` in the
+  corresponding HTML field so Moodle keeps the file portable in backups.
+
 `get_assignment_submission_status`
 
 - Parameters: `course_id`, `module_id`, optional `user_id`.

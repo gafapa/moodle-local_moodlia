@@ -158,6 +158,7 @@ moodlia audit-course --course-id 42
 moodlia list-plugins --source additional
 moodlia create-module --course-id 42 --section-number 1 --module-type page --name "Reading" --options "{\"content\":\"<p>Hello</p>\"}"
 moodlia update-section --course-id 42 --section-id 7 --summary-file "./section.html" --summary-format html --upload-file "./hero.jpg"
+moodlia update-assignment --course-id 42 --module-id 201 --intro '<p><img src="@@PLUGINFILE@@/brief.jpg" alt="Assignment brief"></p>' --intro-format html --upload-file "./brief.jpg" --file-area intro
 ```
 
 Object parameters are passed as JSON strings. Commands return JSON by default, which makes them suitable for scripts, agent tools, and CI pipelines.
@@ -193,7 +194,7 @@ This is useful for LLM clients that can connect to an MCP server and need struct
 
 ## Capabilities
 
-This release exposes 243 Moodle external functions.
+This release exposes 244 Moodle external functions.
 
 Major operation areas include:
 
@@ -228,6 +229,13 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 ## Release Notes
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
+
+### 0.1.202
+
+- Adds `update_assignment` for changing an assignment name, description, or
+  activity instructions through REST, MCP, and CLI.
+- Supports one streamed editor-file upload per call to either the assignment
+  `intro` or `activity` file area and preserves those files in Moodle backups.
 
 ### 0.1.201
 

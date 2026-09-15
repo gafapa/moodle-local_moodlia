@@ -12070,6 +12070,144 @@
       ]
     },
     {
+      "name": "update_assignment",
+      "summary": "Update a Moodle assignment name, description, or activity instructions and optionally attach an editor file.",
+      "type": "write",
+      "context": "module",
+      "capabilities": [
+        "moodle/course:manageactivities"
+      ],
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "upload",
+      "parameters": {
+        "course_id": {
+          "type": "integer",
+          "required": true
+        },
+        "module_id": {
+          "type": "integer",
+          "required": true
+        },
+        "name": {
+          "type": "string",
+          "required": false
+        },
+        "intro": {
+          "type": "string",
+          "required": false
+        },
+        "intro_format": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain"
+          ]
+        },
+        "activity": {
+          "type": "string",
+          "required": false
+        },
+        "activity_format": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain"
+          ]
+        },
+        "filename": {
+          "type": "string",
+          "required": false
+        },
+        "upload_reference": {
+          "type": "string",
+          "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false
+        },
+        "file_area": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "intro",
+            "activity"
+          ]
+        }
+      },
+      "returns": {
+        "assignment_id": "integer",
+        "module_id": "integer",
+        "course_id": "integer",
+        "name": "string",
+        "intro": "string",
+        "intro_format": "integer",
+        "activity": "string",
+        "activity_format": "integer",
+        "allowsubmissionsfromdate": "integer",
+        "duedate": "integer",
+        "cutoffdate": "integer",
+        "gradingduedate": "integer",
+        "grade": "number",
+        "teamsubmission": "boolean",
+        "requireallteammemberssubmit": "boolean",
+        "teamsubmissiongroupingid": "integer",
+        "blindmarking": "boolean",
+        "hidegrader": "boolean",
+        "markingworkflow": "boolean",
+        "markingallocation": "boolean",
+        "requiresubmissionstatement": "boolean",
+        "submissiondrafts": "boolean",
+        "maxattempts": "integer",
+        "attemptreopenmethod": "string",
+        "submissionattachments": "boolean",
+        "sendnotifications": "boolean",
+        "sendlatenotifications": "boolean",
+        "sendstudentnotifications": "boolean",
+        "submission_plugins": [
+          "string"
+        ],
+        "feedback_plugins": [
+          "string"
+        ],
+        "visible": "boolean",
+        "url": "string",
+        "uploaded_files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "time_modified": "integer",
+            "file_area": "string"
+          }
+        ]
+      },
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "not_found",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli",
+        "browser"
+      ]
+    },
+    {
       "name": "get_assignment_submission_status",
       "summary": "Return the current assignment submission status.",
       "type": "read",

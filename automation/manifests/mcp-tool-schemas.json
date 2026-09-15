@@ -289,6 +289,20 @@
         "pagebreak"
       ]
     },
+    "update_assignment": {
+      "intro_format": [
+        "html",
+        "plain"
+      ],
+      "activity_format": [
+        "html",
+        "plain"
+      ],
+      "file_area": [
+        "intro",
+        "activity"
+      ]
+    },
     "get_assignment_submissions": {
       "status": [
         "new",

@@ -142,6 +142,164 @@ class assignment_tools {
     }
 
     /**
+     * Prepare complete Moodle module data for a safe assignment content update.
+     *
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @return array
+     */
+    public static function prepare_update_data(\stdClass $course, \cm_info $cm): array {
+        global $CFG;
+
+        self::require_assignment_api();
+        require_once($CFG->dirroot . '/course/modlib.php');
+
+        $rawcm = get_coursemodule_from_id('assign', (int) $cm->id, (int) $course->id, false, MUST_EXIST);
+        [$rawcm, $context, $module, $moduledata] = get_moduleinfo_data($rawcm, $course);
+
+        $assignment = new \assign($context, $cm, $course);
+        $defaults = (array) $moduledata;
+        $assignment->plugin_data_preprocessing($defaults);
+
+        return [$rawcm, (object) $defaults];
+    }
+
+    /**
+     * Prepare the assignment activity-instructions editor and its existing files.
+     *
+     * @param \stdClass $moduledata Moduledata.
+     * @param \cm_info $cm Cm.
+     */
+    public static function prepare_activity_editor(\stdClass $moduledata, \cm_info $cm): void {
+        self::require_assignment_api();
+
+        if (isset($moduledata->activityeditor) && is_array($moduledata->activityeditor)) {
+            return;
+        }
+
+        $context = \context_module::instance((int) $cm->id);
+        $draftitemid = file_get_unused_draft_itemid();
+        $activity = file_prepare_draft_area(
+            $draftitemid,
+            $context->id,
+            'mod_assign',
+            ASSIGN_ACTIVITYATTACHMENT_FILEAREA,
+            0,
+            ['subdirs' => true],
+            (string) ($moduledata->activity ?? '')
+        );
+        $moduledata->activityeditor = [
+            'text' => $activity,
+            'format' => (int) ($moduledata->activityformat ?? FORMAT_HTML),
+            'itemid' => $draftitemid,
+        ];
+    }
+
+    /**
+     * Copy an uploaded user draft file into an editor draft without removing existing files.
+     *
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
+     * @param int $targetdraftitemid Targetdraftitemid.
+     */
+    public static function copy_upload_to_editor_draft(
+        \stdClass $course,
+        \cm_info $cm,
+        string $filename,
+        string $uploadreference,
+        int $draftitemid,
+        int $targetdraftitemid
+    ): void {
+        global $USER;
+
+        if ($targetdraftitemid <= 0) {
+            throw new \coding_exception('The assignment editor draft item id is missing.');
+        }
+
+        $modulecontext = \context_module::instance((int) $cm->id);
+        $source = module_file_tools::prepare_user_draft_file(
+            $filename,
+            $uploadreference,
+            $draftitemid,
+            $modulecontext,
+            (int) ($course->maxbytes ?? 0)
+        );
+        $usercontext = \context_user::instance((int) $USER->id);
+        $filestorage = get_file_storage();
+        $filepath = $source->get_filepath();
+        $filename = $source->get_filename();
+        $existing = $filestorage->get_file(
+            $usercontext->id,
+            'user',
+            'draft',
+            $targetdraftitemid,
+            $filepath,
+            $filename
+        );
+        if ($existing && !$existing->is_directory()) {
+            $existing->delete();
+        }
+
+        $filestorage->create_file_from_storedfile([
+            'contextid' => $usercontext->id,
+            'component' => 'user',
+            'filearea' => 'draft',
+            'itemid' => $targetdraftitemid,
+            'filepath' => $filepath,
+            'filename' => $filename,
+        ], $source);
+    }
+
+    /**
+     * Return one stored assignment editor file after an update.
+     *
+     * @param \cm_info $cm Cm.
+     * @param string $filearea Filearea.
+     * @param string $filename Filename.
+     * @return array
+     */
+    public static function get_editor_file_response(\cm_info $cm, string $filearea, string $filename): array {
+        $context = \context_module::instance((int) $cm->id);
+        $componentfilearea = $filearea === 'activity' ? ASSIGN_ACTIVITYATTACHMENT_FILEAREA : 'intro';
+        $filename = clean_param(trim($filename), PARAM_FILE);
+        $file = get_file_storage()->get_file(
+            $context->id,
+            'mod_assign',
+            $componentfilearea,
+            0,
+            '/',
+            $filename
+        );
+        if (!$file || $file->is_directory()) {
+            throw new \moodle_exception('filenotfound');
+        }
+
+        $url = \moodle_url::make_pluginfile_url(
+            $context->id,
+            'mod_assign',
+            $componentfilearea,
+            0,
+            $file->get_filepath(),
+            $file->get_filename(),
+            false
+        );
+
+        return [
+            'file_id' => (int) $file->get_id(),
+            'filename' => $file->get_filename(),
+            'url' => $url->out(false),
+            'filepath' => $file->get_filepath(),
+            'filesize' => (int) $file->get_filesize(),
+            'mimetype' => (string) ($file->get_mimetype() ?? ''),
+            'time_modified' => (int) $file->get_timemodified(),
+            'file_area' => $filearea,
+        ];
+    }
+
+    /**
      * Return assignment submissions through Moodle's assignment external API.
      *
      * @param \stdClass $course Course.
@@ -346,7 +504,7 @@ class assignment_tools {
      * @param \cm_info $cm Cm.
      * @return array
      */
-    private static function assignment_summary_to_response(\stdClass $course, \cm_info $cm): array {
+    public static function assignment_summary_to_response(\stdClass $course, \cm_info $cm): array {
         $context = \context_module::instance($cm->id);
         $assignment = new \assign($context, $cm, $course);
         $instance = $assignment->get_instance();

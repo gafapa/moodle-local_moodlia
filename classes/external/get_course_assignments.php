@@ -87,7 +87,16 @@ class get_course_assignments extends external_api {
      * @return external_single_structure
      */
     public static function assignment_summary_structure(): external_single_structure {
-        return new external_single_structure([
+        return new external_single_structure(self::assignment_summary_fields());
+    }
+
+    /**
+     * Return the canonical assignment summary fields.
+     *
+     * @return array
+     */
+    public static function assignment_summary_fields(): array {
+        return [
             'assignment_id' => new external_value(PARAM_INT, 'Assignment instance id'),
             'module_id' => new external_value(PARAM_INT, 'Assignment course module id'),
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -120,6 +129,6 @@ class get_course_assignments extends external_api {
             'feedback_plugins' => new external_multiple_structure(new external_value(PARAM_TEXT, 'Enabled feedback plugin name')),
             'visible' => new external_value(PARAM_BOOL, 'Whether the assignment module is visible'),
             'url' => new external_value(PARAM_URL, 'Assignment view URL'),
-        ]);
+        ];
     }
 }

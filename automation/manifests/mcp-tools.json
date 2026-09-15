@@ -184,6 +184,7 @@
     "set_forum_discussion_lock",
     "delete_forum_discussion_post",
     "get_course_assignments",
+    "update_assignment",
     "get_assignment_submission_status",
     "save_assignment_submission",
     "submit_assignment_for_grading",

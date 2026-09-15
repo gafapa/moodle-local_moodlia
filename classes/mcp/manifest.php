@@ -1875,6 +1875,23 @@ final class manifest {
                 ]),
             ],
             [
+                'name' => 'update_assignment',
+                'description' => 'Update a Moodle assignment name, description, or activity instructions and optionally attach an editor file.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'module_id' => ['type' => 'integer', 'required' => true],
+                    'name' => ['type' => 'string', 'required' => false],
+                    'intro' => ['type' => 'string', 'required' => false],
+                    'intro_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'activity' => ['type' => 'string', 'required' => false],
+                    'activity_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'filename' => ['type' => 'string', 'required' => false],
+                    'upload_reference' => ['type' => 'string', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
+                    'file_area' => ['type' => 'string', 'required' => false, 'enum' => ['intro', 'activity']],
+                ]),
+            ],
+            [
                 'name' => 'get_assignment_submission_status',
                 'description' => 'Return the current assignment submission status.',
                 'inputSchema' => self::schema([

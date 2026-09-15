@@ -88,6 +88,28 @@ test('section updates preserve the stored format and resolve section-file URLs',
   assert.match(mcpManifestSource, /'name'\s*=>\s*'update_section'[\s\S]*?'draft_item_id'/);
 });
 
+test('assignment updates expose both authoring fields and native editor uploads', async () => {
+  const [contract, externalSource, operationSource, mcpManifestSource] = await Promise.all([
+    loadContract(),
+    fs.readFile(fromRoot('classes/external/update_assignment.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/update_assignment.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/mcp/manifest.php'), 'utf8')
+  ]);
+  const operation = contract.operations.find((entry) => entry.name === 'update_assignment');
+
+  assert.equal(operation.files, 'upload');
+  assert.deepEqual(operation.parameters.intro_format.enum, ['html', 'plain']);
+  assert.deepEqual(operation.parameters.activity_format.enum, ['html', 'plain']);
+  assert.deepEqual(operation.parameters.file_area.enum, ['intro', 'activity']);
+  assert.equal(operation.parameters.draft_item_id.type, 'integer');
+  assert.ok(Array.isArray(operation.returns.uploaded_files));
+  assert.match(externalSource, /'intro'\s*=>\s*new external_value\(PARAM_RAW,/);
+  assert.match(externalSource, /'activity'\s*=>\s*new external_value\(/);
+  assert.match(operationSource, /update_moduleinfo\(/);
+  assert.match(operationSource, /copy_upload_to_editor_draft/);
+  assert.match(mcpManifestSource, /'name'\s*=>\s*'update_assignment'[\s\S]*?'draft_item_id'/);
+});
+
 test('gradebook and course completion operations expose the global configuration contract', async () => {
   const contract = await loadContract();
   const operations = Object.fromEntries(contract.operations.map((operation) => [operation.name, operation]));
