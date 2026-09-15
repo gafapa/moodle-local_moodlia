@@ -653,20 +653,23 @@ Do not expose secrets, local filesystem paths, stack traces, or raw token values
 `create_book_chapter`
 
 - Type: write.
-- Parameters: `course_id`, `module_id`, `title`, `content`, optional `content_format`, optional `subchapter`, optional `after_chapter_id`, optional `hidden`.
+- Parameters: `course_id`, `module_id`, `title`, `content`, optional `content_format`, optional `subchapter`, optional `after_chapter_id`, optional `hidden`, optional `filename`, optional legacy `upload_reference`, and optional `draft_item_id`.
 - Context: Book module.
 - Capabilities: `mod/book:edit`.
 - Creates a chapter in the selected Book activity. `after_chapter_id=0` inserts first, omitted or `null` appends, and a positive value inserts after that chapter. The first Book chapter cannot be a subchapter.
-- Returns the canonical chapter shape used by `get_book_chapters`.
+- Accepts exactly one file source per call: legacy Base64 `upload_reference` or a user-owned Moodle `draft_item_id`. `filename` is required when either source is used.
+- Copies the file through Moodle's editor flow into `mod_book/chapter`, using the new chapter id as the item id. Store references as `@@PLUGINFILE@@/filename.ext`; returned content contains the resolved Moodle pluginfile URL.
+- Returns the canonical chapter shape used by `get_book_chapters` plus `uploaded_files` metadata.
 
 `update_book_chapter`
 
 - Type: write.
-- Parameters: `course_id`, `module_id`, `chapter_id`, and at least one mutable field: `title`, `content`, `content_format`, `subchapter`, or `hidden`.
+- Parameters: `course_id`, `module_id`, `chapter_id`, optional mutable fields `title`, `content`, `content_format`, `subchapter`, or `hidden`, plus optional `filename`, legacy `upload_reference`, and `draft_item_id`.
 - Context: Book module.
 - Capabilities: `mod/book:edit`.
-- Updates a chapter after verifying it belongs to the selected Book activity. It bumps the Book revision and triggers Moodle's Book chapter update event.
-- Returns the canonical chapter shape used by `get_book_chapters`.
+- Updates a chapter after verifying it belongs to the selected Book activity. A file upload also counts as a mutation, can be combined with content changes, and preserves unrelated files already stored for the chapter.
+- Uses the same mutually exclusive file-source rules and `mod_book/chapter/<chapter_id>` storage as creation. It bumps the Book revision and triggers Moodle's Book chapter update event.
+- Returns the canonical chapter shape used by `get_book_chapters` plus `uploaded_files` metadata.
 
 `move_book_chapter`
 

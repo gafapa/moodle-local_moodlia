@@ -110,6 +110,33 @@ test('assignment updates expose both authoring fields and native editor uploads'
   assert.match(mcpManifestSource, /'name'\s*=>\s*'update_assignment'[\s\S]*?'draft_item_id'/);
 });
 
+test('Book chapter mutations expose native editor uploads on every transport', async () => {
+  const [contract, externalCreate, externalUpdate, operationSource, bookToolsSource, mcpManifestSource] = await Promise.all([
+    loadContract(),
+    fs.readFile(fromRoot('classes/external/create_book_chapter.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/external/update_book_chapter.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/book_chapter_tools.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/book_tools.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/mcp/manifest.php'), 'utf8')
+  ]);
+
+  for (const name of ['create_book_chapter', 'update_book_chapter']) {
+    const operation = contract.operations.find((entry) => entry.name === name);
+    assert.equal(operation.files, 'upload');
+    assert.equal(operation.parameters.filename.type, 'string');
+    assert.equal(operation.parameters.upload_reference.type, 'string');
+    assert.equal(operation.parameters.draft_item_id.type, 'integer');
+    assert.ok(Array.isArray(operation.returns.uploaded_files));
+    assert.match(mcpManifestSource, new RegExp(`'name'\\s*=>\\s*'${name}'[\\s\\S]*?'draft_item_id'`));
+  }
+
+  assert.match(externalCreate, /'draft_item_id'\s*=>\s*new external_value\(PARAM_INT,/);
+  assert.match(externalUpdate, /'draft_item_id'\s*=>\s*new external_value\(PARAM_INT,/);
+  assert.match(operationSource, /'mod_book',\s*'chapter',\s*\$chapterid/);
+  assert.match(operationSource, /file_save_draft_area_files\(/);
+  assert.match(bookToolsSource, /file_rewrite_pluginfile_urls\(/);
+});
+
 test('gradebook and course completion operations expose the global configuration contract', async () => {
   const contract = await loadContract();
   const operations = Object.fromEntries(contract.operations.map((operation) => [operation.name, operation]));

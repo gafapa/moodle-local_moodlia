@@ -909,6 +909,9 @@ final class manifest {
                     'subchapter' => ['type' => 'boolean', 'required' => false],
                     'after_chapter_id' => ['type' => 'integer', 'required' => false],
                     'hidden' => ['type' => 'boolean', 'required' => false],
+                    'filename' => ['type' => 'string', 'required' => false],
+                    'upload_reference' => ['type' => 'string', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -923,6 +926,9 @@ final class manifest {
                     'content_format' => ['type' => 'integer', 'required' => false],
                     'subchapter' => ['type' => 'boolean', 'required' => false],
                     'hidden' => ['type' => 'boolean', 'required' => false],
+                    'filename' => ['type' => 'string', 'required' => false],
+                    'upload_reference' => ['type' => 'string', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [

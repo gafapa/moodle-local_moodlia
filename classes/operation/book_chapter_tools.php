@@ -94,6 +94,9 @@ class book_chapter_tools {
      * @param bool $subchapter Subchapter.
      * @param int|null $afterchapterid Afterchapterid.
      * @param bool $hidden Hidden.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
     public static function create_chapter(
@@ -104,19 +107,24 @@ class book_chapter_tools {
         int $contentformat = FORMAT_HTML,
         bool $subchapter = false,
         ?int $afterchapterid = null,
-        bool $hidden = false
+        bool $hidden = false,
+        string $filename = '',
+        string $uploadreference = '',
+        int $draftitemid = 0
     ): array {
         global $DB;
 
         $context = \context_module::instance($cm->id);
         $title = self::normalise_title($title);
         self::validate_content($content);
+        $hasupload = self::validate_upload_parameters($filename, $uploadreference, $draftitemid);
 
         $pagenum = self::resolve_insert_page_number($book, $afterchapterid);
         if ($pagenum === 1 && $subchapter) {
             throw new \invalid_parameter_exception('The first book chapter cannot be a subchapter.');
         }
 
+        $transaction = $DB->start_delegated_transaction();
         $chapters = self::ordered_chapter_records($book);
         foreach ($chapters as $chapter) {
             if ((int) $chapter->pagenum >= $pagenum) {
@@ -139,13 +147,31 @@ class book_chapter_tools {
         ];
 
         $record->id = $DB->insert_record('book_chapters', $record);
+        $uploadedfiles = [];
+        if ($hasupload) {
+            $saved = self::attach_chapter_file(
+                $cm,
+                (int) $record->id,
+                $content,
+                $filename,
+                $uploadreference,
+                $draftitemid
+            );
+            $record->content = $saved['content'];
+            $DB->set_field('book_chapters', 'content', $record->content, ['id' => $record->id]);
+            $uploadedfiles[] = $saved['file'];
+        }
         $record = self::get_chapter_record($book, (int) $record->id);
         self::bump_revision($book);
         book_preload_chapters($book);
 
         \mod_book\event\chapter_created::create_from_chapter($book, $context, $record)->trigger();
 
-        return self::chapter_response($book, $cm, (int) $record->id);
+        $response = self::chapter_response($book, $cm, (int) $record->id);
+        $response['uploaded_files'] = $uploadedfiles;
+        $transaction->allow_commit();
+
+        return $response;
     }
 
     /**
@@ -159,6 +185,9 @@ class book_chapter_tools {
      * @param int|null $contentformat Contentformat.
      * @param bool|null $subchapter Subchapter.
      * @param bool|null $hidden Hidden.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
     public static function update_chapter(
@@ -169,12 +198,16 @@ class book_chapter_tools {
         ?string $content = null,
         ?int $contentformat = null,
         ?bool $subchapter = null,
-        ?bool $hidden = null
+        ?bool $hidden = null,
+        string $filename = '',
+        string $uploadreference = '',
+        int $draftitemid = 0
     ): array {
         global $DB;
 
         $context = \context_module::instance($cm->id);
         $chapter = self::get_chapter_record($book, $chapterid);
+        $hasupload = self::validate_upload_parameters($filename, $uploadreference, $draftitemid);
         $changed = false;
 
         if ($title !== null) {
@@ -205,8 +238,27 @@ class book_chapter_tools {
             $changed = true;
         }
 
+        if ($hasupload) {
+            $changed = true;
+        }
+
         if (!$changed) {
             throw new \invalid_parameter_exception('At least one chapter field is required.');
+        }
+
+        $transaction = $DB->start_delegated_transaction();
+        $uploadedfiles = [];
+        if ($hasupload) {
+            $saved = self::attach_chapter_file(
+                $cm,
+                $chapterid,
+                (string) $chapter->content,
+                $filename,
+                $uploadreference,
+                $draftitemid
+            );
+            $chapter->content = $saved['content'];
+            $uploadedfiles[] = $saved['file'];
         }
 
         $chapter->timemodified = time();
@@ -217,7 +269,178 @@ class book_chapter_tools {
         $chapter = self::get_chapter_record($book, $chapterid);
         \mod_book\event\chapter_updated::create_from_chapter($book, $context, $chapter)->trigger();
 
-        return self::chapter_response($book, $cm, $chapterid);
+        $response = self::chapter_response($book, $cm, $chapterid);
+        $response['uploaded_files'] = $uploadedfiles;
+        $transaction->allow_commit();
+
+        return $response;
+    }
+
+    /**
+     * Attach one uploaded file to a Book chapter using Moodle's editor file flow.
+     *
+     * Existing chapter files are copied into a fresh editor draft before the
+     * uploaded file is added, so unrelated files remain available. Moodle then
+     * stores the complete draft in mod_book/chapter with the chapter id as its
+     * item id and normalises any editor URLs back to @@PLUGINFILE@@ references.
+     *
+     * @param \cm_info $cm Cm.
+     * @param int $chapterid Chapterid.
+     * @param string $content Content.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
+     * @return array
+     */
+    private static function attach_chapter_file(
+        \cm_info $cm,
+        int $chapterid,
+        string $content,
+        string $filename,
+        string $uploadreference,
+        int $draftitemid
+    ): array {
+        global $USER;
+
+        $context = \context_module::instance((int) $cm->id);
+        $course = get_course((int) $cm->course);
+        $source = module_file_tools::prepare_user_draft_file(
+            $filename,
+            $uploadreference,
+            $draftitemid,
+            $context,
+            (int) ($course->maxbytes ?? 0)
+        );
+        $targetdraftitemid = 0;
+        $options = [
+            'noclean' => true,
+            'subdirs' => true,
+            'maxfiles' => -1,
+            'maxbytes' => 0,
+            'context' => $context,
+        ];
+        file_prepare_draft_area(
+            $targetdraftitemid,
+            $context->id,
+            'mod_book',
+            'chapter',
+            $chapterid,
+            $options,
+            $content
+        );
+
+        $usercontext = \context_user::instance((int) $USER->id);
+        $filestorage = get_file_storage();
+        $filepath = $source->get_filepath();
+        $storedfilename = $source->get_filename();
+        $existing = $filestorage->get_file(
+            $usercontext->id,
+            'user',
+            'draft',
+            $targetdraftitemid,
+            $filepath,
+            $storedfilename
+        );
+        if ($existing && !$existing->is_directory()) {
+            $existing->delete();
+        }
+        $filestorage->create_file_from_storedfile([
+            'contextid' => $usercontext->id,
+            'component' => 'user',
+            'filearea' => 'draft',
+            'itemid' => $targetdraftitemid,
+            'filepath' => $filepath,
+            'filename' => $storedfilename,
+        ], $source);
+
+        $storedcontent = file_save_draft_area_files(
+            $targetdraftitemid,
+            $context->id,
+            'mod_book',
+            'chapter',
+            $chapterid,
+            $options,
+            $content
+        );
+        $file = $filestorage->get_file(
+            $context->id,
+            'mod_book',
+            'chapter',
+            $chapterid,
+            $filepath,
+            $storedfilename
+        );
+        if (!$file || $file->is_directory()) {
+            throw new \moodle_exception('filenotfound');
+        }
+
+        return [
+            'content' => $storedcontent,
+            'file' => self::chapter_file_to_response($context, $chapterid, $file),
+        ];
+    }
+
+    /**
+     * Return a canonical Book chapter file response.
+     *
+     * @param \context_module $context Context.
+     * @param int $chapterid Chapterid.
+     * @param \stored_file $file File.
+     * @return array
+     */
+    private static function chapter_file_to_response(
+        \context_module $context,
+        int $chapterid,
+        \stored_file $file
+    ): array {
+        $url = \moodle_url::make_pluginfile_url(
+            $context->id,
+            'mod_book',
+            'chapter',
+            $chapterid,
+            $file->get_filepath(),
+            $file->get_filename(),
+            false
+        );
+
+        return [
+            'file_id' => (int) $file->get_id(),
+            'filename' => $file->get_filename(),
+            'url' => $url->out(false),
+            'filepath' => $file->get_filepath(),
+            'filesize' => (int) $file->get_filesize(),
+            'mimetype' => (string) ($file->get_mimetype() ?? ''),
+            'time_modified' => (int) $file->get_timemodified(),
+        ];
+    }
+
+    /**
+     * Validate optional Book chapter upload parameters.
+     *
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
+     * @return bool
+     */
+    private static function validate_upload_parameters(
+        string $filename,
+        string $uploadreference,
+        int $draftitemid
+    ): bool {
+        $hasuploadreference = trim($uploadreference) !== '';
+        $hasdraftitem = $draftitemid > 0;
+        $hasfilename = trim($filename) !== '';
+        $hasupload = $hasuploadreference || $hasdraftitem || $hasfilename;
+        if ($hasupload && !$hasfilename) {
+            throw new \invalid_parameter_exception('filename is required when attaching a Book chapter file.');
+        }
+        if ($hasupload && $hasuploadreference === $hasdraftitem) {
+            throw new \invalid_parameter_exception(
+                'Provide exactly one of upload_reference or draft_item_id when attaching a Book chapter file.'
+            );
+        }
+
+        return $hasupload;
     }
 
     /**

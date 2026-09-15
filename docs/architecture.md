@@ -90,7 +90,9 @@ responsibilities separated:
   chapters. Moodle Book does not expose a public chapter writer API, so this helper
   mirrors the owning component's own edit/delete/move behavior, validates Book
   ownership and `mod/book:edit`, updates revision and page order, triggers Book
-  events, and must not use raw SQL or plugin-owned tables.
+  events, and must not use raw SQL or plugin-owned tables. Chapter uploads follow
+  Moodle's standard editor draft flow and are stored in `mod_book/chapter` with
+  the chapter id as the item id, which keeps `@@PLUGINFILE@@` references portable.
 - `plugin_management_tools` owns the system plugin inventory boundary through
   `core_plugin_manager`, dependency resolution, cached update metadata, and guarded
   enabled-state support. It never writes plugin files, installs packages, runs an

@@ -5605,7 +5605,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -5638,6 +5638,18 @@
         "hidden": {
           "type": "boolean",
           "required": false
+        },
+        "filename": {
+          "type": "string",
+          "required": false
+        },
+        "upload_reference": {
+          "type": "string",
+          "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false
         }
       },
       "returns": {
@@ -5653,7 +5665,18 @@
         "parent_chapter_id": "integer",
         "previous_chapter_id": "integer",
         "next_chapter_id": "integer",
-        "url": "string"
+        "url": "string",
+        "uploaded_files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "time_modified": "integer"
+          }
+        ]
       },
       "errors": [
         "invalid_parameters",
@@ -5684,7 +5707,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -5717,6 +5740,18 @@
         "hidden": {
           "type": "boolean",
           "required": false
+        },
+        "filename": {
+          "type": "string",
+          "required": false
+        },
+        "upload_reference": {
+          "type": "string",
+          "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false
         }
       },
       "returns": {
@@ -5732,7 +5767,18 @@
         "parent_chapter_id": "integer",
         "previous_chapter_id": "integer",
         "next_chapter_id": "integer",
-        "url": "string"
+        "url": "string",
+        "uploaded_files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "time_modified": "integer"
+          }
+        ]
       },
       "errors": [
         "invalid_parameters",

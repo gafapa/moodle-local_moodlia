@@ -118,7 +118,36 @@ class get_book_chapters extends external_api {
      * @return external_single_structure
      */
     public static function chapter_returns(): external_single_structure {
-        return new external_single_structure([
+        return new external_single_structure(self::chapter_return_fields());
+    }
+
+    /**
+     * Shared Book chapter mutation return structure, including uploaded files.
+     *
+     * @return external_single_structure
+     */
+    public static function chapter_mutation_returns(): external_single_structure {
+        $fields = self::chapter_return_fields();
+        $fields['uploaded_files'] = new external_multiple_structure(new external_single_structure([
+            'file_id' => new external_value(PARAM_INT, 'Moodle stored file id'),
+            'filename' => new external_value(PARAM_FILE, 'Stored filename'),
+            'url' => new external_value(PARAM_URL, 'Download URL'),
+            'filepath' => new external_value(PARAM_PATH, 'Stored file path'),
+            'filesize' => new external_value(PARAM_INT, 'File size in bytes'),
+            'mimetype' => new external_value(PARAM_RAW, 'Detected MIME type'),
+            'time_modified' => new external_value(PARAM_INT, 'Last modification time'),
+        ]));
+
+        return new external_single_structure($fields);
+    }
+
+    /**
+     * Shared Book chapter return fields.
+     *
+     * @return array
+     */
+    private static function chapter_return_fields(): array {
+        return [
             'chapter_id' => new external_value(PARAM_INT, 'Book chapter id'),
             'book_id' => new external_value(PARAM_INT, 'Book instance id'),
             'module_id' => new external_value(PARAM_INT, 'Book course module id'),
@@ -132,6 +161,6 @@ class get_book_chapters extends external_api {
             'previous_chapter_id' => new external_value(PARAM_INT, 'Previous chapter id or 0'),
             'next_chapter_id' => new external_value(PARAM_INT, 'Next chapter id or 0'),
             'url' => new external_value(PARAM_URL, 'Book chapter URL'),
-        ]);
+        ];
     }
 }

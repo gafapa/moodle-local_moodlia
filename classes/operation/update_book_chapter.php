@@ -39,6 +39,9 @@ class update_book_chapter {
      * @param int|null $contentformat Contentformat.
      * @param bool|null $subchapter Subchapter.
      * @param bool|null $hidden Hidden.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
     public static function execute(
@@ -49,7 +52,10 @@ class update_book_chapter {
         ?string $content = null,
         ?int $contentformat = null,
         ?bool $subchapter = null,
-        ?bool $hidden = null
+        ?bool $hidden = null,
+        string $filename = '',
+        string $uploadreference = '',
+        int $draftitemid = 0
     ): array {
         book_tools::require_book_api();
 
@@ -65,7 +71,10 @@ class update_book_chapter {
             $content,
             $contentformat,
             $subchapter,
-            $hidden
+            $hidden,
+            $filename,
+            $uploadreference,
+            $draftitemid
         );
     }
 }

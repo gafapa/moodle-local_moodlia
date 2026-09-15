@@ -562,6 +562,7 @@ Create a Book activity, then add chapters:
 moodlia create-module --course-id <course_id> --section-number 1 --module-type book --name "Course guide" --options '{"intro":"<p>Guide intro.</p>","numbering":"numbers"}'
 moodlia create-book-chapter --course-id <course_id> --module-id <book_module_id> --title "Chapter 1" --content "<p>Opening content.</p>"
 moodlia create-book-chapter --course-id <course_id> --module-id <book_module_id> --title "Chapter 1.1" --content "<p>Nested content.</p>" --after-chapter-id <chapter_id> --subchapter true
+moodlia create-book-chapter --course-id <course_id> --module-id <book_module_id> --title "Illustrated chapter" --content '<p><img src="@@PLUGINFILE@@/chapter-hero.jpg" alt="Chapter hero"></p>' --upload-file "./chapter-hero.jpg"
 ```
 
 For Books that should not participate in Moodle completion, create them with completion disabled:
@@ -574,12 +575,19 @@ Update, reorder, list, and delete chapters:
 
 ```text
 moodlia update-book-chapter --course-id <course_id> --module-id <book_module_id> --chapter-id <chapter_id> --title "Updated chapter" --content "<p>Updated content.</p>"
+moodlia update-book-chapter --course-id <course_id> --module-id <book_module_id> --chapter-id <chapter_id> --content '<p><img src="@@PLUGINFILE@@/updated-image.png" alt="Updated illustration"></p>' --upload-file "./updated-image.png"
 moodlia move-book-chapter --course-id <course_id> --module-id <book_module_id> --chapter-id <chapter_id> --after-chapter-id 0
 moodlia get-book-chapters --course-id <course_id> --module-id <book_module_id> --include-content true
 moodlia delete-book-chapter --course-id <course_id> --module-id <book_module_id> --chapter-id <chapter_id>
 ```
 
 Deleting a top-level chapter also deletes the following subchapters, matching Moodle Book's own UI behavior.
+
+`create-book-chapter` and `update-book-chapter` accept one `--upload-file` per
+call. The CLI uploads it to the current user's Moodle draft area and sends the
+returned `draft_item_id`; MoodlIA then copies it to `mod_book/chapter` using the
+chapter id. Native course backups include this file area, so the references and
+files are restored together.
 
 ## Database, Choice, Feedback, Lesson, And Workshop
 

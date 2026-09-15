@@ -230,6 +230,14 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
 
+### 0.1.203
+
+- Allows `create_book_chapter` and `update_book_chapter` to attach one native
+  Book chapter file through REST, MCP, or the CLI upload pipeline.
+- Stores chapter files under `mod_book/chapter/<chapter_id>`, resolves
+  `@@PLUGINFILE@@` references when reading content, and retains the files in
+  native Moodle backups and restores.
+
 ### 0.1.202
 
 - Adds `update_assignment` for changing an assignment name, description, or

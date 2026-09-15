@@ -39,6 +39,9 @@ class create_book_chapter {
      * @param bool $subchapter Subchapter.
      * @param int|null $afterchapterid Afterchapterid.
      * @param bool $hidden Hidden.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
     public static function execute(
@@ -49,7 +52,10 @@ class create_book_chapter {
         int $contentformat = FORMAT_HTML,
         bool $subchapter = false,
         ?int $afterchapterid = null,
-        bool $hidden = false
+        bool $hidden = false,
+        string $filename = '',
+        string $uploadreference = '',
+        int $draftitemid = 0
     ): array {
         book_tools::require_book_api();
 
@@ -65,7 +71,10 @@ class create_book_chapter {
             $contentformat,
             $subchapter,
             $afterchapterid,
-            $hidden
+            $hidden,
+            $filename,
+            $uploadreference,
+            $draftitemid
         );
     }
 }

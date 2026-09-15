@@ -49,6 +49,14 @@ class create_book_chapter extends external_api {
             'subchapter' => new external_value(PARAM_BOOL, 'Whether the chapter is a subchapter', VALUE_DEFAULT, false),
             'after_chapter_id' => new external_value(PARAM_INT, 'Insert after this chapter id, 0 for first, null for last', VALUE_DEFAULT, null, NULL_ALLOWED),
             'hidden' => new external_value(PARAM_BOOL, 'Whether the chapter is hidden', VALUE_DEFAULT, false),
+            'filename' => new external_value(PARAM_FILE, 'Optional Book chapter filename', VALUE_DEFAULT, ''),
+            'upload_reference' => new external_value(
+                PARAM_RAW,
+                'Legacy base64-encoded Book chapter file content',
+                VALUE_DEFAULT,
+                ''
+            ),
+            'draft_item_id' => new external_value(PARAM_INT, 'Moodle user draft item id', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -63,6 +71,9 @@ class create_book_chapter extends external_api {
      * @param bool $subchapter Subchapter.
      * @param int|null $afterchapterid Afterchapterid.
      * @param bool $hidden Hidden.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
     public static function execute(
@@ -73,7 +84,10 @@ class create_book_chapter extends external_api {
         int $contentformat = FORMAT_HTML,
         bool $subchapter = false,
         ?int $afterchapterid = null,
-        bool $hidden = false
+        bool $hidden = false,
+        string $filename = '',
+        string $uploadreference = '',
+        int $draftitemid = 0
     ): array {
         [
             'course_id' => $courseid,
@@ -84,6 +98,9 @@ class create_book_chapter extends external_api {
             'subchapter' => $issubchapter,
             'after_chapter_id' => $afterchapterid,
             'hidden' => $ishidden,
+            'filename' => $filename,
+            'upload_reference' => $uploadreference,
+            'draft_item_id' => $draftitemid,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'module_id' => $moduleid,
@@ -93,6 +110,9 @@ class create_book_chapter extends external_api {
             'subchapter' => $subchapter,
             'after_chapter_id' => $afterchapterid,
             'hidden' => $hidden,
+            'filename' => $filename,
+            'upload_reference' => $uploadreference,
+            'draft_item_id' => $draftitemid,
         ]);
 
         self::validate_write_context((int) $courseid, (int) $moduleid);
@@ -105,7 +125,10 @@ class create_book_chapter extends external_api {
             (int) $contentformat,
             (bool) $issubchapter,
             $afterchapterid === null ? null : (int) $afterchapterid,
-            (bool) $ishidden
+            (bool) $ishidden,
+            $filename,
+            $uploadreference,
+            (int) $draftitemid
         );
     }
 
@@ -115,7 +138,7 @@ class create_book_chapter extends external_api {
      * @return mixed
      */
     public static function execute_returns() {
-        return get_book_chapters::chapter_returns();
+        return get_book_chapters::chapter_mutation_returns();
     }
 
     /**

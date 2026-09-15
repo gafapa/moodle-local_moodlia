@@ -4,6 +4,14 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.203 - 2026-09-15
+
+- Added native Book chapter editor-file uploads to `create_book_chapter` and
+  `update_book_chapter` across REST, MCP, and CLI contract surfaces.
+- Stored uploaded files in `mod_book/chapter` under the chapter id, resolved
+  `@@PLUGINFILE@@` references in rendered responses, preserved unrelated
+  chapter files during updates, and added native backup/restore coverage.
+
 ## 0.1.202 - 2026-09-15
 
 - Added `update_assignment` across REST, MCP, and CLI contract surfaces for
