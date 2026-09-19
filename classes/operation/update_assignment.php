@@ -150,12 +150,18 @@ class update_assignment {
 
             return $response;
         } catch (\dml_write_exception $exception) {
-            $publicexception = assignment_tools::assignment_update_write_exception(
+            try {
+                $transaction->rollback($exception);
+            } catch (\Throwable $rollbackexception) {
+                if ($rollbackexception instanceof \dml_write_exception) {
+                    $exception = $rollbackexception;
+                }
+            }
+            throw assignment_tools::assignment_update_write_exception(
                 $exception,
                 (int) $course->id,
                 $moduleid
             );
-            $transaction->rollback($publicexception);
         }
     }
 }

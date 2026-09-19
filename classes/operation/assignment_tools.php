@@ -24,6 +24,8 @@
 
 namespace local_moodlia\operation;
 
+use local_moodlia\event\assignment_update_failed;
+
 /**
  * Helper methods for Moodle assignment operations.
  */
@@ -637,8 +639,17 @@ class assignment_tools {
             'exception_message' => $exception->getMessage(),
             'database_error' => mb_substr($databaseerror, 0, 1000),
         ];
-        $encoded = json_encode($logentry, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        error_log('[local_moodlia] assignment_update_database_failure ' . ($encoded ?: $correlationid));
+        try {
+            assignment_update_failed::create([
+                'context' => \context_system::instance(),
+                'other' => $logentry,
+            ])->trigger();
+        } catch (\Throwable) {
+            debugging(
+                "MoodlIA could not record assignment database failure {$correlationid} in the Moodle event log.",
+                DEBUG_MINIMAL
+            );
+        }
 
         return new \moodle_exception('assignmentupdatefailed', 'local_moodlia', '', $correlationid);
     }
@@ -656,7 +667,7 @@ class assignment_tools {
         if (preg_match('/\{([a-z][a-z0-9_]*)\}/i', $sql, $matches)) {
             $table = $matches[1];
         } else if (
-            preg_match('/(?:insert\s+into|update|delete\s+from)\s+[`"]?([a-z][a-z0-9_]*)/i', $sql, $matches)
+            preg_match('/(?:insert\s+into|update|delete\s+from)\s+[\x60"]?([a-z][a-z0-9_]*)/i', $sql, $matches)
         ) {
             $table = $matches[1];
             $prefix = (string) ($CFG->prefix ?? '');

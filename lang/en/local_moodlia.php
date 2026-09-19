@@ -24,9 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['cannotdisablemoodlia'] = 'MoodlIA cannot change its own enabled state.';
 $string['assignmentupdatefailed'] = 'The assignment could not be updated. Correlation ID: {$a}';
+$string['cannotdisablemoodlia'] = 'MoodlIA cannot change its own enabled state.';
 $string['duplicatemodulenotcreated'] = 'The Moodle module duplicate could not be created.';
+$string['eventassignmentupdatefailed'] = 'Assignment update database failure recorded';
 $string['moodlia:manageplugins'] = 'Inspect and manage Moodle plugins through MoodlIA';
 $string['moodlia:useapi'] = 'Use MoodlIA external functions';
 $string['plugindependenciesunsatisfied'] = 'Plugin {$a} cannot be enabled because one or more requirements are not satisfied.';

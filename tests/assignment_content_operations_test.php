@@ -38,30 +38,26 @@ final class assignment_content_operations_test extends \advanced_testcase {
      */
     public function test_assignment_update_database_error_has_safe_correlation_id(): void {
         $this->resetAfterTest();
-        $logpath = make_request_directory() . '/assignment-update-error.log';
-        $originalerrorlog = ini_get('error_log');
-        ini_set('error_log', $logpath);
-
-        try {
-            $exception = new \dml_write_exception(
-                'Duplicate entry for grading definition',
-                'INSERT INTO {grading_definitions} (name) VALUES (?)',
-                ['private-parameter-value']
-            );
-            $publicexception = assignment_tools::assignment_update_write_exception($exception, 2609, 7710);
-            $log = file_get_contents($logpath);
-        } finally {
-            ini_set('error_log', $originalerrorlog);
-        }
+        $this->setAdminUser();
+        $eventsink = $this->redirectEvents();
+        $exception = new \dml_write_exception(
+            'Duplicate entry for grading definition',
+            'INSERT INTO {grading_definitions} (name) VALUES (?)',
+            ['private-parameter-value']
+        );
+        $publicexception = assignment_tools::assignment_update_write_exception($exception, 2609, 7710);
+        $events = $eventsink->get_events();
+        $event = end($events);
 
         $this->assertMatchesRegularExpression('/Correlation ID: mla-[a-f0-9]{16}/', $publicexception->getMessage());
         $this->assertStringNotContainsString('INSERT INTO', $publicexception->getMessage());
         $this->assertStringNotContainsString('private-parameter-value', $publicexception->getMessage());
-        $this->assertStringContainsString('"operation":"update_assignment"', $log);
-        $this->assertStringContainsString('"table":"grading_definitions"', $log);
-        $this->assertStringContainsString('"failure_type":"duplicate_key"', $log);
-        $this->assertStringContainsString('"exception_class":"dml_write_exception"', $log);
-        $this->assertStringContainsString('Duplicate entry for grading definition', $log);
+        $this->assertInstanceOf(\local_moodlia\event\assignment_update_failed::class, $event);
+        $this->assertSame('update_assignment', $event->other['operation']);
+        $this->assertSame('grading_definitions', $event->other['table']);
+        $this->assertSame('duplicate_key', $event->other['failure_type']);
+        $this->assertSame('dml_write_exception', $event->other['exception_class']);
+        $this->assertStringContainsString('Duplicate entry for grading definition', $event->other['exception_message']);
     }
 
     /**
