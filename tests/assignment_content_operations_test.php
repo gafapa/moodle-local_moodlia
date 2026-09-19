@@ -24,6 +24,7 @@
 
 namespace local_moodlia;
 
+use local_moodlia\operation\assignment_tools;
 use local_moodlia\operation\backup_course;
 use local_moodlia\operation\restore_course_backup;
 use local_moodlia\operation\update_assignment;
@@ -32,6 +33,37 @@ use local_moodlia\operation\update_assignment;
  * Exercises assignment name, editor content, file, and backup behavior.
  */
 final class assignment_content_operations_test extends \advanced_testcase {
+    /**
+     * Database write diagnostics expose only a correlation id to the caller.
+     */
+    public function test_assignment_update_database_error_has_safe_correlation_id(): void {
+        $this->resetAfterTest();
+        $logpath = make_request_directory() . '/assignment-update-error.log';
+        $originalerrorlog = ini_get('error_log');
+        ini_set('error_log', $logpath);
+
+        try {
+            $exception = new \dml_write_exception(
+                'Duplicate entry for grading definition',
+                'INSERT INTO {grading_definitions} (name) VALUES (?)',
+                ['private-parameter-value']
+            );
+            $publicexception = assignment_tools::assignment_update_write_exception($exception, 2609, 7710);
+            $log = file_get_contents($logpath);
+        } finally {
+            ini_set('error_log', $originalerrorlog);
+        }
+
+        $this->assertMatchesRegularExpression('/Correlation ID: mla-[a-f0-9]{16}/', $publicexception->getMessage());
+        $this->assertStringNotContainsString('INSERT INTO', $publicexception->getMessage());
+        $this->assertStringNotContainsString('private-parameter-value', $publicexception->getMessage());
+        $this->assertStringContainsString('"operation":"update_assignment"', $log);
+        $this->assertStringContainsString('"table":"grading_definitions"', $log);
+        $this->assertStringContainsString('"failure_type":"duplicate_key"', $log);
+        $this->assertStringContainsString('"exception_class":"dml_write_exception"', $log);
+        $this->assertStringContainsString('Duplicate entry for grading definition', $log);
+    }
+
     /**
      * Assignment content updates preserve unrelated assignment settings.
      */
@@ -74,6 +106,91 @@ final class assignment_content_operations_test extends \advanced_testcase {
         $this->assertSame(1, (int) $stored->submissiondrafts);
         $this->assertSame('Updated assignment', $updated['name']);
         $this->assertSame([], $updated['uploaded_files']);
+    }
+
+    /**
+     * Updating assignment content preserves an active rubric and grade configuration.
+     */
+    public function test_update_assignment_preserves_active_rubric(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course();
+        $assignment = $this->getDataGenerator()->create_module('assign', [
+            'course' => $course->id,
+            'name' => 'Rubric assignment',
+            'intro' => '<p>Original rubric description</p>',
+            'introformat' => FORMAT_HTML,
+            'grade' => 42,
+            'submissiondrafts' => 1,
+            'assignsubmission_onlinetext_enabled' => 1,
+            'assignsubmission_file_enabled' => 0,
+            'assignfeedback_comments_enabled' => 1,
+        ]);
+        $cm = get_coursemodule_from_instance('assign', $assignment->id, $course->id, false, MUST_EXIST);
+        $context = \context_module::instance((int) $cm->id);
+        $rubricgenerator = $this->getDataGenerator()->get_plugin_generator('gradingform_rubric');
+        $controller = $rubricgenerator->create_instance(
+            $context,
+            'mod_assign',
+            'submissions',
+            'Content rubric',
+            'Regression rubric',
+            [
+                'Accuracy' => [
+                    'Needs work' => 0,
+                    'Meets expectations' => 2,
+                    'Exceeds expectations' => 4,
+                ],
+                'Clarity' => [
+                    'Unclear' => 0,
+                    'Clear' => 2,
+                ],
+            ]
+        );
+        $definitionbefore = $controller->get_definition();
+        $gradeitembefore = \grade_item::fetch([
+            'itemtype' => 'mod',
+            'itemmodule' => 'assign',
+            'iteminstance' => $assignment->id,
+            'itemnumber' => 0,
+            'courseid' => $course->id,
+        ]);
+        $settingsbefore = $DB->get_record('assign', ['id' => $assignment->id], '*', MUST_EXIST);
+        $pluginconfigbefore = $DB->get_records('assign_plugin_config', ['assignment' => $assignment->id]);
+
+        update_assignment::execute(
+            (int) $course->id,
+            (int) $cm->id,
+            null,
+            '<p>Updated rubric description</p>',
+            'html'
+        );
+
+        $settingsafter = $DB->get_record('assign', ['id' => $assignment->id], '*', MUST_EXIST);
+        $gradeitemafter = \grade_item::fetch([
+            'itemtype' => 'mod',
+            'itemmodule' => 'assign',
+            'iteminstance' => $assignment->id,
+            'itemnumber' => 0,
+            'courseid' => $course->id,
+        ]);
+        $gradingmanager = get_grading_manager($context, 'mod_assign', 'submissions');
+        $definitionafter = $gradingmanager->get_controller('rubric')->get_definition();
+        $pluginconfigafter = $DB->get_records('assign_plugin_config', ['assignment' => $assignment->id]);
+
+        $this->assertSame('<p>Updated rubric description</p>', $settingsafter->intro);
+        $this->assertSame('rubric', $gradingmanager->get_active_method());
+        $this->assertSame((int) $definitionbefore->id, (int) $definitionafter->id);
+        $this->assertEquals($definitionbefore->rubric_criteria, $definitionafter->rubric_criteria);
+        $this->assertSame((int) $gradeitembefore->id, (int) $gradeitemafter->id);
+        foreach (['gradetype', 'grademin', 'grademax', 'scaleid', 'gradepass', 'categoryid', 'hidden', 'locked'] as $field) {
+            $this->assertEquals($gradeitembefore->{$field}, $gradeitemafter->{$field}, "Grade item {$field} changed.");
+        }
+        $this->assertSame((int) $settingsbefore->grade, (int) $settingsafter->grade);
+        $this->assertSame((int) $settingsbefore->submissiondrafts, (int) $settingsafter->submissiondrafts);
+        $this->assertEquals($pluginconfigbefore, $pluginconfigafter);
     }
 
     /**

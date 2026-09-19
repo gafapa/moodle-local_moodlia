@@ -100,53 +100,62 @@ class update_assignment {
         }
 
         $transaction = $DB->start_delegated_transaction();
-        [$rawcm, $moduledata] = assignment_tools::prepare_update_data($course, $cm);
+        try {
+            [$rawcm, $moduledata] = assignment_tools::prepare_update_data($course, $cm);
 
-        if ($name !== null) {
-            $moduledata->name = $name;
-        }
-        if ($intro !== null) {
-            $moduledata->introeditor['text'] = $intro;
-            $moduledata->introeditor['format'] = $introformat === null
-                ? (int) ($moduledata->introformat ?? FORMAT_HTML)
-                : course_tools::format_to_constant($introformat);
-        }
-
-        if ($activity !== null || ($hasupload && $filearea === 'activity')) {
-            assignment_tools::prepare_activity_editor($moduledata, $cm);
-            if ($activity !== null) {
-                $moduledata->activityeditor['text'] = $activity;
-                $moduledata->activityeditor['format'] = $activityformat === null
-                    ? (int) ($moduledata->activityformat ?? FORMAT_HTML)
-                    : course_tools::format_to_constant($activityformat);
+            if ($name !== null) {
+                $moduledata->name = $name;
             }
-        }
+            if ($intro !== null) {
+                $moduledata->introeditor['text'] = $intro;
+                $moduledata->introeditor['format'] = $introformat === null
+                    ? (int) ($moduledata->introformat ?? FORMAT_HTML)
+                    : course_tools::format_to_constant($introformat);
+            }
 
-        if ($hasupload) {
-            $targetdraftitemid = $filearea === 'activity'
-                ? (int) $moduledata->activityeditor['itemid']
-                : (int) $moduledata->introeditor['itemid'];
-            assignment_tools::copy_upload_to_editor_draft(
-                $course,
-                $cm,
-                $filename,
-                $uploadreference,
-                $draftitemid,
-                $targetdraftitemid
+            if ($activity !== null || ($hasupload && $filearea === 'activity')) {
+                assignment_tools::prepare_activity_editor($moduledata, $cm);
+                if ($activity !== null) {
+                    $moduledata->activityeditor['text'] = $activity;
+                    $moduledata->activityeditor['format'] = $activityformat === null
+                        ? (int) ($moduledata->activityformat ?? FORMAT_HTML)
+                        : course_tools::format_to_constant($activityformat);
+                }
+            }
+
+            if ($hasupload) {
+                $targetdraftitemid = $filearea === 'activity'
+                    ? (int) $moduledata->activityeditor['itemid']
+                    : (int) $moduledata->introeditor['itemid'];
+                assignment_tools::copy_upload_to_editor_draft(
+                    $course,
+                    $cm,
+                    $filename,
+                    $uploadreference,
+                    $draftitemid,
+                    $targetdraftitemid
+                );
+            }
+
+            update_moduleinfo($rawcm, $moduledata, $course);
+            rebuild_course_cache((int) $course->id, true);
+
+            $updatedcm = assignment_tools::get_assignment_module($course, $moduleid);
+            $response = assignment_tools::assignment_summary_to_response($course, $updatedcm);
+            $response['uploaded_files'] = $hasupload
+                ? [assignment_tools::get_editor_file_response($updatedcm, $filearea, $filename)]
+                : [];
+
+            $transaction->allow_commit();
+
+            return $response;
+        } catch (\dml_write_exception $exception) {
+            $publicexception = assignment_tools::assignment_update_write_exception(
+                $exception,
+                (int) $course->id,
+                $moduleid
             );
+            $transaction->rollback($publicexception);
         }
-
-        update_moduleinfo($rawcm, $moduledata, $course);
-        rebuild_course_cache((int) $course->id, true);
-
-        $updatedcm = assignment_tools::get_assignment_module($course, $moduleid);
-        $response = assignment_tools::assignment_summary_to_response($course, $updatedcm);
-        $response['uploaded_files'] = $hasupload
-            ? [assignment_tools::get_editor_file_response($updatedcm, $filearea, $filename)]
-            : [];
-
-        $transaction->allow_commit();
-
-        return $response;
     }
 }

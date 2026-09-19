@@ -160,8 +160,72 @@ class assignment_tools {
         $assignment = new \assign($context, $cm, $course);
         $defaults = (array) $moduledata;
         $assignment->plugin_data_preprocessing($defaults);
+        self::preserve_plugin_configuration($assignment, $defaults);
 
         return [$rawcm, (object) $defaults];
+    }
+
+    /**
+     * Populate the form fields consumed by assignment submission and feedback plugins.
+     *
+     * Moodle's plugin_data_preprocessing() hook prepares editor fields, but it does not
+     * populate the enabled checkboxes or every settings field. Passing that incomplete
+     * data to assign_update_instance() disables plugins and can overwrite their settings.
+     *
+     * @param \assign $assignment Assignment.
+     * @param array $defaults Defaults.
+     */
+    private static function preserve_plugin_configuration(\assign $assignment, array &$defaults): void {
+        $plugins = array_merge(
+            $assignment->get_submission_plugins(),
+            $assignment->get_feedback_plugins()
+        );
+
+        foreach ($plugins as $plugin) {
+            $prefix = $plugin->get_subtype() . '_' . $plugin->get_type();
+            $defaults[$prefix . '_enabled'] = $plugin->is_enabled() ? 1 : 0;
+
+            $configuration = $plugin->get_config();
+            foreach (get_object_vars($configuration) as $name => $value) {
+                $defaults[$prefix . '_' . $name] = $value;
+            }
+
+            self::preserve_core_plugin_form_fields($prefix, $configuration, $defaults);
+        }
+    }
+
+    /**
+     * Map core assignment plugin configuration keys to their settings-form field names.
+     *
+     * @param string $prefix Prefix.
+     * @param \stdClass $configuration Configuration.
+     * @param array $defaults Defaults.
+     */
+    private static function preserve_core_plugin_form_fields(
+        string $prefix,
+        \stdClass $configuration,
+        array &$defaults
+    ): void {
+        $fieldmaps = [
+            'assignsubmission_file' => [
+                'maxfilesubmissions' => 'maxfiles',
+                'maxsubmissionsizebytes' => 'maxsizebytes',
+                'filetypeslist' => 'filetypes',
+            ],
+            'assignsubmission_onlinetext' => [
+                'wordlimit' => 'wordlimit',
+                'wordlimitenabled' => 'wordlimit_enabled',
+            ],
+            'assignfeedback_comments' => [
+                'commentinline' => 'commentinline',
+            ],
+        ];
+
+        foreach ($fieldmaps[$prefix] ?? [] as $configurationname => $fieldname) {
+            if (property_exists($configuration, $configurationname)) {
+                $defaults[$prefix . '_' . $fieldname] = $configuration->{$configurationname};
+            }
+        }
     }
 
     /**
@@ -543,6 +607,94 @@ class assignment_tools {
             'visible' => (bool) $cm->visible,
             'url' => $cm->url ? $cm->url->out(false) : '',
         ];
+    }
+
+    /**
+     * Log a database write failure and return a safe client-facing exception.
+     *
+     * @param \dml_write_exception $exception Exception.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @return \moodle_exception
+     */
+    public static function assignment_update_write_exception(
+        \dml_write_exception $exception,
+        int $courseid,
+        int $moduleid
+    ): \moodle_exception {
+        $correlationid = 'mla-' . bin2hex(random_bytes(8));
+        $table = self::database_table_from_sql((string) ($exception->sql ?? ''));
+        $databaseerror = trim((string) ($exception->error ?? $exception->getMessage()));
+        $logentry = [
+            'correlation_id' => $correlationid,
+            'operation' => 'update_assignment',
+            'course_id' => $courseid,
+            'module_id' => $moduleid,
+            'table' => $table,
+            'failure_type' => self::classify_database_write_failure($table, $databaseerror),
+            'exception_class' => get_class($exception),
+            'exception_code' => (string) ($exception->errorcode ?? 'dmlwriteexception'),
+            'exception_message' => $exception->getMessage(),
+            'database_error' => mb_substr($databaseerror, 0, 1000),
+        ];
+        $encoded = json_encode($logentry, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        error_log('[local_moodlia] assignment_update_database_failure ' . ($encoded ?: $correlationid));
+
+        return new \moodle_exception('assignmentupdatefailed', 'local_moodlia', '', $correlationid);
+    }
+
+    /**
+     * Extract a table name without exposing SQL or parameters.
+     *
+     * @param string $sql Sql.
+     * @return string
+     */
+    private static function database_table_from_sql(string $sql): string {
+        global $CFG;
+
+        $table = '';
+        if (preg_match('/\{([a-z][a-z0-9_]*)\}/i', $sql, $matches)) {
+            $table = $matches[1];
+        } else if (
+            preg_match('/(?:insert\s+into|update|delete\s+from)\s+[`"]?([a-z][a-z0-9_]*)/i', $sql, $matches)
+        ) {
+            $table = $matches[1];
+            $prefix = (string) ($CFG->prefix ?? '');
+            if ($prefix !== '' && str_starts_with($table, $prefix)) {
+                $table = substr($table, strlen($prefix));
+            }
+        }
+
+        return clean_param($table, PARAM_ALPHANUMEXT);
+    }
+
+    /**
+     * Classify a write failure for server-side diagnostics.
+     *
+     * @param string $table Table.
+     * @param string $databaseerror Databaseerror.
+     * @return string
+     */
+    private static function classify_database_write_failure(string $table, string $databaseerror): string {
+        $normalizederror = strtolower($databaseerror);
+        if (str_contains($normalizederror, 'duplicate') || str_contains($normalizederror, 'unique constraint')) {
+            return 'duplicate_key';
+        }
+        if (
+            str_contains($normalizederror, 'cannot be null')
+            || str_contains($normalizederror, 'not null constraint')
+            || str_contains($normalizederror, 'doesn\'t have a default value')
+        ) {
+            return 'missing_required_field';
+        }
+        if (str_starts_with($table, 'grading_') || str_starts_with($table, 'gradingform_')) {
+            return 'advanced_grading';
+        }
+        if ($table === 'grade_items' || str_starts_with($table, 'grade_')) {
+            return 'gradebook';
+        }
+
+        return 'database_write';
     }
 
     /**

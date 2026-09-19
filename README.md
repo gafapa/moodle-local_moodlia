@@ -230,6 +230,14 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
 
+### 0.1.204
+
+- Keeps active rubrics, grade items, assignment grading settings, and delivery
+  and feedback plugins unchanged when `update_assignment` edits authoring
+  content.
+- Returns a safe correlation identifier for assignment database-write failures
+  while recording structured diagnostics in the Moodle server log.
+
 ### 0.1.203
 
 - Allows `create_book_chapter` and `update_book_chapter` to attach one native

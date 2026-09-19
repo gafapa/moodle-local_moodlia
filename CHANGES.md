@@ -4,6 +4,18 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.204 - 2026-09-19
+
+- Preserved active advanced-grading methods, rubric definitions, grade items,
+  grading settings, and assignment submission and feedback plugin settings
+  when `update_assignment` changes authoring content.
+- Added a Moodle regression test that updates an assignment with an active
+  rubric and verifies stable rubric criteria, identifiers, grade configuration,
+  and plugin settings.
+- Added correlation identifiers and structured server-side diagnostics for
+  assignment database-write failures without exposing SQL to REST, MCP, or CLI
+  callers.
+
 ## 0.1.203 - 2026-09-15
 
 - Added native Book chapter editor-file uploads to `create_book_chapter` and
