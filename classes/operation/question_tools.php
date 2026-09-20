@@ -106,7 +106,7 @@ class question_tools {
             $context = \context_course::instance($course->id);
         }
 
-        $category = question_get_default_category($context->id, true);
+        $category = self::get_or_create_default_category($context);
         if (!$category) {
             throw new \moodle_exception('Could not resolve a default question category for the course question bank.');
         }
@@ -132,7 +132,7 @@ class question_tools {
         self::require_question_api();
 
         $location = self::resolve_question_bank_location($courseid, $bankscope, $questionbankmoduleid, $quizmoduleid);
-        $category = question_get_default_category($location['context']->id, true);
+        $category = self::get_or_create_default_category($location['context']);
         if (!$category) {
             throw new \moodle_exception('Could not resolve a default question category for the selected question bank.');
         }
@@ -479,6 +479,29 @@ class question_tools {
             'question_bank_module_id' => null,
             'quiz_module_id' => null,
         ];
+    }
+
+    /**
+     * Return the default category for a question-bank context, creating it when needed.
+     *
+     * Moodle 4.5 creates legacy default categories through
+     * question_make_default_categories(). Later releases create them through the
+     * standalone question-bank module lifecycle.
+     *
+     * @param \context $context Context.
+     * @return \stdClass|bool
+     */
+    private static function get_or_create_default_category(\context $context) {
+        if (self::has_standalone_question_banks()) {
+            return question_get_default_category($context->id, true);
+        }
+
+        $category = question_get_default_category($context->id);
+        if ($category) {
+            return $category;
+        }
+
+        return question_make_default_categories([$context]);
     }
 
     /**
