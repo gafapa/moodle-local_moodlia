@@ -14,7 +14,7 @@ clean environment:
 | MariaDB | 11.4.12 |
 | MoodlIA | 0.1.200 (`2026082802`) |
 
-The screenshots show that validation run. Release 0.1.207 uses the same web
+The screenshots show that validation run. Release 0.1.208 uses the same web
 installation flow. The user-enablement examples use the fictional account
 `moodlia-service@example.invalid`; no token value appears in the guide. Labels
 can differ slightly in other Moodle themes or language packs.
@@ -23,7 +23,7 @@ can differ slightly in other Moodle themes or language packs.
 
 Confirm all of the following:
 
-- The site runs Moodle 4.5, 5.0, 5.1, or 5.2.
+- The site runs Moodle 4.5, 5.0, 5.1, 5.2, or 5.3.
 - You are signed in as a site administrator.
 - You have a current Moodle code, database, and `moodledata` backup.
 - The web server can write to the Moodle code directory. If it cannot, use the
@@ -48,7 +48,7 @@ npm run plugin:archive
 The generated file is stored under `empaquetado/`, for example:
 
 ```text
-empaquetado/local_moodlia-0.1.207.zip
+empaquetado/local_moodlia-0.1.208.zip
 ```
 
 Do not upload a generic GitHub source-code ZIP. The installable archive must
@@ -73,7 +73,7 @@ installation can continue**.
 
 ![Successful validation of local_moodlia](images/web-installation/moodlia-plugin-validation-success.png)
 
-The `MATURITY_BETA` message is informational for release 0.1.207. Stop if the
+The `MATURITY_BETA` message is informational for release 0.1.208. Stop if the
 page reports any other warning or error, such as an unsupported Moodle version,
 an invalid component name, or an unwritable destination directory.
 
@@ -86,7 +86,7 @@ an invalid component name, or an unwritable destination directory.
    - Plugin name: `MoodlIA`
    - Directory: `/local/moodlia`
    - New version: the version expected from the release
-   - Required Moodle range: `405 - 502` for release 0.1.207
+   - Required Moodle range: `405 - 503` for release 0.1.208
    - Status: **Additional** and **To be installed**
 
 ![MoodlIA ready to be installed on the Plugins check page](images/web-installation/moodlia-plugin-check.png)
@@ -106,8 +106,8 @@ plugins**. The MoodlIA row must show:
 
 - Name: `MoodlIA`
 - Component: `local_moodlia`
-- Release: `0.1.207`, or the release you installed
-- Version: `2026092100`, or the version declared by that release
+- Release: `0.1.208`, or the release you installed
+- Version: `2026092101`, or the version declared by that release
 - Source: **Additional**
 
 ![MoodlIA listed as an installed local plugin](images/web-installation/moodlia-plugin-installed.png)
@@ -355,8 +355,8 @@ size limit.
 
 ### Moodle Reports an Unsupported Version
 
-Match the target Moodle release against `version.php`. MoodlIA 0.1.207 declares
-`$plugin->supported = [405, 502]` and must not be installed on a different
+Match the target Moodle release against `version.php`. MoodlIA 0.1.208 declares
+`$plugin->supported = [405, 503]` and must not be installed on a different
 Moodle series without a compatible plugin release.
 
 ### The Upgrade Was Interrupted

@@ -40,6 +40,12 @@ jobs:
           - moodle: MOODLE_502_STABLE
             php: '8.4'
             database: pgsql
+          - moodle: v5.3.0-beta
+            php: '8.3'
+            database: mariadb
+          - moodle: v5.3.0-beta
+            php: '8.4'
+            database: pgsql
     services:
       postgres:
         image: postgres:16

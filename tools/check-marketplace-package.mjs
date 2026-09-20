@@ -33,8 +33,8 @@ if (!versionSource.includes("$plugin->component = 'local_moodlia';")) {
 if (!/\$plugin->requires\s*=\s*2024100700\s*;/.test(versionSource)) {
   throw new Error('The Marketplace package must declare Moodle 4.5 as its minimum version.');
 }
-if (!/\$plugin->supported\s*=\s*\[405,\s*502\]\s*;/.test(versionSource)) {
-  throw new Error('The Marketplace package must declare Moodle 4.5 through 5.2 compatibility explicitly.');
+if (!/\$plugin->supported\s*=\s*\[405,\s*503\]\s*;/.test(versionSource)) {
+  throw new Error('The Marketplace package must declare Moodle 4.5 through 5.3 compatibility explicitly.');
 }
 if (!/\$plugin->maturity\s*=\s*MATURITY_(?:BETA|STABLE)\s*;/.test(versionSource)) {
   throw new Error('The Marketplace package must declare beta or stable maturity.');

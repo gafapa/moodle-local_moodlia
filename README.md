@@ -40,14 +40,14 @@ Both paths use the same canonical operation names and the same Moodle-side permi
 
 ## Requirements
 
-- Moodle 4.5, 5.0, 5.1, or 5.2.
+- Moodle 4.5, 5.0, 5.1, 5.2, or 5.3.
 - Moodle web services enabled.
 - A Moodle REST token authorised for the MoodlIA external service.
 - Users calling the service must have `local/moodlia:useapi` and the Moodle capabilities required by each operation.
 - Plugin inventory and state operations additionally require `local/moodlia:manageplugins`. This capability is not granted to any role archetype by default.
 - Node.js 22 or newer when using the public CLI package.
 
-This release is continuously validated against Moodle 4.5 through 5.2.
+This release is continuously validated against Moodle 4.5 through 5.3. Moodle 5.3 validation currently uses the official `v5.3.0-beta` source tag and remains preliminary until the stable branch is published.
 
 On Moodle 4.5, `course_shared` question-bank operations use the legacy course
 context. Standalone question bank activities and `quiz_private` banks require
@@ -234,6 +234,11 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 ## Release Notes
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
+
+### 0.1.208
+
+- Extends the declared and tested Moodle compatibility range through Moodle 5.3.
+- Adds CI coverage for the official Moodle `v5.3.0-beta` tag on PHP 8.3 and 8.4 with MariaDB and PostgreSQL.
 
 ### 0.1.207
 
