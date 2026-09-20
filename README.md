@@ -230,6 +230,14 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
 
+### 0.1.206
+
+- Fixes assignment updates on Moodle sites whose active language uses a decimal
+  comma, including name-only updates when the assignment has a grade-to-pass
+  value.
+- Preserves the existing grade item and passing threshold while normalising
+  Moodle-localised form defaults before the update.
+
 ### 0.1.205
 
 - Adds `update_resource` so a File resource can receive a replacement file

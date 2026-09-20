@@ -88,11 +88,13 @@ test('section updates preserve the stored format and resolve section-file URLs',
   assert.match(mcpManifestSource, /'name'\s*=>\s*'update_section'[\s\S]*?'draft_item_id'/);
 });
 
-test('assignment updates expose both authoring fields and native editor uploads', async () => {
-  const [contract, externalSource, operationSource, mcpManifestSource] = await Promise.all([
+test('assignment updates expose authoring fields and normalise Moodle form defaults', async () => {
+  const [contract, externalSource, operationSource, assignmentToolsSource, moduleToolsSource, mcpManifestSource] = await Promise.all([
     loadContract(),
     fs.readFile(fromRoot('classes/external/update_assignment.php'), 'utf8'),
     fs.readFile(fromRoot('classes/operation/update_assignment.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/assignment_tools.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/module_common_tools.php'), 'utf8'),
     fs.readFile(fromRoot('classes/mcp/manifest.php'), 'utf8')
   ]);
   const operation = contract.operations.find((entry) => entry.name === 'update_assignment');
@@ -107,6 +109,8 @@ test('assignment updates expose both authoring fields and native editor uploads'
   assert.match(externalSource, /'activity'\s*=>\s*new external_value\(/);
   assert.match(operationSource, /update_moduleinfo\(/);
   assert.match(operationSource, /copy_upload_to_editor_draft/);
+  assert.match(assignmentToolsSource, /normalise_numeric_form_fields\(\$moduledata\)/);
+  assert.match(moduleToolsSource, /unformat_float\(\$value, true\)/);
   assert.match(mcpManifestSource, /'name'\s*=>\s*'update_assignment'[\s\S]*?'draft_item_id'/);
 });
 

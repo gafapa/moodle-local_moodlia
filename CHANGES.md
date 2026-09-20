@@ -4,6 +4,14 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.206 - 2026-09-20
+
+- Fixed `update_assignment` under locales that use a decimal comma. Moodle form
+  defaults such as `gradepass=4,50` are converted back to numeric values before
+  the module update API writes them to the gradebook.
+- Added regression coverage for name-only assignment updates with a non-zero
+  grade-to-pass value, preserving the grade item id and stored threshold.
+
 ## 0.1.205 - 2026-09-20
 
 - Added `update_resource` across REST, MCP, and CLI so a File resource can

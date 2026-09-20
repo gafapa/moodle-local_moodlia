@@ -26,6 +26,7 @@ namespace local_moodlia;
 
 use local_moodlia\operation\assignment_tools;
 use local_moodlia\operation\backup_course;
+use local_moodlia\operation\module_common_tools;
 use local_moodlia\operation\restore_course_backup;
 use local_moodlia\operation\update_assignment;
 
@@ -33,6 +34,23 @@ use local_moodlia\operation\update_assignment;
  * Exercises assignment name, editor content, file, and backup behavior.
  */
 final class assignment_content_operations_test extends \advanced_testcase {
+    /**
+     * Moodle-localised numeric form defaults are converted back to database-safe values.
+     */
+    public function test_assignment_numeric_form_defaults_are_normalised(): void {
+        $moduledata = (object) [
+            'gradepass' => '4,50',
+            'grade' => '10',
+            'gradecat' => '2643',
+        ];
+
+        module_common_tools::normalise_numeric_form_fields($moduledata);
+
+        $this->assertSame(4.5, $moduledata->gradepass);
+        $this->assertSame(10.0, $moduledata->grade);
+        $this->assertSame('2643', $moduledata->gradecat);
+    }
+
     /**
      * Database write diagnostics expose only a correlation id to the caller.
      */
@@ -102,6 +120,53 @@ final class assignment_content_operations_test extends \advanced_testcase {
         $this->assertSame(1, (int) $stored->submissiondrafts);
         $this->assertSame('Updated assignment', $updated['name']);
         $this->assertSame([], $updated['uploaded_files']);
+    }
+
+    /**
+     * A name-only update preserves a non-zero grade-to-pass value.
+     */
+    public function test_update_assignment_changes_only_name_with_nonzero_grade_pass(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course();
+        $assignment = $this->getDataGenerator()->create_module('assign', [
+            'course' => $course->id,
+            'name' => 'Assignment before rename',
+            'grade' => 10,
+        ]);
+        $cm = get_coursemodule_from_instance('assign', $assignment->id, $course->id, false, MUST_EXIST);
+        $gradeitem = \grade_item::fetch([
+            'itemtype' => 'mod',
+            'itemmodule' => 'assign',
+            'iteminstance' => $assignment->id,
+            'itemnumber' => 0,
+            'courseid' => $course->id,
+        ]);
+        $gradeitem->gradepass = 4.5;
+        $gradeitem->update();
+        $gradeitemid = (int) $gradeitem->id;
+
+        $updated = update_assignment::execute(
+            (int) $course->id,
+            (int) $cm->id,
+            'Assignment after rename'
+        );
+
+        $stored = $DB->get_record('assign', ['id' => $assignment->id], 'id,name', MUST_EXIST);
+        $gradeitemafter = \grade_item::fetch([
+            'itemtype' => 'mod',
+            'itemmodule' => 'assign',
+            'iteminstance' => $assignment->id,
+            'itemnumber' => 0,
+            'courseid' => $course->id,
+        ]);
+
+        $this->assertSame('Assignment after rename', $stored->name);
+        $this->assertSame('Assignment after rename', $updated['name']);
+        $this->assertSame($gradeitemid, (int) $gradeitemafter->id);
+        $this->assertEquals(4.5, (float) $gradeitemafter->gradepass);
     }
 
     /**

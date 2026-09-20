@@ -163,8 +163,10 @@ class assignment_tools {
         $defaults = (array) $moduledata;
         $assignment->plugin_data_preprocessing($defaults);
         self::preserve_plugin_configuration($assignment, $defaults);
+        $moduledata = (object) $defaults;
+        module_common_tools::normalise_numeric_form_fields($moduledata);
 
-        return [$rawcm, (object) $defaults];
+        return [$rawcm, $moduledata];
     }
 
     /**

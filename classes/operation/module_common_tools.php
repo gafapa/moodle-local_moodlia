@@ -389,7 +389,7 @@ class module_common_tools {
      *
      * @param \stdClass $moduleinfo Moduleinfo.
      */
-    private static function normalise_numeric_form_fields(\stdClass $moduleinfo): void {
+    public static function normalise_numeric_form_fields(\stdClass $moduleinfo): void {
         foreach (['gradepass', 'grade', 'grademax', 'grademin', 'scale'] as $field) {
             if (property_exists($moduleinfo, $field)) {
                 $moduleinfo->$field = self::normalise_numeric_form_value($moduleinfo->$field);
@@ -408,12 +408,15 @@ class module_common_tools {
             return $value;
         }
 
-        $normalised = str_replace(',', '.', trim($value));
-        if ($normalised === '' || !is_numeric($normalised)) {
-            return $value;
+        $normalised = unformat_float($value, true);
+        if ($normalised !== false && $normalised !== null) {
+            return $normalised;
         }
 
-        return (float) $normalised;
+        // Form defaults can be prepared under a different language from the
+        // current request. Accept Moodle's other common decimal separator too.
+        $fallback = str_replace(',', '.', trim($value));
+        return $fallback !== '' && is_numeric($fallback) ? (float) $fallback : $value;
     }
 
     /**
