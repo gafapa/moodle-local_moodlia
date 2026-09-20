@@ -104,7 +104,22 @@ jobs:
         run: moodle-plugin-ci phpdoc --max-warnings 0
       - name: Run PHPUnit
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci phpunit --fail-on-warning
+        shell: bash
+        run: |
+          set +e
+          moodle-plugin-ci phpunit --fail-on-warning 2>&1 | tee phpunit-output.log
+          phpunit_status=${PIPESTATUS[0]}
+          set -e
+
+          if [[ "$phpunit_status" -ne 0 ]]; then
+            annotation="$(tail -n 100 phpunit-output.log)"
+            annotation="${annotation//'%'/'%25'}"
+            annotation="${annotation//$'\r'/'%0D'}"
+            annotation="${annotation//$'\n'/'%0A'}"
+            echo "::error title=PHPUnit failure::$annotation"
+          fi
+
+          exit "$phpunit_status"
       - name: Mark cancelled jobs as failed
         if: ${{ cancelled() }}
         run: exit 1
