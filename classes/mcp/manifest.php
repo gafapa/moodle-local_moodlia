@@ -2098,6 +2098,20 @@ final class manifest {
                 ]),
             ],
             [
+                'name' => 'update_resource',
+                'description' => 'Replace the file in a Moodle file resource without changing its module identity.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'module_id' => ['type' => 'integer', 'required' => true],
+                    'filename' => ['type' => 'string', 'required' => true],
+                    'upload_reference' => ['type' => 'string', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
+                    'name' => ['type' => 'string', 'required' => false],
+                    'intro' => ['type' => 'string', 'required' => false],
+                    'intro_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                ]),
+            ],
+            [
                 'name' => 'get_resource_files',
                 'description' => 'Return files stored in a Moodle file resource.',
                 'inputSchema' => self::schema([

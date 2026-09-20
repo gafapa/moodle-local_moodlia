@@ -311,6 +311,12 @@
         "reopened"
       ]
     },
+    "update_resource": {
+      "intro_format": [
+        "html",
+        "plain"
+      ]
+    },
     "get_question_categories": {
       "bank_scope": [
         "course_shared",

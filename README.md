@@ -230,6 +230,13 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
 
+### 0.1.205
+
+- Adds `update_resource` so a File resource can receive a replacement file
+  without deleting the activity or changing its Moodle identifiers.
+- Verifies that replaced resource files and course-shared question banks remain
+  present after a native Moodle backup and restore.
+
 ### 0.1.204
 
 - Keeps active rubrics, grade items, assignment grading settings, and delivery

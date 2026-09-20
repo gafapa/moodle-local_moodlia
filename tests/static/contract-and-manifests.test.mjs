@@ -110,6 +110,28 @@ test('assignment updates expose both authoring fields and native editor uploads'
   assert.match(mcpManifestSource, /'name'\s*=>\s*'update_assignment'[\s\S]*?'draft_item_id'/);
 });
 
+test('resource updates replace files without recreating the Moodle module', async () => {
+  const [contract, externalSource, operationSource, mcpManifestSource] = await Promise.all([
+    loadContract(),
+    fs.readFile(fromRoot('classes/external/update_resource.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/update_resource.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/mcp/manifest.php'), 'utf8')
+  ]);
+  const operation = contract.operations.find((entry) => entry.name === 'update_resource');
+
+  assert.equal(operation.files, 'upload');
+  assert.equal(operation.parameters.filename.required, true);
+  assert.equal(operation.parameters.upload_reference.type, 'string');
+  assert.equal(operation.parameters.draft_item_id.type, 'integer');
+  assert.deepEqual(operation.parameters.intro_format.enum, ['html', 'plain']);
+  assert.ok(Array.isArray(operation.returns.files));
+  assert.match(externalSource, /'draft_item_id'\s*=>\s*new external_value\(PARAM_INT,/);
+  assert.match(operationSource, /get_moduleinfo_data\(/);
+  assert.match(operationSource, /update_moduleinfo\(/);
+  assert.match(operationSource, /get_resource_files\(/);
+  assert.match(mcpManifestSource, /'name'\s*=>\s*'update_resource'[\s\S]*?'draft_item_id'/);
+});
+
 test('Book chapter mutations expose native editor uploads on every transport', async () => {
   const [contract, externalCreate, externalUpdate, operationSource, bookToolsSource, mcpManifestSource] = await Promise.all([
     loadContract(),

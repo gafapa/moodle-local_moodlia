@@ -13574,6 +13574,94 @@
       ]
     },
     {
+      "name": "update_resource",
+      "summary": "Replace the file in a Moodle file resource without changing its module identity.",
+      "type": "write",
+      "context": "module",
+      "capabilities": [
+        "moodle/course:manageactivities",
+        "moodle/course:managefiles"
+      ],
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "upload",
+      "parameters": {
+        "course_id": {
+          "type": "integer",
+          "required": true
+        },
+        "module_id": {
+          "type": "integer",
+          "required": true
+        },
+        "filename": {
+          "type": "string",
+          "required": true
+        },
+        "upload_reference": {
+          "type": "string",
+          "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 1
+        },
+        "name": {
+          "type": "string",
+          "required": false
+        },
+        "intro": {
+          "type": "string",
+          "required": false
+        },
+        "intro_format": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain"
+          ]
+        }
+      },
+      "returns": {
+        "module_id": "integer",
+        "course_module_id": "integer",
+        "instance_id": "integer",
+        "name": "string",
+        "files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "time_modified": "integer"
+          }
+        ]
+      },
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "not_found",
+        "file_upload_failed",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli",
+        "browser"
+      ]
+    },
+    {
       "name": "get_resource_files",
       "summary": "Return files stored in a Moodle file resource.",
       "type": "read",

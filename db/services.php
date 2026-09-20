@@ -1665,6 +1665,14 @@ $functions = [
         'ajax' => true,
         'capabilities' => 'local/moodlia:useapi,moodle/course:view',
     ],
+    'local_moodlia_update_resource' => [
+        'classname' => 'local_moodlia\external\update_resource',
+        'methodname' => 'execute',
+        'description' => 'Replace the file in a Moodle file resource without changing its module identity.',
+        'type' => 'write',
+        'ajax' => true,
+        'capabilities' => 'local/moodlia:useapi,moodle/course:manageactivities,moodle/course:managefiles',
+    ],
     'local_moodlia_get_resource_files' => [
         'classname' => 'local_moodlia\external\get_resource_files',
         'methodname' => 'execute',
@@ -2187,6 +2195,7 @@ $services = [
             'local_moodlia_upload_folder_file',
             'local_moodlia_get_folder_files',
             'local_moodlia_download_folder_file',
+            'local_moodlia_update_resource',
             'local_moodlia_get_resource_files',
             'local_moodlia_download_resource_file',
             'local_moodlia_delete_folder_file',

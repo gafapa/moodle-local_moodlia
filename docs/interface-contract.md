@@ -1646,6 +1646,20 @@ Do not expose secrets, local filesystem paths, stack traces, or raw token values
 - Files: download.
 - Returns: metadata plus download URL or binary stream depending on transport.
 
+`update_resource`
+
+- Type: write.
+- Parameters: `course_id`, `module_id`, `filename`, exactly one of
+  `draft_item_id` or the legacy Base64 `upload_reference`, and optional `name`,
+  `intro`, and `intro_format`.
+- Context: existing Resource module.
+- Files: upload.
+- Returns: the unchanged course-module and resource instance ids, current name,
+  and metadata for the stored replacement file.
+- The operation must update the existing module through Moodle's module API. It
+  must not delete or recreate the activity, and it must preserve unrelated
+  completion and course-module settings.
+
 `get_resource_files`
 
 - Type: read.

@@ -394,12 +394,20 @@ moodlia get-folder-files --course-id <course_id> --module-id <folder_module_id>
 moodlia download-folder-file --course-id <course_id> --module-id <folder_module_id> --file-id <file_id>
 ```
 
-List and download resource files:
+Replace a resource file without changing the activity identifiers, then list or
+download the stored file:
 
 ```text
+moodlia update-resource --course-id <course_id> --module-id <resource_module_id> --upload-file "./replacement.pdf"
 moodlia get-resource-files --course-id <course_id> --module-id <resource_module_id>
 moodlia download-resource-file --course-id <course_id> --module-id <resource_module_id> --file-id <file_id>
 ```
+
+`update-resource` sends the local file through Moodle's user draft area and
+updates the existing Resource module through Moodle core APIs. The course-module
+id, resource instance id, completion configuration, activity URL, and history
+remain attached to the same activity. Use `--name`, `--intro`, and
+`--intro-format` only when those fields also need to change.
 
 Delete a controlled folder file:
 
@@ -676,6 +684,9 @@ moodlia create-module --course-id <course_id> --section-number 0 --module-type q
 ```
 
 Moodle question bank activities are not displayed as normal course-section activities, so MoodlIA requires `module-type qbank` to be created in `section-number 0`.
+When `create-question-category --bank-scope course_shared` omits
+`--question-bank-module-id`, MoodlIA reuses the first shared bank or creates a
+`MoodlIA Question Bank` module automatically.
 
 Export and import a portable MoodlIA question bank blueprint:
 

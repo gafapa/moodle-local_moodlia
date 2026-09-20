@@ -4,6 +4,15 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.205 - 2026-09-20
+
+- Added `update_resource` across REST, MCP, and CLI so a File resource can
+  replace its stored file without changing its course-module or instance id.
+- Added streamed draft uploads, optional name and description updates, stored
+  file metadata, and native backup/restore coverage for replaced resources.
+- Added regression coverage proving that `course_shared` creates a standalone
+  Moodle question bank module and that its categories survive backup/restore.
+
 ## 0.1.204 - 2026-09-19
 
 - Preserved active advanced-grading methods, rubric definitions, grade items,
