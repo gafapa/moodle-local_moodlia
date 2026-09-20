@@ -12,7 +12,7 @@ The plugin is free and open-source software released under the GNU GPL v3 or lat
 
 Typical uses include creating course structures, publishing educational content, building activities and quizzes, managing question banks, applying assessment rubrics, auditing courses, synchronising enrolments and groups, producing progress reports, creating native backups, repairing course content, and allowing AI assistants to perform narrowly authorised Moodle tasks. Human review is recommended for consequential operations such as grading, enrolment management, deletion, restoration, and publication.
 
-This release supports Moodle 5.2 and is marked as beta while broader production feedback is collected. The automated test matrix covers PHP 8.3 and 8.4 with PostgreSQL and MariaDB, Moodle metadata and coding-standard checks, PHP documentation checks, PHPUnit tests, static security checks, contract validation, and Marketplace package validation.
+This release supports Moodle 4.5 LTS, 5.0, 5.1, and 5.2 and is marked as beta while broader production feedback is collected. The automated test matrix covers each supported Moodle branch at its PHP-version boundaries, with PostgreSQL and MariaDB represented on every branch, plus Moodle metadata and coding-standard checks, PHP documentation checks, PHPUnit tests, static security checks, contract validation, and Marketplace package validation.
 
 Source code and documentation: https://github.com/gafapa/moodle-local_moodlia
 

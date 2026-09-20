@@ -21,7 +21,8 @@ include `LICENSE`, `README.md`, the English language pack, and the plugin icon.
 Do not add an empty `db/install.xml`; MoodlIA owns no database tables.
 
 The `Moodle Plugin CI` GitHub Actions workflow runs the same tool family used by
-Marketplace against Moodle 5.2 and PHP 8.3/8.4 on PostgreSQL and MariaDB. A
+Marketplace against Moodle 4.5, 5.0, 5.1, and 5.2. It covers the supported PHP
+boundaries and represents PostgreSQL and MariaDB on every Moodle branch. A
 release must not be uploaded while any matrix job is failing.
 
 Marketplace listing metadata:
@@ -39,10 +40,10 @@ The Moodle plugin and public npm client use independent semantic release streams
 
 | Release stream | Current version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
-| Moodle plugin | `0.1.206` | `version.php` | `local_moodlia-0.1.206.zip` |
+| Moodle plugin | `0.1.207` | `version.php` | `local_moodlia-0.1.207.zip` |
 | npm CLI/client | `0.2.7` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.2.7` |
 
-These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.206” or “moodlia npm 0.2.7”, rather than an unqualified version.
+These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.207” or “moodlia npm 0.2.7”, rather than an unqualified version.
 
 ## Release Scope
 

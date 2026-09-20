@@ -25,10 +25,12 @@ boilerplate, Marketplace metadata, static tests, package isolation, the release
 ZIP, and its checksum. PHP syntax is mandatory in CI and optional locally when a
 PHP runtime is unavailable.
 
-GitHub Actions additionally installs Moodle 5.2 and runs Moodle Plugin CI on PHP
-8.3 and 8.4 with PostgreSQL and MariaDB. Moodle coding errors always fail the
-build. Generated external schemas can report non-blocking line-length and
-test-coverage warnings, which remain visible in the CI logs.
+GitHub Actions additionally installs every supported Moodle branch from 4.5
+through 5.2 and runs Moodle Plugin CI at the supported PHP-version boundaries,
+with PostgreSQL and MariaDB represented for every Moodle branch. Moodle coding
+errors always fail the build. Generated external schemas can report
+non-blocking line-length and test-coverage warnings, which remain visible in
+the CI logs.
 
 ## Pull Requests
 

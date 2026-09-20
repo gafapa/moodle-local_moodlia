@@ -218,11 +218,12 @@ dependency audit, plugin packaging, and the Marketplace archive.
 
 Remote Moodle smoke tests and browser verification are not in the default CI workflow. They require environment-specific secrets, a reachable Moodle instance, and permission to create generated test data.
 
-The separate `.github/workflows/moodle-ci.yml` workflow installs Moodle 5.2 and
-validates the plugin on PHP 8.3 and 8.4 with both PostgreSQL and MariaDB. It runs
-PHP lint, Moodle Code Checker, Moodle PHPDoc Checker, structural validation, and
-the plugin PHPUnit suite. This workflow is the Marketplace compatibility gate
-and must pass before uploading a release.
+The separate `.github/workflows/moodle-ci.yml` workflow installs Moodle 4.5,
+5.0, 5.1, and 5.2. It validates the plugin at each branch's supported PHP
+boundaries, with both PostgreSQL and MariaDB represented on every Moodle
+branch. It runs PHP lint, Moodle Code Checker, Moodle PHPDoc Checker, structural
+validation, and the plugin PHPUnit suite. This workflow is the Marketplace
+compatibility gate and must pass before uploading a release.
 
 ## Deployment Safeguards
 

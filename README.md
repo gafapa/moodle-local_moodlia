@@ -40,14 +40,14 @@ Both paths use the same canonical operation names and the same Moodle-side permi
 
 ## Requirements
 
-- Moodle 5.2. The current release declares support for the 5.2 series only.
+- Moodle 4.5, 5.0, 5.1, or 5.2.
 - Moodle web services enabled.
 - A Moodle REST token authorised for the MoodlIA external service.
 - Users calling the service must have `local/moodlia:useapi` and the Moodle capabilities required by each operation.
 - Plugin inventory and state operations additionally require `local/moodlia:manageplugins`. This capability is not granted to any role archetype by default.
 - Node.js 22 or newer when using the public CLI package.
 
-This release has been validated on Moodle 5.2.
+This release is continuously validated against Moodle 4.5 through 5.2.
 
 MoodlIA is free, open-source software. It does not require a MoodlIA-hosted
 service, a vendor account, a paid subscription, or an API key issued by the
@@ -229,6 +229,13 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 ## Release Notes
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
+
+### 0.1.207
+
+- Supports Moodle core 4.5 LTS, 5.0, 5.1, and 5.2.
+- Validates every supported Moodle branch against its minimum and maximum
+  supported PHP families, with PostgreSQL and MariaDB represented on each
+  branch.
 
 ### 0.1.206
 

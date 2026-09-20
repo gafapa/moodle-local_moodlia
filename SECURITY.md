@@ -3,7 +3,7 @@
 ## Supported Version
 
 Security fixes are provided for the latest published MoodlIA release. The
-current release supports Moodle 5.2.
+current release supports Moodle 4.5 through 5.2.
 
 ## Reporting A Vulnerability
 

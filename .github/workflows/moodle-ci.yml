@@ -15,8 +15,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.3', '8.4']
-        database: [pgsql, mariadb]
+        include:
+          - moodle: MOODLE_405_STABLE
+            php: '8.1'
+            database: mariadb
+          - moodle: MOODLE_405_STABLE
+            php: '8.3'
+            database: pgsql
+          - moodle: MOODLE_500_STABLE
+            php: '8.2'
+            database: mariadb
+          - moodle: MOODLE_500_STABLE
+            php: '8.4'
+            database: pgsql
+          - moodle: MOODLE_501_STABLE
+            php: '8.2'
+            database: mariadb
+          - moodle: MOODLE_501_STABLE
+            php: '8.4'
+            database: pgsql
+          - moodle: MOODLE_502_STABLE
+            php: '8.3'
+            database: mariadb
+          - moodle: MOODLE_502_STABLE
+            php: '8.4'
+            database: pgsql
     services:
       postgres:
         image: postgres:16
@@ -62,11 +85,11 @@ jobs:
           echo "$(cd ci/bin; pwd)" >> "$GITHUB_PATH"
           echo "$(cd ci/vendor/bin; pwd)" >> "$GITHUB_PATH"
           sudo locale-gen en_AU.UTF-8
-      - name: Install Moodle 5.2 test environment
+      - name: Install ${{ matrix.moodle }} test environment
         run: moodle-plugin-ci install --plugin ./repository --db-host=127.0.0.1
         env:
           DB: ${{ matrix.database }}
-          MOODLE_BRANCH: MOODLE_502_STABLE
+          MOODLE_BRANCH: ${{ matrix.moodle }}
       - name: Lint PHP
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phplint

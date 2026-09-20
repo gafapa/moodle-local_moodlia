@@ -30,11 +30,11 @@ const versionSource = fs.readFileSync(path.join(pluginRoot, 'version.php'), 'utf
 if (!versionSource.includes("$plugin->component = 'local_moodlia';")) {
   throw new Error('version.php must declare local_moodlia.');
 }
-if (!/\$plugin->requires\s*=\s*2026042000\s*;/.test(versionSource)) {
-  throw new Error('The Marketplace package must declare Moodle 5.2 as its minimum version.');
+if (!/\$plugin->requires\s*=\s*2024100700\s*;/.test(versionSource)) {
+  throw new Error('The Marketplace package must declare Moodle 4.5 as its minimum version.');
 }
-if (!/\$plugin->supported\s*=\s*\[502,\s*502\]\s*;/.test(versionSource)) {
-  throw new Error('The Marketplace package must declare Moodle 5.2 compatibility explicitly.');
+if (!/\$plugin->supported\s*=\s*\[405,\s*502\]\s*;/.test(versionSource)) {
+  throw new Error('The Marketplace package must declare Moodle 4.5 through 5.2 compatibility explicitly.');
 }
 if (!/\$plugin->maturity\s*=\s*MATURITY_(?:BETA|STABLE)\s*;/.test(versionSource)) {
   throw new Error('The Marketplace package must declare beta or stable maturity.');

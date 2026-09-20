@@ -4,6 +4,13 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.207 - 2026-09-21
+
+- Extended the declared Moodle core compatibility range from Moodle 4.5 LTS
+  through Moodle 5.2.
+- Added Moodle Plugin CI coverage for Moodle 4.5, 5.0, 5.1, and 5.2 across
+  each branch's supported PHP range, PostgreSQL, and MariaDB.
+
 ## 0.1.206 - 2026-09-20
 
 - Fixed `update_assignment` under locales that use a decimal comma. Moodle form
