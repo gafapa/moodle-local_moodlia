@@ -10,6 +10,8 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
   through Moodle 5.2.
 - Added Moodle Plugin CI coverage for Moodle 4.5, 5.0, 5.1, and 5.2 across
   each branch's supported PHP range, PostgreSQL, and MariaDB.
+- Made the standalone question bank activity optional so Moodle 4.5 can use its
+  course-context shared question bank without breaking unrelated operations.
 
 ## 0.1.206 - 2026-09-20
 

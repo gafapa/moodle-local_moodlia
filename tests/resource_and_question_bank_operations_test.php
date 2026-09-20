@@ -100,7 +100,7 @@ final class resource_and_question_bank_operations_test extends \advanced_testcas
      * Native backup and restore retain the replaced resource and shared question bank.
      */
     public function test_backup_restores_replaced_resource_and_shared_question_bank(): void {
-        global $DB;
+        global $CFG, $DB;
 
         $this->resetAfterTest();
         $this->setAdminUser();
@@ -129,7 +129,16 @@ final class resource_and_question_bank_operations_test extends \advanced_testcas
             'course_shared'
         );
         $this->assertSame('course_shared', $category['bank_scope']);
-        $this->assertNotNull($category['question_bank_module_id']);
+        $hasstandalonequestionbanks = is_readable($CFG->dirroot . '/mod/qbank/lib.php');
+        if ($hasstandalonequestionbanks) {
+            $this->assertNotNull($category['question_bank_module_id']);
+        } else {
+            $this->assertNull($category['question_bank_module_id']);
+            $this->assertSame(
+                \context_course::instance((int) $course->id)->id,
+                (int) $category['context_id']
+            );
+        }
 
         $backup = backup_course::execute((int) $course->id, 'resource-qbank-portability.mbz');
         $restored = restore_course_backup::execute(
@@ -158,12 +167,16 @@ final class resource_and_question_bank_operations_test extends \advanced_testcas
         $this->assertNotFalse($restoredfile);
         $this->assertSame('Portable resource content', $restoredfile->get_content());
 
-        $qbanks = $modinfo->get_instances_of('qbank');
-        $this->assertCount(1, $qbanks);
-        $restoredqbank = reset($qbanks);
-        $qbankcontext = \context_module::instance((int) $restoredqbank->id);
+        if ($hasstandalonequestionbanks) {
+            $qbanks = $modinfo->get_instances_of('qbank');
+            $this->assertCount(1, $qbanks);
+            $restoredqbank = reset($qbanks);
+            $questionbankcontext = \context_module::instance((int) $restoredqbank->id);
+        } else {
+            $questionbankcontext = \context_course::instance((int) $restoredcourse->id);
+        }
         $this->assertTrue($DB->record_exists('question_categories', [
-            'contextid' => $qbankcontext->id,
+            'contextid' => $questionbankcontext->id,
             'name' => 'Shared portable questions',
         ]));
     }

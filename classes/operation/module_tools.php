@@ -36,6 +36,16 @@ class module_tools {
     }
 
     /**
+     * Return whether a Moodle activity module is installed and exposes its library API.
+     *
+     * @param string $modulename Modulename.
+     * @return bool
+     */
+    public static function is_module_available(string $modulename): bool {
+        return module_lookup_tools::is_module_available($modulename);
+    }
+
+    /**
      * Decode JSON object parameters passed through Moodle REST.
      *
      * @param string $json Json.

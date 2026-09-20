@@ -49,6 +49,11 @@ Both paths use the same canonical operation names and the same Moodle-side permi
 
 This release is continuously validated against Moodle 4.5 through 5.2.
 
+On Moodle 4.5, `course_shared` question-bank operations use the legacy course
+context. Standalone question bank activities and `quiz_private` banks require
+Moodle 5.0 or later because Moodle 4.5 core does not provide those activity
+types.
+
 MoodlIA is free, open-source software. It does not require a MoodlIA-hosted
 service, a vendor account, a paid subscription, or an API key issued by the
 plugin author.
@@ -236,6 +241,8 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
 - Validates every supported Moodle branch against its minimum and maximum
   supported PHP families, with PostgreSQL and MariaDB represented on each
   branch.
+- Uses Moodle 4.5's course-context question bank while retaining standalone and
+  quiz-private question banks on Moodle 5.0 and later.
 
 ### 0.1.206
 

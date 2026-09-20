@@ -53,7 +53,17 @@ class question_tools {
         require_once($CFG->libdir . '/questionlib.php');
         require_once($CFG->dirroot . '/question/editlib.php');
         require_once($CFG->dirroot . '/question/engine/bank.php');
-        require_once($CFG->dirroot . '/mod/qbank/lib.php');
+    }
+
+    /**
+     * Return whether Moodle provides standalone and quiz-private question banks.
+     *
+     * Moodle 4.5 stores the shared question bank directly in the course context.
+     *
+     * @return bool
+     */
+    public static function has_standalone_question_banks(): bool {
+        return module_tools::is_module_available('qbank');
     }
 
     /**
@@ -89,8 +99,12 @@ class question_tools {
         self::require_question_api();
 
         $course = course_tools::get_course($courseid);
-        $cmid = self::get_or_create_course_qbank_module($course);
-        $context = \context_module::instance($cmid);
+        if (self::has_standalone_question_banks()) {
+            $cmid = self::get_or_create_course_qbank_module($course);
+            $context = \context_module::instance($cmid);
+        } else {
+            $context = \context_course::instance($course->id);
+        }
 
         $category = question_get_default_category($context->id, true);
         if (!$category) {
@@ -154,6 +168,16 @@ class question_tools {
                 throw new \invalid_parameter_exception('quiz_module_id is only valid when bank_scope=quiz_private.');
             }
 
+            if (!self::has_standalone_question_banks()) {
+                if ($questionbankmoduleid !== null) {
+                    throw new \invalid_parameter_exception(
+                        'question_bank_module_id is not available on this Moodle version; use the course-shared bank without it.'
+                    );
+                }
+
+                return self::legacy_course_question_bank_location($course);
+            }
+
             $cmid = $questionbankmoduleid ?: self::get_or_create_course_qbank_module($course);
             $cm = module_tools::get_course_module($course, $cmid);
             if ($cm->modname !== 'qbank') {
@@ -174,6 +198,12 @@ class question_tools {
 
         if ($quizmoduleid === null || $quizmoduleid <= 0) {
             throw new \invalid_parameter_exception('quiz_module_id is required when bank_scope=quiz_private.');
+        }
+
+        if (!self::has_standalone_question_banks()) {
+            throw new \invalid_parameter_exception(
+                'bank_scope=quiz_private requires a Moodle version that provides private activity question banks.'
+            );
         }
 
         $cm = module_tools::get_quiz_module($course, $quizmoduleid);
@@ -214,6 +244,16 @@ class question_tools {
                 throw new \invalid_parameter_exception('quiz_module_id is only valid when bank_scope=quiz_private.');
             }
 
+            if (!self::has_standalone_question_banks()) {
+                if ($questionbankmoduleid !== null) {
+                    throw new \invalid_parameter_exception(
+                        'question_bank_module_id is not available on this Moodle version; use the course-shared bank without it.'
+                    );
+                }
+
+                return self::legacy_course_question_bank_location($course);
+            }
+
             if ($questionbankmoduleid !== null) {
                 $cm = module_tools::get_course_module($course, $questionbankmoduleid);
                 if ($cm->modname !== 'qbank') {
@@ -251,6 +291,12 @@ class question_tools {
             throw new \invalid_parameter_exception('quiz_module_id is required when bank_scope=quiz_private.');
         }
 
+        if (!self::has_standalone_question_banks()) {
+            throw new \invalid_parameter_exception(
+                'bank_scope=quiz_private requires a Moodle version that provides private activity question banks.'
+            );
+        }
+
         $cm = module_tools::get_quiz_module($course, $quizmoduleid);
 
         return [
@@ -275,21 +321,35 @@ class question_tools {
         $modinfo = get_fast_modinfo($course);
         $banks = [];
 
-        foreach ($modinfo->get_instances_of('qbank') as $cm) {
-            $context = \context_module::instance($cm->id);
+        if (self::has_standalone_question_banks()) {
+            foreach ($modinfo->get_instances_of('qbank') as $cm) {
+                $context = \context_module::instance($cm->id);
+                $banks[] = [
+                    'bank_scope' => self::BANK_SCOPE_COURSE_SHARED,
+                    'module_id' => (int) $cm->id,
+                    'question_bank_module_id' => (int) $cm->id,
+                    'quiz_module_id' => null,
+                    'name' => format_string($cm->name, true, ['context' => $context]),
+                    'context_id' => (int) $context->id,
+                    'visible' => (bool) $cm->visible,
+                    'url' => (new \moodle_url('/question/edit.php', ['cmid' => $cm->id]))->out(false),
+                ];
+            }
+        } else {
+            $context = \context_course::instance($course->id);
             $banks[] = [
                 'bank_scope' => self::BANK_SCOPE_COURSE_SHARED,
-                'module_id' => (int) $cm->id,
-                'question_bank_module_id' => (int) $cm->id,
+                'module_id' => 0,
+                'question_bank_module_id' => null,
                 'quiz_module_id' => null,
-                'name' => format_string($cm->name, true, ['context' => $context]),
+                'name' => format_string($course->fullname, true, ['context' => $context]),
                 'context_id' => (int) $context->id,
-                'visible' => (bool) $cm->visible,
-                'url' => (new \moodle_url('/question/edit.php', ['cmid' => $cm->id]))->out(false),
+                'visible' => (bool) $course->visible,
+                'url' => (new \moodle_url('/question/edit.php', ['courseid' => $course->id]))->out(false),
             ];
         }
 
-        if ($includequizprivate) {
+        if ($includequizprivate && self::has_standalone_question_banks()) {
             foreach ($modinfo->get_instances_of('quiz') as $cm) {
                 $context = \context_module::instance($cm->id);
                 $banks[] = [
@@ -342,6 +402,16 @@ class question_tools {
         $responses = [];
 
         foreach ($categories as $category) {
+            $urlparameters = [
+                'category' => ((int) $category->id) . ',' . ((int) $context->id),
+            ];
+            $owningmoduleid = $location['question_bank_module_id'] ?: $location['quiz_module_id'];
+            if ($owningmoduleid) {
+                $urlparameters['cmid'] = $owningmoduleid;
+            } else {
+                $urlparameters['courseid'] = $courseid;
+            }
+
             $responses[] = [
                 'category_id' => (int) $category->id,
                 'name' => format_string($category->name, true, ['context' => $context]),
@@ -352,10 +422,7 @@ class question_tools {
                 'bank_scope' => (string) $location['bank_scope'],
                 'question_bank_module_id' => $location['question_bank_module_id'],
                 'quiz_module_id' => $location['quiz_module_id'],
-                'url' => (new \moodle_url('/question/edit.php', [
-                    'cmid' => $location['question_bank_module_id'] ?: $location['quiz_module_id'],
-                    'category' => ((int) $category->id) . ',' . ((int) $context->id),
-                ]))->out(false),
+                'url' => (new \moodle_url('/question/edit.php', $urlparameters))->out(false),
             ];
         }
 
@@ -370,6 +437,10 @@ class question_tools {
      */
     public static function get_or_create_course_qbank_module(\stdClass $course): int {
         self::require_question_api();
+
+        if (!self::has_standalone_question_banks()) {
+            throw new \coding_exception('The standalone question bank activity is not available on this Moodle version.');
+        }
 
         $modinfo = get_fast_modinfo($course);
         $qbanks = $modinfo->get_instances_of('qbank');
@@ -393,6 +464,21 @@ class question_tools {
         rebuild_course_cache($course->id, true);
 
         return (int) $created->coursemodule;
+    }
+
+    /**
+     * Return the Moodle 4.5 course-context question bank location.
+     *
+     * @param \stdClass $course Course.
+     * @return array
+     */
+    private static function legacy_course_question_bank_location(\stdClass $course): array {
+        return [
+            'bank_scope' => self::BANK_SCOPE_COURSE_SHARED,
+            'context' => \context_course::instance($course->id),
+            'question_bank_module_id' => null,
+            'quiz_module_id' => null,
+        ];
     }
 
     /**

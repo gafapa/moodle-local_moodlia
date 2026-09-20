@@ -52,7 +52,9 @@ class module_lookup_tools {
         require_once($CFG->dirroot . '/mod/lesson/locallib.php');
         require_once($CFG->dirroot . '/mod/lti/lib.php');
         require_once($CFG->dirroot . '/mod/lti/locallib.php');
-        require_once($CFG->dirroot . '/mod/qbank/lib.php');
+        if (self::is_module_available('qbank')) {
+            require_once($CFG->dirroot . '/mod/qbank/lib.php');
+        }
         require_once($CFG->dirroot . '/mod/quiz/lib.php');
         require_once($CFG->dirroot . '/mod/resource/lib.php');
         require_once($CFG->dirroot . '/mod/subsection/lib.php');
@@ -64,6 +66,19 @@ class module_lookup_tools {
         require_once($CFG->dirroot . '/group/lib.php');
         require_once($CFG->libdir . '/filelib.php');
         require_once($CFG->libdir . '/resourcelib.php');
+    }
+
+    /**
+     * Return whether a Moodle activity module is installed and exposes its library API.
+     *
+     * @param string $modulename Modulename.
+     * @return bool
+     */
+    public static function is_module_available(string $modulename): bool {
+        global $CFG;
+
+        $modulename = clean_param($modulename, PARAM_PLUGIN);
+        return $modulename !== '' && is_readable($CFG->dirroot . '/mod/' . $modulename . '/lib.php');
     }
 
     /**

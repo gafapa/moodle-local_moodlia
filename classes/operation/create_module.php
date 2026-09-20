@@ -72,6 +72,11 @@ class create_module {
                     implode(', ', $supportedtypes) . '.'
             );
         }
+        if ($moduletype === 'qbank' && !module_tools::is_module_available('qbank')) {
+            throw new \invalid_parameter_exception(
+                'module_type=qbank requires a Moodle version that provides the standalone question bank activity.'
+            );
+        }
         if ($moduletype === 'qbank' && $sectionnumber !== 0) {
             throw new \invalid_parameter_exception(
                 'module_type=qbank must be created in section_number=0 because Moodle does not display ' .
