@@ -4,6 +4,12 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.210 - 2026-09-21
+
+- Corrected Moodle coding-standard boilerplate and method documentation for
+  the synchronization capability and Workshop grading-form endpoints.
+- Re-ran the full static, packaging, and Moodle compatibility release gates.
+
 ## 0.1.209 - 2026-09-21
 
 - Added contextual synchronization capability evidence for category and course permissions without treating operation presence as authorization.
