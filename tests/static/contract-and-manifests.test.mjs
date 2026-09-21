@@ -213,9 +213,13 @@ test('sync capability discovery is contextual and returns authorization evidence
   assert.match(externalSource, /'category_id'\s*=>\s*new external_value\(PARAM_INT,/);
   for (const evidence of [
     'course_create', 'course_view', 'course_update', 'group_manage', 'book_edit',
-    'activity_manage', 'assignment_grade', 'grading_form_manage', 'workshop_form_manage'
+    'activity_manage', 'assignment_grade', 'grading_form_manage', 'workshop_form_manage',
+    'question_view', 'question_manage', 'question_bank_module_available'
   ]) {
-    assert.match(operationSource, new RegExp(`\\$evidence\\['${evidence}'\\]`));
+    assert.match(
+      operationSource,
+      new RegExp(`(?:'${evidence}'\\s*=>|\\$evidence\\['${evidence}'\\])`)
+    );
   }
   assert.match(mcpManifestSource, /'name'\s*=>\s*'get_sync_capabilities'[\s\S]*?'category_id'/);
 });

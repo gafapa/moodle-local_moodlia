@@ -48,6 +48,9 @@ class get_sync_capabilities {
             'assignment_grade' => null,
             'grading_form_manage' => null,
             'workshop_form_manage' => null,
+            'question_view' => null,
+            'question_manage' => null,
+            'question_bank_module_available' => \core_component::get_plugin_directory('mod', 'qbank') !== null,
         ];
 
         if ($categoryid !== null) {
@@ -65,6 +68,11 @@ class get_sync_capabilities {
             $evidence['assignment_grade'] = has_capability('mod/assign:grade', $coursecontext);
             $evidence['grading_form_manage'] = has_capability('moodle/grade:managegradingforms', $coursecontext);
             $evidence['workshop_form_manage'] = has_capability('mod/workshop:editdimensions', $coursecontext);
+            $evidence['question_view'] = has_capability('moodle/question:viewall', $coursecontext);
+            $evidence['question_manage'] = has_capability(
+                'moodle/question:managecategory',
+                $coursecontext
+            ) && has_capability('moodle/question:add', $coursecontext);
         }
 
         return [
