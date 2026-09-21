@@ -86,7 +86,7 @@ class update_section {
         $hasdraftitem = $draftitemid > 0;
         $hasfilename = trim($filename) !== '';
         $hasupload = $hasuploadreference || $hasdraftitem || $hasfilename;
-        if ($hasupload && !$hasfilename) {
+        if ($hasuploadreference && !$hasfilename) {
             throw new \invalid_parameter_exception('filename is required when attaching a section file.');
         }
         if ($hasupload && $hasuploadreference === $hasdraftitem) {
@@ -105,7 +105,7 @@ class update_section {
         }
         $uploadedfiles = [];
         if ($hasupload) {
-            $uploadedfiles[] = section_tools::attach_summary_file(
+            $uploadedfiles = section_tools::attach_summary_files(
                 $course,
                 $section,
                 $filename,

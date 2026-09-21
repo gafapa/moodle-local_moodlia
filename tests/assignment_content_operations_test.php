@@ -279,7 +279,9 @@ final class assignment_content_operations_test extends \advanced_testcase {
             'filename' => 'existing.txt',
         ], 'Existing assignment file');
         $draftitemid = $this->create_draft_file('assignment-hero.jpg', 'Assignment image bytes');
-        $intro = '<p><img src="@@PLUGINFILE@@/assignment-hero.jpg" alt="Assignment hero"></p>';
+        $this->create_draft_file('diagram.png', 'Assignment diagram bytes', $draftitemid, '/media/');
+        $intro = '<p><img src="@@PLUGINFILE@@/assignment-hero.jpg" alt="Assignment hero">'
+            . '<img src="@@PLUGINFILE@@/media/diagram.png" alt="Assignment diagram"></p>';
 
         $updated = update_assignment::execute(
             (int) $course->id,
@@ -295,9 +297,12 @@ final class assignment_content_operations_test extends \advanced_testcase {
             'intro'
         );
 
-        $this->assertCount(1, $updated['uploaded_files']);
-        $this->assertSame('assignment-hero.jpg', $updated['uploaded_files'][0]['filename']);
-        $this->assertSame('intro', $updated['uploaded_files'][0]['file_area']);
+        $this->assertCount(2, $updated['uploaded_files']);
+        $uploadedbyfilename = array_column($updated['uploaded_files'], null, 'filename');
+        $this->assertSame('intro', $uploadedbyfilename['assignment-hero.jpg']['file_area']);
+        $this->assertSame('/media/', $uploadedbyfilename['diagram.png']['filepath']);
+        $this->assertNotEmpty($uploadedbyfilename['diagram.png']['content_hash']);
+        $this->assertCount(3, $updated['intro_files']);
         $this->assertNotFalse($filestorage->get_file(
             $modulecontext->id,
             'mod_assign',
@@ -313,6 +318,14 @@ final class assignment_content_operations_test extends \advanced_testcase {
             0,
             '/',
             'existing.txt'
+        ));
+        $this->assertNotFalse($filestorage->get_file(
+            $modulecontext->id,
+            'mod_assign',
+            'intro',
+            0,
+            '/media/',
+            'diagram.png'
         ));
     }
 
@@ -379,18 +392,27 @@ final class assignment_content_operations_test extends \advanced_testcase {
      *
      * @param string $filename Filename.
      * @param string $content Content.
+     * @param int $draftitemid Draftitemid.
+     * @param string $filepath Filepath.
      * @return int
      */
-    private function create_draft_file(string $filename, string $content): int {
+    private function create_draft_file(
+        string $filename,
+        string $content,
+        int $draftitemid = 0,
+        string $filepath = '/'
+    ): int {
         global $USER;
 
-        $draftitemid = file_get_unused_draft_itemid();
+        if ($draftitemid <= 0) {
+            $draftitemid = file_get_unused_draft_itemid();
+        }
         get_file_storage()->create_file_from_string([
             'contextid' => \context_user::instance((int) $USER->id)->id,
             'component' => 'user',
             'filearea' => 'draft',
             'itemid' => $draftitemid,
-            'filepath' => '/',
+            'filepath' => $filepath,
             'filename' => $filename,
         ], $content);
 

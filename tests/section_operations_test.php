@@ -168,7 +168,9 @@ final class section_operations_test extends \advanced_testcase {
             'filename' => 'existing.txt',
         ], 'Existing file');
         $draftitemid = $this->create_draft_file('office-team-hero.jpg', 'JPEG image bytes');
-        $summary = '<p><img src="@@PLUGINFILE@@/office-team-hero.jpg" alt="Office team"></p>';
+        $this->create_draft_file('diagram.png', 'Diagram bytes', $draftitemid, '/media/');
+        $summary = '<p><img src="@@PLUGINFILE@@/office-team-hero.jpg" alt="Office team">'
+            . '<img src="@@PLUGINFILE@@/media/diagram.png" alt="Diagram"></p>';
 
         $updated = update_section::execute(
             (int) $course->id,
@@ -183,8 +185,13 @@ final class section_operations_test extends \advanced_testcase {
             $draftitemid
         );
 
-        $this->assertCount(1, $updated['uploaded_files']);
-        $this->assertSame('office-team-hero.jpg', $updated['uploaded_files'][0]['filename']);
+        $this->assertCount(2, $updated['uploaded_files']);
+        $uploadedbyfilename = array_column($updated['uploaded_files'], null, 'filename');
+        $this->assertArrayHasKey('office-team-hero.jpg', $uploadedbyfilename);
+        $this->assertSame('/media/', $uploadedbyfilename['diagram.png']['filepath']);
+        $this->assertNotEmpty($uploadedbyfilename['diagram.png']['content_hash']);
+        $this->assertSame($summary, $updated['summary_raw']);
+        $this->assertCount(3, $updated['summary_files']);
         $uploadedfile = $filestorage->get_file(
             $coursecontext->id,
             'course',
@@ -202,6 +209,14 @@ final class section_operations_test extends \advanced_testcase {
             (int) $created['section_id'],
             '/',
             'existing.txt'
+        ));
+        $this->assertNotFalse($filestorage->get_file(
+            $coursecontext->id,
+            'course',
+            'section',
+            (int) $created['section_id'],
+            '/media/',
+            'diagram.png'
         ));
         $this->assertStringContainsString('/pluginfile.php/', $updated['summary']);
         $this->assertStringContainsString('office-team-hero.jpg', $updated['summary']);
@@ -294,18 +309,27 @@ final class section_operations_test extends \advanced_testcase {
      *
      * @param string $filename Filename.
      * @param string $content Content.
+     * @param int $draftitemid Draftitemid.
+     * @param string $filepath Filepath.
      * @return int
      */
-    private function create_draft_file(string $filename, string $content): int {
+    private function create_draft_file(
+        string $filename,
+        string $content,
+        int $draftitemid = 0,
+        string $filepath = '/'
+    ): int {
         global $USER;
 
-        $draftitemid = file_get_unused_draft_itemid();
+        if ($draftitemid <= 0) {
+            $draftitemid = file_get_unused_draft_itemid();
+        }
         get_file_storage()->create_file_from_string([
             'contextid' => \context_user::instance((int) $USER->id)->id,
             'component' => 'user',
             'filearea' => 'draft',
             'itemid' => $draftitemid,
-            'filepath' => '/',
+            'filepath' => $filepath,
             'filename' => $filename,
         ], $content);
 

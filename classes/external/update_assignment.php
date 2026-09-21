@@ -160,16 +160,9 @@ class update_assignment extends external_api {
      */
     public static function execute_returns(): external_single_structure {
         $fields = get_course_assignments::assignment_summary_fields();
-        $fields['uploaded_files'] = new external_multiple_structure(new external_single_structure([
-            'file_id' => new external_value(PARAM_INT, 'Moodle stored file id'),
-            'filename' => new external_value(PARAM_FILE, 'Stored filename'),
-            'url' => new external_value(PARAM_URL, 'Download URL'),
-            'filepath' => new external_value(PARAM_PATH, 'Stored file path'),
-            'filesize' => new external_value(PARAM_INT, 'File size in bytes'),
-            'mimetype' => new external_value(PARAM_RAW, 'Detected MIME type'),
-            'time_modified' => new external_value(PARAM_INT, 'Last modification time'),
-            'file_area' => new external_value(PARAM_ALPHA, 'Assignment editor file area'),
-        ]));
+        $fields['uploaded_files'] = new external_multiple_structure(
+            get_course_assignments::editor_file_structure()
+        );
 
         return new external_single_structure($fields);
     }

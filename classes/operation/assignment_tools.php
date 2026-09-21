@@ -91,6 +91,8 @@ class assignment_tools {
             'assignment_id' => (int) $cm->instance,
             'activity' => (string) ($instance->activity ?? ''),
             'activity_format' => (int) ($instance->activityformat ?? FORMAT_HTML),
+            'intro_files' => self::get_editor_files_response($cm, 'intro'),
+            'activity_files' => self::get_editor_files_response($cm, 'activity'),
             'allowsubmissionsfromdate' => (int) ($instance->allowsubmissionsfromdate ?? 0),
             'duedate' => (int) ($instance->duedate ?? 0),
             'cutoffdate' => (int) ($instance->cutoffdate ?? 0),
@@ -272,6 +274,7 @@ class assignment_tools {
      * @param string $uploadreference Uploadreference.
      * @param int $draftitemid Draftitemid.
      * @param int $targetdraftitemid Targetdraftitemid.
+     * @return array
      */
     public static function copy_upload_to_editor_draft(
         \stdClass $course,
@@ -280,7 +283,7 @@ class assignment_tools {
         string $uploadreference,
         int $draftitemid,
         int $targetdraftitemid
-    ): void {
+    ): array {
         global $USER;
 
         if ($targetdraftitemid <= 0) {
@@ -288,37 +291,66 @@ class assignment_tools {
         }
 
         $modulecontext = \context_module::instance((int) $cm->id);
-        $source = module_file_tools::prepare_user_draft_file(
-            $filename,
-            $uploadreference,
-            $draftitemid,
-            $modulecontext,
-            (int) ($course->maxbytes ?? 0)
-        );
         $usercontext = \context_user::instance((int) $USER->id);
         $filestorage = get_file_storage();
-        $filepath = $source->get_filepath();
-        $filename = $source->get_filename();
-        $existing = $filestorage->get_file(
-            $usercontext->id,
-            'user',
-            'draft',
-            $targetdraftitemid,
-            $filepath,
-            $filename
-        );
-        if ($existing && !$existing->is_directory()) {
-            $existing->delete();
+        if ($draftitemid > 0) {
+            $sources = array_values($filestorage->get_area_files(
+                $usercontext->id,
+                'user',
+                'draft',
+                $draftitemid,
+                'filepath, filename',
+                false
+            ));
+            if (!$sources) {
+                throw new \invalid_parameter_exception(
+                    'draft_item_id must reference at least one file in the current user draft area.'
+                );
+            }
+        } else {
+            $sources = [module_file_tools::prepare_user_draft_file(
+                $filename,
+                $uploadreference,
+                0,
+                $modulecontext,
+                (int) ($course->maxbytes ?? 0)
+            )];
         }
 
-        $filestorage->create_file_from_storedfile([
-            'contextid' => $usercontext->id,
-            'component' => 'user',
-            'filearea' => 'draft',
-            'itemid' => $targetdraftitemid,
-            'filepath' => $filepath,
-            'filename' => $filename,
-        ], $source);
+        $copiedfiles = [];
+        foreach ($sources as $source) {
+            module_file_tools::require_file_size_within_moodle_upload_limit(
+                (int) $source->get_filesize(),
+                $modulecontext,
+                (int) ($course->maxbytes ?? 0)
+            );
+            $existing = $filestorage->get_file(
+                $usercontext->id,
+                'user',
+                'draft',
+                $targetdraftitemid,
+                $source->get_filepath(),
+                $source->get_filename()
+            );
+            if ($existing && !$existing->is_directory()) {
+                $existing->delete();
+            }
+
+            $filestorage->create_file_from_storedfile([
+                'contextid' => $usercontext->id,
+                'component' => 'user',
+                'filearea' => 'draft',
+                'itemid' => $targetdraftitemid,
+                'filepath' => $source->get_filepath(),
+                'filename' => $source->get_filename(),
+            ], $source);
+            $copiedfiles[] = [
+                'filepath' => $source->get_filepath(),
+                'filename' => $source->get_filename(),
+            ];
+        }
+
+        return $copiedfiles;
     }
 
     /**
@@ -345,6 +377,57 @@ class assignment_tools {
             throw new \moodle_exception('filenotfound');
         }
 
+        return self::editor_file_to_response($context, $componentfilearea, $filearea, $file);
+    }
+
+    /**
+     * Return every stored file in an assignment editor area.
+     *
+     * @param \cm_info $cm Cm.
+     * @param string $filearea Filearea.
+     * @return array
+     */
+    public static function get_editor_files_response(\cm_info $cm, string $filearea): array {
+        if (!in_array($filearea, ['intro', 'activity'], true)) {
+            throw new \invalid_parameter_exception('file_area must be one of: intro, activity.');
+        }
+        $context = \context_module::instance((int) $cm->id);
+        $componentfilearea = $filearea === 'activity' ? ASSIGN_ACTIVITYATTACHMENT_FILEAREA : 'intro';
+        $files = get_file_storage()->get_area_files(
+            $context->id,
+            'mod_assign',
+            $componentfilearea,
+            0,
+            'filepath, filename',
+            false
+        );
+
+        return array_map(
+            static fn(\stored_file $file): array => self::editor_file_to_response(
+                $context,
+                $componentfilearea,
+                $filearea,
+                $file
+            ),
+            array_values($files)
+        );
+    }
+
+    /**
+     * Return one assignment editor file response.
+     *
+     * @param \context_module $context Context.
+     * @param string $componentfilearea Componentfilearea.
+     * @param string $filearea Filearea.
+     * @param \stored_file $file File.
+     * @return array
+     */
+    private static function editor_file_to_response(
+        \context_module $context,
+        string $componentfilearea,
+        string $filearea,
+        \stored_file $file
+    ): array {
         $url = \moodle_url::make_pluginfile_url(
             $context->id,
             'mod_assign',
@@ -362,6 +445,7 @@ class assignment_tools {
             'filepath' => $file->get_filepath(),
             'filesize' => (int) $file->get_filesize(),
             'mimetype' => (string) ($file->get_mimetype() ?? ''),
+            'content_hash' => $file->get_contenthash(),
             'time_modified' => (int) $file->get_timemodified(),
             'file_area' => $filearea,
         ];
@@ -586,6 +670,8 @@ class assignment_tools {
             'intro_format' => (int) ($instance->introformat ?? FORMAT_HTML),
             'activity' => (string) ($instance->activity ?? ''),
             'activity_format' => (int) ($instance->activityformat ?? FORMAT_HTML),
+            'intro_files' => self::get_editor_files_response($cm, 'intro'),
+            'activity_files' => self::get_editor_files_response($cm, 'activity'),
             'allowsubmissionsfromdate' => (int) ($instance->allowsubmissionsfromdate ?? 0),
             'duedate' => (int) ($instance->duedate ?? 0),
             'cutoffdate' => (int) ($instance->cutoffdate ?? 0),

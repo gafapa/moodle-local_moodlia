@@ -69,6 +69,11 @@ class get_course_contents {
                 'section_number' => (int) $section->section,
                 'name' => get_section_name($course, $section),
                 'summary' => section_tools::render_summary($course, $section),
+                'summary_raw' => (string) ($section->summary ?? ''),
+                'summary_format' => course_tools::format_from_constant(
+                    (int) ($section->summaryformat ?? FORMAT_HTML)
+                ),
+                'summary_files' => section_tools::summary_files_to_response($course, $section),
                 'visible' => (bool) $section->visible,
                 'modules' => $modules,
             ];

@@ -84,7 +84,9 @@ class section_tools {
             'section_number' => (int) $section->section,
             'name' => get_section_name($course, $section),
             'summary' => self::render_summary($course, $section),
+            'summary_raw' => (string) ($section->summary ?? ''),
             'summary_format' => course_tools::format_from_constant((int) ($section->summaryformat ?? FORMAT_HTML)),
+            'summary_files' => self::summary_files_to_response($course, $section),
             'visible' => (bool) $section->visible,
         ];
     }
@@ -171,6 +173,111 @@ class section_tools {
     }
 
     /**
+     * Attach every file in one user draft to a section summary file area.
+     *
+     * Existing files with matching paths are replaced and unrelated files are preserved.
+     *
+     * @param \stdClass $course Course.
+     * @param \section_info $section Section.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
+     * @return array
+     */
+    public static function attach_summary_files(
+        \stdClass $course,
+        \section_info $section,
+        string $filename,
+        string $uploadreference,
+        int $draftitemid
+    ): array {
+        global $USER;
+
+        $coursecontext = \context_course::instance((int) $course->id);
+        $sources = [];
+        if ($draftitemid > 0) {
+            $usercontext = \context_user::instance((int) $USER->id);
+            $sources = array_values(get_file_storage()->get_area_files(
+                $usercontext->id,
+                'user',
+                'draft',
+                $draftitemid,
+                'filepath, filename',
+                false
+            ));
+            if (!$sources) {
+                throw new \invalid_parameter_exception(
+                    'draft_item_id must reference at least one file in the current user draft area.'
+                );
+            }
+        } else {
+            $sources[] = module_file_tools::prepare_user_draft_file(
+                $filename,
+                $uploadreference,
+                0,
+                $coursecontext,
+                (int) ($course->maxbytes ?? 0)
+            );
+        }
+
+        $filestorage = get_file_storage();
+        $responses = [];
+        foreach ($sources as $source) {
+            module_file_tools::require_file_size_within_moodle_upload_limit(
+                (int) $source->get_filesize(),
+                $coursecontext,
+                (int) ($course->maxbytes ?? 0)
+            );
+            $existing = $filestorage->get_file(
+                $coursecontext->id,
+                'course',
+                'section',
+                (int) $section->id,
+                $source->get_filepath(),
+                $source->get_filename()
+            );
+            if ($existing && !$existing->is_directory()) {
+                $existing->delete();
+            }
+            $storedfile = $filestorage->create_file_from_storedfile([
+                'contextid' => $coursecontext->id,
+                'component' => 'course',
+                'filearea' => 'section',
+                'itemid' => (int) $section->id,
+                'filepath' => $source->get_filepath(),
+                'filename' => $source->get_filename(),
+            ], $source);
+            $responses[] = self::summary_file_to_response($section, $storedfile);
+        }
+
+        return $responses;
+    }
+
+    /**
+     * Return every file owned by a section summary.
+     *
+     * @param \stdClass $course Course.
+     * @param \section_info $section Section.
+     * @return array
+     */
+    public static function summary_files_to_response(\stdClass $course, \section_info $section): array {
+        $coursecontext = \context_course::instance((int) $course->id);
+        $files = get_file_storage()->get_area_files(
+            $coursecontext->id,
+            'course',
+            'section',
+            (int) $section->id,
+            'filepath, filename',
+            false
+        );
+
+        return array_map(
+            static fn(\stored_file $file): array => self::summary_file_to_response($section, $file),
+            array_values($files)
+        );
+    }
+
+    /**
      * Return the canonical section summary file response shape.
      *
      * @param \section_info $section Section.
@@ -195,6 +302,7 @@ class section_tools {
             'filepath' => $file->get_filepath(),
             'filesize' => (int) $file->get_filesize(),
             'mimetype' => (string) ($file->get_mimetype() ?? ''),
+            'content_hash' => $file->get_contenthash(),
             'time_modified' => (int) $file->get_timemodified(),
         ];
     }

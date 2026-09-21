@@ -87,7 +87,7 @@ class update_assignment {
         $hasdraftitem = $draftitemid > 0;
         $hasfilename = trim($filename) !== '';
         $hasupload = $hasuploadreference || $hasdraftitem || $hasfilename;
-        if ($hasupload && !$hasfilename) {
+        if ($hasuploadreference && !$hasfilename) {
             throw new \invalid_parameter_exception('filename is required when attaching an assignment file.');
         }
         if ($hasupload && $hasuploadreference === $hasdraftitem) {
@@ -127,7 +127,7 @@ class update_assignment {
                 $targetdraftitemid = $filearea === 'activity'
                     ? (int) $moduledata->activityeditor['itemid']
                     : (int) $moduledata->introeditor['itemid'];
-                assignment_tools::copy_upload_to_editor_draft(
+                $uploadedidentities = assignment_tools::copy_upload_to_editor_draft(
                     $course,
                     $cm,
                     $filename,
@@ -142,9 +142,17 @@ class update_assignment {
 
             $updatedcm = assignment_tools::get_assignment_module($course, $moduleid);
             $response = assignment_tools::assignment_summary_to_response($course, $updatedcm);
-            $response['uploaded_files'] = $hasupload
-                ? [assignment_tools::get_editor_file_response($updatedcm, $filearea, $filename)]
-                : [];
+            $response['uploaded_files'] = [];
+            if ($hasupload) {
+                $identitykeys = array_flip(array_map(
+                    static fn(array $identity): string => $identity['filepath'] . $identity['filename'],
+                    $uploadedidentities
+                ));
+                $response['uploaded_files'] = array_values(array_filter(
+                    assignment_tools::get_editor_files_response($updatedcm, $filearea),
+                    static fn(array $file): bool => isset($identitykeys[$file['filepath'] . $file['filename']])
+                ));
+            }
 
             $transaction->allow_commit();
 

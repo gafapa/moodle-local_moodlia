@@ -681,6 +681,20 @@
             "section_number": "integer",
             "name": "string",
             "summary": "string",
+            "summary_raw": "string",
+            "summary_format": "string",
+            "summary_files": [
+              {
+                "file_id": "integer",
+                "filename": "string",
+                "url": "string",
+                "filepath": "string",
+                "filesize": "integer",
+                "mimetype": "string",
+                "content_hash": "string",
+                "time_modified": "integer"
+              }
+            ],
             "visible": "boolean",
             "modules": [
               {
@@ -4706,7 +4720,20 @@
         "section_number": "integer",
         "name": "string",
         "summary": "string",
+        "summary_raw": "string",
         "summary_format": "string",
+        "summary_files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "content_hash": "string",
+            "time_modified": "integer"
+          }
+        ],
         "visible": "boolean"
       },
       "errors": [
@@ -4790,7 +4817,20 @@
         "section_number": "integer",
         "name": "string",
         "summary": "string",
+        "summary_raw": "string",
         "summary_format": "string",
+        "summary_files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "content_hash": "string",
+            "time_modified": "integer"
+          }
+        ],
         "visible": "boolean",
         "uploaded_files": [
           {
@@ -4800,6 +4840,7 @@
             "filepath": "string",
             "filesize": "integer",
             "mimetype": "string",
+            "content_hash": "string",
             "time_modified": "integer"
           }
         ]
@@ -12203,6 +12244,32 @@
             "intro_format": "integer",
             "activity": "string",
             "activity_format": "integer",
+            "intro_files": [
+              {
+                "file_id": "integer",
+                "filename": "string",
+                "url": "string",
+                "filepath": "string",
+                "filesize": "integer",
+                "mimetype": "string",
+                "content_hash": "string",
+                "time_modified": "integer",
+                "file_area": "string"
+              }
+            ],
+            "activity_files": [
+              {
+                "file_id": "integer",
+                "filename": "string",
+                "url": "string",
+                "filepath": "string",
+                "filesize": "integer",
+                "mimetype": "string",
+                "content_hash": "string",
+                "time_modified": "integer",
+                "file_area": "string"
+              }
+            ],
             "allowsubmissionsfromdate": "integer",
             "duedate": "integer",
             "cutoffdate": "integer",
@@ -12331,6 +12398,32 @@
         "intro_format": "integer",
         "activity": "string",
         "activity_format": "integer",
+        "intro_files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "content_hash": "string",
+            "time_modified": "integer",
+            "file_area": "string"
+          }
+        ],
+        "activity_files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "content_hash": "string",
+            "time_modified": "integer",
+            "file_area": "string"
+          }
+        ],
         "allowsubmissionsfromdate": "integer",
         "duedate": "integer",
         "cutoffdate": "integer",
@@ -12367,6 +12460,7 @@
             "filepath": "string",
             "filesize": "integer",
             "mimetype": "string",
+            "content_hash": "string",
             "time_modified": "integer",
             "file_area": "string"
           }

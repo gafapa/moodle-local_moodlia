@@ -105,6 +105,8 @@ class get_course_assignments extends external_api {
             'intro_format' => new external_value(PARAM_INT, 'Assignment intro format'),
             'activity' => new external_value(PARAM_RAW, 'Assignment activity instructions HTML'),
             'activity_format' => new external_value(PARAM_INT, 'Assignment activity instructions format'),
+            'intro_files' => new external_multiple_structure(self::editor_file_structure()),
+            'activity_files' => new external_multiple_structure(self::editor_file_structure()),
             'allowsubmissionsfromdate' => new external_value(PARAM_INT, 'Submissions open timestamp'),
             'duedate' => new external_value(PARAM_INT, 'Due timestamp'),
             'cutoffdate' => new external_value(PARAM_INT, 'Cut-off timestamp'),
@@ -130,5 +132,24 @@ class get_course_assignments extends external_api {
             'visible' => new external_value(PARAM_BOOL, 'Whether the assignment module is visible'),
             'url' => new external_value(PARAM_URL, 'Assignment view URL'),
         ];
+    }
+
+    /**
+     * Return the canonical assignment editor file structure.
+     *
+     * @return external_single_structure
+     */
+    public static function editor_file_structure(): external_single_structure {
+        return new external_single_structure([
+            'file_id' => new external_value(PARAM_INT, 'Moodle stored file id'),
+            'filename' => new external_value(PARAM_FILE, 'Stored filename'),
+            'url' => new external_value(PARAM_URL, 'Download URL'),
+            'filepath' => new external_value(PARAM_PATH, 'Stored file path'),
+            'filesize' => new external_value(PARAM_INT, 'File size in bytes'),
+            'mimetype' => new external_value(PARAM_RAW, 'Detected MIME type'),
+            'content_hash' => new external_value(PARAM_ALPHANUM, 'Moodle content hash'),
+            'time_modified' => new external_value(PARAM_INT, 'Last modification time'),
+            'file_area' => new external_value(PARAM_ALPHA, 'Assignment editor file area'),
+        ]);
     }
 }

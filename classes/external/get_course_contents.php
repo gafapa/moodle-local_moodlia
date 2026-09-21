@@ -82,6 +82,18 @@ class get_course_contents extends external_api {
                 'section_number' => new external_value(PARAM_INT, 'Course section number'),
                 'name' => new external_value(PARAM_TEXT, 'Course section name'),
                 'summary' => new external_value(PARAM_RAW, 'Rendered course section summary'),
+                'summary_raw' => new external_value(PARAM_RAW, 'Portable raw course section summary'),
+                'summary_format' => new external_value(PARAM_ALPHA, 'Course section summary format'),
+                'summary_files' => new external_multiple_structure(new external_single_structure([
+                    'file_id' => new external_value(PARAM_INT, 'Moodle stored file id'),
+                    'filename' => new external_value(PARAM_FILE, 'Stored filename'),
+                    'url' => new external_value(PARAM_URL, 'Download URL'),
+                    'filepath' => new external_value(PARAM_PATH, 'Stored file path'),
+                    'filesize' => new external_value(PARAM_INT, 'File size in bytes'),
+                    'mimetype' => new external_value(PARAM_RAW, 'Detected MIME type'),
+                    'content_hash' => new external_value(PARAM_ALPHANUM, 'Moodle content hash'),
+                    'time_modified' => new external_value(PARAM_INT, 'Last modification time'),
+                ])),
                 'visible' => new external_value(PARAM_BOOL, 'Whether the section is visible'),
                 'modules' => new external_multiple_structure(new external_single_structure([
                     'module_id' => new external_value(PARAM_INT, 'MoodlIA module id alias'),
