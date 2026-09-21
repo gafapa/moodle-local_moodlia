@@ -157,6 +157,21 @@ class create_module {
         $created = add_moduleinfo($moduleinfo, $course);
         $createdcmid = (int) $created->coursemodule;
 
+        if ($moduletype === 'page' && (int) ($options['draft_item_id'] ?? 0) > 0) {
+            update_page::execute(
+                (int) $course->id,
+                $createdcmid,
+                null,
+                (string) ($options['content'] ?? ''),
+                'html',
+                null,
+                null,
+                (string) ($options['filename'] ?? ''),
+                '',
+                (int) $options['draft_item_id']
+            );
+        }
+
         set_coursemodule_visible(
             $createdcmid,
             (int) ($moduleinfo->visible ?? 1),

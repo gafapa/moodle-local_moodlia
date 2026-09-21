@@ -25,6 +25,7 @@
 namespace local_moodlia;
 
 use advanced_testcase;
+use local_moodlia\operation\create_module;
 use local_moodlia\operation\update_page;
 
 
@@ -34,6 +35,42 @@ use local_moodlia\operation\update_page;
  * @covers \local_moodlia\operation\update_page
  */
 final class page_content_operations_test extends advanced_testcase {
+    /**
+     * Page creation publishes an editor draft after allocating the module identity.
+     */
+    public function test_create_page_with_editor_draft(): void {
+        global $USER;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course();
+        $draftitemid = file_get_unused_draft_itemid();
+        get_file_storage()->create_file_from_string([
+            'contextid' => \context_user::instance((int) $USER->id)->id,
+            'component' => 'user',
+            'filearea' => 'draft',
+            'itemid' => $draftitemid,
+            'filepath' => '/',
+            'filename' => 'created.png',
+        ], 'Created bytes');
+
+        $created = create_module::execute((int) $course->id, 0, 'page', 'Created Page', [
+            'content' => '<p><img src="@@PLUGINFILE@@/created.png"></p>',
+            'filename' => 'created.png',
+            'draft_item_id' => $draftitemid,
+        ]);
+
+        $context = \context_module::instance((int) $created['module_id']);
+        $this->assertNotFalse(get_file_storage()->get_file(
+            $context->id,
+            'mod_page',
+            'content',
+            0,
+            '/',
+            'created.png'
+        ));
+    }
+
     /**
      * A Page update publishes every file from one draft without replacing the module.
      */

@@ -35,18 +35,8 @@ class module_content_tools {
      * @param array $options Options.
      */
     public static function apply_page_options(\stdClass $moduleinfo, array $options): void {
-        $content = (string) ($options['content'] ?? '');
-        $draftitemid = (int) ($options['draft_item_id'] ?? 0);
-        if ($draftitemid > 0) {
-            $moduleinfo->content_editor = [
-                'text' => $content,
-                'format' => FORMAT_HTML,
-                'itemid' => $draftitemid,
-            ];
-        } else {
-            $moduleinfo->content = $content;
-            $moduleinfo->contentformat = FORMAT_HTML;
-        }
+        $moduleinfo->content = (string) ($options['content'] ?? '');
+        $moduleinfo->contentformat = FORMAT_HTML;
         $moduleinfo->display = RESOURCELIB_DISPLAY_AUTO;
         $moduleinfo->printintro = self::optional_bool($options, 'print_intro', 0);
         $moduleinfo->printlastmodified = self::optional_bool($options, 'print_last_modified', 1);

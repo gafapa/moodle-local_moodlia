@@ -55,7 +55,7 @@ class update_page {
         string $uploadreference = '',
         int $draftitemid = 0
     ): array {
-        global $CFG;
+        global $CFG, $DB;
 
         module_tools::require_module_api();
         require_once($CFG->dirroot . '/course/modlib.php');
@@ -83,18 +83,17 @@ class update_page {
         $moduleinfo = get_moduleinfo_data($rawcm, $course);
         $rawcm = $moduleinfo[0];
         $moduledata = $moduleinfo[3];
+        $page = $DB->get_record('page', ['id' => (int) $cm->instance], '*', MUST_EXIST);
+        $pagecontent = $content ?? (string) $page->content;
+        $pageformat = $contentformat === null
+            ? (int) $page->contentformat
+            : course_tools::format_to_constant($contentformat);
         if ($name !== null) {
             $name = trim($name);
             if ($name === '') {
                 throw new \invalid_parameter_exception('name cannot be empty when provided.');
             }
             $moduledata->name = $name;
-        }
-        if ($content !== null) {
-            $moduledata->content_editor['text'] = $content;
-            $moduledata->content_editor['format'] = $contentformat === null
-                ? (int) ($moduledata->contentformat ?? FORMAT_HTML)
-                : course_tools::format_to_constant($contentformat);
         }
         if ($printintro !== null) {
             $moduledata->printintro = $printintro ? 1 : 0;
@@ -109,15 +108,22 @@ class update_page {
                 'mod_page',
                 'content',
                 0,
-                (string) ($moduledata->content_editor['text'] ?? ''),
+                $pagecontent,
                 $filename,
                 $uploadreference,
                 $draftitemid,
                 (int) ($course->maxbytes ?? 0)
             );
-            $moduledata->content_editor['text'] = $editor['content'];
-            $moduledata->content_editor['itemid'] = $editor['draft_item_id'];
+            $pagecontent = $editor['content'];
+            $pageitemid = $editor['draft_item_id'];
+        } else {
+            $pageitemid = 0;
         }
+        $moduledata->page = [
+            'text' => $pagecontent,
+            'format' => $pageformat,
+            'itemid' => $pageitemid,
+        ];
 
         update_moduleinfo($rawcm, $moduledata, $course);
         rebuild_course_cache((int) $course->id, true);
