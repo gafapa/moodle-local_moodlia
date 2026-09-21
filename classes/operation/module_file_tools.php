@@ -258,6 +258,7 @@ class module_file_tools {
             'filepath' => $file->get_filepath(),
             'filesize' => (int) $file->get_filesize(),
             'mimetype' => (string) ($file->get_mimetype() ?? ''),
+            'content_hash' => (string) $file->get_contenthash(),
             'time_modified' => (int) $file->get_timemodified(),
         ];
     }
@@ -309,6 +310,7 @@ class module_file_tools {
             'filepath' => $file->get_filepath(),
             'filesize' => (int) $file->get_filesize(),
             'mimetype' => (string) ($file->get_mimetype() ?? ''),
+            'content_hash' => (string) $file->get_contenthash(),
             'time_modified' => (int) $file->get_timemodified(),
         ];
     }

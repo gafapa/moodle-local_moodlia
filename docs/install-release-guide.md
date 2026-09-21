@@ -40,8 +40,8 @@ The Moodle plugin and public npm client use independent semantic release streams
 
 | Release stream | Current version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
-| Moodle plugin | `0.1.208` | `version.php` | `local_moodlia-0.1.208.zip` |
-| npm CLI/client | `0.2.7` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.2.7` |
+| Moodle plugin | `0.1.209` | `version.php` | `local_moodlia-0.1.209.zip` |
+| npm CLI/client | `0.3.0` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.3.0` |
 
 These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.208” or “moodlia npm 0.2.7”, rather than an unqualified version.
 
@@ -69,6 +69,12 @@ The target Moodle instance must provide:
   deployment.
 - Either PHP CLI access for Moodle upgrade and cache purge or administrator web
   access to trigger the upgrade.
+
+Server-managed installers must resolve Moodle's effective plugin directory. In the disposable compatibility matrix, Moodle 4.5 and 5.0 used `<moodle-root>/local/moodlia`, while Moodle 5.1 through 5.3 used `<moodle-root>/public/local/moodlia`. The administrative CLI remains under `<moodle-root>/admin/cli` in both layouts.
+
+## Disposable Compatibility Evidence
+
+On 2026-09-21, release build `2026092110` was installed and upgraded successfully in isolated, loopback-only containers for Moodle 4.5.14, 5.0.8, 5.1.5, 5.2.2, and the official 5.3 beta line used by CI. Each run linted all plugin PHP files and verified Moodle's stored plugin build. All test containers, volumes, networks, credentials, and uploaded archives were removed after the run. This installation smoke matrix complements, but does not replace, the PHPUnit matrix in GitHub Actions.
 
 For the complete browser-only procedure, see
 [Install MoodlIA Through Moodle's Web Interface](web-installation.md).

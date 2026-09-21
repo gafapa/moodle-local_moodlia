@@ -41,6 +41,14 @@ $functions = [
         'ajax' => true,
         'capabilities' => 'local/moodlia:useapi',
     ],
+    'local_moodlia_get_sync_capabilities' => [
+        'classname' => 'local_moodlia\external\get_sync_capabilities',
+        'methodname' => 'execute',
+        'description' => 'Return contextual capability evidence for cross-site synchronization.',
+        'type' => 'read',
+        'ajax' => true,
+        'capabilities' => 'local/moodlia:useapi',
+    ],
     'local_moodlia_list_plugins' => [
         'classname' => 'local_moodlia\external\list_plugins',
         'methodname' => 'execute',
@@ -1017,6 +1025,14 @@ $functions = [
         'ajax' => true,
         'capabilities' => 'local/moodlia:useapi,mod/workshop:view',
     ],
+    'local_moodlia_get_workshop_grading_form' => [
+        'classname' => 'local_moodlia\external\get_workshop_grading_form',
+        'methodname' => 'execute',
+        'description' => 'Export the active Moodle Workshop grading form as a portable definition.',
+        'type' => 'read',
+        'ajax' => true,
+        'capabilities' => 'local/moodlia:useapi,mod/workshop:editdimensions',
+    ],
     'local_moodlia_set_workshop_grading_form' => [
         'classname' => 'local_moodlia\external\set_workshop_grading_form',
         'methodname' => 'execute',
@@ -1992,6 +2008,7 @@ $services = [
         'functions' => [
             'local_moodlia_get_current_user',
             'local_moodlia_get_moodlia_status',
+            'local_moodlia_get_sync_capabilities',
             'local_moodlia_list_plugins',
             'local_moodlia_get_plugin_details',
             'local_moodlia_get_plugin_dependencies',
@@ -2114,6 +2131,7 @@ $services = [
             'local_moodlia_get_workshop_submission_assessments',
             'local_moodlia_allocate_workshop_submission',
             'local_moodlia_get_workshop_assessment_form_definition',
+            'local_moodlia_get_workshop_grading_form',
             'local_moodlia_set_workshop_grading_form',
             'local_moodlia_update_workshop_assessment',
             'local_moodlia_evaluate_workshop_assessment',

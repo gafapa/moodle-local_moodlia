@@ -161,6 +161,16 @@ class get_book_chapters extends external_api {
             'previous_chapter_id' => new external_value(PARAM_INT, 'Previous chapter id or 0'),
             'next_chapter_id' => new external_value(PARAM_INT, 'Next chapter id or 0'),
             'url' => new external_value(PARAM_URL, 'Book chapter URL'),
+            'files' => new external_multiple_structure(new external_single_structure([
+                'file_id' => new external_value(PARAM_INT, 'Moodle stored file id'),
+                'filename' => new external_value(PARAM_FILE, 'Stored filename'),
+                'url' => new external_value(PARAM_URL, 'Authenticated web service download URL'),
+                'filepath' => new external_value(PARAM_PATH, 'Stored file path'),
+                'filesize' => new external_value(PARAM_INT, 'File size in bytes'),
+                'mimetype' => new external_value(PARAM_RAW, 'Detected MIME type'),
+                'content_hash' => new external_value(PARAM_ALPHANUM, 'Moodle content hash'),
+                'time_modified' => new external_value(PARAM_INT, 'Last modification time'),
+            ])),
         ];
     }
 }

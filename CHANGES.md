@@ -4,6 +4,18 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.209 - 2026-09-21
+
+- Added contextual synchronization capability evidence for category and course permissions without treating operation presence as authorization.
+- Added portable Workshop grading-form export for accumulative, comments, number-of-errors, and rubric strategies, including rubrics with more than four levels.
+- Added grouping membership, Book chapter file manifests, resource/folder content hashes, and advanced-grading options to synchronization reads.
+- Extended the canonical contract and generated REST, CLI, and MCP manifests for adaptive cross-site synchronization.
+- Validated installation build `2026092110` in disposable Moodle 4.5.14, 5.0.8, 5.1.5, 5.2.2, and 5.3 beta environments.
+
+## 0.1.208 - 2026-09-21
+
+- Extended declared support and CI through the official Moodle 5.3 beta line.
+
 ## 0.1.207 - 2026-09-21
 
 - Extended the declared Moodle core compatibility range from Moodle 4.5 LTS

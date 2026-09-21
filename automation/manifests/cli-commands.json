@@ -2,6 +2,7 @@
   "commands": [
     "get-current-user",
     "get-moodlia-status",
+    "get-sync-capabilities",
     "list-plugins",
     "get-plugin-details",
     "get-plugin-dependencies",
@@ -124,6 +125,7 @@
     "get-workshop-submission-assessments",
     "allocate-workshop-submission",
     "get-workshop-assessment-form-definition",
+    "get-workshop-grading-form",
     "set-workshop-grading-form",
     "update-workshop-assessment",
     "evaluate-workshop-assessment",

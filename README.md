@@ -76,9 +76,9 @@ See the illustrated
 for the complete validated
 workflow, security guidance, and troubleshooting.
 
-For a server-managed deployment:
+For a server-managed deployment, resolve the effective public plugin root first. Moodle 4.5 and 5.0 normally use `<moodle-root>/local/moodlia`; the validated Moodle 5.1-5.3 images use `<moodle-root>/public/local/moodlia`.
 
-1. Copy the `moodlia` folder to `<moodle-root>/local/moodlia`.
+1. Copy the `moodlia` folder to the effective `local/moodlia` plugin directory.
 2. Run the Moodle upgrade process from the Moodle root:
 
 ```bash

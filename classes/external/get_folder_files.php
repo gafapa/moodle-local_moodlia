@@ -88,6 +88,7 @@ class get_folder_files extends external_api {
                 'filepath' => new external_value(PARAM_PATH, 'Stored filepath'),
                 'filesize' => new external_value(PARAM_INT, 'File size in bytes'),
                 'mimetype' => new external_value(PARAM_TEXT, 'File MIME type'),
+                'content_hash' => new external_value(PARAM_ALPHANUM, 'Moodle content hash'),
                 'time_modified' => new external_value(PARAM_INT, 'Last modified timestamp'),
             ])),
         ]);

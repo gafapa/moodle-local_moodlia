@@ -92,6 +92,10 @@ class get_groupings extends external_api {
             'name' => new external_value(PARAM_TEXT, 'Grouping name'),
             'description' => new external_value(PARAM_RAW, 'Grouping description'),
             'idnumber' => new external_value(PARAM_RAW, 'Grouping idnumber'),
+            'group_ids' => new external_multiple_structure(
+                new external_value(PARAM_INT, 'Moodle group id'),
+                'Groups assigned to this grouping'
+            ),
         ]);
     }
 }

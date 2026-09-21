@@ -163,6 +163,71 @@ test('Book chapter mutations expose native editor uploads on every transport', a
   assert.match(bookToolsSource, /file_rewrite_pluginfile_urls\(/);
 });
 
+test('sync reads expose grouping membership, Book assets, and grading-form options', async () => {
+  const [contract, groupingTools, groupingExternal, bookTools, gradingTools] = await Promise.all([
+    loadContract(),
+    fs.readFile(fromRoot('classes/operation/group_tools.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/external/get_groupings.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/book_tools.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/assignment_grading_tools.php'), 'utf8')
+  ]);
+  const operations = Object.fromEntries(contract.operations.map((operation) => [operation.name, operation]));
+
+  assert.deepEqual(operations.get_groupings.returns.groupings[0].group_ids, ['integer']);
+  assert.match(groupingTools, /groups_get_all_groups\(/);
+  assert.match(groupingExternal, /'group_ids'\s*=>\s*new external_multiple_structure/);
+  for (const operationName of ['get_book_chapters', 'create_book_chapter', 'update_book_chapter']) {
+    assert.ok(JSON.stringify(operations[operationName].returns).includes('files'));
+  }
+  assert.match(bookTools, /'content_hash'/);
+  for (const operationName of [
+    'get_assignment_grading_form', 'set_assignment_rubric',
+    'set_assignment_marking_guide', 'set_assignment_checklist'
+  ]) {
+    assert.ok(JSON.stringify(operations[operationName].returns).includes('options_json'));
+  }
+  assert.match(gradingTools, /'options_json'/);
+});
+
+test('sync capability discovery is contextual and returns authorization evidence', async () => {
+  const [contract, externalSource, operationSource, mcpManifestSource] = await Promise.all([
+    loadContract(),
+    fs.readFile(fromRoot('classes/external/get_sync_capabilities.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/get_sync_capabilities.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/mcp/manifest.php'), 'utf8')
+  ]);
+  const operation = contract.operations.find((entry) => entry.name === 'get_sync_capabilities');
+
+  assert.equal(operation.parameters.course_id.required, false);
+  assert.equal(operation.parameters.category_id.required, false);
+  assert.equal(operation.returns.capabilities_json, 'string');
+  assert.match(externalSource, /'category_id'\s*=>\s*new external_value\(PARAM_INT,/);
+  for (const evidence of [
+    'course_create', 'course_view', 'course_update', 'group_manage', 'book_edit',
+    'activity_manage', 'assignment_grade', 'grading_form_manage', 'workshop_form_manage'
+  ]) {
+    assert.match(operationSource, new RegExp(`\\$evidence\\['${evidence}'\\]`));
+  }
+  assert.match(mcpManifestSource, /'name'\s*=>\s*'get_sync_capabilities'[\s\S]*?'category_id'/);
+});
+
+test('Workshop grading forms expose a portable definition and unrestricted rubric level arrays', async () => {
+  const [contract, operationSource, toolsSource, mcpManifestSource] = await Promise.all([
+    loadContract(),
+    fs.readFile(fromRoot('classes/operation/get_workshop_grading_form.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/workshop_tools.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/mcp/manifest.php'), 'utf8')
+  ]);
+  const operations = Object.fromEntries(contract.operations.map((operation) => [operation.name, operation]));
+
+  assert.equal(operations.get_workshop_grading_form.returns.definition_json, 'string');
+  assert.equal(operations.set_workshop_grading_form.parameters.definition.type, 'object');
+  assert.doesNotMatch(JSON.stringify(operations.set_workshop_grading_form), /max(?:imum)?_levels/i);
+  assert.match(operationSource, /export_grading_form_definition/);
+  assert.match(toolsSource, /workshopform_rubric_levels/);
+  assert.match(mcpManifestSource, /'name'\s*=>\s*'get_workshop_grading_form'/);
+});
+
 test('gradebook and course completion operations expose the global configuration contract', async () => {
   const contract = await loadContract();
   const operations = Object.fromEntries(contract.operations.map((operation) => [operation.name, operation]));

@@ -229,6 +229,51 @@ class book_tools {
             'previous_chapter_id' => (int) ($chapter->prev ?? 0),
             'next_chapter_id' => (int) ($chapter->next ?? 0),
             'url' => $url->out(false),
+            'files' => self::chapter_files_to_response($context, (int) $chapter->id),
         ];
+    }
+
+    /**
+     * Return files owned by one Book chapter without embedding credentials in URLs.
+     *
+     * @param \context_module $context Context.
+     * @param int $chapterid Chapterid.
+     * @return array
+     */
+    private static function chapter_files_to_response(\context_module $context, int $chapterid): array {
+        $files = get_file_storage()->get_area_files(
+            $context->id,
+            'mod_book',
+            'chapter',
+            $chapterid,
+            'filepath, filename',
+            false
+        );
+        $responses = [];
+        foreach ($files as $file) {
+            if ($file->is_directory()) {
+                continue;
+            }
+            $url = \moodle_url::make_webservice_pluginfile_url(
+                $context->id,
+                'mod_book',
+                'chapter',
+                $chapterid,
+                $file->get_filepath(),
+                $file->get_filename(),
+                false
+            );
+            $responses[] = [
+                'file_id' => (int) $file->get_id(),
+                'filename' => $file->get_filename(),
+                'url' => $url->out(false),
+                'filepath' => $file->get_filepath(),
+                'filesize' => (int) $file->get_filesize(),
+                'mimetype' => (string) ($file->get_mimetype() ?? ''),
+                'content_hash' => (string) $file->get_contenthash(),
+                'time_modified' => (int) $file->get_timemodified(),
+            ];
+        }
+        return $responses;
     }
 }

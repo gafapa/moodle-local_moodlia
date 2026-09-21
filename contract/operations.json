@@ -82,6 +82,51 @@
       ]
     },
     {
+      "name": "get_sync_capabilities",
+      "summary": "Return contextual capability evidence for cross-site synchronization.",
+      "type": "read",
+      "context": "system",
+      "capabilities": [
+        "local/moodlia:useapi"
+      ],
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "none",
+      "parameters": {
+        "course_id": {
+          "type": "integer",
+          "required": false
+        },
+        "category_id": {
+          "type": "integer",
+          "required": false
+        }
+      },
+      "returns": {
+        "course_id": "integer",
+        "category_id": "integer",
+        "context_evaluated": "boolean",
+        "capabilities_json": "string"
+      },
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "not_found",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli"
+      ]
+    },
+    {
       "name": "list_plugins",
       "summary": "Return an administrative inventory of installed, pending, and missing Moodle plugins.",
       "type": "read",
@@ -3165,7 +3210,10 @@
             "course_id": "integer",
             "name": "string",
             "description": "string",
-            "idnumber": "string"
+            "idnumber": "string",
+            "group_ids": [
+              "integer"
+            ]
           }
         ]
       },
@@ -5035,11 +5083,12 @@
               "icon": "string",
               "secure_icon": "string"
             },
-            "folder": {
-              "display": "separate | course",
-              "show_expanded": "boolean",
-              "show_download_folder": "boolean",
-              "force_download": "boolean"
+          "folder": {
+            "display": "separate | course",
+            "show_expanded": "boolean",
+            "show_download_folder": "boolean",
+            "force_download": "boolean",
+            "draft_item_id": "integer; current-user draft containing all folder files"
             },
             "forum": {
               "forum_type": "general | eachuser | qanda | single | blog",
@@ -5103,10 +5152,12 @@
               "delay_first_second_seconds": "integer",
               "delay_later_seconds": "integer"
             },
-            "resource": {
-              "popup_width": "integer",
-              "popup_height": "integer",
-              "filter_files": "none | all | html"
+          "resource": {
+            "popup_width": "integer",
+            "popup_height": "integer",
+            "filter_files": "none | all | html",
+            "filename": "string",
+            "draft_item_id": "integer; current-user draft containing the named resource file"
             },
             "subsection": {},
             "url": {
@@ -5515,7 +5566,19 @@
             "parent_chapter_id": "integer",
             "previous_chapter_id": "integer",
             "next_chapter_id": "integer",
-            "url": "string"
+            "url": "string",
+            "files": [
+              {
+                "file_id": "integer",
+                "filename": "string",
+                "url": "string",
+                "filepath": "string",
+                "filesize": "integer",
+                "mimetype": "string",
+                "content_hash": "string",
+                "time_modified": "integer"
+              }
+            ]
           }
         ]
       },
@@ -5666,6 +5729,18 @@
         "previous_chapter_id": "integer",
         "next_chapter_id": "integer",
         "url": "string",
+        "files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "content_hash": "string",
+            "time_modified": "integer"
+          }
+        ],
         "uploaded_files": [
           {
             "file_id": "integer",
@@ -5768,6 +5843,18 @@
         "previous_chapter_id": "integer",
         "next_chapter_id": "integer",
         "url": "string",
+        "files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "content_hash": "string",
+            "time_modified": "integer"
+          }
+        ],
         "uploaded_files": [
           {
             "file_id": "integer",
@@ -8044,6 +8131,54 @@
             "message": "string"
           }
         ]
+      },
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "not_found",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli"
+      ]
+    },
+    {
+      "name": "get_workshop_grading_form",
+      "summary": "Export the active Moodle Workshop grading form as a portable definition.",
+      "type": "read",
+      "context": "module",
+      "capabilities": [
+        "mod/workshop:editdimensions"
+      ],
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "none",
+      "parameters": {
+        "course_id": {
+          "type": "integer",
+          "required": true
+        },
+        "module_id": {
+          "type": "integer",
+          "required": true
+        }
+      },
+      "returns": {
+        "course_id": "integer",
+        "module_id": "integer",
+        "workshop_id": "integer",
+        "strategy": "string",
+        "phase": "integer",
+        "dimensions_count": "integer",
+        "definition_json": "string"
       },
       "errors": [
         "invalid_parameters",
@@ -12567,7 +12702,8 @@
             "description": "string"
           }
         ],
-        "checklist_compatible": "boolean"
+        "checklist_compatible": "boolean",
+        "options_json": "string"
       },
       "errors": [
         "invalid_parameters",
@@ -12660,7 +12796,8 @@
             "description": "string"
           }
         ],
-        "checklist_compatible": "boolean"
+        "checklist_compatible": "boolean",
+        "options_json": "string"
       },
       "errors": [
         "invalid_parameters",
@@ -12749,7 +12886,8 @@
             "description": "string"
           }
         ],
-        "checklist_compatible": "boolean"
+        "checklist_compatible": "boolean",
+        "options_json": "string"
       },
       "errors": [
         "invalid_parameters",
@@ -12846,7 +12984,8 @@
             "description": "string"
           }
         ],
-        "checklist_compatible": "boolean"
+        "checklist_compatible": "boolean",
+        "options_json": "string"
       },
       "errors": [
         "invalid_parameters",
@@ -13499,6 +13638,7 @@
             "filepath": "string",
             "filesize": "integer",
             "mimetype": "string",
+            "content_hash": "string",
             "time_modified": "integer"
           }
         ]
@@ -13640,6 +13780,7 @@
             "filepath": "string",
             "filesize": "integer",
             "mimetype": "string",
+            "content_hash": "string",
             "time_modified": "integer"
           }
         ]
@@ -13694,6 +13835,7 @@
             "filepath": "string",
             "filesize": "integer",
             "mimetype": "string",
+            "content_hash": "string",
             "time_modified": "integer"
           }
         ]

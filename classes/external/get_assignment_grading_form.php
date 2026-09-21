@@ -139,6 +139,7 @@ class get_assignment_grading_form extends external_api {
                 'description' => new external_value(PARAM_RAW, 'Comment text'),
             ])),
             'checklist_compatible' => new external_value(PARAM_BOOL, 'Whether the rubric can be used as a binary checklist'),
+            'options_json' => new external_value(PARAM_RAW, 'JSON object with advanced grading form options'),
         ]);
     }
 }

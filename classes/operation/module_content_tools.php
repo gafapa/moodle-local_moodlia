@@ -88,7 +88,7 @@ class module_content_tools {
      * @param array $options Options.
      */
     public static function apply_folder_options(\stdClass $moduleinfo, array $options): void {
-        $moduleinfo->files = 0;
+        $moduleinfo->files = (int) ($options['draft_item_id'] ?? 0);
         $moduleinfo->showexpanded = self::optional_bool($options, 'show_expanded', 1);
         $moduleinfo->showdownloadfolder = self::optional_bool($options, 'show_download_folder', 1);
         $moduleinfo->forcedownload = self::optional_bool($options, 'force_download', 0);

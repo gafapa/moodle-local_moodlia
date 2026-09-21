@@ -46,6 +46,14 @@ final class manifest {
                 'inputSchema' => self::schema([]),
             ],
             [
+                'name' => 'get_sync_capabilities',
+                'description' => 'Return contextual capability evidence for cross-site synchronization.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => false],
+                    'category_id' => ['type' => 'integer', 'required' => false],
+                ]),
+            ],
+            [
                 'name' => 'list_plugins',
                 'description' => 'Return an administrative inventory of installed, pending, and missing Moodle plugins.',
                 'inputSchema' => self::schema([
@@ -1257,6 +1265,14 @@ final class manifest {
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'assessment_id' => ['type' => 'integer', 'required' => true],
                     'mode' => ['type' => 'string', 'required' => false, 'enum' => ['assessment', 'preview']],
+                ]),
+            ],
+            [
+                'name' => 'get_workshop_grading_form',
+                'description' => 'Export the active Moodle Workshop grading form as a portable definition.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'module_id' => ['type' => 'integer', 'required' => true],
                 ]),
             ],
             [

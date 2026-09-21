@@ -105,12 +105,16 @@ class group_tools {
      * @return array
      */
     public static function grouping_to_response(\stdClass $grouping): array {
+        self::require_group_api();
+        $groups = groups_get_all_groups((int) $grouping->courseid, 0, (int) $grouping->id, 'g.id');
+
         return [
             'grouping_id' => (int) $grouping->id,
             'course_id' => (int) $grouping->courseid,
             'name' => format_string($grouping->name, true, ['context' => \context_course::instance($grouping->courseid)]),
             'description' => (string) ($grouping->description ?? ''),
             'idnumber' => (string) ($grouping->idnumber ?? ''),
+            'group_ids' => array_values(array_map('intval', array_keys($groups ?: []))),
         ];
     }
 

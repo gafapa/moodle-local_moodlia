@@ -98,6 +98,67 @@ class workshop_tools {
     }
 
     /**
+     * Export the active Workshop grading form without source database identifiers.
+     *
+     * @param \workshop $workshop Workshop.
+     * @return array
+     */
+    public static function export_grading_form_definition(\workshop $workshop): array {
+        global $DB;
+
+        $strategy = (string) $workshop->strategy;
+        $workshopid = (int) $workshop->id;
+        if ($strategy === 'accumulative') {
+            $records = $DB->get_records('workshopform_accumulative', ['workshopid' => $workshopid], 'sort ASC');
+            return ['dimensions' => array_values(array_map(static fn($record): array => [
+                'description' => (string) $record->description,
+                'grade' => (float) $record->grade,
+                'weight' => (float) $record->weight,
+            ], $records))];
+        }
+        if ($strategy === 'comments') {
+            $records = $DB->get_records('workshopform_comments', ['workshopid' => $workshopid], 'sort ASC');
+            return ['dimensions' => array_values(array_map(static fn($record): array => [
+                'description' => (string) $record->description,
+            ], $records))];
+        }
+        if ($strategy === 'numerrors') {
+            $records = $DB->get_records('workshopform_numerrors', ['workshopid' => $workshopid], 'sort ASC');
+            $mappings = $DB->get_records('workshopform_numerrors_map', ['workshopid' => $workshopid], 'nonegative ASC');
+            return [
+                'dimensions' => array_values(array_map(static fn($record): array => [
+                    'description' => (string) $record->description,
+                    'grade0' => (string) $record->grade0,
+                    'grade1' => (string) $record->grade1,
+                    'weight' => (int) $record->weight,
+                ], $records)),
+                'mappings' => array_values(array_map(static fn($record): array => [
+                    'errors' => (int) $record->nonegative,
+                    'grade' => (float) $record->grade,
+                ], $mappings)),
+            ];
+        }
+        if ($strategy === 'rubric') {
+            $dimensions = $DB->get_records('workshopform_rubric', ['workshopid' => $workshopid], 'sort ASC');
+            $definition = [];
+            foreach ($dimensions as $dimension) {
+                $levels = $DB->get_records('workshopform_rubric_levels', ['dimensionid' => $dimension->id], 'grade ASC');
+                $definition[] = [
+                    'description' => (string) $dimension->description,
+                    'levels' => array_values(array_map(static fn($level): array => [
+                        'definition' => (string) $level->definition,
+                        'grade' => (float) $level->grade,
+                    ], $levels)),
+                ];
+            }
+            $config = $DB->get_record('workshopform_rubric_config', ['workshopid' => $workshopid]);
+            return ['layout' => (string) ($config->layout ?? 'list'), 'dimensions' => $definition];
+        }
+
+        throw new \invalid_parameter_exception('The active Workshop grading strategy is not supported.');
+    }
+
+    /**
      * Prepare Moodle page globals required by Workshop form component APIs.
      *
      * @param \stdClass $course Course.

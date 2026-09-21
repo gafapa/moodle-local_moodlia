@@ -396,6 +396,7 @@ class assignment_grading_tools {
             'criteria' => [],
             'comments' => [],
             'checklist_compatible' => false,
+            'options_json' => '{}',
         ];
     }
 
@@ -438,6 +439,7 @@ class assignment_grading_tools {
                 ? self::guide_comments_to_response((array) ($definition->guide_comments ?? []))
                 : [],
             'checklist_compatible' => $method === 'rubric' && self::is_binary_rubric($criteria),
+            'options_json' => (string) ($definition->options ?? '{}'),
         ];
     }
 
