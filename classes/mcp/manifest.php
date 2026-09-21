@@ -2114,6 +2114,22 @@ final class manifest {
                 ]),
             ],
             [
+                'name' => 'update_page',
+                'description' => 'Update authored Page content and editor files without changing its module identity.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'module_id' => ['type' => 'integer', 'required' => true],
+                    'name' => ['type' => 'string', 'required' => false],
+                    'content' => ['type' => 'string', 'required' => false],
+                    'content_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'print_intro' => ['type' => 'boolean', 'required' => false],
+                    'print_last_modified' => ['type' => 'boolean', 'required' => false],
+                    'filename' => ['type' => 'string', 'required' => false],
+                    'upload_reference' => ['type' => 'string', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
+                ]),
+            ],
+            [
                 'name' => 'update_resource',
                 'description' => 'Replace the file in a Moodle file resource without changing its module identity.',
                 'inputSchema' => self::schema([

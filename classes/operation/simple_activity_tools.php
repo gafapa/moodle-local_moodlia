@@ -60,7 +60,56 @@ class simple_activity_tools {
             'print_last_modified' => self::optional_bool($page + $customdata, 'printlastmodified'),
             'revision' => self::optional_int($page + $customdata, 'revision'),
             'time_modified' => self::optional_int($page + $customdata, 'timemodified'),
+            'files' => self::editor_files($cm, 'mod_page', 'content', 0),
         ];
+    }
+
+    /**
+     * Return a portable file manifest for one editor file area.
+     *
+     * @param \cm_info $cm Cm.
+     * @param string $component Component.
+     * @param string $filearea Filearea.
+     * @param int $itemid Itemid.
+     * @return array
+     */
+    private static function editor_files(
+        \cm_info $cm,
+        string $component,
+        string $filearea,
+        int $itemid
+    ): array {
+        $context = \context_module::instance((int) $cm->id);
+        $files = get_file_storage()->get_area_files(
+            $context->id,
+            $component,
+            $filearea,
+            $itemid,
+            'filepath, filename',
+            false
+        );
+
+        return array_map(static function (\stored_file $file) use ($context, $component, $filearea, $itemid): array {
+            $url = \moodle_url::make_webservice_pluginfile_url(
+                $context->id,
+                $component,
+                $filearea,
+                $itemid,
+                $file->get_filepath(),
+                $file->get_filename(),
+                false
+            );
+            return [
+                'file_id' => (int) $file->get_id(),
+                'filename' => $file->get_filename(),
+                'url' => $url->out(false),
+                'filepath' => $file->get_filepath(),
+                'filesize' => (int) $file->get_filesize(),
+                'mimetype' => (string) ($file->get_mimetype() ?? ''),
+                'content_hash' => (string) $file->get_contenthash(),
+                'time_modified' => (int) $file->get_timemodified(),
+            ];
+        }, array_values($files));
     }
 
     /**

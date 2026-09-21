@@ -207,6 +207,7 @@
     "upload_folder_file",
     "get_folder_files",
     "download_folder_file",
+    "update_page",
     "update_resource",
     "get_resource_files",
     "download_resource_file",

@@ -145,6 +145,54 @@ final class book_chapter_file_operations_test extends \advanced_testcase {
     }
 
     /**
+     * Chapter updates import every file from one authenticated draft item.
+     */
+    public function test_update_book_chapter_imports_multiple_draft_files(): void {
+        global $USER;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        [$course, , $cm] = $this->create_book();
+        $created = create_book_chapter::execute(
+            (int) $course->id,
+            (int) $cm->id,
+            'Chapter',
+            '<p>Initial</p>'
+        );
+        $draftitemid = $this->create_draft_file('hero image.jpg', 'Hero bytes');
+        get_file_storage()->create_file_from_string([
+            'contextid' => \context_user::instance((int) $USER->id)->id,
+            'component' => 'user',
+            'filearea' => 'draft',
+            'itemid' => $draftitemid,
+            'filepath' => '/diagrams/',
+            'filename' => 'flow.svg',
+        ], '<svg></svg>');
+        $content = '<p><img src="@@PLUGINFILE@@/hero%20image.jpg">'
+            . '<img src="@@PLUGINFILE@@/diagrams/flow.svg"></p>';
+
+        $updated = update_book_chapter::execute(
+            (int) $course->id,
+            (int) $cm->id,
+            (int) $created['chapter_id'],
+            null,
+            $content,
+            FORMAT_HTML,
+            null,
+            null,
+            'hero image.jpg',
+            '',
+            $draftitemid
+        );
+
+        $this->assertCount(2, $updated['uploaded_files']);
+        $this->assertCount(2, $updated['files']);
+        $filenames = array_map(static fn(array $file): string => $file['filename'], $updated['files']);
+        sort($filenames);
+        $this->assertSame(['flow.svg', 'hero image.jpg'], $filenames);
+    }
+
+    /**
      * Native Moodle backup and restore retain Book chapter editor files.
      */
     public function test_book_chapter_file_survives_native_backup_restore(): void {

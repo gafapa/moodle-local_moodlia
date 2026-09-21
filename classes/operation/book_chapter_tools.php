@@ -149,7 +149,7 @@ class book_chapter_tools {
         $record->id = $DB->insert_record('book_chapters', $record);
         $uploadedfiles = [];
         if ($hasupload) {
-            $saved = self::attach_chapter_file(
+            $saved = self::attach_chapter_files(
                 $cm,
                 (int) $record->id,
                 $content,
@@ -159,7 +159,7 @@ class book_chapter_tools {
             );
             $record->content = $saved['content'];
             $DB->set_field('book_chapters', 'content', $record->content, ['id' => $record->id]);
-            $uploadedfiles[] = $saved['file'];
+            $uploadedfiles = $saved['files'];
         }
         $record = self::get_chapter_record($book, (int) $record->id);
         self::bump_revision($book);
@@ -249,7 +249,7 @@ class book_chapter_tools {
         $transaction = $DB->start_delegated_transaction();
         $uploadedfiles = [];
         if ($hasupload) {
-            $saved = self::attach_chapter_file(
+            $saved = self::attach_chapter_files(
                 $cm,
                 $chapterid,
                 (string) $chapter->content,
@@ -258,7 +258,7 @@ class book_chapter_tools {
                 $draftitemid
             );
             $chapter->content = $saved['content'];
-            $uploadedfiles[] = $saved['file'];
+            $uploadedfiles = $saved['files'];
         }
 
         $chapter->timemodified = time();
@@ -277,10 +277,10 @@ class book_chapter_tools {
     }
 
     /**
-     * Attach one uploaded file to a Book chapter using Moodle's editor file flow.
+     * Attach uploaded files to a Book chapter using Moodle's editor file flow.
      *
      * Existing chapter files are copied into a fresh editor draft before the
-     * uploaded file is added, so unrelated files remain available. Moodle then
+     * uploaded files are added, so unrelated files remain available. Moodle then
      * stores the complete draft in mod_book/chapter with the chapter id as its
      * item id and normalises any editor URLs back to @@PLUGINFILE@@ references.
      *
@@ -292,7 +292,7 @@ class book_chapter_tools {
      * @param int $draftitemid Draftitemid.
      * @return array
      */
-    private static function attach_chapter_file(
+    private static function attach_chapter_files(
         \cm_info $cm,
         int $chapterid,
         string $content,
@@ -304,7 +304,7 @@ class book_chapter_tools {
 
         $context = \context_module::instance((int) $cm->id);
         $course = get_course((int) $cm->course);
-        $source = module_file_tools::prepare_user_draft_file(
+        $primarysource = module_file_tools::prepare_user_draft_file(
             $filename,
             $uploadreference,
             $draftitemid,
@@ -331,27 +331,45 @@ class book_chapter_tools {
 
         $usercontext = \context_user::instance((int) $USER->id);
         $filestorage = get_file_storage();
-        $filepath = $source->get_filepath();
-        $storedfilename = $source->get_filename();
-        $existing = $filestorage->get_file(
-            $usercontext->id,
-            'user',
-            'draft',
-            $targetdraftitemid,
-            $filepath,
-            $storedfilename
-        );
-        if ($existing && !$existing->is_directory()) {
-            $existing->delete();
+        $sources = [$primarysource];
+        if ($draftitemid > 0) {
+            $sources = array_values($filestorage->get_area_files(
+                $usercontext->id,
+                'user',
+                'draft',
+                $draftitemid,
+                'filepath, filename',
+                false
+            ));
         }
-        $filestorage->create_file_from_storedfile([
-            'contextid' => $usercontext->id,
-            'component' => 'user',
-            'filearea' => 'draft',
-            'itemid' => $targetdraftitemid,
-            'filepath' => $filepath,
-            'filename' => $storedfilename,
-        ], $source);
+        foreach ($sources as $source) {
+            module_file_tools::require_file_size_within_moodle_upload_limit(
+                (int) $source->get_filesize(),
+                $context,
+                (int) ($course->maxbytes ?? 0)
+            );
+            $filepath = $source->get_filepath();
+            $storedfilename = $source->get_filename();
+            $existing = $filestorage->get_file(
+                $usercontext->id,
+                'user',
+                'draft',
+                $targetdraftitemid,
+                $filepath,
+                $storedfilename
+            );
+            if ($existing && !$existing->is_directory()) {
+                $existing->delete();
+            }
+            $filestorage->create_file_from_storedfile([
+                'contextid' => $usercontext->id,
+                'component' => 'user',
+                'filearea' => 'draft',
+                'itemid' => $targetdraftitemid,
+                'filepath' => $filepath,
+                'filename' => $storedfilename,
+            ], $source);
+        }
 
         $storedcontent = file_save_draft_area_files(
             $targetdraftitemid,
@@ -362,21 +380,25 @@ class book_chapter_tools {
             $options,
             $content
         );
-        $file = $filestorage->get_file(
-            $context->id,
-            'mod_book',
-            'chapter',
-            $chapterid,
-            $filepath,
-            $storedfilename
-        );
-        if (!$file || $file->is_directory()) {
-            throw new \moodle_exception('filenotfound');
+        $files = [];
+        foreach ($sources as $source) {
+            $file = $filestorage->get_file(
+                $context->id,
+                'mod_book',
+                'chapter',
+                $chapterid,
+                $source->get_filepath(),
+                $source->get_filename()
+            );
+            if (!$file || $file->is_directory()) {
+                throw new \moodle_exception('filenotfound');
+            }
+            $files[] = self::chapter_file_to_response($context, $chapterid, $file);
         }
 
         return [
             'content' => $storedcontent,
-            'file' => self::chapter_file_to_response($context, $chapterid, $file),
+            'files' => $files,
         ];
     }
 

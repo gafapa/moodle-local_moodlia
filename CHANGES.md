@@ -4,6 +4,12 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.211 - 2026-09-21
+
+- Import every file in an authenticated Book chapter draft as one editor-file publication.
+- Preserve Unicode filenames and nested draft paths while returning the complete uploaded-file manifest.
+- Add regression coverage for multi-file Book chapter updates used by cross-site synchronization.
+
 ## 0.1.210 - 2026-09-21
 
 - Corrected Moodle coding-standard boilerplate and method documentation for

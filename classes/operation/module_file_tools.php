@@ -29,6 +29,107 @@ namespace local_moodlia\operation;
  */
 class module_file_tools {
     /**
+     * Prepare an editor draft containing existing owner files and every file from an upload draft.
+     *
+     * @param \context_module $context Context.
+     * @param string $component Component.
+     * @param string $filearea Filearea.
+     * @param int $itemid Itemid.
+     * @param string $content Content.
+     * @param string $filename Filename.
+     * @param string $uploadreference Uploadreference.
+     * @param int $draftitemid Draftitemid.
+     * @param int $coursebytes Coursebytes.
+     * @return array{draft_item_id: int, content: string, filenames: array}
+     */
+    public static function prepare_editor_draft(
+        \context_module $context,
+        string $component,
+        string $filearea,
+        int $itemid,
+        string $content,
+        string $filename,
+        string $uploadreference,
+        int $draftitemid,
+        int $coursebytes = 0
+    ): array {
+        global $USER;
+
+        $primarysource = self::prepare_user_draft_file(
+            $filename,
+            $uploadreference,
+            $draftitemid,
+            $context,
+            $coursebytes
+        );
+        $options = [
+            'noclean' => true,
+            'subdirs' => true,
+            'maxfiles' => -1,
+            'maxbytes' => 0,
+            'context' => $context,
+        ];
+        $targetdraftitemid = 0;
+        $preparedcontent = file_prepare_draft_area(
+            $targetdraftitemid,
+            $context->id,
+            $component,
+            $filearea,
+            $itemid,
+            $options,
+            $content
+        );
+
+        $usercontext = \context_user::instance((int) $USER->id);
+        $filestorage = get_file_storage();
+        $sources = [$primarysource];
+        if ($draftitemid > 0) {
+            $sources = array_values($filestorage->get_area_files(
+                $usercontext->id,
+                'user',
+                'draft',
+                $draftitemid,
+                'filepath, filename',
+                false
+            ));
+        }
+        $filenames = [];
+        foreach ($sources as $source) {
+            self::require_file_size_within_moodle_upload_limit(
+                (int) $source->get_filesize(),
+                $context,
+                $coursebytes
+            );
+            $existing = $filestorage->get_file(
+                $usercontext->id,
+                'user',
+                'draft',
+                $targetdraftitemid,
+                $source->get_filepath(),
+                $source->get_filename()
+            );
+            if ($existing && !$existing->is_directory()) {
+                $existing->delete();
+            }
+            $filestorage->create_file_from_storedfile([
+                'contextid' => $usercontext->id,
+                'component' => 'user',
+                'filearea' => 'draft',
+                'itemid' => $targetdraftitemid,
+                'filepath' => $source->get_filepath(),
+                'filename' => $source->get_filename(),
+            ], $source);
+            $filenames[] = $source->get_filename();
+        }
+
+        return [
+            'draft_item_id' => $targetdraftitemid,
+            'content' => $preparedcontent,
+            'filenames' => $filenames,
+        ];
+    }
+
+    /**
      * Create a user draft file for a Moodle resource module.
      *
      * @param string $filename Filename.

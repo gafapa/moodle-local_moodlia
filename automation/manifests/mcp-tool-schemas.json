@@ -311,6 +311,12 @@
         "reopened"
       ]
     },
+    "update_page": {
+      "content_format": [
+        "html",
+        "plain"
+      ]
+    },
     "update_resource": {
       "intro_format": [
         "html",
