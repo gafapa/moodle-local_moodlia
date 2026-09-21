@@ -18,27 +18,29 @@ test('Moodle CI covers every supported core branch and PHP boundary', async () =
   );
 
   const expectedProfiles = [
-    ['MOODLE_405_STABLE', '8.1', 'mariadb'],
-    ['MOODLE_405_STABLE', '8.3', 'pgsql'],
-    ['MOODLE_500_STABLE', '8.2', 'mariadb'],
-    ['MOODLE_500_STABLE', '8.4', 'pgsql'],
-    ['MOODLE_501_STABLE', '8.2', 'mariadb'],
-    ['MOODLE_501_STABLE', '8.4', 'pgsql'],
-    ['MOODLE_502_STABLE', '8.3', 'mariadb'],
-    ['MOODLE_502_STABLE', '8.4', 'pgsql'],
-    ['v5.3.0-beta', '8.3', 'mariadb'],
-    ['v5.3.0-beta', '8.4', 'pgsql']
+    ['MOODLE_405_STABLE', '8.1', 'mariadb', '16'],
+    ['MOODLE_405_STABLE', '8.3', 'pgsql', '16'],
+    ['MOODLE_500_STABLE', '8.2', 'mariadb', '16'],
+    ['MOODLE_500_STABLE', '8.4', 'pgsql', '16'],
+    ['MOODLE_501_STABLE', '8.2', 'mariadb', '16'],
+    ['MOODLE_501_STABLE', '8.4', 'pgsql', '16'],
+    ['MOODLE_502_STABLE', '8.3', 'mariadb', '16'],
+    ['MOODLE_502_STABLE', '8.4', 'pgsql', '16'],
+    ['v5.3.0-beta', '8.3', 'mariadb', '17'],
+    ['v5.3.0-beta', '8.4', 'pgsql', '17']
   ];
 
-  for (const [moodleBranch, phpVersion, database] of expectedProfiles) {
+  for (const [moodleBranch, phpVersion, database, postgresVersion] of expectedProfiles) {
     const profile = [
       `- moodle: ${moodleBranch}`,
       `php: '${phpVersion}'`,
-      `database: ${database}`
+      `database: ${database}`,
+      `postgres: '${postgresVersion}'`
     ].join('\\s+');
 
     assert.match(workflowSource, new RegExp(profile));
   }
 
+  assert.match(workflowSource, /image:\s*postgres:\$\{\{ matrix\.postgres \}\}/);
   assert.match(workflowSource, /MOODLE_BRANCH:\s*\$\{\{ matrix\.moodle \}\}/);
 });

@@ -19,36 +19,46 @@ jobs:
           - moodle: MOODLE_405_STABLE
             php: '8.1'
             database: mariadb
+            postgres: '16'
           - moodle: MOODLE_405_STABLE
             php: '8.3'
             database: pgsql
+            postgres: '16'
           - moodle: MOODLE_500_STABLE
             php: '8.2'
             database: mariadb
+            postgres: '16'
           - moodle: MOODLE_500_STABLE
             php: '8.4'
             database: pgsql
+            postgres: '16'
           - moodle: MOODLE_501_STABLE
             php: '8.2'
             database: mariadb
+            postgres: '16'
           - moodle: MOODLE_501_STABLE
             php: '8.4'
             database: pgsql
+            postgres: '16'
           - moodle: MOODLE_502_STABLE
             php: '8.3'
             database: mariadb
+            postgres: '16'
           - moodle: MOODLE_502_STABLE
             php: '8.4'
             database: pgsql
+            postgres: '16'
           - moodle: v5.3.0-beta
             php: '8.3'
             database: mariadb
+            postgres: '17'
           - moodle: v5.3.0-beta
             php: '8.4'
             database: pgsql
+            postgres: '17'
     services:
       postgres:
-        image: postgres:16
+        image: postgres:${{ matrix.postgres }}
         env:
           POSTGRES_USER: postgres
           POSTGRES_HOST_AUTH_METHOD: trust
