@@ -56,6 +56,7 @@ class get_sync_capabilities {
             'completion_manage' => null,
             'quiz_manage' => null,
             'lesson_manage' => null,
+            'gradebook_manage' => null,
         ];
 
         if ($categoryid !== null) {
@@ -84,6 +85,7 @@ class get_sync_capabilities {
                 && has_capability('moodle/grade:manage', $coursecontext);
             $evidence['quiz_manage'] = has_capability('mod/quiz:manage', $coursecontext);
             $evidence['lesson_manage'] = has_capability('mod/lesson:manage', $coursecontext);
+            $evidence['gradebook_manage'] = has_capability('moodle/grade:manage', $coursecontext);
         }
 
         return [

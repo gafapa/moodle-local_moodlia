@@ -215,7 +215,8 @@ test('sync capability discovery is contextual and returns authorization evidence
     'course_create', 'course_view', 'course_update', 'group_manage', 'book_edit',
     'activity_manage', 'assignment_grade', 'grading_form_manage', 'workshop_form_manage',
     'question_view', 'question_manage', 'question_bank_module_available',
-    'database_field_manage', 'feedback_item_manage', 'completion_manage', 'quiz_manage', 'lesson_manage'
+    'database_field_manage', 'feedback_item_manage', 'completion_manage', 'quiz_manage', 'lesson_manage',
+    'gradebook_manage'
   ]) {
     assert.match(
       operationSource,
