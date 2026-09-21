@@ -186,6 +186,9 @@ class lesson_tools {
             $jumps[] = (int) ($answer->jumpto ?? 0);
         }
 
+        $pagetype = self::page_type_name($properties);
+        $definition = self::page_definition_from_page($page, $pagetype);
+
         return [
             'page_id' => (int) ($properties->id ?? 0),
             'lesson_id' => (int) ($properties->lessonid ?? $cm->instance),
@@ -211,7 +214,61 @@ class lesson_tools {
             'files_size_total' => 0,
             'branches_count' => count($answers),
             'branches' => $answers,
+            'page_type' => $pagetype,
+            'definition_json' => json_encode($definition, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
         ];
+    }
+
+    /**
+     * Return the portable public page type for a Lesson page.
+     *
+     * @param \stdClass $properties Properties.
+     * @return string
+     */
+    private static function page_type_name(\stdClass $properties): string {
+        $types = [
+            self::CONTENT_PAGE_TYPE => 'content',
+            self::ESSAY_PAGE_TYPE => 'essay',
+            self::MATCHING_PAGE_TYPE => 'matching',
+            self::TRUEFALSE_PAGE_TYPE => 'truefalse',
+            self::SHORTANSWER_PAGE_TYPE => 'shortanswer',
+            self::MULTICHOICE_PAGE_TYPE => 'multichoice',
+            self::NUMERICAL_PAGE_TYPE => 'numerical',
+        ];
+        return $types[(int) ($properties->qtype ?? 0)] ?? 'unsupported';
+    }
+
+    /**
+     * Export a Lesson page definition accepted by create_lesson_page.
+     *
+     * @param \lesson_page $page Page.
+     * @param string $pagetype Pagetype.
+     * @return array
+     */
+    private static function page_definition_from_page(\lesson_page $page, string $pagetype): array {
+        if ($pagetype === 'content') {
+            return ['branches' => array_map(static function ($answer): array {
+                return [
+                    'title' => (string) ($answer->answer ?? ''),
+                    'response' => (string) ($answer->response ?? ''),
+                    'jump_to' => (int) ($answer->jumpto ?? 0),
+                    'score' => (float) ($answer->score ?? 0),
+                ];
+            }, array_values($page->get_answers()))];
+        }
+        $methods = [
+            'truefalse' => 'truefalse_answers_from_page',
+            'multichoice' => 'multichoice_answers_from_page',
+            'shortanswer' => 'shortanswer_answers_from_page',
+            'numerical' => 'numerical_answers_from_page',
+            'essay' => 'essay_answers_from_page',
+            'matching' => 'matching_answers_from_page',
+        ];
+        if (!isset($methods[$pagetype])) {
+            return [];
+        }
+        $method = $methods[$pagetype];
+        return ['answers' => self::{$method}($page)];
     }
 
     /**

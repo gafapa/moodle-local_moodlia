@@ -55,6 +55,7 @@ class get_sync_capabilities {
             'feedback_item_manage' => null,
             'completion_manage' => null,
             'quiz_manage' => null,
+            'lesson_manage' => null,
         ];
 
         if ($categoryid !== null) {
@@ -82,6 +83,7 @@ class get_sync_capabilities {
             $evidence['completion_manage'] = has_capability('moodle/course:update', $coursecontext)
                 && has_capability('moodle/grade:manage', $coursecontext);
             $evidence['quiz_manage'] = has_capability('mod/quiz:manage', $coursecontext);
+            $evidence['lesson_manage'] = has_capability('mod/lesson:manage', $coursecontext);
         }
 
         return [

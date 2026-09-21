@@ -215,7 +215,7 @@ test('sync capability discovery is contextual and returns authorization evidence
     'course_create', 'course_view', 'course_update', 'group_manage', 'book_edit',
     'activity_manage', 'assignment_grade', 'grading_form_manage', 'workshop_form_manage',
     'question_view', 'question_manage', 'question_bank_module_available',
-    'database_field_manage', 'feedback_item_manage', 'completion_manage', 'quiz_manage'
+    'database_field_manage', 'feedback_item_manage', 'completion_manage', 'quiz_manage', 'lesson_manage'
   ]) {
     assert.match(
       operationSource,
@@ -240,6 +240,23 @@ test('Workshop grading forms expose a portable definition and unrestricted rubri
   assert.match(operationSource, /export_grading_form_definition/);
   assert.match(toolsSource, /workshopform_rubric_levels/);
   assert.match(mcpManifestSource, /'name'\s*=>\s*'get_workshop_grading_form'/);
+});
+
+test('Lesson page listings expose portable definitions for round-trip authoring', async () => {
+  const [contract, operationSource, toolsSource, externalSource] = await Promise.all([
+    loadContract(),
+    fs.readFile(fromRoot('classes/operation/get_lesson_pages.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/operation/lesson_tools.php'), 'utf8'),
+    fs.readFile(fromRoot('classes/external/get_lesson_pages.php'), 'utf8')
+  ]);
+  const operation = contract.operations.find((entry) => entry.name === 'get_lesson_pages');
+  const page = operation.returns.pages[0];
+  assert.equal(page.page_type, 'string');
+  assert.equal(page.definition_json, 'string');
+  assert.ok(Array.isArray(page.branches));
+  assert.match(operationSource, /page_to_response/);
+  assert.match(toolsSource, /page_definition_from_page/);
+  assert.match(externalSource, /lesson_page_response::page_structure/);
 });
 
 test('gradebook and course completion operations expose the global configuration contract', async () => {

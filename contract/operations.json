@@ -6350,7 +6350,21 @@
               "integer"
             ],
             "files_count": "integer",
-            "files_size_total": "integer"
+            "files_size_total": "integer",
+            "branches_count": "integer",
+            "branches": [
+              {
+                "answer_id": "integer",
+                "title": "string",
+                "title_format": "integer",
+                "response": "string",
+                "response_format": "integer",
+                "jump_to": "integer",
+                "score": "number"
+              }
+            ],
+            "page_type": "string",
+            "definition_json": "string"
           }
         ],
         "warnings": [
@@ -6486,7 +6500,9 @@
               "jump_to": "integer",
               "score": "number"
             }
-          ]
+          ],
+          "page_type": "string",
+          "definition_json": "string"
         }
       },
       "errors": [
@@ -6600,7 +6616,9 @@
               "jump_to": "integer",
               "score": "number"
             }
-          ]
+          ],
+          "page_type": "string",
+          "definition_json": "string"
         }
       },
       "errors": [

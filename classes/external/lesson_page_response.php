@@ -71,6 +71,8 @@ class lesson_page_response {
                 'jump_to' => new external_value(PARAM_INT, 'Branch jump target'),
                 'score' => new external_value(PARAM_FLOAT, 'Branch score'),
             ])),
+            'page_type' => new external_value(PARAM_ALPHA, 'Portable Lesson page type'),
+            'definition_json' => new external_value(PARAM_RAW, 'Portable page definition JSON'),
         ]);
     }
 }

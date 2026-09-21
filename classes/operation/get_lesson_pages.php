@@ -42,7 +42,24 @@ class get_lesson_pages {
         $course = course_tools::get_course($courseid);
         $cm = lesson_tools::get_lesson_module($course, $moduleid);
         $result = \mod_lesson_external::get_pages((int) $cm->instance, $password);
+        $lesson = lesson_tools::get_lesson_object($course, $cm);
+        lesson_tools::prepare_page_context($course, $cm);
+        $pages = [];
+        foreach (($result['pages'] ?? []) as $pageentry) {
+            $pageentry = (array) $pageentry;
+            $page = (array) ($pageentry['page'] ?? []);
+            $pageid = (int) ($page['id'] ?? 0);
+            if ($pageid > 0) {
+                $pages[] = lesson_tools::page_to_response($cm, lesson_tools::get_page($lesson, $cm, $pageid));
+            }
+        }
 
-        return lesson_tools::pages_to_response($cm, $result);
+        return [
+            'module_id' => (int) $cm->id,
+            'lesson_id' => (int) $cm->instance,
+            'count' => count($pages),
+            'pages' => $pages,
+            'warnings' => lesson_tools::warnings_to_response($result['warnings'] ?? []),
+        ];
     }
 }
