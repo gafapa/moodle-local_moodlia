@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Simple content update operation tests.
@@ -27,7 +35,9 @@ use local_moodlia\operation\update_url;
  * @covers \local_moodlia\operation\update_url
  */
 final class simple_content_update_operations_test extends advanced_testcase {
-    /** A Text and media update preserves identity and publishes every draft file. */
+    /**
+     * A Text and media update preserves identity and publishes every draft file.
+     */
     public function test_update_label_content_with_multiple_files(): void {
         global $DB, $USER;
 
@@ -62,7 +72,9 @@ final class simple_content_update_operations_test extends advanced_testcase {
         $this->assertCount(2, $updated['files']);
     }
 
-    /** A URL update preserves dynamic parameters and unrelated display settings. */
+    /**
+     * A URL update preserves dynamic parameters and unrelated display settings.
+     */
     public function test_update_url_preserves_parameters_and_identity(): void {
         global $DB;
 

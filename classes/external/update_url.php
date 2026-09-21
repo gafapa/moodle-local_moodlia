@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Update URL resource external function.
@@ -25,9 +33,15 @@ use local_moodlia\operation\course_tools;
 use local_moodlia\operation\module_tools;
 use local_moodlia\operation\update_url as update_url_operation;
 
-/** External API adapter for update_url. */
+/**
+ * External API adapter for update_url.
+ */
 class update_url extends external_api {
-    /** Define input parameters. */
+    /**
+     * Define input parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
@@ -35,8 +49,13 @@ class update_url extends external_api {
             'name' => new external_value(PARAM_TEXT, 'Optional URL name', VALUE_DEFAULT, null, NULL_ALLOWED),
             'external_url' => new external_value(PARAM_URL, 'Optional absolute URL', VALUE_DEFAULT, null, NULL_ALLOWED),
             'intro' => new external_value(PARAM_RAW, 'Optional description', VALUE_DEFAULT, null, NULL_ALLOWED),
-            'intro_format' => new external_value(PARAM_ALPHA, 'Description format: html or plain', VALUE_DEFAULT, null,
-                NULL_ALLOWED),
+            'intro_format' => new external_value(
+                PARAM_ALPHA,
+                'Description format: html or plain',
+                VALUE_DEFAULT,
+                null,
+                NULL_ALLOWED
+            ),
             'display' => new external_value(PARAM_INT, 'Optional Moodle display constant', VALUE_DEFAULT, null, NULL_ALLOWED),
             'print_intro' => new external_value(PARAM_BOOL, 'Print description', VALUE_DEFAULT, null, NULL_ALLOWED),
             'popup_width' => new external_value(PARAM_INT, 'Popup width', VALUE_DEFAULT, null, NULL_ALLOWED),
@@ -47,20 +66,6 @@ class update_url extends external_api {
         ]);
     }
 
-    /** Execute the external function. *
-     * @param int $courseid Courseid.
-     * @param int $moduleid Moduleid.
-     * @param string|null $name Name.
-     * @param string|null $externalurl Externalurl.
-     * @param string|null $intro Intro.
-     * @param string|null $introformat Introformat.
-     * @param int|null $display Display.
-     * @param bool|null $printintro Printintro.
-     * @param int|null $popupwidth Popupwidth.
-     * @param int|null $popupheight Popupheight.
-     * @param string $filename Filename.
-     * @param string $uploadreference Uploadreference.
-     * @param int $draftitemid Draftitemid./
     /**
      * Execute the operation.
      *
@@ -138,7 +143,11 @@ class update_url extends external_api {
         );
     }
 
-    /** Define output structure. */
+    /**
+     * Define output structure.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'module_id' => new external_value(PARAM_INT, 'Moodle course module id'),
@@ -155,7 +164,11 @@ class update_url extends external_api {
         ]);
     }
 
-    /** Return the editor file manifest structure. */
+    /**
+     * Return the editor file manifest structure.
+     *
+     * @return external_multiple_structure
+     */
     private static function files_structure(): external_multiple_structure {
         return new external_multiple_structure(new external_single_structure([
             'file_id' => new external_value(PARAM_INT, 'Stored file id'),

@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Update Text and media external function.
@@ -25,30 +33,33 @@ use local_moodlia\operation\course_tools;
 use local_moodlia\operation\module_tools;
 use local_moodlia\operation\update_label as update_label_operation;
 
-/** External API adapter for update_label. */
+/**
+ * External API adapter for update_label.
+ */
 class update_label extends external_api {
-    /** Define input parameters. */
+    /**
+     * Define input parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
             'module_id' => new external_value(PARAM_INT, 'Text and media course module id'),
             'content' => new external_value(PARAM_RAW, 'Optional authored content', VALUE_DEFAULT, null, NULL_ALLOWED),
-            'content_format' => new external_value(PARAM_ALPHA, 'Content format: html or plain', VALUE_DEFAULT, null,
-                NULL_ALLOWED),
+            'content_format' => new external_value(
+                PARAM_ALPHA,
+                'Content format: html or plain',
+                VALUE_DEFAULT,
+                null,
+                NULL_ALLOWED
+            ),
             'filename' => new external_value(PARAM_FILE, 'Uploaded editor filename', VALUE_DEFAULT, ''),
             'upload_reference' => new external_value(PARAM_RAW, 'Base64 editor file content', VALUE_DEFAULT, ''),
             'draft_item_id' => new external_value(PARAM_INT, 'Moodle user draft item id', VALUE_DEFAULT, 0),
         ]);
     }
 
-    /** Execute the external function. *
-     * @param int $courseid Courseid.
-     * @param int $moduleid Moduleid.
-     * @param string|null $content Content.
-     * @param string|null $contentformat Contentformat.
-     * @param string $filename Filename.
-     * @param string $uploadreference Uploadreference.
-     * @param int $draftitemid Draftitemid./
     /**
      * Execute the operation.
      *
@@ -102,7 +113,11 @@ class update_label extends external_api {
         );
     }
 
-    /** Define output structure. */
+    /**
+     * Define output structure.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'module_id' => new external_value(PARAM_INT, 'Moodle course module id'),
@@ -113,7 +128,11 @@ class update_label extends external_api {
         ]);
     }
 
-    /** Return the editor file manifest structure. */
+    /**
+     * Return the editor file manifest structure.
+     *
+     * @return external_multiple_structure
+     */
     private static function files_structure(): external_multiple_structure {
         return new external_multiple_structure(new external_single_structure([
             'file_id' => new external_value(PARAM_INT, 'Stored file id'),

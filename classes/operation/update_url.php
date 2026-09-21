@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Update URL resource operation.
@@ -65,8 +73,18 @@ class update_url {
             throw new \invalid_parameter_exception('module_id must reference a URL resource.');
         }
         $hasupload = trim($uploadreference) !== '' || $draftitemid > 0;
-        self::validate_input($hasupload, $filename, $name, $externalurl, $intro, $introformat, $display, $printintro,
-            $popupwidth, $popupheight);
+        self::validate_input(
+            $hasupload,
+            $filename,
+            $name,
+            $externalurl,
+            $intro,
+            $introformat,
+            $display,
+            $printintro,
+            $popupwidth,
+            $popupheight
+        );
 
         $rawcm = get_coursemodule_from_id('url', (int) $cm->id, (int) $course->id, false, MUST_EXIST);
         $moduleinfo = get_moduleinfo_data($rawcm, $course);
@@ -141,17 +159,6 @@ class update_url {
         ];
     }
 
-    /** Validate partial URL input. *
-     * @param bool $hasupload Hasupload.
-     * @param string $filename Filename.
-     * @param string|null $name Name.
-     * @param string|null $externalurl Externalurl.
-     * @param string|null $intro Intro.
-     * @param string|null $introformat Introformat.
-     * @param int|null $display Display.
-     * @param bool|null $printintro Printintro.
-     * @param int|null $popupwidth Popupwidth.
-     * @param int|null $popupheight Popupheight./
     /**
      * Validate input.
      *
@@ -194,8 +201,10 @@ class update_url {
         if (($popupwidth !== null && $popupwidth < 1) || ($popupheight !== null && $popupheight < 1)) {
             throw new \invalid_parameter_exception('Popup dimensions must be positive integers.');
         }
-        if ($name === null && $externalurl === null && $intro === null && $display === null && $printintro === null
-                && $popupwidth === null && $popupheight === null && !$hasupload) {
+        if (
+            $name === null && $externalurl === null && $intro === null && $display === null && $printintro === null
+                && $popupwidth === null && $popupheight === null && !$hasupload
+        ) {
             throw new \invalid_parameter_exception('At least one URL field or upload is required.');
         }
     }
