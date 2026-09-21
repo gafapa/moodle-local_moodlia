@@ -59,6 +59,7 @@ class update_page {
 
         module_tools::require_module_api();
         require_once($CFG->dirroot . '/course/modlib.php');
+        require_once($CFG->dirroot . '/mod/page/locallib.php');
 
         $course = course_tools::get_course($courseid);
         $cm = module_tools::get_course_module($course, $moduleid);
@@ -84,6 +85,7 @@ class update_page {
         $rawcm = $moduleinfo[0];
         $moduledata = $moduleinfo[3];
         $page = $DB->get_record('page', ['id' => (int) $cm->instance], '*', MUST_EXIST);
+        $currentdetails = simple_activity_tools::get_page_details($course, $cm);
         $pagecontent = $content ?? (string) $page->content;
         $pageformat = $contentformat === null
             ? (int) $page->contentformat
@@ -95,12 +97,10 @@ class update_page {
             }
             $moduledata->name = $name;
         }
-        if ($printintro !== null) {
-            $moduledata->printintro = $printintro ? 1 : 0;
-        }
-        if ($printlastmodified !== null) {
-            $moduledata->printlastmodified = $printlastmodified ? 1 : 0;
-        }
+        $moduledata->printintro = ($printintro ?? (bool) $currentdetails['print_intro']) ? 1 : 0;
+        $moduledata->printlastmodified = (
+            $printlastmodified ?? (bool) $currentdetails['print_last_modified']
+        ) ? 1 : 0;
         if ($hasupload) {
             $context = \context_module::instance((int) $cm->id);
             $editor = module_file_tools::prepare_editor_draft(
@@ -128,16 +128,16 @@ class update_page {
         update_moduleinfo($rawcm, $moduledata, $course);
         rebuild_course_cache((int) $course->id, true);
         $updatedcm = module_tools::get_course_module($course, $moduleid);
-        $details = simple_activity_tools::get_page_details($course, $updatedcm);
+        $updateddetails = simple_activity_tools::get_page_details($course, $updatedcm);
         $response = module_tools::to_response($course, (int) $updatedcm->id);
 
         return [
             'module_id' => (int) $response['module_id'],
             'instance_id' => (int) $response['instance_id'],
             'name' => (string) $response['name'],
-            'content' => (string) $details['content'],
-            'content_format' => (int) $details['content_format'],
-            'files' => $details['files'],
+            'content' => (string) $updateddetails['content'],
+            'content_format' => (int) $updateddetails['content_format'],
+            'files' => $updateddetails['files'],
         ];
     }
 }
