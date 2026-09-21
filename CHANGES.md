@@ -16,6 +16,7 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 - Expose separate assignment description and activity-instruction file manifests with Moodle content hashes.
 - Publish every file from one section or assignment draft while preserving nested paths and unrelated existing files.
 - Report contextual question-bank read and authoring evidence for adaptive synchronization.
+- Report contextual Database-field and Feedback-item authoring evidence for adaptive synchronization.
 
 ## 0.1.210 - 2026-09-21
 
