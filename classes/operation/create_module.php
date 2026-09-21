@@ -170,6 +170,32 @@ class create_module {
                 '',
                 (int) $options['draft_item_id']
             );
+        } else if ($moduletype === 'label' && (int) ($options['draft_item_id'] ?? 0) > 0) {
+            update_label::execute(
+                (int) $course->id,
+                $createdcmid,
+                (string) ($options['content'] ?? $options['intro'] ?? ''),
+                'html',
+                (string) ($options['filename'] ?? ''),
+                '',
+                (int) $options['draft_item_id']
+            );
+        } else if ($moduletype === 'url' && (int) ($options['draft_item_id'] ?? 0) > 0) {
+            update_url::execute(
+                (int) $course->id,
+                $createdcmid,
+                null,
+                null,
+                (string) ($options['intro'] ?? ''),
+                'html',
+                null,
+                null,
+                null,
+                null,
+                (string) ($options['filename'] ?? ''),
+                '',
+                (int) $options['draft_item_id']
+            );
         }
 
         set_coursemodule_visible(

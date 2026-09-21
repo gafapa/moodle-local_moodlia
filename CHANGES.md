@@ -9,6 +9,9 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 - Import every file in an authenticated Book chapter draft as one editor-file publication.
 - Preserve Unicode filenames and nested draft paths while returning the complete uploaded-file manifest.
 - Add regression coverage for multi-file Book chapter updates used by cross-site synchronization.
+- Add identity-preserving `update_page`, `update_label`, and `update_url` operations across REST, MCP, and CLI.
+- Publish native editor files for Page, Text and media, and URL activities while preserving existing files and unrelated settings.
+- Add cross-version regression coverage for typed content updates, dynamic URL parameters, and multi-file drafts.
 
 ## 0.1.210 - 2026-09-21
 

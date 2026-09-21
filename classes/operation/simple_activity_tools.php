@@ -138,6 +138,7 @@ class simple_activity_tools {
             'content' => $content,
             'content_format' => self::optional_int($label, 'introformat'),
             'content_length' => self::content_length($content),
+            'files' => self::editor_files($cm, 'mod_label', 'intro', 0),
         ];
     }
 
@@ -210,6 +211,7 @@ class simple_activity_tools {
             'popup_height' => self::optional_int($metadata, 'popupheight'),
             'revision' => self::optional_int($metadata, 'revision'),
             'time_modified' => self::optional_int($metadata, 'timemodified'),
+            'files' => self::editor_files($cm, 'mod_url', 'intro', 0),
         ];
     }
 

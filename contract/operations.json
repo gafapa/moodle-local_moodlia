@@ -13811,6 +13811,108 @@
       ]
     },
     {
+      "name": "update_label",
+      "summary": "Update Text and media content and editor files without changing its module identity.",
+      "type": "write",
+      "context": "module",
+      "capabilities": [
+        "moodle/course:manageactivities"
+      ],
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "upload",
+      "parameters": {
+        "course_id": { "type": "integer", "required": true },
+        "module_id": { "type": "integer", "required": true },
+        "content": { "type": "string", "required": false },
+        "content_format": { "type": "string", "required": false, "enum": ["html", "plain"] },
+        "filename": { "type": "string", "required": false },
+        "upload_reference": { "type": "string", "required": false },
+        "draft_item_id": { "type": "integer", "required": false, "minimum": 1 }
+      },
+      "returns": {
+        "module_id": "integer",
+        "instance_id": "integer",
+        "content": "string",
+        "content_format": "integer",
+        "files": [{
+          "file_id": "integer",
+          "filename": "string",
+          "url": "string",
+          "filepath": "string",
+          "filesize": "integer",
+          "mimetype": "string",
+          "content_hash": "string",
+          "time_modified": "integer"
+        }]
+      },
+      "errors": [
+        "invalid_parameters", "invalid_context", "missing_capability", "not_found",
+        "file_upload_failed", "moodle_error", "internal_error"
+      ],
+      "tests": ["parity", "api", "mcp", "cli", "browser"]
+    },
+    {
+      "name": "update_url",
+      "summary": "Update a URL resource and its editor files without changing its module identity.",
+      "type": "write",
+      "context": "module",
+      "capabilities": [
+        "moodle/course:manageactivities"
+      ],
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "upload",
+      "parameters": {
+        "course_id": { "type": "integer", "required": true },
+        "module_id": { "type": "integer", "required": true },
+        "name": { "type": "string", "required": false },
+        "external_url": { "type": "string", "required": false },
+        "intro": { "type": "string", "required": false },
+        "intro_format": { "type": "string", "required": false, "enum": ["html", "plain"] },
+        "display": { "type": "integer", "required": false },
+        "print_intro": { "type": "boolean", "required": false },
+        "popup_width": { "type": "integer", "required": false, "minimum": 1 },
+        "popup_height": { "type": "integer", "required": false, "minimum": 1 },
+        "filename": { "type": "string", "required": false },
+        "upload_reference": { "type": "string", "required": false },
+        "draft_item_id": { "type": "integer", "required": false, "minimum": 1 }
+      },
+      "returns": {
+        "module_id": "integer",
+        "instance_id": "integer",
+        "name": "string",
+        "external_url": "string",
+        "intro": "string",
+        "intro_format": "integer",
+        "display": "integer",
+        "print_intro": "boolean",
+        "popup_width": "integer",
+        "popup_height": "integer",
+        "files": [{
+          "file_id": "integer",
+          "filename": "string",
+          "url": "string",
+          "filepath": "string",
+          "filesize": "integer",
+          "mimetype": "string",
+          "content_hash": "string",
+          "time_modified": "integer"
+        }]
+      },
+      "errors": [
+        "invalid_parameters", "invalid_context", "missing_capability", "not_found",
+        "file_upload_failed", "moodle_error", "internal_error"
+      ],
+      "tests": ["parity", "api", "mcp", "cli", "browser"]
+    },
+    {
       "name": "update_resource",
       "summary": "Replace the file in a Moodle file resource without changing its module identity.",
       "type": "write",

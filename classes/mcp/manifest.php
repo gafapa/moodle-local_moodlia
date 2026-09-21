@@ -2130,6 +2130,38 @@ final class manifest {
                 ]),
             ],
             [
+                'name' => 'update_label',
+                'description' => 'Update Text and media content and editor files without changing its module identity.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'module_id' => ['type' => 'integer', 'required' => true],
+                    'content' => ['type' => 'string', 'required' => false],
+                    'content_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'filename' => ['type' => 'string', 'required' => false],
+                    'upload_reference' => ['type' => 'string', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
+                ]),
+            ],
+            [
+                'name' => 'update_url',
+                'description' => 'Update a URL resource and its editor files without changing its module identity.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'module_id' => ['type' => 'integer', 'required' => true],
+                    'name' => ['type' => 'string', 'required' => false],
+                    'external_url' => ['type' => 'string', 'required' => false],
+                    'intro' => ['type' => 'string', 'required' => false],
+                    'intro_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'display' => ['type' => 'integer', 'required' => false],
+                    'print_intro' => ['type' => 'boolean', 'required' => false],
+                    'popup_width' => ['type' => 'integer', 'required' => false],
+                    'popup_height' => ['type' => 'integer', 'required' => false],
+                    'filename' => ['type' => 'string', 'required' => false],
+                    'upload_reference' => ['type' => 'string', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
+                ]),
+            ],
+            [
                 'name' => 'update_resource',
                 'description' => 'Replace the file in a Moodle file resource without changing its module identity.',
                 'inputSchema' => self::schema([

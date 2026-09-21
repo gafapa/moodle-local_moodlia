@@ -208,6 +208,8 @@
     "get-folder-files",
     "download-folder-file",
     "update-page",
+    "update-label",
+    "update-url",
     "update-resource",
     "get-resource-files",
     "download-resource-file",

@@ -317,6 +317,18 @@
         "plain"
       ]
     },
+    "update_label": {
+      "content_format": [
+        "html",
+        "plain"
+      ]
+    },
+    "update_url": {
+      "intro_format": [
+        "html",
+        "plain"
+      ]
+    },
     "update_resource": {
       "intro_format": [
         "html",
