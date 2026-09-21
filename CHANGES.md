@@ -18,6 +18,7 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 - Report contextual question-bank read and authoring evidence for adaptive synchronization.
 - Report contextual Database-field and Feedback-item authoring evidence for adaptive synchronization.
 - Report contextual course-completion configuration evidence for adaptive synchronization.
+- Report contextual Quiz structure authoring evidence for adaptive synchronization.
 
 ## 0.1.210 - 2026-09-21
 
