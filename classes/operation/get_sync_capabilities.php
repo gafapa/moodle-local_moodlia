@@ -53,6 +53,7 @@ class get_sync_capabilities {
             'question_bank_module_available' => \core_component::get_plugin_directory('mod', 'qbank') !== null,
             'database_field_manage' => null,
             'feedback_item_manage' => null,
+            'completion_manage' => null,
         ];
 
         if ($categoryid !== null) {
@@ -77,6 +78,8 @@ class get_sync_capabilities {
             ) && has_capability('moodle/question:add', $coursecontext);
             $evidence['database_field_manage'] = has_capability('mod/data:managetemplates', $coursecontext);
             $evidence['feedback_item_manage'] = has_capability('mod/feedback:edititems', $coursecontext);
+            $evidence['completion_manage'] = has_capability('moodle/course:update', $coursecontext)
+                && has_capability('moodle/grade:manage', $coursecontext);
         }
 
         return [
