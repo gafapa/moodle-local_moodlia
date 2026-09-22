@@ -236,6 +236,41 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
 
+### 0.1.213
+
+- Allows authenticated file downloads through the built-in MoodlIA external
+  service so cross-site synchronization can transfer editor and activity assets.
+- Published to the Moodle Marketplace with declared support for Moodle 4.5 LTS
+  through 5.3.
+
+### 0.1.212
+
+- Publishes Page editor-file URLs with the revision expected by Moodle's
+  `pluginfile.php` endpoint while keeping storage item id `0` internally.
+
+### 0.1.211
+
+- Adds identity-preserving `update_page`, `update_label`, and `update_url`
+  operations and native multi-file editor publication for Page, Text and media,
+  URL, Book chapter, section, and assignment content, preserving Unicode
+  filenames and nested paths.
+- Exposes portable raw section summaries, complete editor-file manifests with
+  Moodle content hashes, portable Lesson page definitions, and contextual
+  synchronization evidence for question banks, Quiz, Database, Feedback,
+  completion, and gradebook authoring.
+
+### 0.1.210
+
+- Corrects Moodle coding-standard boilerplate and documentation for the
+  synchronization capability and Workshop grading-form endpoints.
+
+### 0.1.209
+
+- Adds `get_sync_capabilities` with contextual category and course permission
+  evidence, portable Workshop grading-form export, grouping membership, Book
+  chapter file manifests, and resource/folder content hashes for adaptive
+  cross-site synchronization.
+
 ### 0.1.208
 
 - Extends the declared and tested Moodle compatibility range through Moodle 5.3.
