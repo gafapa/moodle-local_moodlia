@@ -26,6 +26,7 @@ namespace local_moodlia;
 
 use advanced_testcase;
 use local_moodlia\operation\create_module;
+use local_moodlia\operation\get_module_details;
 use local_moodlia\operation\update_page;
 
 
@@ -69,6 +70,15 @@ final class page_content_operations_test extends advanced_testcase {
             '/',
             'created.png'
         ));
+
+        $details = get_module_details::execute((int) $course->id, (int) $created['module_id']);
+        $activity = json_decode($details['extra_json'], true, 512, JSON_THROW_ON_ERROR)['activity'];
+        $this->assertGreaterThan(0, $activity['revision']);
+        $this->assertCount(1, $activity['files']);
+        $this->assertStringContainsString(
+            '/mod_page/content/' . $activity['revision'] . '/created.png',
+            $activity['files'][0]['url']
+        );
     }
 
     /**

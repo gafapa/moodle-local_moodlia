@@ -49,6 +49,7 @@ class simple_activity_tools {
         if ($content === '') {
             $content = self::rendered_content($cm);
         }
+        $revision = self::optional_int($page + $customdata, 'revision');
 
         return [
             'page_id' => (int) $cm->instance,
@@ -58,9 +59,9 @@ class simple_activity_tools {
             'display' => self::optional_int($page + $customdata, 'display'),
             'print_intro' => self::optional_bool($page + $customdata, 'printintro'),
             'print_last_modified' => self::optional_bool($page + $customdata, 'printlastmodified'),
-            'revision' => self::optional_int($page + $customdata, 'revision'),
+            'revision' => $revision,
             'time_modified' => self::optional_int($page + $customdata, 'timemodified'),
-            'files' => self::editor_files($cm, 'mod_page', 'content', 0),
+            'files' => self::editor_files($cm, 'mod_page', 'content', 0, $revision),
         ];
     }
 
@@ -71,13 +72,15 @@ class simple_activity_tools {
      * @param string $component Component.
      * @param string $filearea Filearea.
      * @param int $itemid Itemid.
+     * @param int|null $urlitemid Urlitemid.
      * @return array
      */
     private static function editor_files(
         \cm_info $cm,
         string $component,
         string $filearea,
-        int $itemid
+        int $itemid,
+        ?int $urlitemid = null
     ): array {
         $context = \context_module::instance((int) $cm->id);
         $files = get_file_storage()->get_area_files(
@@ -89,12 +92,13 @@ class simple_activity_tools {
             false
         );
 
-        return array_map(static function (\stored_file $file) use ($context, $component, $filearea, $itemid): array {
+        $publicitemid = $urlitemid ?? $itemid;
+        return array_map(static function (\stored_file $file) use ($context, $component, $filearea, $publicitemid): array {
             $url = \moodle_url::make_webservice_pluginfile_url(
                 $context->id,
                 $component,
                 $filearea,
-                $itemid,
+                $publicitemid,
                 $file->get_filepath(),
                 $file->get_filename(),
                 false

@@ -4,6 +4,13 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.212 - 2026-09-22
+
+- Publish Page editor-file URLs with the Page revision expected by Moodle's
+  pluginfile endpoint while retaining storage item id `0` internally.
+- Add regression coverage for authenticated Page asset manifests used by
+  cross-site synchronization.
+
 ## 0.1.211 - 2026-09-21
 
 - Import every file in an authenticated Book chapter draft as one editor-file publication.
