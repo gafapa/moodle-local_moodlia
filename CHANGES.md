@@ -4,6 +4,11 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.213 - 2026-09-22
+
+- Allow authenticated file downloads through the built-in MoodlIA service so
+  synchronization can transfer editor and activity assets.
+
 ## 0.1.212 - 2026-09-22
 
 - Publish Page editor-file URLs with the Page revision expected by Moodle's

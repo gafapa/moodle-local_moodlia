@@ -67,6 +67,7 @@ test('file uploads use Moodle drafts and Moodle limits without MoodlIA byte caps
   assert.match(folderSource, /create_file_from_storedfile\s*\(/);
   assert.match(backupSource, /create_file_from_storedfile\s*\(/);
   assert.match(servicesSource, /'uploadfiles'\s*=>\s*1/);
+  assert.match(servicesSource, /'downloadfiles'\s*=>\s*1/);
   for (const source of [fileToolsSource, folderSource, backupSource]) {
     assert.doesNotMatch(source, /(?:2|20) MB API limit|(?:2|20) \* 1024 \* 1024/);
   }
