@@ -40,11 +40,6 @@ const LOCAL_MOODLIA_MCP_LEGACY_PROTOCOL_VERSIONS = [
     '2025-06-18',
     '2025-03-26',
 ];
-/**
- * LOCAL MOODLIA MCP SERVER VERSION.
- */
-const LOCAL_MOODLIA_MCP_SERVER_VERSION = '0.1.207';
-
 require_once(__DIR__ . '/../../config.php');
 // phpcs:enable moodle.Files.MoodleInternal.MoodleInternalGlobalState
 
@@ -62,10 +57,13 @@ function local_moodlia_mcp_response_headers(): void {
  * @return array
  */
 function local_moodlia_mcp_server_info(): array {
+    $plugin = new stdClass();
+    include(__DIR__ . '/version.php');
+
     return [
         'name' => 'MoodlIA',
         'title' => 'MoodlIA Moodle MCP Server',
-        'version' => LOCAL_MOODLIA_MCP_SERVER_VERSION,
+        'version' => (string) ($plugin->release ?? ''),
     ];
 }
 

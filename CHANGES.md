@@ -4,6 +4,9 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+- Report the installed plugin release as the MCP `serverInfo.version` instead of
+  a hard-coded value that had stayed at `0.1.207`.
+
 ## 0.1.213 - 2026-09-22
 
 - Allow authenticated file downloads through the built-in MoodlIA service so
