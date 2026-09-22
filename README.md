@@ -11,6 +11,7 @@ The plugin component is `local_moodlia` and the plugin folder name is `moodlia`.
 - Source code: https://github.com/gafapa/moodle-local_moodlia
 - Issue tracker: https://github.com/gafapa/moodle-local_moodlia/issues
 - Documentation: https://github.com/gafapa/moodle-local_moodlia#readme
+- Moodle Marketplace listing: https://marketplace.moodle.com/plugins/local_moodlia
 
 ## What It Is For
 
