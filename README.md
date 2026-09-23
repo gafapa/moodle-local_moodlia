@@ -236,6 +236,13 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
 
+### 0.1.214
+
+- Fixes MCP calls that pass object arguments such as `options` to
+  `create_module` or `update_module`; they are now sent to Moodle as JSON
+  instead of indexed fields (issue #3).
+- Reports the installed release as the MCP server version.
+
 ### 0.1.213
 
 - Allows authenticated file downloads through the built-in MoodlIA external

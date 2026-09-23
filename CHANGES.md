@@ -4,6 +4,14 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.214 - 2026-09-24
+
+- Fix MCP `tools/call` for object-typed arguments such as `options`,
+  `criteria`, `answers`, and `definition`. They were flattened into indexed
+  form fields (`options[0]`), so Moodle rejected `create_module`,
+  `update_module`, and similar calls with `invalidparameter`
+  ([#3](https://github.com/gafapa/moodle-local_moodlia/issues/3)). Arguments
+  are now normalised against each tool's input schema and sent as JSON strings.
 - Report the installed plugin release as the MCP `serverInfo.version` instead of
   a hard-coded value that had stayed at `0.1.207`.
 

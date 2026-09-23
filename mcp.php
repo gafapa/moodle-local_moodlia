@@ -272,49 +272,27 @@ function local_moodlia_mcp_bearer_token(): string {
 }
 
 /**
- * Normalize MCP tool arguments for Moodle REST form encoding.
+ * Normalise MCP tool arguments into Moodle REST form parameters.
  *
  * @param mixed $id Id.
  * @param mixed $arguments Arguments.
+ * @param string $toolname Toolname.
  * @return array
  */
-function local_moodlia_mcp_normalize_arguments($id, $arguments): array {
-    if ($arguments === null) {
-        return [];
-    }
-
-    if (!is_array($arguments)) {
-        local_moodlia_mcp_error($id, -32602, 'Tool arguments must be an object.', 200, 'invalid_parameters');
-    }
-
-    $normalized = [];
-    foreach ($arguments as $key => $value) {
-        if (is_bool($value)) {
-            $normalized[$key] = $value ? '1' : '0';
-            continue;
-        }
-
-        if (is_array($value)) {
-            foreach (array_values($value) as $index => $item) {
-                if (is_array($item) || is_object($item)) {
-                    local_moodlia_mcp_error($id, -32602, 'Nested tool argument arrays are not supported.', 200, 'invalid_parameters');
-                }
-                $normalized[$key . '[' . $index . ']'] = is_bool($item) ? ($item ? '1' : '0') : (string) $item;
-            }
-            continue;
-        }
-
-        if (is_object($value)) {
-            $normalized[$key] = json_encode($value, JSON_UNESCAPED_SLASHES);
-            continue;
-        }
-
-        if ($value !== null) {
-            $normalized[$key] = (string) $value;
+function local_moodlia_mcp_normalize_arguments($id, $arguments, string $toolname = ''): array {
+    $schema = [];
+    foreach (\local_moodlia\mcp\manifest::tools() as $tool) {
+        if ($tool['name'] === $toolname) {
+            $schema = $tool['inputSchema'] ?? [];
+            break;
         }
     }
 
-    return $normalized;
+    try {
+        return \local_moodlia\mcp\arguments::normalize($arguments, $schema);
+    } catch (\invalid_parameter_exception | \JsonException $exception) {
+        local_moodlia_mcp_error($id, -32602, $exception->getMessage(), 200, 'invalid_parameters');
+    }
 }
 
 /**
@@ -589,7 +567,7 @@ if ($method === 'tools/call') {
         ]);
     }
 
-    $arguments = local_moodlia_mcp_normalize_arguments($id, $params['arguments'] ?? []);
+    $arguments = local_moodlia_mcp_normalize_arguments($id, $params['arguments'] ?? [], $toolname);
     $result = local_moodlia_mcp_call_rest($token, $toolname, $arguments, $id);
     local_moodlia_mcp_result($id, local_moodlia_mcp_tool_result($result), $modern);
 }
