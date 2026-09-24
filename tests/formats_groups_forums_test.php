@@ -55,13 +55,13 @@ final class formats_groups_forums_test extends advanced_testcase {
      * Public format names and legacy constants map to Moodle formats.
      */
     public function test_text_format_names_and_legacy_constants(): void {
-        $this->assertSame(FORMAT_HTML, text_format_tools::to_constant('html'));
-        $this->assertSame(FORMAT_PLAIN, text_format_tools::to_constant('plain'));
-        $this->assertSame(FORMAT_MARKDOWN, text_format_tools::to_constant('markdown'));
-        $this->assertSame(FORMAT_MOODLE, text_format_tools::to_constant('moodle'));
-        $this->assertSame(FORMAT_MARKDOWN, text_format_tools::to_constant('4'));
-        $this->assertSame(FORMAT_PLAIN, text_format_tools::to_constant(2));
-        $this->assertSame(FORMAT_HTML, text_format_tools::to_constant(''));
+        $this->assertSame((int) FORMAT_HTML, text_format_tools::to_constant('html'));
+        $this->assertSame((int) FORMAT_PLAIN, text_format_tools::to_constant('plain'));
+        $this->assertSame((int) FORMAT_MARKDOWN, text_format_tools::to_constant('markdown'));
+        $this->assertSame((int) FORMAT_MOODLE, text_format_tools::to_constant('moodle'));
+        $this->assertSame((int) FORMAT_MARKDOWN, text_format_tools::to_constant('4'));
+        $this->assertSame((int) FORMAT_PLAIN, text_format_tools::to_constant(2));
+        $this->assertSame((int) FORMAT_HTML, text_format_tools::to_constant(''));
         $this->assertSame('markdown', text_format_tools::to_name(FORMAT_MARKDOWN));
         $this->assertSame('moodle', text_format_tools::to_name(FORMAT_MOODLE));
 
@@ -91,7 +91,7 @@ final class formats_groups_forums_test extends advanced_testcase {
         );
 
         $stored = $DB->get_record('groups', ['id' => $group['group_id']], '*', MUST_EXIST);
-        $this->assertSame(FORMAT_MARKDOWN, (int) $stored->descriptionformat);
+        $this->assertSame((int) FORMAT_MARKDOWN, (int) $stored->descriptionformat);
         $this->assertSame(GROUPS_VISIBILITY_MEMBERS, (int) $stored->visibility);
         $this->assertSame(0, (int) $stored->participation);
         $this->assertSame('secret-key', $stored->enrolmentkey);
@@ -191,7 +191,7 @@ final class formats_groups_forums_test extends advanced_testcase {
             '*Markdown* reply',
             'markdown'
         );
-        $this->assertSame(FORMAT_MARKDOWN, (int) $DB->get_field('forum_posts', 'messageformat', ['id' => $reply['post_id']]));
+        $this->assertSame((int) FORMAT_MARKDOWN, (int) $DB->get_field('forum_posts', 'messageformat', ['id' => $reply['post_id']]));
 
         update_forum_discussion_post::execute(
             (int) $course->id,
@@ -266,8 +266,8 @@ final class formats_groups_forums_test extends advanced_testcase {
             'text',
             '2'
         );
-        $this->assertSame(FORMAT_MARKDOWN, (int) $DB->get_field('book_chapters', 'contentformat', ['id' => $named['chapter_id']]));
-        $this->assertSame(FORMAT_PLAIN, (int) $DB->get_field('book_chapters', 'contentformat', ['id' => $legacy['chapter_id']]));
+        $this->assertSame((int) FORMAT_MARKDOWN, (int) $DB->get_field('book_chapters', 'contentformat', ['id' => $named['chapter_id']]));
+        $this->assertSame((int) FORMAT_PLAIN, (int) $DB->get_field('book_chapters', 'contentformat', ['id' => $legacy['chapter_id']]));
 
         $lesson = $this->getDataGenerator()->create_module('lesson', ['course' => $course->id]);
         $lessoncm = get_coursemodule_from_instance('lesson', $lesson->id, $course->id, false, MUST_EXIST);
@@ -288,7 +288,7 @@ final class formats_groups_forums_test extends advanced_testcase {
             $draft
         );
         $pageid = (int) $created['page']['page_id'];
-        $this->assertSame(FORMAT_PLAIN, (int) $DB->get_field('lesson_pages', 'contentsformat', ['id' => $pageid]));
+        $this->assertSame((int) FORMAT_PLAIN, (int) $DB->get_field('lesson_pages', 'contentsformat', ['id' => $pageid]));
         $names = static fn(array $files): array => array_values(array_map(static fn($file) => $file->get_filename(), $files));
         $fs = get_file_storage();
         $this->assertSame(['slide.png'], $names($fs->get_area_files($context->id, 'mod_lesson', 'page_contents', $pageid, 'filename', false)));

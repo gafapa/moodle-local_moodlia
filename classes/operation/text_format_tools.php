@@ -39,28 +39,28 @@ class text_format_tools {
      *
      * @param mixed $format Format.
      * @param string $parameter Parameter.
-     * @param int $default Default.
+     * @param int|null $default Default.
      * @return int
      */
-    public static function to_constant($format, string $parameter = 'format', int $default = FORMAT_HTML): int {
+    public static function to_constant($format, string $parameter = 'format', ?int $default = null): int {
+        // Moodle defines the FORMAT_* constants as strings, so compare integers explicitly.
+        $constants = [
+            'moodle' => (int) FORMAT_MOODLE,
+            'html' => (int) FORMAT_HTML,
+            'plain' => (int) FORMAT_PLAIN,
+            'markdown' => (int) FORMAT_MARKDOWN,
+        ];
         if ($format === null || $format === '') {
-            return $default;
+            return $default ?? $constants['html'];
         }
         if (is_int($format) || (is_string($format) && preg_match('/^\d+$/', trim($format)))) {
-            $constant = (int) $format;
-            if (in_array($constant, [FORMAT_MOODLE, FORMAT_HTML, FORMAT_PLAIN, FORMAT_MARKDOWN], true)) {
-                return $constant;
+            if (in_array((int) $format, $constants, true)) {
+                return (int) $format;
             }
         } else {
-            switch (strtolower(trim((string) $format))) {
-                case 'html':
-                    return FORMAT_HTML;
-                case 'plain':
-                    return FORMAT_PLAIN;
-                case 'markdown':
-                    return FORMAT_MARKDOWN;
-                case 'moodle':
-                    return FORMAT_MOODLE;
+            $name = strtolower(trim((string) $format));
+            if (array_key_exists($name, $constants)) {
+                return $constants[$name];
             }
         }
 
@@ -75,11 +75,11 @@ class text_format_tools {
      */
     public static function to_name(int $format): string {
         switch ($format) {
-            case FORMAT_PLAIN:
+            case (int) FORMAT_PLAIN:
                 return 'plain';
-            case FORMAT_MARKDOWN:
+            case (int) FORMAT_MARKDOWN:
                 return 'markdown';
-            case FORMAT_MOODLE:
+            case (int) FORMAT_MOODLE:
                 return 'moodle';
             default:
                 return 'html';
