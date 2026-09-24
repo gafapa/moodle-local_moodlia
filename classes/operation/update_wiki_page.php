@@ -36,9 +36,17 @@ class update_wiki_page {
      * @param int $pageid Pageid.
      * @param string $content Content.
      * @param string|null $section Section.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
-    public static function execute(int $courseid, int $moduleid, int $pageid, string $content, ?string $section = null): array {
+    public static function execute(
+        int $courseid,
+        int $moduleid,
+        int $pageid,
+        string $content,
+        ?string $section = null,
+        int $draftitemid = 0
+    ): array {
         wiki_tools::require_wiki_api();
 
         $course = course_tools::get_course($courseid);
@@ -47,6 +55,17 @@ class update_wiki_page {
 
         \mod_wiki_external::edit_page($pageid, $content, $section);
         $page = wiki_tools::get_page($cm, $pageid);
+        if ($draftitemid > 0) {
+            module_file_tools::attach_draft_files(
+                \context_module::instance((int) $cm->id),
+                'mod_wiki',
+                'attachments',
+                (int) $page['subwikiid'],
+                $draftitemid,
+                true,
+                (int) ($course->maxbytes ?? 0)
+            );
+        }
 
         return wiki_tools::page_to_response($cm, $page);
     }

@@ -49,6 +49,12 @@ class create_wiki_page extends external_api {
             'content_format' => new external_value(PARAM_ALPHA, 'Wiki content format', VALUE_DEFAULT, 'html'),
             'group_id' => new external_value(PARAM_INT, 'Group id, or -1 for current group', VALUE_DEFAULT, -1),
             'user_id' => new external_value(PARAM_INT, 'User id, or 0 for current user', VALUE_DEFAULT, 0),
+            'draft_item_id' => new external_value(
+                PARAM_INT,
+                'Draft item id with files for the subwiki, referenced as @@PLUGINFILE@@',
+                VALUE_DEFAULT,
+                0
+            ),
         ]);
     }
 
@@ -62,6 +68,7 @@ class create_wiki_page extends external_api {
      * @param string $contentformat Contentformat.
      * @param int $groupid Groupid.
      * @param int $userid Userid.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
     public static function execute(
@@ -71,7 +78,8 @@ class create_wiki_page extends external_api {
         string $content,
         string $contentformat = 'html',
         int $groupid = -1,
-        int $userid = 0
+        int $userid = 0,
+        int $draftitemid = 0
     ): array {
         [
             'course_id' => $courseid,
@@ -81,6 +89,7 @@ class create_wiki_page extends external_api {
             'content_format' => $contentformat,
             'group_id' => $groupid,
             'user_id' => $userid,
+            'draft_item_id' => $draftitemid,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'module_id' => $moduleid,
@@ -89,6 +98,7 @@ class create_wiki_page extends external_api {
             'content_format' => $contentformat,
             'group_id' => $groupid,
             'user_id' => $userid,
+            'draft_item_id' => $draftitemid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -110,7 +120,8 @@ class create_wiki_page extends external_api {
             $content,
             $contentformat,
             (int) $groupid,
-            (int) $userid
+            (int) $userid,
+            (int) $draftitemid
         );
     }
 

@@ -288,6 +288,7 @@ final class formats_groups_forums_test extends advanced_testcase {
             $draft
         );
         $pageid = (int) $created['page']['page_id'];
+        $this->assertSame(1, $created['page']['files_count']);
         $this->assertSame((int) FORMAT_PLAIN, (int) $DB->get_field('lesson_pages', 'contentsformat', ['id' => $pageid]));
         $names = static fn(array $files): array => array_values(array_map(static fn($file) => $file->get_filename(), $files));
         $fs = get_file_storage();
@@ -315,6 +316,57 @@ final class formats_groups_forums_test extends advanced_testcase {
 
         $this->expectException(\invalid_parameter_exception::class);
         \local_moodlia\external\create_book_chapter::execute((int) $course->id, (int) $bookcm->id, 'Bad', 'x', 'rtf');
+    }
+
+    /**
+     * Wiki pages publish draft files to the subwiki, and new modules publish intro drafts.
+     */
+    public function test_wiki_and_module_intro_publish_drafts(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course();
+        $wiki = $this->getDataGenerator()->create_module('wiki', ['course' => $course->id, 'firstpagetitle' => 'Home']);
+        $wikicm = get_coursemodule_from_instance('wiki', $wiki->id, $course->id, false, MUST_EXIST);
+        $page = create_wiki_page::execute(
+            (int) $course->id,
+            (int) $wikicm->id,
+            'Diagram',
+            '<p><img src="@@PLUGINFILE@@/wiki.png"></p>',
+            'html',
+            -1,
+            0,
+            $this->create_draft_file('wiki.png', 'wiki bytes')
+        );
+        $subwikiid = (int) $DB->get_field('wiki_pages', 'subwikiid', ['id' => $page['page_id']], MUST_EXIST);
+        $files = get_file_storage()->get_area_files(
+            \context_module::instance($wikicm->id)->id,
+            'mod_wiki',
+            'attachments',
+            $subwikiid,
+            'filename',
+            false
+        );
+        $this->assertSame(['wiki.png'], array_values(array_map(static fn($file) => $file->get_filename(), $files)));
+
+        $module = create_module::execute((int) $course->id, 1, 'page', 'Intro files', [
+            'intro' => '*See the diagram*',
+            'intro_format' => 'markdown',
+            'intro_draft_item_id' => $this->create_draft_file('intro.png', 'intro bytes'),
+            'content' => '<p>Body</p>',
+        ]);
+        $pagecm = get_coursemodule_from_id('page', $module['module_id'], $course->id, false, MUST_EXIST);
+        $this->assertSame((int) FORMAT_MARKDOWN, (int) $DB->get_field('page', 'introformat', ['id' => $pagecm->instance]));
+        $introfiles = get_file_storage()->get_area_files(
+            \context_module::instance($pagecm->id)->id,
+            'mod_page',
+            'intro',
+            0,
+            'filename',
+            false
+        );
+        $this->assertSame(['intro.png'], array_values(array_map(static fn($file) => $file->get_filename(), $introfiles)));
     }
 
     /**

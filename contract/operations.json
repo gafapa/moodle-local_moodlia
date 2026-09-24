@@ -9939,7 +9939,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -9973,6 +9973,11 @@
         "user_id": {
           "type": "integer",
           "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
         }
       },
       "returns": {
@@ -10346,7 +10351,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -10367,6 +10372,11 @@
         "section": {
           "type": "string",
           "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
         }
       },
       "returns": {

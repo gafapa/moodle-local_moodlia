@@ -188,6 +188,14 @@ class lesson_tools {
 
         $pagetype = self::page_type_name($properties);
         $definition = self::page_definition_from_page($page, $pagetype);
+        $files = get_file_storage()->get_area_files(
+            \context_module::instance((int) $cm->id)->id,
+            'mod_lesson',
+            'page_contents',
+            (int) ($properties->id ?? 0),
+            'filepath, filename',
+            false
+        );
 
         return [
             'page_id' => (int) ($properties->id ?? 0),
@@ -210,8 +218,8 @@ class lesson_tools {
             'time_modified' => (int) ($properties->timemodified ?? 0),
             'answer_ids' => $answerids,
             'jumps' => $jumps,
-            'files_count' => 0,
-            'files_size_total' => 0,
+            'files_count' => count($files),
+            'files_size_total' => array_sum(array_map(static fn(\stored_file $file): int => (int) $file->get_filesize(), $files)),
             'branches_count' => count($answers),
             'branches' => $answers,
             'page_type' => $pagetype,

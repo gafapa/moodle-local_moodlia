@@ -154,6 +154,16 @@ class create_module {
 
         module_tools::apply_common_options($course, $moduleinfo, $options);
 
+        // Moodle publishes the intro editor's draft files into the new module's intro area.
+        $introdraftitemid = (int) ($options['intro_draft_item_id'] ?? 0);
+        if ($introdraftitemid > 0 || array_key_exists('intro_format', $options)) {
+            $moduleinfo->introeditor = [
+                'text' => (string) ($moduleinfo->intro ?? ''),
+                'format' => text_format_tools::to_constant($options['intro_format'] ?? null, 'options.intro_format'),
+                'itemid' => max(0, $introdraftitemid),
+            ];
+        }
+
         $created = add_moduleinfo($moduleinfo, $course);
         $createdcmid = (int) $created->coursemodule;
 

@@ -38,6 +38,7 @@ class create_wiki_page {
      * @param string $contentformat Contentformat.
      * @param int $groupid Groupid.
      * @param int $userid Userid.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
     public static function execute(
@@ -47,7 +48,8 @@ class create_wiki_page {
         string $content,
         string $contentformat = 'html',
         int $groupid = -1,
-        int $userid = 0
+        int $userid = 0,
+        int $draftitemid = 0
     ): array {
         wiki_tools::require_wiki_api();
 
@@ -57,6 +59,17 @@ class create_wiki_page {
 
         $result = \mod_wiki_external::new_page($title, $content, $contentformat, null, (int) $cm->instance, $userid, $groupid);
         $page = wiki_tools::get_page($cm, (int) $result['pageid']);
+        if ($draftitemid > 0) {
+            module_file_tools::attach_draft_files(
+                \context_module::instance((int) $cm->id),
+                'mod_wiki',
+                'attachments',
+                (int) $page['subwikiid'],
+                $draftitemid,
+                true,
+                (int) ($course->maxbytes ?? 0)
+            );
+        }
 
         return wiki_tools::page_to_response($cm, $page);
     }

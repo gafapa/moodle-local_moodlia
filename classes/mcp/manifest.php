@@ -1745,6 +1745,7 @@ final class manifest {
                     ],
                     'group_id' => ['type' => 'integer', 'required' => false],
                     'user_id' => ['type' => 'integer', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -1804,6 +1805,7 @@ final class manifest {
                     'page_id' => ['type' => 'integer', 'required' => true],
                     'content' => ['type' => 'string', 'required' => true],
                     'section' => ['type' => 'string', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [

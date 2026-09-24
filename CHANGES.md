@@ -16,10 +16,13 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 - Text formats: every `*_format` parameter accepts `html`, `plain`,
   `markdown`, and `moodle`. Book chapter and Lesson page `content_format`
   accept these names and keep the numeric Moodle constants as aliases.
-- Embedded files: forum discussions and replies, glossary entries, and Lesson
-  pages accept draft item ids for files referenced as `@@PLUGINFILE@@`
+- Embedded files: forum discussions and replies, glossary entries, Lesson
+  pages, and wiki pages accept draft item ids for files referenced as `@@PLUGINFILE@@`
   (forum and glossary also for attachments). Forum replies accept
   `message_format`; updates keep the stored format when it is omitted.
+  `create_module` accepts `options.intro_draft_item_id` and
+  `options.intro_format` for any activity intro, and Lesson page responses
+  report the real `files_count` and `files_size_total` instead of zero.
 - The MCP tool list in `classes/mcp/manifest.php` is generated from the
   contract (`npm run manifests:generate`) and checked in CI, fixing 13 tool
   descriptions that had drifted.

@@ -47,6 +47,12 @@ class update_wiki_page extends external_api {
             'page_id' => new external_value(PARAM_INT, 'Wiki page id'),
             'content' => new external_value(PARAM_RAW, 'Wiki page content'),
             'section' => new external_value(PARAM_RAW, 'Optional wiki page section title', VALUE_DEFAULT, null),
+            'draft_item_id' => new external_value(
+                PARAM_INT,
+                'Draft item id with files for the subwiki, referenced as @@PLUGINFILE@@',
+                VALUE_DEFAULT,
+                0
+            ),
         ]);
     }
 
@@ -58,21 +64,31 @@ class update_wiki_page extends external_api {
      * @param int $pageid Pageid.
      * @param string $content Content.
      * @param string|null $section Section.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
-    public static function execute(int $courseid, int $moduleid, int $pageid, string $content, ?string $section = null): array {
+    public static function execute(
+        int $courseid,
+        int $moduleid,
+        int $pageid,
+        string $content,
+        ?string $section = null,
+        int $draftitemid = 0
+    ): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'page_id' => $pageid,
             'content' => $content,
             'section' => $section,
+            'draft_item_id' => $draftitemid,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'page_id' => $pageid,
             'content' => $content,
             'section' => $section,
+            'draft_item_id' => $draftitemid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -87,7 +103,14 @@ class update_wiki_page extends external_api {
         self::validate_context($modulecontext);
         require_capability('mod/wiki:editpage', $modulecontext);
 
-        return update_wiki_page_operation::execute((int) $courseid, (int) $moduleid, (int) $pageid, $content, $section);
+        return update_wiki_page_operation::execute(
+            (int) $courseid,
+            (int) $moduleid,
+            (int) $pageid,
+            $content,
+            $section,
+            (int) $draftitemid
+        );
     }
 
     /**
