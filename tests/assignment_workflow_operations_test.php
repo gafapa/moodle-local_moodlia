@@ -159,8 +159,8 @@ final class assignment_workflow_operations_test extends advanced_testcase {
     /**
      * Return the stored assignment grade for a student.
      *
-     * @param int $assignid Assignment id.
-     * @param int $userid User id.
+     * @param int $assignid Assignid.
+     * @param int $userid Userid.
      * @return float
      */
     private function student_grade(int $assignid, int $userid): float {
