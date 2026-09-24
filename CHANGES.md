@@ -51,6 +51,10 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
   - Lesson page operations failed outside web service requests, for example
     from CLI scripts or tests, because Moodle's Lesson API sets up the page
     theme before the course can change.
+  - `update_module` completion changes on Page, File, and URL activities
+    reset their display options (for example "Display description" and
+    "Display last modified date"). Moodle rebuilds these options from form
+    fields that the generic update did not fill in.
 
 ## 0.1.214 - 2026-09-24
 

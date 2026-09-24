@@ -325,6 +325,21 @@ class module_common_tools {
      * @param \stdClass $moduleinfo Moduleinfo.
      */
     private static function normalise_update_form_data(\stdClass $moduleinfo): void {
+        // Page, Resource, and URL forms unpack displayoptions in data_preprocessing(), and their
+        // update_instance() rebuilds it from those fields. Without them an update resets the options.
+        if (in_array($moduleinfo->modulename ?? '', ['page', 'resource', 'url'], true) && !empty($moduleinfo->displayoptions)) {
+            foreach ((array) unserialize_array($moduleinfo->displayoptions) as $name => $value) {
+                if (!isset($moduleinfo->{$name})) {
+                    $moduleinfo->{$name} = $value;
+                }
+            }
+        }
+        if (($moduleinfo->modulename ?? '') === 'page') {
+            // Unchecked form checkboxes arrive as 0; page_update_instance() reads both unconditionally.
+            $moduleinfo->printintro = (int) ($moduleinfo->printintro ?? 0);
+            $moduleinfo->printlastmodified = (int) ($moduleinfo->printlastmodified ?? 0);
+        }
+
         switch ($moduleinfo->modulename ?? '') {
             case 'page':
                 if (!isset($moduleinfo->page)) {

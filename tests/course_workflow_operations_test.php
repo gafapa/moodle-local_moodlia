@@ -163,12 +163,16 @@ final class course_workflow_operations_test extends advanced_testcase {
             'course' => $course->id,
             'completion' => COMPLETION_TRACKING_AUTOMATIC,
             'completionview' => 1,
+            'printintro' => 1,
+            'printlastmodified' => 1,
         ]);
+        $displayoptions = $DB->get_field('page', 'displayoptions', ['id' => $page->id]);
         $DB->set_field('course_modules', 'completiongradeitemnumber', -1, ['id' => $page->cmid]);
         rebuild_course_cache((int) $course->id, true);
         $repaired = repair_course_completion::execute((int) $course->id, 'all_grade_to_view', false);
         $this->assertSame(1, $repaired['changed_count']);
         $this->assertNull($DB->get_field('course_modules', 'completiongradeitemnumber', ['id' => $page->cmid]));
+        $this->assertSame($displayoptions, $DB->get_field('page', 'displayoptions', ['id' => $page->id]));
 
         $this->expectException(\invalid_parameter_exception::class);
         repair_course_completion::execute((int) $course->id, 'everything', true);
