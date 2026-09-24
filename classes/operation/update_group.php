@@ -59,8 +59,8 @@ class update_group {
         $visibilityconstant = $visibility === null
             ? (int) ($group->visibility ?? GROUPS_VISIBILITY_ALL)
             : group_tools::visibility_to_constant($visibility);
-        if ($visibilityconstant !== (int) ($group->visibility ?? GROUPS_VISIBILITY_ALL)
-                && groups_get_members((int) $group->id, 'u.id')) {
+        $visibilitychanged = $visibilityconstant !== (int) ($group->visibility ?? GROUPS_VISIBILITY_ALL);
+        if ($visibilitychanged && groups_get_members((int) $group->id, 'u.id')) {
             throw new \invalid_parameter_exception('visibility cannot change while the group has members.');
         }
         $requestedparticipation = $participation ?? (bool) ($group->participation ?? true);
