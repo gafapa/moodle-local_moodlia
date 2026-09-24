@@ -104,8 +104,8 @@ test('assignment updates expose authoring fields and normalise Moodle form defau
   const operation = contract.operations.find((entry) => entry.name === 'update_assignment');
 
   assert.equal(operation.files, 'upload');
-  assert.deepEqual(operation.parameters.intro_format.enum, ['html', 'plain']);
-  assert.deepEqual(operation.parameters.activity_format.enum, ['html', 'plain']);
+  assert.deepEqual(operation.parameters.intro_format.enum, ['html', 'plain', 'markdown', 'moodle']);
+  assert.deepEqual(operation.parameters.activity_format.enum, ['html', 'plain', 'markdown', 'moodle']);
   assert.deepEqual(operation.parameters.file_area.enum, ['intro', 'activity']);
   assert.equal(operation.parameters.draft_item_id.type, 'integer');
   assert.ok(Array.isArray(operation.returns.uploaded_files));
@@ -136,7 +136,7 @@ test('resource updates replace files without recreating the Moodle module', asyn
   assert.equal(operation.parameters.filename.required, true);
   assert.equal(operation.parameters.upload_reference.type, 'string');
   assert.equal(operation.parameters.draft_item_id.type, 'integer');
-  assert.deepEqual(operation.parameters.intro_format.enum, ['html', 'plain']);
+  assert.deepEqual(operation.parameters.intro_format.enum, ['html', 'plain', 'markdown', 'moodle']);
   assert.ok(Array.isArray(operation.returns.files));
   assert.match(externalSource, /'draft_item_id'\s*=>\s*new external_value\(PARAM_INT,/);
   assert.match(operationSource, /get_moduleinfo_data\(/);

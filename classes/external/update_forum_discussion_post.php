@@ -48,6 +48,20 @@ class update_forum_discussion_post extends external_api {
             'post_id' => new external_value(PARAM_INT, 'Forum post id'),
             'subject' => new external_value(PARAM_TEXT, 'Updated subject', VALUE_DEFAULT, ''),
             'message' => new external_value(PARAM_RAW, 'Updated message', VALUE_DEFAULT, ''),
+            'message_format' => new external_value(
+                PARAM_ALPHANUMEXT,
+                'Message format: html, plain, markdown, or moodle',
+                VALUE_DEFAULT,
+                null,
+                NULL_ALLOWED
+            ),
+            'inline_draft_item_id' => new external_value(
+                PARAM_INT,
+                'Draft item id with files referenced from the message as @@PLUGINFILE@@',
+                VALUE_DEFAULT,
+                0
+            ),
+            'attachment_draft_item_id' => new external_value(PARAM_INT, 'Draft item id with post attachments', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -60,6 +74,9 @@ class update_forum_discussion_post extends external_api {
      * @param int $postid Postid.
      * @param string $subject Subject.
      * @param string $message Message.
+     * @param string|null $messageformat Messageformat.
+     * @param int $inlinedraftitemid Inlinedraftitemid.
+     * @param int $attachmentdraftitemid Attachmentdraftitemid.
      * @return array
      */
     public static function execute(
@@ -68,7 +85,10 @@ class update_forum_discussion_post extends external_api {
         int $discussionid,
         int $postid,
         string $subject = '',
-        string $message = ''
+        string $message = '',
+        ?string $messageformat = null,
+        int $inlinedraftitemid = 0,
+        int $attachmentdraftitemid = 0
     ): array {
         [
             'course_id' => $courseid,
@@ -77,6 +97,9 @@ class update_forum_discussion_post extends external_api {
             'post_id' => $postid,
             'subject' => $subject,
             'message' => $message,
+            'message_format' => $messageformat,
+            'inline_draft_item_id' => $inlinedraftitemid,
+            'attachment_draft_item_id' => $attachmentdraftitemid,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'module_id' => $moduleid,
@@ -84,6 +107,9 @@ class update_forum_discussion_post extends external_api {
             'post_id' => $postid,
             'subject' => $subject,
             'message' => $message,
+            'message_format' => $messageformat,
+            'inline_draft_item_id' => $inlinedraftitemid,
+            'attachment_draft_item_id' => $attachmentdraftitemid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -110,7 +136,10 @@ class update_forum_discussion_post extends external_api {
             (int) $discussionid,
             (int) $postid,
             $subject !== '' ? $subject : null,
-            $message !== '' ? $message : null
+            $message !== '' ? $message : null,
+            $messageformat,
+            (int) $inlinedraftitemid,
+            (int) $attachmentdraftitemid
         );
     }
 

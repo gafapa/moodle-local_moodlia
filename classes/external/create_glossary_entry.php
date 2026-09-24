@@ -47,8 +47,15 @@ class create_glossary_entry extends external_api {
             'module_id' => new external_value(PARAM_INT, 'Glossary course module id'),
             'concept' => new external_value(PARAM_TEXT, 'Glossary entry concept'),
             'definition' => new external_value(PARAM_RAW, 'Glossary entry definition'),
-            'definition_format' => new external_value(PARAM_ALPHA, 'Definition format: html or plain', VALUE_DEFAULT, 'html'),
+            'definition_format' => new external_value(PARAM_ALPHA, 'Definition format: html, plain, markdown, or moodle', VALUE_DEFAULT, 'html'),
             'options' => new external_value(PARAM_RAW, 'JSON-encoded entry options', VALUE_DEFAULT, '{}'),
+            'inline_draft_item_id' => new external_value(
+                PARAM_INT,
+                'Draft item id with files referenced from the definition as @@PLUGINFILE@@',
+                VALUE_DEFAULT,
+                0
+            ),
+            'attachment_draft_item_id' => new external_value(PARAM_INT, 'Draft item id with entry attachments', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -61,6 +68,8 @@ class create_glossary_entry extends external_api {
      * @param string $definition Definition.
      * @param string $definitionformat Definitionformat.
      * @param string $options Options.
+     * @param int $inlinedraftitemid Inlinedraftitemid.
+     * @param int $attachmentdraftitemid Attachmentdraftitemid.
      * @return array
      */
     public static function execute(
@@ -69,7 +78,9 @@ class create_glossary_entry extends external_api {
         string $concept,
         string $definition,
         string $definitionformat = 'html',
-        string $options = '{}'
+        string $options = '{}',
+        int $inlinedraftitemid = 0,
+        int $attachmentdraftitemid = 0
     ): array {
         [
             'course_id' => $courseid,
@@ -78,6 +89,8 @@ class create_glossary_entry extends external_api {
             'definition' => $definition,
             'definition_format' => $definitionformat,
             'options' => $options,
+            'inline_draft_item_id' => $inlinedraftitemid,
+            'attachment_draft_item_id' => $attachmentdraftitemid,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'module_id' => $moduleid,
@@ -85,6 +98,8 @@ class create_glossary_entry extends external_api {
             'definition' => $definition,
             'definition_format' => $definitionformat,
             'options' => $options,
+            'inline_draft_item_id' => $inlinedraftitemid,
+            'attachment_draft_item_id' => $attachmentdraftitemid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -105,7 +120,9 @@ class create_glossary_entry extends external_api {
             $concept,
             $definition,
             $definitionformat,
-            module_tools::decode_options($options)
+            module_tools::decode_options($options),
+            (int) $inlinedraftitemid,
+            (int) $attachmentdraftitemid
         );
     }
 

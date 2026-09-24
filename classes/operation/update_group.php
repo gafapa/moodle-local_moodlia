@@ -29,13 +29,17 @@ namespace local_moodlia\operation;
  */
 class update_group {
     /**
-     * Execute the operation.
+     * Execute the operation. Null arguments keep the stored value.
      *
      * @param int $courseid Courseid.
      * @param int $groupid Groupid.
      * @param string|null $name Name.
      * @param string|null $description Description.
      * @param string|null $idnumber Idnumber.
+     * @param string|null $descriptionformat Descriptionformat.
+     * @param string|null $visibility Visibility.
+     * @param bool|null $participation Participation.
+     * @param string|null $enrolmentkey Enrolmentkey.
      * @return array
      */
     public static function execute(
@@ -43,23 +47,42 @@ class update_group {
         int $groupid,
         ?string $name = null,
         ?string $description = null,
-        ?string $idnumber = null
+        ?string $idnumber = null,
+        ?string $descriptionformat = null,
+        ?string $visibility = null,
+        ?bool $participation = null,
+        ?string $enrolmentkey = null
     ): array {
         $course = course_tools::get_course($courseid);
         $group = group_tools::get_group((int) $course->id, $groupid);
+
+        $visibilityconstant = $visibility === null
+            ? (int) ($group->visibility ?? GROUPS_VISIBILITY_ALL)
+            : group_tools::visibility_to_constant($visibility);
+        if ($visibilityconstant !== (int) ($group->visibility ?? GROUPS_VISIBILITY_ALL)
+                && groups_get_members((int) $group->id, 'u.id')) {
+            throw new \invalid_parameter_exception('visibility cannot change while the group has members.');
+        }
+        $requestedparticipation = $participation ?? (bool) ($group->participation ?? true);
 
         $data = (object) [
             'id' => (int) $group->id,
             'courseid' => (int) $course->id,
             'name' => $name !== null ? trim($name) : $group->name,
             'description' => $description !== null ? $description : (string) ($group->description ?? ''),
-            'descriptionformat' => FORMAT_HTML,
+            'descriptionformat' => $descriptionformat !== null
+                ? text_format_tools::to_constant($descriptionformat, 'description_format')
+                : (int) ($group->descriptionformat ?? FORMAT_HTML),
             'idnumber' => $idnumber !== null ? trim($idnumber) : (string) ($group->idnumber ?? ''),
+            'visibility' => $visibilityconstant,
+            'participation' => group_tools::participation_for($visibilityconstant, $requestedparticipation),
+            'enrolmentkey' => $enrolmentkey !== null ? trim($enrolmentkey) : (string) ($group->enrolmentkey ?? ''),
         ];
 
         if ($data->name === '') {
             throw new \invalid_parameter_exception('name must not be empty.');
         }
+        group_tools::require_unique_enrolment_key((int) $course->id, $data->enrolmentkey, (int) $group->id);
 
         groups_update_group($data);
 

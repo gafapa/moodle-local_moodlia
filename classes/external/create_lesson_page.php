@@ -46,7 +46,12 @@ class create_lesson_page extends external_api {
             'module_id' => new external_value(PARAM_INT, 'Lesson course module id'),
             'title' => new external_value(PARAM_RAW, 'Lesson page title'),
             'content' => new external_value(PARAM_RAW, 'Lesson page content'),
-            'content_format' => new external_value(PARAM_INT, 'Moodle content format', VALUE_DEFAULT, FORMAT_HTML),
+            'content_format' => new external_value(
+                PARAM_ALPHANUMEXT,
+                'Content format: html, plain, markdown, or moodle; numeric Moodle constants are accepted',
+                VALUE_DEFAULT,
+                'html'
+            ),
             'branches' => new external_value(PARAM_RAW, 'Optional JSON object with a branches array for content pages', VALUE_DEFAULT, null, NULL_ALLOWED),
             'after_page_id' => new external_value(PARAM_INT, 'Insert after this Lesson page id, or 0 for first', VALUE_DEFAULT, 0),
             'display_in_menu' => new external_value(PARAM_BOOL, 'Whether the page appears in the Lesson menu', VALUE_DEFAULT, true),
@@ -58,6 +63,12 @@ class create_lesson_page extends external_api {
                 'content'
             ),
             'answers' => new external_value(PARAM_RAW, 'Optional JSON object with answer definitions for question pages', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'draft_item_id' => new external_value(
+                PARAM_INT,
+                'Draft item id with files referenced from the content as @@PLUGINFILE@@',
+                VALUE_DEFAULT,
+                0
+            ),
         ]);
     }
 
@@ -68,13 +79,14 @@ class create_lesson_page extends external_api {
      * @param int $moduleid Moduleid.
      * @param string $title Title.
      * @param string $content Content.
-     * @param int $contentformat Contentformat.
+     * @param mixed $contentformat Contentformat.
      * @param string|null $branches Branches.
      * @param int $afterpageid Afterpageid.
      * @param bool $displayinmenu Displayinmenu.
      * @param bool $horizontal Horizontal.
      * @param string $pagetype Pagetype.
      * @param string|null $answers Answers.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
     public static function execute(
@@ -82,13 +94,14 @@ class create_lesson_page extends external_api {
         int $moduleid,
         string $title,
         string $content,
-        int $contentformat,
+        $contentformat,
         ?string $branches = null,
         int $afterpageid = 0,
         bool $displayinmenu = true,
         bool $horizontal = true,
         string $pagetype = 'content',
-        ?string $answers = null
+        ?string $answers = null,
+        int $draftitemid = 0
     ): array {
         [
             'course_id' => $courseid,
@@ -102,6 +115,7 @@ class create_lesson_page extends external_api {
             'horizontal' => $horizontal,
             'page_type' => $pagetype,
             'answers' => $answersjson,
+            'draft_item_id' => $draftitemid,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'module_id' => $moduleid,
@@ -114,6 +128,7 @@ class create_lesson_page extends external_api {
             'horizontal' => $horizontal,
             'page_type' => $pagetype,
             'answers' => $answers,
+            'draft_item_id' => $draftitemid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -131,13 +146,14 @@ class create_lesson_page extends external_api {
             (int) $moduleid,
             (string) $title,
             (string) $content,
-            (int) $contentformat,
+            \local_moodlia\operation\text_format_tools::to_constant($contentformat, 'content_format'),
             $branchesjson === null ? null : (string) $branchesjson,
             (int) $afterpageid,
             (bool) $displayinmenu,
             (bool) $horizontal,
             (string) $pagetype,
-            $answersjson === null ? null : (string) $answersjson
+            $answersjson === null ? null : (string) $answersjson,
+            (int) $draftitemid
         );
     }
 

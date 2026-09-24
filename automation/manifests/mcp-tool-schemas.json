@@ -45,10 +45,40 @@
         "editingteacher"
       ]
     },
+    "create_group": {
+      "description_format": [
+        "html",
+        "plain",
+        "markdown",
+        "moodle"
+      ],
+      "visibility": [
+        "all",
+        "members",
+        "own",
+        "none"
+      ]
+    },
+    "update_group": {
+      "description_format": [
+        "html",
+        "plain",
+        "markdown",
+        "moodle"
+      ],
+      "visibility": [
+        "all",
+        "members",
+        "own",
+        "none"
+      ]
+    },
     "create_course": {
       "summary_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "set_course_publish_state": {
@@ -76,19 +106,25 @@
     "update_course": {
       "summary_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "create_section": {
       "summary_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "update_section": {
       "summary_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "delete_section": {
@@ -120,7 +156,41 @@
         "workshop"
       ]
     },
+    "create_book_chapter": {
+      "content_format": [
+        "html",
+        "plain",
+        "markdown",
+        "moodle",
+        "0",
+        "1",
+        "2",
+        "4"
+      ]
+    },
+    "update_book_chapter": {
+      "content_format": [
+        "html",
+        "plain",
+        "markdown",
+        "moodle",
+        "0",
+        "1",
+        "2",
+        "4"
+      ]
+    },
     "create_lesson_page": {
+      "content_format": [
+        "html",
+        "plain",
+        "markdown",
+        "moodle",
+        "0",
+        "1",
+        "2",
+        "4"
+      ],
       "page_type": [
         "content",
         "essay",
@@ -129,6 +199,18 @@
         "numerical",
         "shortanswer",
         "truefalse"
+      ]
+    },
+    "update_lesson_page": {
+      "content_format": [
+        "html",
+        "plain",
+        "markdown",
+        "moodle",
+        "0",
+        "1",
+        "2",
+        "4"
       ]
     },
     "create_data_field": {
@@ -183,25 +265,33 @@
     "evaluate_workshop_assessment": {
       "feedback_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "create_workshop_submission": {
       "content_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "update_workshop_submission": {
       "content_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "create_glossary_entry": {
       "definition_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "get_glossary_entries_by_author": {
@@ -260,7 +350,9 @@
     "update_glossary_entry": {
       "definition_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "create_wiki_page": {
@@ -289,14 +381,34 @@
         "pagebreak"
       ]
     },
+    "create_forum_discussion_post": {
+      "message_format": [
+        "html",
+        "plain",
+        "markdown",
+        "moodle"
+      ]
+    },
+    "update_forum_discussion_post": {
+      "message_format": [
+        "html",
+        "plain",
+        "markdown",
+        "moodle"
+      ]
+    },
     "update_assignment": {
       "intro_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ],
       "activity_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ],
       "file_area": [
         "intro",
@@ -314,25 +426,33 @@
     "update_page": {
       "content_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "update_label": {
       "content_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "update_url": {
       "intro_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "update_resource": {
       "intro_format": [
         "html",
-        "plain"
+        "plain",
+        "markdown",
+        "moodle"
       ]
     },
     "get_question_categories": {

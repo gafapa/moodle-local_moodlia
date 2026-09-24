@@ -37,6 +37,8 @@ class create_glossary_entry {
      * @param string $definition Definition.
      * @param string $definitionformat Definitionformat.
      * @param array $options Options.
+     * @param int $inlinedraftitemid Inlinedraftitemid.
+     * @param int $attachmentdraftitemid Attachmentdraftitemid.
      * @return array
      */
     public static function execute(
@@ -45,7 +47,9 @@ class create_glossary_entry {
         string $concept,
         string $definition,
         string $definitionformat = 'html',
-        array $options = []
+        array $options = [],
+        int $inlinedraftitemid = 0,
+        int $attachmentdraftitemid = 0
     ): array {
         glossary_tools::require_glossary_api();
 
@@ -61,7 +65,7 @@ class create_glossary_entry {
             $concept,
             $definition,
             glossary_tools::format_to_constant($definitionformat),
-            glossary_tools::options_to_external($options)
+            glossary_tools::options_to_external($options, $inlinedraftitemid, $attachmentdraftitemid)
         );
 
         $entry = glossary_tools::get_entry($cm, (int) $result['entryid']);

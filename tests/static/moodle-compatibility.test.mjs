@@ -30,16 +30,18 @@ test('Moodle CI covers every supported core branch and PHP boundary', async () =
     ['v5.3.0-beta', '8.4', 'pgsql', '17']
   ];
 
-  for (const [moodleBranch, phpVersion, database, postgresVersion] of expectedProfiles) {
-    const profile = [
-      `- moodle: ${moodleBranch}`,
-      `php: '${phpVersion}'`,
-      `database: ${database}`,
-      `postgres: '${postgresVersion}'`
-    ].join('\\s+');
+  const matrixJson = (name) => {
+    const match = workflowSource.match(new RegExp(`${name}='(\\[[\\s\\S]*?\\])'`));
+    assert.ok(match, `moodle-ci.yml must define the ${name} matrix`);
+    return JSON.parse(match[1]).map((entry) => [entry.moodle, entry.php, entry.database, entry.postgres]);
+  };
 
-    assert.match(workflowSource, new RegExp(profile));
-  }
+  // The full matrix runs on main, nightly, and on demand; pull requests run the reduced one.
+  assert.deepEqual(matrixJson('full'), expectedProfiles);
+  assert.deepEqual(matrixJson('reduced'), [expectedProfiles[0], expectedProfiles[9]]);
+  assert.match(workflowSource, /schedule:\s*\n\s*#[^\n]*\n\s*- cron:/);
+  assert.match(workflowSource, /github\.event_name \}\}" == "pull_request" \]\]; then selected="\$reduced"/);
+  assert.match(workflowSource, /include: \$\{\{ fromJSON\(needs\.plan\.outputs\.matrix\) \}\}/);
 
   assert.match(workflowSource, /image:\s*postgres:\$\{\{ matrix\.postgres \}\}/);
   assert.match(workflowSource, /MOODLE_BRANCH:\s*\$\{\{ matrix\.moodle \}\}/);

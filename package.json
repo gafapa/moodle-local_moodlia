@@ -1,6 +1,6 @@
 {
   "name": "moodlia-moodle-plugin",
-  "version": "0.1.214",
+  "version": "0.1.215",
   "private": true,
   "description": "Moodle local plugin that exposes MoodlIA operations over REST and MCP.",
   "homepage": "https://github.com/gafapa/moodle-local_moodlia#readme",
@@ -19,7 +19,7 @@
     "lint:js": "node tools/lint-javascript.mjs",
     "lint:php": "node tools/lint-php.mjs",
     "contract:check": "node tools/check-contract.mjs",
-    "manifests:check": "node tools/generate-manifests.mjs --check",
+    "manifests:check": "node tools/generate-manifests.mjs --check && node tools/generate-mcp-manifest.mjs --check",
     "plugin:package": "node tools/package-plugin.mjs",
     "plugin:archive": "node tools/package-plugin-archive.mjs",
     "plugin:archive:check": "node tools/check-plugin-archive.mjs",
@@ -31,7 +31,8 @@
     "release:checksums:check": "node tools/generate-release-checksums.mjs --check",
     "release:artifacts": "npm run plugin:archive && npm run plugin:archive:check && npm run release:checksums && npm run release:checksums:check",
     "release:check": "node tools/release-check.mjs",
-    "check": "npm run lint:js && npm run lint:php && npm run contract:check && npm run manifests:check && npm run plugin:boilerplate:check && npm run plugin:phpdoc:check && npm run plugin:marketplace:check && npm run test:static"
+    "check": "npm run lint:js && npm run lint:php && npm run contract:check && npm run manifests:check && npm run plugin:boilerplate:check && npm run plugin:phpdoc:check && npm run plugin:marketplace:check && npm run test:static",
+    "manifests:generate": "node tools/generate-manifests.mjs && node tools/generate-mcp-manifest.mjs"
   },
   "engines": {
     "node": ">=22"

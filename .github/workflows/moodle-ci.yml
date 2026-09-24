@@ -5,57 +5,113 @@ on:
     branches:
       - main
   pull_request:
+  schedule:
+    # Nightly full matrix, so pull requests can run the reduced one.
+    - cron: '17 3 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: moodle-ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - id: matrix
+        shell: bash
+        run: |
+          full='[
+            {"moodle":"MOODLE_405_STABLE","php":"8.1","database":"mariadb","postgres":"16"},
+            {"moodle":"MOODLE_405_STABLE","php":"8.3","database":"pgsql","postgres":"16"},
+            {"moodle":"MOODLE_500_STABLE","php":"8.2","database":"mariadb","postgres":"16"},
+            {"moodle":"MOODLE_500_STABLE","php":"8.4","database":"pgsql","postgres":"16"},
+            {"moodle":"MOODLE_501_STABLE","php":"8.2","database":"mariadb","postgres":"16"},
+            {"moodle":"MOODLE_501_STABLE","php":"8.4","database":"pgsql","postgres":"16"},
+            {"moodle":"MOODLE_502_STABLE","php":"8.3","database":"mariadb","postgres":"16"},
+            {"moodle":"MOODLE_502_STABLE","php":"8.4","database":"pgsql","postgres":"16"},
+            {"moodle":"v5.3.0-beta","php":"8.3","database":"mariadb","postgres":"17"},
+            {"moodle":"v5.3.0-beta","php":"8.4","database":"pgsql","postgres":"17"}
+          ]'
+          # Pull requests check the oldest and newest supported branches on different databases.
+          reduced='[
+            {"moodle":"MOODLE_405_STABLE","php":"8.1","database":"mariadb","postgres":"16"},
+            {"moodle":"v5.3.0-beta","php":"8.4","database":"pgsql","postgres":"17"}
+          ]'
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then selected="$reduced"; else selected="$full"; fi
+          echo "matrix=$(jq -c . <<< "$selected")" >> "$GITHUB_OUTPUT"
+
+  static:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          path: repository
+          persist-credentials: false
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          ini-values: max_input_vars=5000, opcache.enable_cli=1
+      - name: Cache Composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ runner.os }}-php8.3-moodle-plugin-ci-4
+      - name: Install Moodle Plugin CI
+        run: |
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4
+          echo "$(cd ci/bin; pwd)" >> "$GITHUB_PATH"
+          echo "$(cd ci/vendor/bin; pwd)" >> "$GITHUB_PATH"
+          sudo locale-gen en_AU.UTF-8
+      - name: Install Moodle 4.5 test environment
+        run: moodle-plugin-ci install --plugin ./repository --db-host=127.0.0.1 --no-init
+        env:
+          DB: pgsql
+          MOODLE_BRANCH: MOODLE_405_STABLE
+      - name: Lint PHP
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phplint
+      - name: Validate plugin metadata
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci validate
+      - name: Check Moodle coding style
+        if: ${{ !cancelled() }}
+        run: ./ci/vendor/bin/phpcs --standard=moodle --extensions=php -p -w -s --no-cache --runtime-set ignore_warnings_on_exit 1 ./repository
+      - name: Check PHP documentation
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phpdoc --max-warnings 0
+      - name: Mark cancelled jobs as failed
+        if: ${{ cancelled() }}
+        run: exit 1
+
   phpunit:
+    needs: plan
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - moodle: MOODLE_405_STABLE
-            php: '8.1'
-            database: mariadb
-            postgres: '16'
-          - moodle: MOODLE_405_STABLE
-            php: '8.3'
-            database: pgsql
-            postgres: '16'
-          - moodle: MOODLE_500_STABLE
-            php: '8.2'
-            database: mariadb
-            postgres: '16'
-          - moodle: MOODLE_500_STABLE
-            php: '8.4'
-            database: pgsql
-            postgres: '16'
-          - moodle: MOODLE_501_STABLE
-            php: '8.2'
-            database: mariadb
-            postgres: '16'
-          - moodle: MOODLE_501_STABLE
-            php: '8.4'
-            database: pgsql
-            postgres: '16'
-          - moodle: MOODLE_502_STABLE
-            php: '8.3'
-            database: mariadb
-            postgres: '16'
-          - moodle: MOODLE_502_STABLE
-            php: '8.4'
-            database: pgsql
-            postgres: '16'
-          - moodle: v5.3.0-beta
-            php: '8.3'
-            database: mariadb
-            postgres: '17'
-          - moodle: v5.3.0-beta
-            php: '8.4'
-            database: pgsql
-            postgres: '17'
+        include: ${{ fromJSON(needs.plan.outputs.matrix) }}
     services:
       postgres:
         image: postgres:${{ matrix.postgres }}
@@ -95,6 +151,12 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
           ini-values: max_input_vars=5000, opcache.enable_cli=1
+      - name: Cache Composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ runner.os }}-php${{ matrix.php }}-${{ matrix.moodle }}
+          restore-keys: composer-${{ runner.os }}-php${{ matrix.php }}-
       - name: Install Moodle Plugin CI
         run: |
           composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4
@@ -106,18 +168,6 @@ jobs:
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle }}
-      - name: Lint PHP
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci phplint
-      - name: Validate plugin metadata
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci validate
-      - name: Check Moodle coding style
-        if: ${{ !cancelled() }}
-        run: ./ci/vendor/bin/phpcs --standard=moodle --extensions=php -p -w -s --no-cache --runtime-set ignore_warnings_on_exit 1 ./repository
-      - name: Check PHP documentation
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci phpdoc --max-warnings 0
       - name: Run PHPUnit
         if: ${{ !cancelled() }}
         shell: bash

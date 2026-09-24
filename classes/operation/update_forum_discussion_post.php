@@ -37,6 +37,9 @@ class update_forum_discussion_post {
      * @param int $postid Postid.
      * @param string|null $subject Subject.
      * @param string|null $message Message.
+     * @param string|null $messageformat Messageformat.
+     * @param int $inlinedraftitemid Inlinedraftitemid.
+     * @param int $attachmentdraftitemid Attachmentdraftitemid.
      * @return array
      */
     public static function execute(
@@ -45,8 +48,13 @@ class update_forum_discussion_post {
         int $discussionid,
         int $postid,
         ?string $subject = null,
-        ?string $message = null
+        ?string $message = null,
+        ?string $messageformat = null,
+        int $inlinedraftitemid = 0,
+        int $attachmentdraftitemid = 0
     ): array {
+        global $DB;
+
         module_tools::require_module_api();
         forum_tools::require_forum_api();
 
@@ -54,13 +62,17 @@ class update_forum_discussion_post {
         $cm = forum_tools::get_forum_module($course, $moduleid);
         forum_tools::get_raw_discussion($cm, $discussionid);
         forum_tools::get_raw_post($discussionid, $postid);
+        // Exported posts report their rendered format; keep the stored one instead.
+        $format = $messageformat !== null
+            ? text_format_tools::to_constant($messageformat, 'message_format')
+            : (int) $DB->get_field('forum_posts', 'messageformat', ['id' => $postid], MUST_EXIST);
 
         $result = \mod_forum_external::update_discussion_post(
             $postid,
             $subject ?? '',
             $message ?? '',
-            FORMAT_HTML,
-            []
+            $format,
+            forum_tools::draft_options($inlinedraftitemid, $attachmentdraftitemid)
         );
 
         if (!($result['status'] ?? false)) {

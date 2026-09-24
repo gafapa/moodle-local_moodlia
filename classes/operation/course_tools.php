@@ -141,15 +141,7 @@ class course_tools {
      * @return int
      */
     public static function format_to_constant(string $format): int {
-        $format = clean_param($format ?: 'html', PARAM_ALPHA);
-        if ($format === 'html') {
-            return FORMAT_HTML;
-        }
-        if ($format === 'plain') {
-            return FORMAT_PLAIN;
-        }
-
-        throw new \invalid_parameter_exception('summary_format must be one of: html, plain.');
+        return text_format_tools::to_constant($format, 'summary_format');
     }
 
     /**
@@ -159,7 +151,7 @@ class course_tools {
      * @return string
      */
     public static function format_from_constant(int $format): string {
-        return $format === FORMAT_PLAIN ? 'plain' : 'html';
+        return text_format_tools::to_name($format);
     }
 
     /**

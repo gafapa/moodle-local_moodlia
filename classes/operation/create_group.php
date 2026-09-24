@@ -35,23 +35,41 @@ class create_group {
      * @param string $name Name.
      * @param string $description Description.
      * @param string $idnumber Idnumber.
+     * @param string $descriptionformat Descriptionformat.
+     * @param string $visibility Visibility.
+     * @param bool $participation Participation.
+     * @param string $enrolmentkey Enrolmentkey.
      * @return array
      */
-    public static function execute(int $courseid, string $name, string $description = '', string $idnumber = ''): array {
+    public static function execute(
+        int $courseid,
+        string $name,
+        string $description = '',
+        string $idnumber = '',
+        string $descriptionformat = 'html',
+        string $visibility = 'all',
+        bool $participation = true,
+        string $enrolmentkey = ''
+    ): array {
         $course = course_tools::get_course($courseid);
         group_tools::require_group_api();
 
+        $visibilityconstant = group_tools::visibility_to_constant($visibility);
         $data = (object) [
             'courseid' => (int) $course->id,
             'name' => trim($name),
             'description' => $description,
-            'descriptionformat' => FORMAT_HTML,
+            'descriptionformat' => text_format_tools::to_constant($descriptionformat, 'description_format'),
             'idnumber' => trim($idnumber),
+            'visibility' => $visibilityconstant,
+            'participation' => group_tools::participation_for($visibilityconstant, $participation),
+            'enrolmentkey' => trim($enrolmentkey),
         ];
 
         if ($data->name === '') {
             throw new \invalid_parameter_exception('name is required.');
         }
+        group_tools::require_unique_enrolment_key((int) $course->id, $data->enrolmentkey);
 
         $groupid = groups_create_group($data);
         $group = group_tools::get_group((int) $course->id, (int) $groupid);

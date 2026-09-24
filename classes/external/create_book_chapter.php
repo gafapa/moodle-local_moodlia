@@ -45,7 +45,12 @@ class create_book_chapter extends external_api {
             'module_id' => new external_value(PARAM_INT, 'Book course module id'),
             'title' => new external_value(PARAM_RAW, 'Book chapter title'),
             'content' => new external_value(PARAM_RAW, 'Book chapter content'),
-            'content_format' => new external_value(PARAM_INT, 'Moodle content format', VALUE_DEFAULT, FORMAT_HTML),
+            'content_format' => new external_value(
+                PARAM_ALPHANUMEXT,
+                'Content format: html, plain, markdown, or moodle; numeric Moodle constants are accepted',
+                VALUE_DEFAULT,
+                'html'
+            ),
             'subchapter' => new external_value(PARAM_BOOL, 'Whether the chapter is a subchapter', VALUE_DEFAULT, false),
             'after_chapter_id' => new external_value(PARAM_INT, 'Insert after this chapter id, 0 for first, null for last', VALUE_DEFAULT, null, NULL_ALLOWED),
             'hidden' => new external_value(PARAM_BOOL, 'Whether the chapter is hidden', VALUE_DEFAULT, false),
@@ -67,7 +72,7 @@ class create_book_chapter extends external_api {
      * @param int $moduleid Moduleid.
      * @param string $title Title.
      * @param string $content Content.
-     * @param int $contentformat Contentformat.
+     * @param mixed $contentformat Contentformat.
      * @param bool $subchapter Subchapter.
      * @param int|null $afterchapterid Afterchapterid.
      * @param bool $hidden Hidden.
@@ -81,7 +86,7 @@ class create_book_chapter extends external_api {
         int $moduleid,
         string $title,
         string $content,
-        int $contentformat = FORMAT_HTML,
+        $contentformat = 'html',
         bool $subchapter = false,
         ?int $afterchapterid = null,
         bool $hidden = false,
@@ -122,7 +127,7 @@ class create_book_chapter extends external_api {
             (int) $moduleid,
             $title,
             $content,
-            (int) $contentformat,
+            \local_moodlia\operation\text_format_tools::to_constant($contentformat, 'content_format'),
             (bool) $issubchapter,
             $afterchapterid === null ? null : (int) $afterchapterid,
             (bool) $ishidden,

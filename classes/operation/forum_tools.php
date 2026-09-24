@@ -29,6 +29,23 @@ namespace local_moodlia\operation;
  */
 class forum_tools {
     /**
+     * Build Moodle forum post options for inline and attachment draft areas.
+     *
+     * @param int $inlinedraftitemid Inlinedraftitemid.
+     * @param int $attachmentdraftitemid Attachmentdraftitemid.
+     * @return array
+     */
+    public static function draft_options(int $inlinedraftitemid, int $attachmentdraftitemid): array {
+        $options = [];
+        if ($inlinedraftitemid > 0) {
+            $options[] = ['name' => 'inlineattachmentsid', 'value' => $inlinedraftitemid];
+        }
+        if ($attachmentdraftitemid > 0) {
+            $options[] = ['name' => 'attachmentsid', 'value' => $attachmentdraftitemid];
+        }
+        return $options;
+    }
+    /**
      * Load Moodle forum APIs.
      */
     public static function require_forum_api(): void {

@@ -37,6 +37,9 @@ class create_forum_discussion_post {
      * @param int|null $parentpostid Parentpostid.
      * @param string $subject Subject.
      * @param string $message Message.
+     * @param string $messageformat Messageformat.
+     * @param int $inlinedraftitemid Inlinedraftitemid.
+     * @param int $attachmentdraftitemid Attachmentdraftitemid.
      * @return array
      */
     public static function execute(
@@ -45,7 +48,10 @@ class create_forum_discussion_post {
         int $discussionid,
         ?int $parentpostid,
         string $subject,
-        string $message
+        string $message,
+        string $messageformat = 'html',
+        int $inlinedraftitemid = 0,
+        int $attachmentdraftitemid = 0
     ): array {
         module_tools::require_module_api();
         forum_tools::require_forum_api();
@@ -59,7 +65,13 @@ class create_forum_discussion_post {
             throw new \moodle_exception('invalidparentpostid', 'forum');
         }
 
-        $result = \mod_forum_external::add_discussion_post($parentpostid, $subject, $message, [], FORMAT_HTML);
+        $result = \mod_forum_external::add_discussion_post(
+            $parentpostid,
+            $subject,
+            $message,
+            forum_tools::draft_options($inlinedraftitemid, $attachmentdraftitemid),
+            text_format_tools::to_constant($messageformat, 'message_format')
+        );
         $postid = (int) ($result['postid'] ?? 0);
 
         if ($postid <= 0) {

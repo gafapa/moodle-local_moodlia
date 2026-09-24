@@ -45,7 +45,13 @@ class update_book_chapter extends external_api {
             'chapter_id' => new external_value(PARAM_INT, 'Book chapter id'),
             'title' => new external_value(PARAM_RAW, 'Book chapter title', VALUE_DEFAULT, null, NULL_ALLOWED),
             'content' => new external_value(PARAM_RAW, 'Book chapter content', VALUE_DEFAULT, null, NULL_ALLOWED),
-            'content_format' => new external_value(PARAM_INT, 'Moodle content format', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'content_format' => new external_value(
+                PARAM_ALPHANUMEXT,
+                'Content format: html, plain, markdown, or moodle; numeric Moodle constants are accepted',
+                VALUE_DEFAULT,
+                null,
+                NULL_ALLOWED
+            ),
             'subchapter' => new external_value(PARAM_BOOL, 'Whether the chapter is a subchapter', VALUE_DEFAULT, null, NULL_ALLOWED),
             'hidden' => new external_value(PARAM_BOOL, 'Whether the chapter is hidden', VALUE_DEFAULT, null, NULL_ALLOWED),
             'filename' => new external_value(PARAM_FILE, 'Optional Book chapter filename', VALUE_DEFAULT, ''),
@@ -67,7 +73,7 @@ class update_book_chapter extends external_api {
      * @param int $chapterid Chapterid.
      * @param string|null $title Title.
      * @param string|null $content Content.
-     * @param int|null $contentformat Contentformat.
+     * @param mixed $contentformat Contentformat.
      * @param bool|null $subchapter Subchapter.
      * @param bool|null $hidden Hidden.
      * @param string $filename Filename.
@@ -81,7 +87,7 @@ class update_book_chapter extends external_api {
         int $chapterid,
         ?string $title = null,
         ?string $content = null,
-        ?int $contentformat = null,
+        $contentformat = null,
         ?bool $subchapter = null,
         ?bool $hidden = null,
         string $filename = '',
@@ -122,7 +128,7 @@ class update_book_chapter extends external_api {
             (int) $chapterid,
             $title,
             $content,
-            $contentformat === null ? null : (int) $contentformat,
+            $contentformat === null ? null : \local_moodlia\operation\text_format_tools::to_constant($contentformat, 'content_format'),
             $issubchapter === null ? null : (bool) $issubchapter,
             $ishidden === null ? null : (bool) $ishidden,
             $filename,

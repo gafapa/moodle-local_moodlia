@@ -4,6 +4,29 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.215 - 2026-09-24
+
+- Groups: `create_group` and `update_group` accept `visibility`
+  (`all`, `members`, `own`, `none`), `participation`,
+  `description_format`, and `enrolment_key`. Responses report them, and
+  `has_enrolment_key` instead of the key itself. Visibility cannot change
+  while a group has members, participation is off for hidden groups, and
+  enrolment keys are unique within a course. This closes the group-field gap
+  found by Core-to-MoodlIA synchronization.
+- Text formats: every `*_format` parameter accepts `html`, `plain`,
+  `markdown`, and `moodle`. Book chapter and Lesson page `content_format`
+  accept these names and keep the numeric Moodle constants as aliases.
+- Embedded files: forum discussions and replies, glossary entries, and Lesson
+  pages accept draft item ids for files referenced as `@@PLUGINFILE@@`
+  (forum and glossary also for attachments). Forum replies accept
+  `message_format`; updates keep the stored format when it is omitted.
+- The MCP tool list in `classes/mcp/manifest.php` is generated from the
+  contract (`npm run manifests:generate`) and checked in CI, fixing 13 tool
+  descriptions that had drifted.
+- The contract's `tests` tags are now verified: REST parameter parity for all
+  250 operations, `api` only where a PHPUnit test exercises the operation
+  (31), and no `browser` claims without browser tests.
+
 ## 0.1.214 - 2026-09-24
 
 - Fix MCP `tools/call` for object-typed arguments such as `options`,

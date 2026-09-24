@@ -35,15 +35,30 @@ class create_forum_discussion {
      * @param int $moduleid Moduleid.
      * @param string $name Name.
      * @param string $message Message.
+     * @param int $inlinedraftitemid Inlinedraftitemid.
+     * @param int $attachmentdraftitemid Attachmentdraftitemid.
      * @return array
      */
-    public static function execute(int $courseid, int $moduleid, string $name, string $message): array {
+    public static function execute(
+        int $courseid,
+        int $moduleid,
+        string $name,
+        string $message,
+        int $inlinedraftitemid = 0,
+        int $attachmentdraftitemid = 0
+    ): array {
         module_tools::require_module_api();
         forum_tools::require_forum_api();
 
         $course = course_tools::get_course($courseid);
         $cm = forum_tools::get_forum_module($course, $moduleid);
-        $result = \mod_forum_external::add_discussion((int) $cm->instance, $name, $message, 0);
+        $result = \mod_forum_external::add_discussion(
+            (int) $cm->instance,
+            $name,
+            $message,
+            0,
+            forum_tools::draft_options($inlinedraftitemid, $attachmentdraftitemid)
+        );
         $discussionid = (int) ($result['discussionid'] ?? 0);
 
         if ($discussionid <= 0) {

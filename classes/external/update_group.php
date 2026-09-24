@@ -46,6 +46,34 @@ class update_group extends external_api {
             'name' => new external_value(PARAM_TEXT, 'Group name', VALUE_DEFAULT, null, NULL_ALLOWED),
             'description' => new external_value(PARAM_RAW, 'Group description', VALUE_DEFAULT, null, NULL_ALLOWED),
             'idnumber' => new external_value(PARAM_RAW, 'Group idnumber', VALUE_DEFAULT, null, NULL_ALLOWED),
+            'description_format' => new external_value(
+                PARAM_ALPHANUMEXT,
+                'Description format: html, plain, markdown, or moodle',
+                VALUE_DEFAULT,
+                null,
+                NULL_ALLOWED
+            ),
+            'visibility' => new external_value(
+                PARAM_ALPHA,
+                'Visibility: all, members, own, or none; cannot change while the group has members',
+                VALUE_DEFAULT,
+                null,
+                NULL_ALLOWED
+            ),
+            'participation' => new external_value(
+                PARAM_BOOL,
+                'Whether the group is available for activity participation',
+                VALUE_DEFAULT,
+                null,
+                NULL_ALLOWED
+            ),
+            'enrolment_key' => new external_value(
+                PARAM_RAW,
+                'Group self-enrolment key; an empty string removes it',
+                VALUE_DEFAULT,
+                null,
+                NULL_ALLOWED
+            ),
         ]);
     }
 
@@ -57,6 +85,10 @@ class update_group extends external_api {
      * @param string|null $name Name.
      * @param string|null $description Description.
      * @param string|null $idnumber Idnumber.
+     * @param string|null $descriptionformat Descriptionformat.
+     * @param string|null $visibility Visibility.
+     * @param bool|null $participation Participation.
+     * @param string|null $enrolmentkey Enrolmentkey.
      * @return array
      */
     public static function execute(
@@ -64,7 +96,11 @@ class update_group extends external_api {
         int $groupid,
         ?string $name = null,
         ?string $description = null,
-        ?string $idnumber = null
+        ?string $idnumber = null,
+        ?string $descriptionformat = null,
+        ?string $visibility = null,
+        ?bool $participation = null,
+        ?string $enrolmentkey = null
     ): array {
         [
             'course_id' => $courseid,
@@ -72,12 +108,20 @@ class update_group extends external_api {
             'name' => $name,
             'description' => $description,
             'idnumber' => $idnumber,
+            'description_format' => $descriptionformat,
+            'visibility' => $visibility,
+            'participation' => $participation,
+            'enrolment_key' => $enrolmentkey,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'group_id' => $groupid,
             'name' => $name,
             'description' => $description,
             'idnumber' => $idnumber,
+            'description_format' => $descriptionformat,
+            'visibility' => $visibility,
+            'participation' => $participation,
+            'enrolment_key' => $enrolmentkey,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -88,7 +132,17 @@ class update_group extends external_api {
         self::validate_context($coursecontext);
         require_capability('moodle/course:managegroups', $coursecontext);
 
-        return update_group_operation::execute((int) $courseid, (int) $groupid, $name, $description, $idnumber);
+        return update_group_operation::execute(
+            (int) $courseid,
+            (int) $groupid,
+            $name,
+            $description,
+            $idnumber,
+            $descriptionformat,
+            $visibility,
+            $participation === null ? null : (bool) $participation,
+            $enrolmentkey
+        );
     }
 
     /**

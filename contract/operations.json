@@ -31,7 +31,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -76,7 +75,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -121,7 +119,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -365,7 +362,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -416,7 +412,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -452,7 +447,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -496,10 +490,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -553,10 +545,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -606,10 +596,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -646,10 +634,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -725,10 +711,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -775,10 +759,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -848,8 +830,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -905,10 +886,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -966,10 +945,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -1032,10 +1009,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -1076,10 +1051,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -1126,10 +1099,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -1187,10 +1158,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -1255,7 +1224,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -1322,10 +1290,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -1355,7 +1321,9 @@
         "criteria_locked": "boolean",
         "criteria_aggregation": "string",
         "activity_aggregation": "string",
-        "required_module_ids": ["integer"],
+        "required_module_ids": [
+          "integer"
+        ],
         "criteria_count": "integer",
         "grade_criterion_enabled": "boolean",
         "required_course_grade": "number",
@@ -1375,7 +1343,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -1432,7 +1399,9 @@
         "criteria_locked": "boolean",
         "criteria_aggregation": "string",
         "activity_aggregation": "string",
-        "required_module_ids": ["integer"],
+        "required_module_ids": [
+          "integer"
+        ],
         "criteria_count": "integer",
         "grade_criterion_enabled": "boolean",
         "required_course_grade": "number",
@@ -1452,7 +1421,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -1507,10 +1475,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -1575,10 +1541,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -1633,7 +1597,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -1707,7 +1670,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -1800,7 +1762,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -1846,7 +1807,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -1930,7 +1890,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2028,7 +1987,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2074,7 +2032,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2136,7 +2093,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2216,7 +2172,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2266,10 +2221,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -2316,7 +2269,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2461,7 +2413,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2501,7 +2452,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2559,7 +2509,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2622,7 +2571,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2662,7 +2610,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2708,7 +2655,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2754,7 +2700,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2814,7 +2759,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2874,7 +2818,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -2940,8 +2883,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -2983,10 +2925,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3017,7 +2957,11 @@
             "course_id": "integer",
             "name": "string",
             "description": "string",
-            "idnumber": "string"
+            "description_format": "string",
+            "idnumber": "string",
+            "visibility": "string",
+            "participation": "boolean",
+            "has_enrolment_key": "boolean"
           }
         ]
       },
@@ -3033,8 +2977,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3067,6 +3010,34 @@
         "idnumber": {
           "type": "string",
           "required": false
+        },
+        "description_format": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain",
+            "markdown",
+            "moodle"
+          ]
+        },
+        "visibility": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "all",
+            "members",
+            "own",
+            "none"
+          ]
+        },
+        "participation": {
+          "type": "boolean",
+          "required": false
+        },
+        "enrolment_key": {
+          "type": "string",
+          "required": false
         }
       },
       "returns": {
@@ -3074,7 +3045,11 @@
         "course_id": "integer",
         "name": "string",
         "description": "string",
-        "idnumber": "string"
+        "description_format": "string",
+        "idnumber": "string",
+        "visibility": "string",
+        "participation": "boolean",
+        "has_enrolment_key": "boolean"
       },
       "errors": [
         "invalid_parameters",
@@ -3088,8 +3063,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3126,6 +3100,34 @@
         "idnumber": {
           "type": "string",
           "required": false
+        },
+        "description_format": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain",
+            "markdown",
+            "moodle"
+          ]
+        },
+        "visibility": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "all",
+            "members",
+            "own",
+            "none"
+          ]
+        },
+        "participation": {
+          "type": "boolean",
+          "required": false
+        },
+        "enrolment_key": {
+          "type": "string",
+          "required": false
         }
       },
       "returns": {
@@ -3133,7 +3135,11 @@
         "course_id": "integer",
         "name": "string",
         "description": "string",
-        "idnumber": "string"
+        "description_format": "string",
+        "idnumber": "string",
+        "visibility": "string",
+        "participation": "boolean",
+        "has_enrolment_key": "boolean"
       },
       "errors": [
         "invalid_parameters",
@@ -3148,8 +3154,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3190,10 +3195,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3241,7 +3244,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -3295,7 +3297,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -3354,7 +3355,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -3397,7 +3397,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -3448,7 +3447,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -3497,7 +3495,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -3548,10 +3545,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3598,10 +3593,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3648,10 +3641,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3694,7 +3685,9 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         },
         "course_format": {
@@ -3739,8 +3732,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3785,7 +3777,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -3832,10 +3823,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3882,10 +3871,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3940,10 +3927,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -3990,10 +3975,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -4042,10 +4025,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -4084,10 +4065,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -4289,7 +4268,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -4334,7 +4312,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -4375,7 +4352,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -4422,7 +4398,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -4484,7 +4459,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -4529,7 +4503,9 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         },
         "course_format": {
@@ -4577,10 +4553,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -4624,10 +4598,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -4664,10 +4636,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -4702,7 +4672,9 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         },
         "position": {
@@ -4747,8 +4719,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -4791,7 +4762,9 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         },
         "visible": {
@@ -4857,8 +4830,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -4911,10 +4883,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -5124,12 +5094,12 @@
               "icon": "string",
               "secure_icon": "string"
             },
-          "folder": {
-            "display": "separate | course",
-            "show_expanded": "boolean",
-            "show_download_folder": "boolean",
-            "force_download": "boolean",
-            "draft_item_id": "integer; current-user draft containing all folder files"
+            "folder": {
+              "display": "separate | course",
+              "show_expanded": "boolean",
+              "show_download_folder": "boolean",
+              "force_download": "boolean",
+              "draft_item_id": "integer; current-user draft containing all folder files"
             },
             "forum": {
               "forum_type": "general | eachuser | qanda | single | blog",
@@ -5193,12 +5163,12 @@
               "delay_first_second_seconds": "integer",
               "delay_later_seconds": "integer"
             },
-          "resource": {
-            "popup_width": "integer",
-            "popup_height": "integer",
-            "filter_files": "none | all | html",
-            "filename": "string",
-            "draft_item_id": "integer; current-user draft containing the named resource file"
+            "resource": {
+              "popup_width": "integer",
+              "popup_height": "integer",
+              "filter_files": "none | all | html",
+              "filename": "string",
+              "draft_item_id": "integer; current-user draft containing the named resource file"
             },
             "subsection": {},
             "url": {
@@ -5273,8 +5243,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -5361,8 +5330,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -5424,10 +5392,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -5489,10 +5455,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -5550,10 +5514,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -5633,7 +5595,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -5691,7 +5652,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -5728,8 +5688,18 @@
           "required": true
         },
         "content_format": {
-          "type": "integer",
-          "required": false
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain",
+            "markdown",
+            "moodle",
+            "0",
+            "1",
+            "2",
+            "4"
+          ]
         },
         "subchapter": {
           "type": "boolean",
@@ -5806,8 +5776,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -5846,8 +5815,18 @@
           "required": false
         },
         "content_format": {
-          "type": "integer",
-          "required": false
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain",
+            "markdown",
+            "moodle",
+            "0",
+            "1",
+            "2",
+            "4"
+          ]
         },
         "subchapter": {
           "type": "boolean",
@@ -5920,8 +5899,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -5981,10 +5959,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -6035,10 +6011,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -6102,7 +6076,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -6196,7 +6169,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -6286,7 +6258,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -6386,7 +6357,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -6404,7 +6374,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -6423,8 +6393,18 @@
           "required": true
         },
         "content_format": {
-          "type": "integer",
-          "required": false
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain",
+            "markdown",
+            "moodle",
+            "0",
+            "1",
+            "2",
+            "4"
+          ]
         },
         "branches": {
           "type": "object",
@@ -6458,6 +6438,11 @@
         "answers": {
           "type": "object",
           "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
         }
       },
       "returns": {
@@ -6533,7 +6518,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -6556,8 +6541,18 @@
           "required": false
         },
         "content_format": {
-          "type": "integer",
-          "required": false
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain",
+            "markdown",
+            "moodle",
+            "0",
+            "1",
+            "2",
+            "4"
+          ]
         },
         "branches": {
           "type": "object",
@@ -6574,6 +6569,11 @@
         "answers": {
           "type": "object",
           "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
         }
       },
       "returns": {
@@ -6678,7 +6678,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -6734,7 +6733,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -6793,7 +6791,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -6862,7 +6859,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -6922,7 +6918,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -7002,7 +6997,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -7059,10 +7053,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7139,10 +7131,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7210,10 +7200,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7261,10 +7249,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7336,10 +7322,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7395,10 +7379,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7455,10 +7437,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7504,10 +7484,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7561,10 +7539,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7641,10 +7617,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7729,10 +7703,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7785,10 +7757,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7904,10 +7874,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -7975,10 +7943,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -8046,10 +8012,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -8128,10 +8092,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -8201,7 +8163,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -8249,7 +8210,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -8280,12 +8240,12 @@
         "strategy": {
           "type": "string",
           "required": true,
-            "enum": [
-              "accumulative",
-              "comments",
-              "numerrors",
-              "rubric"
-            ]
+          "enum": [
+            "accumulative",
+            "comments",
+            "numerrors",
+            "rubric"
+          ]
         },
         "definition": {
           "type": "object",
@@ -8311,7 +8271,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -8374,7 +8333,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -8417,7 +8375,9 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         },
         "weight": {
@@ -8455,7 +8415,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -8496,7 +8455,9 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         }
       },
@@ -8525,10 +8486,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -8571,7 +8530,9 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         }
       },
@@ -8601,10 +8562,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -8649,10 +8608,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -8668,7 +8625,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -8691,12 +8648,24 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         },
         "options": {
           "type": "object",
           "required": false
+        },
+        "inline_draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
+        },
+        "attachment_draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
         }
       },
       "returns": {
@@ -8722,8 +8691,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -8803,7 +8771,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -8860,7 +8827,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -8917,7 +8883,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -8980,7 +8945,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -9060,7 +9024,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -9141,7 +9104,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -9239,7 +9201,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -9337,7 +9298,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -9429,7 +9389,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -9509,7 +9468,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -9578,7 +9536,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -9649,7 +9606,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -9743,10 +9699,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -9837,7 +9791,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -9855,7 +9808,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -9882,12 +9835,24 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         },
         "options": {
           "type": "object",
           "required": false
+        },
+        "inline_draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
+        },
+        "attachment_draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
         }
       },
       "returns": {
@@ -9911,10 +9876,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -9959,10 +9922,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10039,10 +10000,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10125,10 +10084,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10189,7 +10146,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -10264,7 +10220,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -10317,7 +10272,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -10375,7 +10329,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -10440,10 +10393,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10493,10 +10444,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10547,10 +10496,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10619,10 +10566,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10672,10 +10617,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10722,10 +10665,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10780,10 +10721,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10845,10 +10784,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10895,10 +10832,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -10950,10 +10885,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11052,10 +10985,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11143,10 +11074,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11211,10 +11140,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11287,10 +11214,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11346,10 +11271,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11401,10 +11324,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11449,10 +11370,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11500,10 +11419,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11578,10 +11495,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11624,10 +11539,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11686,10 +11599,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11705,7 +11616,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -11722,6 +11633,16 @@
         "message": {
           "type": "string",
           "required": true
+        },
+        "inline_draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
+        },
+        "attachment_draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
         }
       },
       "returns": {
@@ -11750,8 +11671,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11811,10 +11731,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11830,7 +11748,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -11855,6 +11773,26 @@
         "message": {
           "type": "string",
           "required": true
+        },
+        "message_format": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain",
+            "markdown",
+            "moodle"
+          ]
+        },
+        "inline_draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
+        },
+        "attachment_draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
         }
       },
       "returns": {
@@ -11880,8 +11818,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -11898,7 +11835,7 @@
         "mcp",
         "cli"
       ],
-      "files": "none",
+      "files": "upload",
       "parameters": {
         "course_id": {
           "type": "integer",
@@ -11923,6 +11860,26 @@
         "message": {
           "type": "string",
           "required": false
+        },
+        "message_format": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain",
+            "markdown",
+            "moodle"
+          ]
+        },
+        "inline_draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
+        },
+        "attachment_draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
         }
       },
       "returns": {
@@ -11948,8 +11905,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12001,10 +11957,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12056,10 +12010,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12111,10 +12063,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12167,10 +12117,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12223,10 +12171,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12329,10 +12275,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12371,7 +12315,9 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         },
         "activity": {
@@ -12383,7 +12329,9 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         },
         "filename": {
@@ -12496,8 +12444,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12555,10 +12502,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12616,10 +12561,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12677,10 +12620,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12750,10 +12691,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12827,10 +12766,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -12923,8 +12860,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13011,10 +12947,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13109,10 +13043,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13182,10 +13114,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13255,10 +13185,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13328,10 +13256,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13406,10 +13332,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13468,10 +13392,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13515,10 +13437,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13562,10 +13482,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13609,10 +13527,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13653,10 +13569,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13711,10 +13625,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13765,10 +13677,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13819,10 +13729,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13861,7 +13769,9 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         },
         "print_intro": {
@@ -13918,8 +13828,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -13937,35 +13846,75 @@
       ],
       "files": "upload",
       "parameters": {
-        "course_id": { "type": "integer", "required": true },
-        "module_id": { "type": "integer", "required": true },
-        "content": { "type": "string", "required": false },
-        "content_format": { "type": "string", "required": false, "enum": ["html", "plain"] },
-        "filename": { "type": "string", "required": false },
-        "upload_reference": { "type": "string", "required": false },
-        "draft_item_id": { "type": "integer", "required": false, "minimum": 1 }
+        "course_id": {
+          "type": "integer",
+          "required": true
+        },
+        "module_id": {
+          "type": "integer",
+          "required": true
+        },
+        "content": {
+          "type": "string",
+          "required": false
+        },
+        "content_format": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain",
+            "markdown",
+            "moodle"
+          ]
+        },
+        "filename": {
+          "type": "string",
+          "required": false
+        },
+        "upload_reference": {
+          "type": "string",
+          "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 1
+        }
       },
       "returns": {
         "module_id": "integer",
         "instance_id": "integer",
         "content": "string",
         "content_format": "integer",
-        "files": [{
-          "file_id": "integer",
-          "filename": "string",
-          "url": "string",
-          "filepath": "string",
-          "filesize": "integer",
-          "mimetype": "string",
-          "content_hash": "string",
-          "time_modified": "integer"
-        }]
+        "files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "content_hash": "string",
+            "time_modified": "integer"
+          }
+        ]
       },
       "errors": [
-        "invalid_parameters", "invalid_context", "missing_capability", "not_found",
-        "file_upload_failed", "moodle_error", "internal_error"
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "not_found",
+        "file_upload_failed",
+        "moodle_error",
+        "internal_error"
       ],
-      "tests": ["parity", "api", "mcp", "cli", "browser"]
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli"
+      ]
     },
     {
       "name": "update_url",
@@ -13982,19 +13931,67 @@
       ],
       "files": "upload",
       "parameters": {
-        "course_id": { "type": "integer", "required": true },
-        "module_id": { "type": "integer", "required": true },
-        "name": { "type": "string", "required": false },
-        "external_url": { "type": "string", "required": false },
-        "intro": { "type": "string", "required": false },
-        "intro_format": { "type": "string", "required": false, "enum": ["html", "plain"] },
-        "display": { "type": "integer", "required": false },
-        "print_intro": { "type": "boolean", "required": false },
-        "popup_width": { "type": "integer", "required": false, "minimum": 1 },
-        "popup_height": { "type": "integer", "required": false, "minimum": 1 },
-        "filename": { "type": "string", "required": false },
-        "upload_reference": { "type": "string", "required": false },
-        "draft_item_id": { "type": "integer", "required": false, "minimum": 1 }
+        "course_id": {
+          "type": "integer",
+          "required": true
+        },
+        "module_id": {
+          "type": "integer",
+          "required": true
+        },
+        "name": {
+          "type": "string",
+          "required": false
+        },
+        "external_url": {
+          "type": "string",
+          "required": false
+        },
+        "intro": {
+          "type": "string",
+          "required": false
+        },
+        "intro_format": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "html",
+            "plain",
+            "markdown",
+            "moodle"
+          ]
+        },
+        "display": {
+          "type": "integer",
+          "required": false
+        },
+        "print_intro": {
+          "type": "boolean",
+          "required": false
+        },
+        "popup_width": {
+          "type": "integer",
+          "required": false,
+          "minimum": 1
+        },
+        "popup_height": {
+          "type": "integer",
+          "required": false,
+          "minimum": 1
+        },
+        "filename": {
+          "type": "string",
+          "required": false
+        },
+        "upload_reference": {
+          "type": "string",
+          "required": false
+        },
+        "draft_item_id": {
+          "type": "integer",
+          "required": false,
+          "minimum": 1
+        }
       },
       "returns": {
         "module_id": "integer",
@@ -14007,22 +14004,34 @@
         "print_intro": "boolean",
         "popup_width": "integer",
         "popup_height": "integer",
-        "files": [{
-          "file_id": "integer",
-          "filename": "string",
-          "url": "string",
-          "filepath": "string",
-          "filesize": "integer",
-          "mimetype": "string",
-          "content_hash": "string",
-          "time_modified": "integer"
-        }]
+        "files": [
+          {
+            "file_id": "integer",
+            "filename": "string",
+            "url": "string",
+            "filepath": "string",
+            "filesize": "integer",
+            "mimetype": "string",
+            "content_hash": "string",
+            "time_modified": "integer"
+          }
+        ]
       },
       "errors": [
-        "invalid_parameters", "invalid_context", "missing_capability", "not_found",
-        "file_upload_failed", "moodle_error", "internal_error"
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "not_found",
+        "file_upload_failed",
+        "moodle_error",
+        "internal_error"
       ],
-      "tests": ["parity", "api", "mcp", "cli", "browser"]
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli"
+      ]
     },
     {
       "name": "update_resource",
@@ -14074,7 +14083,9 @@
           "required": false,
           "enum": [
             "html",
-            "plain"
+            "plain",
+            "markdown",
+            "moodle"
           ]
         }
       },
@@ -14109,8 +14120,7 @@
         "parity",
         "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -14161,10 +14171,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -14219,10 +14227,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -14271,10 +14277,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -14325,10 +14329,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -14398,10 +14400,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -14473,7 +14473,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -14552,7 +14551,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -14673,7 +14671,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -14724,7 +14721,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -14803,7 +14799,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -14871,7 +14866,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -14923,7 +14917,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -14995,10 +14988,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15036,7 +15027,6 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
         "cli"
       ]
@@ -15086,10 +15076,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15163,10 +15151,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15221,10 +15207,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15296,10 +15280,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15387,10 +15369,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15446,10 +15426,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15546,10 +15524,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15626,10 +15602,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15689,10 +15663,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15761,10 +15733,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15862,10 +15832,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15916,10 +15884,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -15981,10 +15947,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -16022,10 +15986,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -16086,10 +16048,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -16145,10 +16105,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -16201,10 +16159,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -16252,10 +16208,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -16299,10 +16253,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -16342,10 +16294,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -16392,10 +16342,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -16475,10 +16423,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -16526,10 +16472,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     },
     {
@@ -16580,10 +16524,8 @@
       ],
       "tests": [
         "parity",
-        "api",
         "mcp",
-        "cli",
-        "browser"
+        "cli"
       ]
     }
   ]

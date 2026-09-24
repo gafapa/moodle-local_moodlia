@@ -1462,16 +1462,7 @@ class lesson_tools {
      * @return int
      */
     private static function normalise_text_format($value, string $label): int {
-        if (!is_numeric($value)) {
-            throw new \invalid_parameter_exception($label . ' must be an integer.');
-        }
-
-        $format = (int) $value;
-        if ($format < 0) {
-            throw new \invalid_parameter_exception($label . ' must be zero or greater.');
-        }
-
-        return $format;
+        return text_format_tools::to_constant($value, $label);
     }
 
     /**

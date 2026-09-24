@@ -41,6 +41,7 @@ class update_lesson_page {
      * @param bool|null $displayinmenu Displayinmenu.
      * @param bool|null $horizontal Horizontal.
      * @param string|null $answersjson Answersjson.
+     * @param int $draftitemid Draftitemid.
      * @return array
      */
     public static function execute(
@@ -53,7 +54,8 @@ class update_lesson_page {
         ?string $branchesjson = null,
         ?bool $displayinmenu = null,
         ?bool $horizontal = null,
-        ?string $answersjson = null
+        ?string $answersjson = null,
+        int $draftitemid = 0
     ): array {
         lesson_tools::require_lesson_api();
 
@@ -85,7 +87,8 @@ class update_lesson_page {
             $branchesjson === null &&
             $displayinmenu === null &&
             $horizontal === null &&
-            $answersjson === null
+            $answersjson === null &&
+            $draftitemid <= 0
         ) {
             throw new \invalid_parameter_exception('At least one page field is required.');
         }
@@ -233,6 +236,15 @@ class update_lesson_page {
 
         $context = \context_module::instance($cm->id);
         $page->update($properties, $context, get_user_max_upload_file_size($context));
+        module_file_tools::attach_draft_files(
+            $context,
+            'mod_lesson',
+            'page_contents',
+            (int) $pageid,
+            $draftitemid,
+            true,
+            (int) ($course->maxbytes ?? 0)
+        );
         rebuild_course_cache($course->id, true);
 
         return [

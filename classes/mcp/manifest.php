@@ -58,8 +58,25 @@ final class manifest {
                 'description' => 'Return an administrative inventory of installed, pending, and missing Moodle plugins.',
                 'inputSchema' => self::schema([
                     'plugin_type' => ['type' => 'string', 'required' => false],
-                    'source' => ['type' => 'string', 'required' => false, 'enum' => ['all', 'standard', 'additional', 'missing']],
-                    'status' => ['type' => 'string', 'required' => false, 'enum' => ['all', 'nodb', 'uptodate', 'new', 'upgrade', 'delete', 'downgrade', 'missing']],
+                    'source' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['all', 'standard', 'additional', 'missing'],
+                    ],
+                    'status' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => [
+                            'all',
+                            'nodb',
+                            'uptodate',
+                            'new',
+                            'upgrade',
+                            'delete',
+                            'downgrade',
+                            'missing',
+                        ],
+                    ],
                 ]),
             ],
             [
@@ -210,7 +227,7 @@ final class manifest {
             ],
             [
                 'name' => 'set_course_grade_pass',
-                'description' => 'Set the Moodle course total passing grade by grade or percentage.',
+                'description' => 'Set the Moodle course total passing grade by absolute grade or percentage.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'grade_pass' => ['type' => 'number', 'required' => false],
@@ -224,6 +241,40 @@ final class manifest {
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'user_id' => ['type' => 'integer', 'required' => false],
                     'group_id' => ['type' => 'integer', 'required' => false],
+                ]),
+            ],
+            [
+                'name' => 'get_course_completion_criteria',
+                'description' => 'Return the global completion criteria configured for a Moodle course.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                ]),
+            ],
+            [
+                'name' => 'set_course_completion_criteria',
+                'description' => 'Set global activity and course-grade completion criteria for an unlocked Moodle course.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'required_module_ids' => ['type' => 'array', 'items' => ['type' => 'integer'], 'required' => false],
+                    'require_all_activities' => ['type' => 'boolean', 'required' => false],
+                    'required_course_grade_percent' => ['type' => 'number', 'required' => false],
+                    'criteria_aggregation' => ['type' => 'string', 'required' => false, 'enum' => ['all', 'any']],
+                ]),
+            ],
+            [
+                'name' => 'get_course_completion_status',
+                'description' => 'Return Moodle course completion status for a user.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'user_id' => ['type' => 'integer', 'required' => false],
+                ]),
+            ],
+            [
+                'name' => 'get_activity_completion_statuses',
+                'description' => 'Return Moodle activity completion statuses for a user in a course.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'user_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -284,7 +335,7 @@ final class manifest {
             ],
             [
                 'name' => 'update_grade_item',
-                'description' => 'Update safe settings for a Moodle gradebook item.',
+                'description' => 'Update safe settings for a Moodle gradebook item, including module-owned items.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'item_id' => ['type' => 'integer', 'required' => true],
@@ -318,40 +369,6 @@ final class manifest {
                 ]),
             ],
             [
-                'name' => 'get_course_completion_criteria',
-                'description' => 'Return the global completion criteria configured for a Moodle course.',
-                'inputSchema' => self::schema([
-                    'course_id' => ['type' => 'integer', 'required' => true],
-                ]),
-            ],
-            [
-                'name' => 'set_course_completion_criteria',
-                'description' => 'Set global activity and course-grade completion criteria for an unlocked Moodle course.',
-                'inputSchema' => self::schema([
-                    'course_id' => ['type' => 'integer', 'required' => true],
-                    'required_module_ids' => ['type' => 'array', 'items' => ['type' => 'integer'], 'required' => false],
-                    'require_all_activities' => ['type' => 'boolean', 'required' => false],
-                    'required_course_grade_percent' => ['type' => 'number', 'required' => false],
-                    'criteria_aggregation' => ['type' => 'string', 'required' => false, 'enum' => ['all', 'any']],
-                ]),
-            ],
-            [
-                'name' => 'get_course_completion_status',
-                'description' => 'Return Moodle course completion status for a user.',
-                'inputSchema' => self::schema([
-                    'course_id' => ['type' => 'integer', 'required' => true],
-                    'user_id' => ['type' => 'integer', 'required' => false],
-                ]),
-            ],
-            [
-                'name' => 'get_activity_completion_statuses',
-                'description' => 'Return Moodle activity completion statuses for a user in a course.',
-                'inputSchema' => self::schema([
-                    'course_id' => ['type' => 'integer', 'required' => true],
-                    'user_id' => ['type' => 'integer', 'required' => false],
-                ]),
-            ],
-            [
                 'name' => 'get_course_progress_report',
                 'description' => 'Return a compact progress and grade report for enrolled users in a Moodle course.',
                 'inputSchema' => self::schema([
@@ -376,7 +393,7 @@ final class manifest {
             ],
             [
                 'name' => 'create_user',
-                'description' => 'Create a Moodle user account.',
+                'description' => 'Create a Moodle user through Moodle core user APIs.',
                 'inputSchema' => self::schema([
                     'username' => ['type' => 'string', 'required' => true],
                     'firstname' => ['type' => 'string', 'required' => true],
@@ -389,7 +406,7 @@ final class manifest {
             ],
             [
                 'name' => 'update_user',
-                'description' => 'Update Moodle user account fields.',
+                'description' => 'Update a Moodle user through Moodle core user APIs.',
                 'inputSchema' => self::schema([
                     'user_id' => ['type' => 'integer', 'required' => true],
                     'firstname' => ['type' => 'string', 'required' => false],
@@ -402,14 +419,14 @@ final class manifest {
             ],
             [
                 'name' => 'delete_user',
-                'description' => 'Delete a Moodle user account.',
+                'description' => 'Delete a Moodle user through Moodle core user APIs.',
                 'inputSchema' => self::schema([
                     'user_id' => ['type' => 'integer', 'required' => true],
                 ]),
             ],
             [
                 'name' => 'create_cohort',
-                'description' => 'Create a Moodle site cohort.',
+                'description' => 'Create a Moodle system cohort.',
                 'inputSchema' => self::schema([
                     'name' => ['type' => 'string', 'required' => true],
                     'idnumber' => ['type' => 'string', 'required' => false],
@@ -419,7 +436,7 @@ final class manifest {
             ],
             [
                 'name' => 'update_cohort',
-                'description' => 'Update a Moodle site cohort.',
+                'description' => 'Update a Moodle cohort.',
                 'inputSchema' => self::schema([
                     'cohort_id' => ['type' => 'integer', 'required' => true],
                     'name' => ['type' => 'string', 'required' => false],
@@ -430,14 +447,14 @@ final class manifest {
             ],
             [
                 'name' => 'delete_cohort',
-                'description' => 'Delete a Moodle site cohort.',
+                'description' => 'Delete a Moodle cohort.',
                 'inputSchema' => self::schema([
                     'cohort_id' => ['type' => 'integer', 'required' => true],
                 ]),
             ],
             [
                 'name' => 'add_cohort_member',
-                'description' => 'Add a Moodle user to a site cohort.',
+                'description' => 'Add a Moodle user to a cohort.',
                 'inputSchema' => self::schema([
                     'cohort_id' => ['type' => 'integer', 'required' => true],
                     'user_id' => ['type' => 'integer', 'required' => true],
@@ -445,7 +462,7 @@ final class manifest {
             ],
             [
                 'name' => 'remove_cohort_member',
-                'description' => 'Remove a Moodle user from a site cohort.',
+                'description' => 'Remove a Moodle user from a cohort.',
                 'inputSchema' => self::schema([
                     'cohort_id' => ['type' => 'integer', 'required' => true],
                     'user_id' => ['type' => 'integer', 'required' => true],
@@ -453,20 +470,28 @@ final class manifest {
             ],
             [
                 'name' => 'assign_course_role',
-                'description' => 'Assign a course role to a Moodle user.',
+                'description' => 'Assign a supported Moodle role archetype in a course context.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'user_id' => ['type' => 'integer', 'required' => true],
-                    'role_archetype' => ['type' => 'string', 'required' => false, 'enum' => ['student', 'teacher', 'editingteacher']],
+                    'role_archetype' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['student', 'teacher', 'editingteacher'],
+                    ],
                 ]),
             ],
             [
                 'name' => 'unassign_course_role',
-                'description' => 'Unassign a course role from a Moodle user.',
+                'description' => 'Unassign a supported Moodle role archetype from a course context.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'user_id' => ['type' => 'integer', 'required' => true],
-                    'role_archetype' => ['type' => 'string', 'required' => false, 'enum' => ['student', 'teacher', 'editingteacher']],
+                    'role_archetype' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['student', 'teacher', 'editingteacher'],
+                    ],
                 ]),
             ],
             [
@@ -475,7 +500,11 @@ final class manifest {
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'user_id' => ['type' => 'integer', 'required' => true],
-                    'role_archetype' => ['type' => 'string', 'required' => false, 'enum' => ['student', 'teacher', 'editingteacher']],
+                    'role_archetype' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['student', 'teacher', 'editingteacher'],
+                    ],
                 ]),
             ],
             [
@@ -501,6 +530,18 @@ final class manifest {
                     'name' => ['type' => 'string', 'required' => true],
                     'description' => ['type' => 'string', 'required' => false],
                     'idnumber' => ['type' => 'string', 'required' => false],
+                    'description_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
+                    'visibility' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['all', 'members', 'own', 'none'],
+                    ],
+                    'participation' => ['type' => 'boolean', 'required' => false],
+                    'enrolment_key' => ['type' => 'string', 'required' => false],
                 ]),
             ],
             [
@@ -512,6 +553,18 @@ final class manifest {
                     'name' => ['type' => 'string', 'required' => false],
                     'description' => ['type' => 'string', 'required' => false],
                     'idnumber' => ['type' => 'string', 'required' => false],
+                    'description_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
+                    'visibility' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['all', 'members', 'own', 'none'],
+                    ],
+                    'participation' => ['type' => 'boolean', 'required' => false],
+                    'enrolment_key' => ['type' => 'string', 'required' => false],
                 ]),
             ],
             [
@@ -611,10 +664,15 @@ final class manifest {
                     'category_id' => ['type' => 'integer', 'required' => false],
                     'visible' => ['type' => 'boolean', 'required' => false],
                     'summary' => ['type' => 'string', 'required' => false],
-                    'summary_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'summary_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'course_format' => ['type' => 'string', 'required' => false],
                     'start_date' => ['type' => 'integer', 'required' => false],
                     'end_date' => ['type' => 'integer', 'required' => false],
+                    'enable_completion' => ['type' => 'boolean', 'required' => false],
                 ]),
             ],
             [
@@ -665,7 +723,11 @@ final class manifest {
                 'description' => 'Apply a course publishing workflow state mapped to Moodle course visibility and archive metadata.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
-                    'publish_state' => ['type' => 'string', 'required' => true, 'enum' => ['draft', 'ready', 'published', 'archived']],
+                    'publish_state' => [
+                        'type' => 'string',
+                        'required' => true,
+                        'enum' => ['draft', 'ready', 'published', 'archived'],
+                    ],
                 ]),
             ],
             [
@@ -695,7 +757,11 @@ final class manifest {
                 'description' => 'Restore a native Moodle .mbz course backup into a new or existing course.',
                 'inputSchema' => self::schema([
                     'backup_file_id' => ['type' => 'integer', 'required' => true],
-                    'target' => ['type' => 'string', 'required' => false, 'enum' => ['new_course', 'existing_add', 'existing_delete']],
+                    'target' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['new_course', 'existing_add', 'existing_delete'],
+                    ],
                     'target_course_id' => ['type' => 'integer', 'required' => false],
                     'category_id' => ['type' => 'integer', 'required' => false],
                     'fullname' => ['type' => 'string', 'required' => false],
@@ -739,7 +805,11 @@ final class manifest {
                 'description' => 'Repair activity completion settings in a Moodle course.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
-                    'mode' => ['type' => 'string', 'required' => false, 'enum' => ['book_view_only', 'all_grade_to_view', 'disable_all']],
+                    'mode' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['book_view_only', 'all_grade_to_view', 'disable_all'],
+                    ],
                     'dry_run' => ['type' => 'boolean', 'required' => false],
                     'reset_completion_states' => ['type' => 'boolean', 'required' => false],
                 ]),
@@ -753,11 +823,16 @@ final class manifest {
                     'shortname' => ['type' => 'string', 'required' => false],
                     'visible' => ['type' => 'boolean', 'required' => false],
                     'summary' => ['type' => 'string', 'required' => false],
-                    'summary_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'summary_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'course_format' => ['type' => 'string', 'required' => false],
                     'category_id' => ['type' => 'integer', 'required' => false],
                     'start_date' => ['type' => 'integer', 'required' => false],
                     'end_date' => ['type' => 'integer', 'required' => false],
+                    'enable_completion' => ['type' => 'boolean', 'required' => false],
                 ]),
             ],
             [
@@ -782,7 +857,11 @@ final class manifest {
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'name' => ['type' => 'string', 'required' => true],
                     'summary' => ['type' => 'string', 'required' => false],
-                    'summary_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'summary_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'position' => ['type' => 'integer', 'required' => false],
                     'visible' => ['type' => 'boolean', 'required' => false],
                 ]),
@@ -796,7 +875,11 @@ final class manifest {
                     'section_number' => ['type' => 'integer', 'required' => false],
                     'name' => ['type' => 'string', 'required' => false],
                     'summary' => ['type' => 'string', 'required' => false],
-                    'summary_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'summary_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'visible' => ['type' => 'boolean', 'required' => false],
                     'filename' => ['type' => 'string', 'required' => false],
                     'upload_reference' => ['type' => 'string', 'required' => false],
@@ -913,7 +996,20 @@ final class manifest {
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'title' => ['type' => 'string', 'required' => true],
                     'content' => ['type' => 'string', 'required' => true],
-                    'content_format' => ['type' => 'integer', 'required' => false],
+                    'content_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => [
+                            'html',
+                            'plain',
+                            'markdown',
+                            'moodle',
+                            '0',
+                            '1',
+                            '2',
+                            '4',
+                        ],
+                    ],
                     'subchapter' => ['type' => 'boolean', 'required' => false],
                     'after_chapter_id' => ['type' => 'integer', 'required' => false],
                     'hidden' => ['type' => 'boolean', 'required' => false],
@@ -931,7 +1027,20 @@ final class manifest {
                     'chapter_id' => ['type' => 'integer', 'required' => true],
                     'title' => ['type' => 'string', 'required' => false],
                     'content' => ['type' => 'string', 'required' => false],
-                    'content_format' => ['type' => 'integer', 'required' => false],
+                    'content_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => [
+                            'html',
+                            'plain',
+                            'markdown',
+                            'moodle',
+                            '0',
+                            '1',
+                            '2',
+                            '4',
+                        ],
+                    ],
                     'subchapter' => ['type' => 'boolean', 'required' => false],
                     'hidden' => ['type' => 'boolean', 'required' => false],
                     'filename' => ['type' => 'string', 'required' => false],
@@ -999,7 +1108,20 @@ final class manifest {
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'title' => ['type' => 'string', 'required' => true],
                     'content' => ['type' => 'string', 'required' => true],
-                    'content_format' => ['type' => 'integer', 'required' => false],
+                    'content_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => [
+                            'html',
+                            'plain',
+                            'markdown',
+                            'moodle',
+                            '0',
+                            '1',
+                            '2',
+                            '4',
+                        ],
+                    ],
                     'branches' => ['type' => 'object', 'required' => false],
                     'after_page_id' => ['type' => 'integer', 'required' => false],
                     'display_in_menu' => ['type' => 'boolean', 'required' => false],
@@ -1007,9 +1129,18 @@ final class manifest {
                     'page_type' => [
                         'type' => 'string',
                         'required' => false,
-                        'enum' => ['content', 'essay', 'matching', 'multichoice', 'numerical', 'shortanswer', 'truefalse'],
+                        'enum' => [
+                            'content',
+                            'essay',
+                            'matching',
+                            'multichoice',
+                            'numerical',
+                            'shortanswer',
+                            'truefalse',
+                        ],
                     ],
                     'answers' => ['type' => 'object', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -1021,11 +1152,25 @@ final class manifest {
                     'page_id' => ['type' => 'integer', 'required' => true],
                     'title' => ['type' => 'string', 'required' => false],
                     'content' => ['type' => 'string', 'required' => false],
-                    'content_format' => ['type' => 'integer', 'required' => false],
+                    'content_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => [
+                            'html',
+                            'plain',
+                            'markdown',
+                            'moodle',
+                            '0',
+                            '1',
+                            '2',
+                            '4',
+                        ],
+                    ],
                     'branches' => ['type' => 'object', 'required' => false],
                     'display_in_menu' => ['type' => 'boolean', 'required' => false],
                     'horizontal' => ['type' => 'boolean', 'required' => false],
                     'answers' => ['type' => 'object', 'required' => false],
+                    'draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -1095,7 +1240,20 @@ final class manifest {
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'module_id' => ['type' => 'integer', 'required' => true],
-                    'field_type' => ['type' => 'string', 'required' => true, 'enum' => ['text', 'textarea', 'number', 'menu', 'checkbox', 'radiobutton', 'multimenu', 'url']],
+                    'field_type' => [
+                        'type' => 'string',
+                        'required' => true,
+                        'enum' => [
+                            'text',
+                            'textarea',
+                            'number',
+                            'menu',
+                            'checkbox',
+                            'radiobutton',
+                            'multimenu',
+                            'url',
+                        ],
+                    ],
                     'name' => ['type' => 'string', 'required' => true],
                     'description' => ['type' => 'string', 'required' => false],
                     'required' => ['type' => 'boolean', 'required' => false],
@@ -1171,7 +1329,17 @@ final class manifest {
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'module_id' => ['type' => 'integer', 'required' => true],
-                    'phase' => ['type' => 'string', 'required' => true, 'enum' => ['setup', 'submission', 'assessment', 'evaluation', 'closed']],
+                    'phase' => [
+                        'type' => 'string',
+                        'required' => true,
+                        'enum' => [
+                            'setup',
+                            'submission',
+                            'assessment',
+                            'evaluation',
+                            'closed',
+                        ],
+                    ],
                 ]),
             ],
             [
@@ -1281,7 +1449,11 @@ final class manifest {
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'module_id' => ['type' => 'integer', 'required' => true],
-                    'strategy' => ['type' => 'string', 'required' => true, 'enum' => ['accumulative', 'comments', 'numerrors', 'rubric']],
+                    'strategy' => [
+                        'type' => 'string',
+                        'required' => true,
+                        'enum' => ['accumulative', 'comments', 'numerrors', 'rubric'],
+                    ],
                     'definition' => ['type' => 'object', 'required' => true],
                 ]),
             ],
@@ -1303,7 +1475,11 @@ final class manifest {
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'assessment_id' => ['type' => 'integer', 'required' => true],
                     'feedback_text' => ['type' => 'string', 'required' => false],
-                    'feedback_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'feedback_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'weight' => ['type' => 'integer', 'required' => false],
                     'grading_grade_over' => ['type' => 'string', 'required' => false],
                 ]),
@@ -1316,7 +1492,11 @@ final class manifest {
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'title' => ['type' => 'string', 'required' => true],
                     'content' => ['type' => 'string', 'required' => false],
-                    'content_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'content_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                 ]),
             ],
             [
@@ -1328,7 +1508,11 @@ final class manifest {
                     'submission_id' => ['type' => 'integer', 'required' => true],
                     'title' => ['type' => 'string', 'required' => true],
                     'content' => ['type' => 'string', 'required' => false],
-                    'content_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'content_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                 ]),
             ],
             [
@@ -1348,8 +1532,14 @@ final class manifest {
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'concept' => ['type' => 'string', 'required' => true],
                     'definition' => ['type' => 'string', 'required' => true],
-                    'definition_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'definition_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'options' => ['type' => 'object', 'required' => false],
+                    'inline_draft_item_id' => ['type' => 'integer', 'required' => false],
+                    'attachment_draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -1521,8 +1711,14 @@ final class manifest {
                     'entry_id' => ['type' => 'integer', 'required' => true],
                     'concept' => ['type' => 'string', 'required' => false],
                     'definition' => ['type' => 'string', 'required' => false],
-                    'definition_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'definition_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'options' => ['type' => 'object', 'required' => false],
+                    'inline_draft_item_id' => ['type' => 'integer', 'required' => false],
+                    'attachment_draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -1542,7 +1738,11 @@ final class manifest {
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'title' => ['type' => 'string', 'required' => true],
                     'content' => ['type' => 'string', 'required' => true],
-                    'content_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'creole', 'nwiki']],
+                    'content_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'creole', 'nwiki'],
+                    ],
                     'group_id' => ['type' => 'integer', 'required' => false],
                     'user_id' => ['type' => 'integer', 'required' => false],
                 ]),
@@ -1657,14 +1857,6 @@ final class manifest {
                 ]),
             ],
             [
-                'name' => 'get_choice_results',
-                'description' => 'Return aggregated results for a Moodle choice activity.',
-                'inputSchema' => self::schema([
-                    'course_id' => ['type' => 'integer', 'required' => true],
-                    'choice_module_id' => ['type' => 'integer', 'required' => true],
-                ]),
-            ],
-            [
                 'name' => 'get_course_feedbacks',
                 'description' => 'Return Feedback activities in a Moodle course.',
                 'inputSchema' => self::schema([
@@ -1689,30 +1881,26 @@ final class manifest {
                 ]),
             ],
             [
-                'name' => 'get_feedback_items',
-                'description' => 'List items in a Moodle Feedback activity.',
-                'inputSchema' => self::schema([
-                    'course_id' => ['type' => 'integer', 'required' => true],
-                    'module_id' => ['type' => 'integer', 'required' => true],
-                ]),
-            ],
-            [
                 'name' => 'create_feedback_item',
                 'description' => 'Create an item in a Moodle Feedback activity.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'module_id' => ['type' => 'integer', 'required' => true],
-                    'type' => ['type' => 'string', 'required' => true, 'enum' => [
-                        'textfield',
-                        'textarea',
-                        'numeric',
-                        'multichoice',
-                        'multichoicerated',
-                        'label',
-                        'info',
-                        'captcha',
-                        'pagebreak',
-                    ]],
+                    'type' => [
+                        'type' => 'string',
+                        'required' => true,
+                        'enum' => [
+                            'textfield',
+                            'textarea',
+                            'numeric',
+                            'multichoice',
+                            'multichoicerated',
+                            'label',
+                            'info',
+                            'captcha',
+                            'pagebreak',
+                        ],
+                    ],
                     'name' => ['type' => 'string', 'required' => false],
                     'definition' => ['type' => 'object', 'required' => true],
                     'position' => ['type' => 'integer', 'required' => false],
@@ -1736,6 +1924,14 @@ final class manifest {
                     'required' => ['type' => 'boolean', 'required' => false],
                     'depend_item_id' => ['type' => 'integer', 'required' => false],
                     'depend_value' => ['type' => 'string', 'required' => false],
+                ]),
+            ],
+            [
+                'name' => 'get_feedback_items',
+                'description' => 'List items in a Moodle Feedback activity.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'module_id' => ['type' => 'integer', 'required' => true],
                 ]),
             ],
             [
@@ -1774,6 +1970,14 @@ final class manifest {
                 ]),
             ],
             [
+                'name' => 'get_choice_results',
+                'description' => 'Return aggregated results for a Moodle choice activity.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'choice_module_id' => ['type' => 'integer', 'required' => true],
+                ]),
+            ],
+            [
                 'name' => 'get_course_forums',
                 'description' => 'Return Forum activities in a Moodle course.',
                 'inputSchema' => self::schema([
@@ -1804,6 +2008,8 @@ final class manifest {
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'name' => ['type' => 'string', 'required' => true],
                     'message' => ['type' => 'string', 'required' => true],
+                    'inline_draft_item_id' => ['type' => 'integer', 'required' => false],
+                    'attachment_draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -1825,6 +2031,13 @@ final class manifest {
                     'parent_post_id' => ['type' => 'integer', 'required' => false],
                     'subject' => ['type' => 'string', 'required' => true],
                     'message' => ['type' => 'string', 'required' => true],
+                    'message_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
+                    'inline_draft_item_id' => ['type' => 'integer', 'required' => false],
+                    'attachment_draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -1837,6 +2050,13 @@ final class manifest {
                     'post_id' => ['type' => 'integer', 'required' => true],
                     'subject' => ['type' => 'string', 'required' => false],
                     'message' => ['type' => 'string', 'required' => false],
+                    'message_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
+                    'inline_draft_item_id' => ['type' => 'integer', 'required' => false],
+                    'attachment_draft_item_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
@@ -1904,9 +2124,17 @@ final class manifest {
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'name' => ['type' => 'string', 'required' => false],
                     'intro' => ['type' => 'string', 'required' => false],
-                    'intro_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'intro_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'activity' => ['type' => 'string', 'required' => false],
-                    'activity_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'activity_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'filename' => ['type' => 'string', 'required' => false],
                     'upload_reference' => ['type' => 'string', 'required' => false],
                     'draft_item_id' => ['type' => 'integer', 'required' => false],
@@ -2038,7 +2266,11 @@ final class manifest {
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'module_id' => ['type' => 'integer', 'required' => true],
-                    'status' => ['type' => 'string', 'required' => false, 'enum' => ['new', 'draft', 'submitted', 'reopened']],
+                    'status' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['new', 'draft', 'submitted', 'reopened'],
+                    ],
                     'since' => ['type' => 'integer', 'required' => false],
                     'before' => ['type' => 'integer', 'required' => false],
                 ]),
@@ -2121,7 +2353,11 @@ final class manifest {
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'name' => ['type' => 'string', 'required' => false],
                     'content' => ['type' => 'string', 'required' => false],
-                    'content_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'content_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'print_intro' => ['type' => 'boolean', 'required' => false],
                     'print_last_modified' => ['type' => 'boolean', 'required' => false],
                     'filename' => ['type' => 'string', 'required' => false],
@@ -2136,7 +2372,11 @@ final class manifest {
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'module_id' => ['type' => 'integer', 'required' => true],
                     'content' => ['type' => 'string', 'required' => false],
-                    'content_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'content_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'filename' => ['type' => 'string', 'required' => false],
                     'upload_reference' => ['type' => 'string', 'required' => false],
                     'draft_item_id' => ['type' => 'integer', 'required' => false],
@@ -2151,7 +2391,11 @@ final class manifest {
                     'name' => ['type' => 'string', 'required' => false],
                     'external_url' => ['type' => 'string', 'required' => false],
                     'intro' => ['type' => 'string', 'required' => false],
-                    'intro_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'intro_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                     'display' => ['type' => 'integer', 'required' => false],
                     'print_intro' => ['type' => 'boolean', 'required' => false],
                     'popup_width' => ['type' => 'integer', 'required' => false],
@@ -2172,7 +2416,11 @@ final class manifest {
                     'draft_item_id' => ['type' => 'integer', 'required' => false],
                     'name' => ['type' => 'string', 'required' => false],
                     'intro' => ['type' => 'string', 'required' => false],
-                    'intro_format' => ['type' => 'string', 'required' => false, 'enum' => ['html', 'plain']],
+                    'intro_format' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['html', 'plain', 'markdown', 'moodle'],
+                    ],
                 ]),
             ],
             [
@@ -2216,7 +2464,11 @@ final class manifest {
                 'description' => 'Return question categories from a selected Moodle question bank.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
-                    'bank_scope' => ['type' => 'string', 'required' => false, 'enum' => ['course_shared', 'quiz_private']],
+                    'bank_scope' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['course_shared', 'quiz_private'],
+                    ],
                     'question_bank_module_id' => ['type' => 'integer', 'required' => false],
                     'quiz_module_id' => ['type' => 'integer', 'required' => false],
                     'include_top' => ['type' => 'boolean', 'required' => false],
@@ -2227,7 +2479,11 @@ final class manifest {
                 'description' => 'Export a portable MoodlIA JSON blueprint from a Moodle question bank.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
-                    'bank_scope' => ['type' => 'string', 'required' => false, 'enum' => ['course_shared', 'quiz_private']],
+                    'bank_scope' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['course_shared', 'quiz_private'],
+                    ],
                     'question_bank_module_id' => ['type' => 'integer', 'required' => false],
                     'quiz_module_id' => ['type' => 'integer', 'required' => false],
                     'category_id' => ['type' => 'integer', 'required' => false],
@@ -2240,7 +2496,11 @@ final class manifest {
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'blueprint_json' => ['type' => 'string', 'required' => true],
-                    'bank_scope' => ['type' => 'string', 'required' => false, 'enum' => ['course_shared', 'quiz_private']],
+                    'bank_scope' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['course_shared', 'quiz_private'],
+                    ],
                     'question_bank_module_id' => ['type' => 'integer', 'required' => false],
                     'quiz_module_id' => ['type' => 'integer', 'required' => false],
                     'category_id' => ['type' => 'integer', 'required' => false],
@@ -2255,37 +2515,41 @@ final class manifest {
                     'name' => ['type' => 'string', 'required' => true],
                     'parent_id' => ['type' => 'integer', 'required' => false],
                     'description' => ['type' => 'string', 'required' => false],
-                    'bank_scope' => ['type' => 'string', 'required' => false, 'enum' => ['course_shared', 'quiz_private']],
+                    'bank_scope' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['course_shared', 'quiz_private'],
+                    ],
                     'question_bank_module_id' => ['type' => 'integer', 'required' => false],
                     'quiz_module_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],
             [
                 'name' => 'update_question_category',
-                  'description' => 'Update a Moodle question category.',
-                  'inputSchema' => self::schema([
-                      'category_id' => ['type' => 'integer', 'required' => true],
-                      'context_id' => ['type' => 'integer', 'required' => true],
-                      'name' => ['type' => 'string', 'required' => false],
-                      'description' => ['type' => 'string', 'required' => false],
-                  ]),
+                'description' => 'Update a Moodle question category.',
+                'inputSchema' => self::schema([
+                    'category_id' => ['type' => 'integer', 'required' => true],
+                    'context_id' => ['type' => 'integer', 'required' => true],
+                    'name' => ['type' => 'string', 'required' => false],
+                    'description' => ['type' => 'string', 'required' => false],
+                ]),
             ],
             [
                 'name' => 'delete_question_category',
-                  'description' => 'Delete a controlled Moodle question category.',
-                  'inputSchema' => self::schema([
-                      'category_id' => ['type' => 'integer', 'required' => true],
-                      'context_id' => ['type' => 'integer', 'required' => true],
-                      'delete_mode' => ['type' => 'string', 'required' => false, 'enum' => ['delete', 'merge']],
-                  ]),
+                'description' => 'Delete a controlled Moodle question category.',
+                'inputSchema' => self::schema([
+                    'category_id' => ['type' => 'integer', 'required' => true],
+                    'context_id' => ['type' => 'integer', 'required' => true],
+                    'delete_mode' => ['type' => 'string', 'required' => false, 'enum' => ['delete', 'merge']],
+                ]),
             ],
             [
                 'name' => 'create_question',
-                  'description' => 'Create a Moodle question in a question category.',
-                  'inputSchema' => self::schema([
-                      'category_id' => ['type' => 'integer', 'required' => true],
-                      'context_id' => ['type' => 'integer', 'required' => true],
-                      'question_type' => [
+                'description' => 'Create a Moodle question in a question category.',
+                'inputSchema' => self::schema([
+                    'category_id' => ['type' => 'integer', 'required' => true],
+                    'context_id' => ['type' => 'integer', 'required' => true],
+                    'question_type' => [
                         'type' => 'string',
                         'required' => true,
                         'enum' => [
@@ -2307,10 +2571,10 @@ final class manifest {
                             'calculated',
                             'calculatedmulti',
                         ],
-                      ],
-                      'name' => ['type' => 'string', 'required' => true],
-                      'question_text' => ['type' => 'string', 'required' => true],
-                      'options' => ['type' => 'object', 'required' => true],
+                    ],
+                    'name' => ['type' => 'string', 'required' => true],
+                    'question_text' => ['type' => 'string', 'required' => true],
+                    'options' => ['type' => 'object', 'required' => true],
                 ]),
             ],
             [
@@ -2319,7 +2583,11 @@ final class manifest {
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'category_id' => ['type' => 'integer', 'required' => true],
-                    'bank_scope' => ['type' => 'string', 'required' => false, 'enum' => ['course_shared', 'quiz_private']],
+                    'bank_scope' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['course_shared', 'quiz_private'],
+                    ],
                     'question_bank_module_id' => ['type' => 'integer', 'required' => false],
                     'quiz_module_id' => ['type' => 'integer', 'required' => false],
                 ]),
@@ -2341,7 +2609,11 @@ final class manifest {
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'question_id' => ['type' => 'integer', 'required' => true],
                     'target_category_id' => ['type' => 'integer', 'required' => true],
-                    'target_bank_scope' => ['type' => 'string', 'required' => false, 'enum' => ['course_shared', 'quiz_private']],
+                    'target_bank_scope' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['course_shared', 'quiz_private'],
+                    ],
                     'target_question_bank_module_id' => ['type' => 'integer', 'required' => false],
                     'target_quiz_module_id' => ['type' => 'integer', 'required' => false],
                 ]),
@@ -2362,8 +2634,9 @@ final class manifest {
             ],
             [
                 'name' => 'get_course_quizzes',
-                'description' => 'Return Moodle quizzes in selected courses.',
+                'description' => 'Return Moodle quizzes in one course or selected courses.',
                 'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => false],
                     'course_ids' => ['type' => 'string', 'required' => false],
                 ]),
             ],
@@ -2542,7 +2815,11 @@ final class manifest {
                     'number' => ['type' => 'integer', 'required' => true],
                     'slot' => ['type' => 'integer', 'required' => false],
                     'include_subcategories' => ['type' => 'boolean', 'required' => false],
-                    'bank_scope' => ['type' => 'string', 'required' => false, 'enum' => ['course_shared', 'quiz_private']],
+                    'bank_scope' => [
+                        'type' => 'string',
+                        'required' => false,
+                        'enum' => ['course_shared', 'quiz_private'],
+                    ],
                     'question_bank_module_id' => ['type' => 'integer', 'required' => false],
                 ]),
             ],

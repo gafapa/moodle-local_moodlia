@@ -89,13 +89,99 @@ class group_tools {
      * @return array
      */
     public static function to_response(\stdClass $group): array {
+        self::require_group_api();
+
         return [
             'group_id' => (int) $group->id,
             'course_id' => (int) $group->courseid,
             'name' => format_string($group->name, true, ['context' => \context_course::instance($group->courseid)]),
             'description' => (string) ($group->description ?? ''),
+            'description_format' => text_format_tools::to_name((int) ($group->descriptionformat ?? FORMAT_HTML)),
             'idnumber' => (string) ($group->idnumber ?? ''),
+            'visibility' => self::visibility_to_name((int) ($group->visibility ?? GROUPS_VISIBILITY_ALL)),
+            'participation' => (bool) ($group->participation ?? true),
+            'has_enrolment_key' => trim((string) ($group->enrolmentkey ?? '')) !== '',
         ];
+    }
+
+    /**
+     * Convert a public group visibility name to its Moodle constant.
+     *
+     * @param string $visibility Visibility.
+     * @return int
+     */
+    public static function visibility_to_constant(string $visibility): int {
+        self::require_group_api();
+
+        $map = [
+            'all' => GROUPS_VISIBILITY_ALL,
+            'members' => GROUPS_VISIBILITY_MEMBERS,
+            'own' => GROUPS_VISIBILITY_OWN,
+            'none' => GROUPS_VISIBILITY_NONE,
+        ];
+        $key = strtolower(trim($visibility));
+        if (!array_key_exists($key, $map)) {
+            throw new \invalid_parameter_exception('visibility must be one of: all, members, own, none.');
+        }
+
+        return $map[$key];
+    }
+
+    /**
+     * Convert a Moodle group visibility constant to its public name.
+     *
+     * @param int $visibility Visibility.
+     * @return string
+     */
+    public static function visibility_to_name(int $visibility): string {
+        self::require_group_api();
+
+        switch ($visibility) {
+            case GROUPS_VISIBILITY_MEMBERS:
+                return 'members';
+            case GROUPS_VISIBILITY_OWN:
+                return 'own';
+            case GROUPS_VISIBILITY_NONE:
+                return 'none';
+            default:
+                return 'all';
+        }
+    }
+
+    /**
+     * Resolve activity participation for a visibility; Moodle only allows it for visible groups.
+     *
+     * @param int $visibility Visibility.
+     * @param bool $participation Participation.
+     * @return int
+     */
+    public static function participation_for(int $visibility, bool $participation): int {
+        self::require_group_api();
+
+        if (!in_array($visibility, [GROUPS_VISIBILITY_ALL, GROUPS_VISIBILITY_MEMBERS], true)) {
+            return 0;
+        }
+
+        return $participation ? 1 : 0;
+    }
+
+    /**
+     * Require that a group enrolment key is not used by another group in the course.
+     *
+     * @param int $courseid Courseid.
+     * @param string $enrolmentkey Enrolmentkey.
+     * @param int $exceptgroupid Exceptgroupid.
+     */
+    public static function require_unique_enrolment_key(int $courseid, string $enrolmentkey, int $exceptgroupid = 0): void {
+        global $DB;
+
+        if ($enrolmentkey === '') {
+            return;
+        }
+        $params = ['courseid' => $courseid, 'enrolmentkey' => $enrolmentkey, 'id' => $exceptgroupid];
+        if ($DB->record_exists_select('groups', 'courseid = :courseid AND enrolmentkey = :enrolmentkey AND id <> :id', $params)) {
+            throw new \invalid_parameter_exception('enrolment_key is already used by another group in this course.');
+        }
     }
 
     /**

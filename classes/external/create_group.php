@@ -45,6 +45,20 @@ class create_group extends external_api {
             'name' => new external_value(PARAM_TEXT, 'Group name'),
             'description' => new external_value(PARAM_RAW, 'Group description', VALUE_DEFAULT, ''),
             'idnumber' => new external_value(PARAM_RAW, 'Group idnumber', VALUE_DEFAULT, ''),
+            'description_format' => new external_value(
+                PARAM_ALPHANUMEXT,
+                'Description format: html, plain, markdown, or moodle',
+                VALUE_DEFAULT,
+                'html'
+            ),
+            'visibility' => new external_value(PARAM_ALPHA, 'Visibility: all, members, own, or none', VALUE_DEFAULT, 'all'),
+            'participation' => new external_value(
+                PARAM_BOOL,
+                'Whether the group is available for activity participation',
+                VALUE_DEFAULT,
+                true
+            ),
+            'enrolment_key' => new external_value(PARAM_RAW, 'Optional group self-enrolment key', VALUE_DEFAULT, ''),
         ]);
     }
 
@@ -55,24 +69,40 @@ class create_group extends external_api {
      * @param string $name Name.
      * @param string $description Description.
      * @param string $idnumber Idnumber.
+     * @param string $descriptionformat Descriptionformat.
+     * @param string $visibility Visibility.
+     * @param bool $participation Participation.
+     * @param string $enrolmentkey Enrolmentkey.
      * @return array
      */
     public static function execute(
         int $courseid,
         string $name,
         string $description = '',
-        string $idnumber = ''
+        string $idnumber = '',
+        string $descriptionformat = 'html',
+        string $visibility = 'all',
+        bool $participation = true,
+        string $enrolmentkey = ''
     ): array {
         [
             'course_id' => $courseid,
             'name' => $name,
             'description' => $description,
             'idnumber' => $idnumber,
+            'description_format' => $descriptionformat,
+            'visibility' => $visibility,
+            'participation' => $participation,
+            'enrolment_key' => $enrolmentkey,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'name' => $name,
             'description' => $description,
             'idnumber' => $idnumber,
+            'description_format' => $descriptionformat,
+            'visibility' => $visibility,
+            'participation' => $participation,
+            'enrolment_key' => $enrolmentkey,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -83,7 +113,16 @@ class create_group extends external_api {
         self::validate_context($coursecontext);
         require_capability('moodle/course:managegroups', $coursecontext);
 
-        return create_group_operation::execute((int) $courseid, $name, $description, $idnumber);
+        return create_group_operation::execute(
+            (int) $courseid,
+            $name,
+            $description,
+            $idnumber,
+            $descriptionformat,
+            $visibility,
+            (bool) $participation,
+            $enrolmentkey
+        );
     }
 
     /**

@@ -45,7 +45,14 @@ class create_forum_discussion extends external_api {
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
             'module_id' => new external_value(PARAM_INT, 'Forum course module id'),
             'name' => new external_value(PARAM_TEXT, 'Discussion name'),
-            'message' => new external_value(PARAM_RAW, 'Discussion message'),
+            'message' => new external_value(PARAM_RAW, 'Discussion message (HTML)'),
+            'inline_draft_item_id' => new external_value(
+                PARAM_INT,
+                'Draft item id with files referenced from the message as @@PLUGINFILE@@',
+                VALUE_DEFAULT,
+                0
+            ),
+            'attachment_draft_item_id' => new external_value(PARAM_INT, 'Draft item id with post attachments', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -56,19 +63,32 @@ class create_forum_discussion extends external_api {
      * @param int $moduleid Moduleid.
      * @param string $name Name.
      * @param string $message Message.
+     * @param int $inlinedraftitemid Inlinedraftitemid.
+     * @param int $attachmentdraftitemid Attachmentdraftitemid.
      * @return array
      */
-    public static function execute(int $courseid, int $moduleid, string $name, string $message): array {
+    public static function execute(
+        int $courseid,
+        int $moduleid,
+        string $name,
+        string $message,
+        int $inlinedraftitemid = 0,
+        int $attachmentdraftitemid = 0
+    ): array {
         [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'name' => $name,
             'message' => $message,
+            'inline_draft_item_id' => $inlinedraftitemid,
+            'attachment_draft_item_id' => $attachmentdraftitemid,
         ] = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'module_id' => $moduleid,
             'name' => $name,
             'message' => $message,
+            'inline_draft_item_id' => $inlinedraftitemid,
+            'attachment_draft_item_id' => $attachmentdraftitemid,
         ]);
 
         $systemcontext = \context_system::instance();
@@ -84,7 +104,14 @@ class create_forum_discussion extends external_api {
         self::validate_context($modulecontext);
         require_capability('mod/forum:startdiscussion', $modulecontext);
 
-        return create_forum_discussion_operation::execute((int) $courseid, (int) $moduleid, $name, $message);
+        return create_forum_discussion_operation::execute(
+            (int) $courseid,
+            (int) $moduleid,
+            $name,
+            $message,
+            (int) $inlinedraftitemid,
+            (int) $attachmentdraftitemid
+        );
     }
 
     /**

@@ -29,6 +29,73 @@ namespace local_moodlia\operation;
  */
 class module_file_tools {
     /**
+     * Publish every file of a user draft into an owner file area.
+     *
+     * With $keepexisting the owner's current files are kept and same-path files are
+     * replaced; otherwise the area is replaced by the draft.
+     *
+     * @param \context $context Context.
+     * @param string $component Component.
+     * @param string $filearea Filearea.
+     * @param int $itemid Itemid.
+     * @param int $draftitemid Draftitemid.
+     * @param bool $keepexisting Keepexisting.
+     * @param int $coursebytes Coursebytes.
+     * @return string[] Published file names.
+     */
+    public static function attach_draft_files(
+        \context $context,
+        string $component,
+        string $filearea,
+        int $itemid,
+        int $draftitemid,
+        bool $keepexisting,
+        int $coursebytes = 0
+    ): array {
+        global $USER;
+
+        if ($draftitemid <= 0) {
+            return [];
+        }
+        $usercontext = \context_user::instance((int) $USER->id);
+        $filestorage = get_file_storage();
+        $sources = $filestorage->get_area_files($usercontext->id, 'user', 'draft', $draftitemid, 'filepath, filename', false);
+        if (!$sources) {
+            throw new \invalid_parameter_exception('draft_item_id must reference files in the current user draft area.');
+        }
+        foreach ($sources as $source) {
+            self::require_file_size_within_moodle_upload_limit((int) $source->get_filesize(), $context, $coursebytes);
+        }
+        $options = ['subdirs' => true, 'maxfiles' => -1, 'maxbytes' => 0, 'context' => $context];
+        $targetdraftitemid = $draftitemid;
+        if ($keepexisting) {
+            $targetdraftitemid = 0;
+            file_prepare_draft_area($targetdraftitemid, $context->id, $component, $filearea, $itemid, $options);
+            foreach ($sources as $source) {
+                $existing = $filestorage->get_file(
+                    $usercontext->id,
+                    'user',
+                    'draft',
+                    $targetdraftitemid,
+                    $source->get_filepath(),
+                    $source->get_filename()
+                );
+                if ($existing && !$existing->is_directory()) {
+                    $existing->delete();
+                }
+                $filestorage->create_file_from_storedfile([
+                    'contextid' => $usercontext->id,
+                    'component' => 'user',
+                    'filearea' => 'draft',
+                    'itemid' => $targetdraftitemid,
+                ], $source);
+            }
+        }
+        file_save_draft_area_files($targetdraftitemid, $context->id, $component, $filearea, $itemid, $options);
+
+        return array_values(array_map(static fn(\stored_file $file): string => $file->get_filename(), $sources));
+    }
+    /**
      * Prepare an editor draft containing existing owner files and every file from an upload draft.
      *
      * @param \context_module $context Context.

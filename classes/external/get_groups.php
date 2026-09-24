@@ -91,7 +91,11 @@ class get_groups extends external_api {
             'course_id' => new external_value(PARAM_INT, 'Moodle course id'),
             'name' => new external_value(PARAM_TEXT, 'Group name'),
             'description' => new external_value(PARAM_RAW, 'Group description'),
+            'description_format' => new external_value(PARAM_ALPHA, 'Description format: html, plain, markdown, or moodle'),
             'idnumber' => new external_value(PARAM_RAW, 'Group idnumber'),
+            'visibility' => new external_value(PARAM_ALPHA, 'Visibility: all, members, own, or none'),
+            'participation' => new external_value(PARAM_BOOL, 'Whether the group is available for activity participation'),
+            'has_enrolment_key' => new external_value(PARAM_BOOL, 'Whether the group has a self-enrolment key'),
         ]);
     }
 }
