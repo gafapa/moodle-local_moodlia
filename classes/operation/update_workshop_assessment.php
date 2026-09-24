@@ -38,6 +38,8 @@ class update_workshop_assessment {
      * @return array
      */
     public static function execute(int $courseid, int $moduleid, int $assessmentid, string $datajson): array {
+        global $DB;
+
         workshop_tools::require_workshop_api();
 
         $course = course_tools::get_course($courseid);
@@ -59,6 +61,22 @@ class update_workshop_assessment {
                     ? (string) $row['value']
                     : workshop_tools::json_value($row['value']),
             ];
+        }
+
+        // Moodle builds the overall feedback editor from any feedbackauthor* row and fails without its text,
+        // so keep the stored feedback when the caller does not send it.
+        $names = array_column($rows, 'name');
+        if (!in_array('feedbackauthor', $names, true)) {
+            $stored = $DB->get_record(
+                'workshop_assessments',
+                ['id' => (int) $assessment['assessment_id']],
+                'feedbackauthor, feedbackauthorformat',
+                MUST_EXIST
+            );
+            $rows[] = ['name' => 'feedbackauthor', 'value' => (string) ($stored->feedbackauthor ?? '')];
+            if (!in_array('feedbackauthorformat', $names, true)) {
+                $rows[] = ['name' => 'feedbackauthorformat', 'value' => (string) ($stored->feedbackauthorformat ?? FORMAT_HTML)];
+            }
         }
 
         $result = \mod_workshop_external::update_assessment((int) $assessment['assessment_id'], $rows);

@@ -154,7 +154,13 @@ class module_common_tools {
 
         if (array_key_exists('group_mode', $options) || array_key_exists('groupmode', $options)) {
             $groupmode = self::normalise_group_mode($options['group_mode'] ?? $options['groupmode']);
-            \core_courseformat\formatactions::cm($course->id)->set_groupmode((int) $cm->id, $groupmode);
+            $cmactions = \core_courseformat\formatactions::cm($course->id);
+            if (method_exists($cmactions, 'set_groupmode')) {
+                $cmactions->set_groupmode((int) $cm->id, $groupmode);
+            } else {
+                // Moodle 4.5 has no cmactions::set_groupmode().
+                set_coursemodule_groupmode((int) $cm->id, $groupmode);
+            }
         }
 
         if (array_key_exists('tags', $options) && \core_tag_tag::is_enabled('core', 'course_modules')) {
@@ -264,7 +270,8 @@ class module_common_tools {
 
         $moduleinfo->completion = $tracking;
         $moduleinfo->completionview = $tracking === 2 && $viewrequired ? 1 : 0;
-        $moduleinfo->completiongradeitemnumber = $tracking === 2 ? $gradeitemnumber : -1;
+        // Moodle stores NULL for "no grade requirement" (modlib maps '' to NULL); -1 would demand grade item -1.
+        $moduleinfo->completiongradeitemnumber = $tracking === 2 && $gradeitemnumber >= 0 ? $gradeitemnumber : '';
         $moduleinfo->completionusegrade = $tracking === 2 && $gradeitemnumber >= 0 ? 1 : 0;
         $moduleinfo->completionpassgrade = $tracking === 2 && $gradeitemnumber >= 0
             && self::bool_option($options, ['completion_pass_grade', 'completionpassgrade'], false) ? 1 : 0;

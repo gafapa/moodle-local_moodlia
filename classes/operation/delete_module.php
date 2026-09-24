@@ -43,7 +43,13 @@ class delete_module {
         $course = course_tools::get_course($courseid);
         $cm = module_tools::get_course_module($course, $moduleid);
 
-        formatactions::cm($course->id)->delete((int) $cm->id, false);
+        $cmactions = formatactions::cm($course->id);
+        if (method_exists($cmactions, 'delete')) {
+            $cmactions->delete((int) $cm->id, false);
+        } else {
+            // Moodle 4.5 has no cmactions::delete().
+            course_delete_module((int) $cm->id);
+        }
         rebuild_course_cache($course->id, true);
 
         return [

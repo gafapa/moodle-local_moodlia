@@ -27,8 +27,30 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
   contract (`npm run manifests:generate`) and checked in CI, fixing 13 tool
   descriptions that had drifted.
 - The contract's `tests` tags are now verified: REST parameter parity for all
-  250 operations, `api` only where a PHPUnit test exercises the operation
-  (31), and no `browser` claims without browser tests.
+  250 operations, `api` only where a PHPUnit test exercises the operation,
+  and no `browser` claims without browser tests.
+- PHPUnit now covers all 147 write operations (155 operations tagged `api`,
+  up from 31). The suite runs against Moodle 4.5 with PostgreSQL. It found
+  and fixed these bugs:
+  - `delete_module` and `options.group_mode` called `cmactions::delete()` and
+    `cmactions::set_groupmode()`, which only exist from Moodle 5.0. On 4.5
+    they failed. They now fall back to `course_delete_module()` and
+    `set_coursemodule_groupmode()`.
+  - Activity completion without a grade requirement stored
+    `completiongradeitemnumber = -1`. Moodle treats any non-NULL value as a
+    grade requirement, so these activities looked for a grade item that
+    does not exist. They now store NULL. `repair_course_completion` and
+    `audit_course_completion` also detect and repair modules that still
+    have -1.
+  - `update_workshop_assessment` failed with `Undefined array key "text"`
+    when the workshop had overall feedback enabled and the caller did not
+    send `feedbackauthor`. The stored feedback is now kept.
+  - `get_enrolled_users`, and `sync_course_enrolments` through it, loaded
+    only the first and last name. Moodle then logged missing-name-field
+    debugging for every user.
+  - Lesson page operations failed outside web service requests, for example
+    from CLI scripts or tests, because Moodle's Lesson API sets up the page
+    theme before the course can change.
 
 ## 0.1.214 - 2026-09-24
 

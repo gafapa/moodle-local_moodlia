@@ -130,7 +130,17 @@ class lesson_tools {
 
         $cmrecord = get_coursemodule_from_id('lesson', (int) $cm->id, (int) $course->id, false, MUST_EXIST);
         $modulecontext = \context_module::instance((int) $cm->id);
-        $PAGE->set_course($course);
+        try {
+            $PAGE->set_course($course);
+        } catch (\coding_exception $exception) {
+            // Lesson external calls set up the theme. Web services allow a later course change; other callers
+            // (CLI tasks, tests) need a fresh page because nothing has been rendered yet.
+            if (WS_SERVER || $PAGE->state !== \moodle_page::STATE_BEFORE_HEADER) {
+                throw $exception;
+            }
+            $PAGE = new \moodle_page();
+            $PAGE->set_course($course);
+        }
         $PAGE->set_cm($cmrecord, $course);
         $PAGE->set_context($modulecontext);
 

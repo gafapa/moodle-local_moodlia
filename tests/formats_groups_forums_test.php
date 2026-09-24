@@ -29,6 +29,8 @@ use local_moodlia\operation\create_forum_discussion;
 use local_moodlia\operation\create_forum_discussion_post;
 use local_moodlia\operation\create_glossary_entry;
 use local_moodlia\operation\create_group;
+use local_moodlia\operation\create_module;
+use local_moodlia\operation\create_wiki_page;
 use local_moodlia\operation\get_groups;
 use local_moodlia\operation\text_format_tools;
 use local_moodlia\operation\update_forum_discussion_post;
@@ -202,7 +204,7 @@ final class formats_groups_forums_test extends advanced_testcase {
             'Edited *markdown* reply'
         );
         $this->assertSame(
-            FORMAT_MARKDOWN,
+            (int) FORMAT_MARKDOWN,
             (int) $DB->get_field('forum_posts', 'messageformat', ['id' => $reply['post_id']]),
             'An update without message_format keeps the stored format.'
         );

@@ -144,7 +144,7 @@ class completion_audit_tools {
         $issues = [];
         $tracking = (int) ($cm->completion ?? COMPLETION_TRACKING_NONE);
         $view = (int) ($cm->completionview ?? 0);
-        $gradeitem = (int) ($cm->completiongradeitemnumber ?? -1);
+        $gradeitem = $cm->completiongradeitemnumber === null ? -1 : max(0, (int) $cm->completiongradeitemnumber);
 
         if ($tracking > COMPLETION_TRACKING_NONE && empty($course->enablecompletion)) {
             $issues[] = self::module_row(
@@ -194,7 +194,8 @@ class completion_audit_tools {
      * @return array
      */
     private static function repair_options(\cm_info $cm, string $mode, bool $resetstates): array {
-        $gradeitem = (int) ($cm->completiongradeitemnumber ?? -1);
+        // Any non-NULL value makes Moodle require a grade, including the invalid -1 older releases stored.
+        $gradeitem = $cm->completiongradeitemnumber === null ? -1 : max(0, (int) $cm->completiongradeitemnumber);
         $tracking = (int) ($cm->completion ?? COMPLETION_TRACKING_NONE);
 
         if ($mode === 'disable_all' && $tracking !== COMPLETION_TRACKING_NONE) {

@@ -39,11 +39,16 @@ class get_enrolled_users {
         $context = \context_course::instance($course->id);
 
         enrolment_tools::require_enrolment_api();
+        // fullname() needs every name field, not just firstname and lastname.
+        $namefields = array_map(
+            static fn(string $field): string => 'u.' . $field,
+            \core_user\fields::for_name()->get_required_fields()
+        );
         $users = get_enrolled_users(
             $context,
             '',
             0,
-            'u.id,u.username,u.firstname,u.lastname,u.email',
+            'u.id,u.username,u.email,' . implode(',', $namefields),
             null,
             0,
             0,
