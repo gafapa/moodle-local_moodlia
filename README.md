@@ -236,6 +236,19 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
 
+### 0.1.215
+
+- Groups accept visibility, participation, description format, and enrolment
+  keys, and every `*_format` parameter accepts `html`, `plain`, `markdown`, and
+  `moodle`.
+- Forum, glossary, Lesson, and wiki content, and any activity intro in
+  `create_module`, publish embedded draft files.
+- PHPUnit covers all 147 write operations on Moodle 4.5 to 5.3 with
+  PostgreSQL and MariaDB. It found and fixed module deletion and group mode on
+  Moodle 4.5, grade-free completion stored as `-1`, lost Page, File, and URL
+  display options on completion updates, and workshop assessments without
+  overall feedback.
+
 ### 0.1.214
 
 - Fixes MCP calls that pass object arguments such as `options` to

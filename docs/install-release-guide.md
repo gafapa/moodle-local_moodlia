@@ -40,11 +40,12 @@ The Moodle plugin and public npm client use independent semantic release streams
 
 | Release stream | Current version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
-| Moodle plugin | `0.1.214` | `version.php` | `local_moodlia-0.1.214.zip` |
-| npm CLI/client | `0.3.7` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.3.7` |
-| npm Core client | `0.3.6` | `gafapa/moodle-core-cli` `package.json` | `moodle-core-cli@0.3.6` |
+| Moodle plugin | `0.1.215` | `version.php` | `local_moodlia-0.1.215.zip` |
+| npm CLI/client | `0.4.1` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.4.1` |
+| npm Core client | `0.4.1` | `gafapa/moodle-core-cli` `package.json` | `moodle-core-cli@0.4.1` |
+| npm course synchronization | `0.1.1` | `gafapa/moodlia-sync` `package.json` | `moodlia-sync@0.1.1` |
 
-These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.214” or “moodlia npm 0.3.7”, rather than an unqualified version.
+These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.215” or “moodlia npm 0.4.1”, rather than an unqualified version. The npm packages depend on each other in one direction: `moodle-core-cli` ← `moodlia` ← `moodlia-sync`. Only `moodlia-sync` installs a native module (`better-sqlite3`). `moodlia-sync-mcp` is deprecated in favour of the `moodlia-sync` CLI.
 
 ## Release Scope
 

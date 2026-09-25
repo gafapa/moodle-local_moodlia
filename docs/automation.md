@@ -1,6 +1,34 @@
 # Automation
 
-This document defines the deployment and verification model for the proposed `local_moodlia` Moodle plugin.
+This document defines the deployment and verification model for the `local_moodlia` Moodle plugin.
+
+## What runs in this repository
+
+This repository contains the plugin, its static checks, its PHPUnit suite, and
+its release tooling. The commands in its `package.json` are:
+
+| Command | Purpose |
+| --- | --- |
+| `npm run check` | JavaScript and PHP lint, contract and manifest checks, plugin boilerplate and PHPDoc checks, Marketplace package check, and static tests |
+| `npm test` / `npm run test:static` | Static tests only (contract parity, contract `tests` tags, manifests, scaffold, compatibility matrix) |
+| `npm run manifests:generate` | Regenerate `db/services.php` descriptions and the MCP tool list from `contract/operations.json` |
+| `npm run plugin:phpdoc` | Normalize PHP documentation before committing |
+| `npm run release:check` | Everything CI runs before a release |
+| `npm run release:artifacts` | Build `empaquetado/local_moodlia-<release>.zip` and `SHA256SUMS.txt` |
+
+PHPUnit (`tests/*_test.php`) covers every write operation. It runs in
+`.github/workflows/moodle-ci.yml` on Moodle 4.5 to 5.3 with PostgreSQL and
+MariaDB; to run it against a local Moodle checkout, place the plugin in
+`local/moodlia` and use `vendor/bin/phpunit --testsuite local_moodlia_testsuite`.
+
+Live REST, MCP, and CLI smoke tests, Playwright browser checks, restricted-token
+tests, generated-course fixtures, and the WinSCP deployment scripts described
+below belong to the original workspace,
+[gafapa/moodlia-legacy](https://github.com/gafapa/moodlia-legacy). Commands such
+as `npm run test:smoke`, `npm run test:browser`, `npm run token:rest`,
+`npm run release:protected`, `npm run deploy:*`, and `npm run moodle:*` need
+that checkout. Cross-version synchronization is qualified with
+[gafapa/moodlia-test-lab](https://github.com/gafapa/moodlia-test-lab).
 
 ## Environment Variables
 
@@ -72,17 +100,16 @@ Secrets must stay out of git.
 
 ## Local Test Commands
 
-The current automation foundation uses Node's built-in test runner for contract, parity, REST, MCP, and CLI smoke tests.
+In this repository:
 
 ```text
-npm run check:contract
+npm run contract:check
 npm run manifests:check
 npm run test:static
-npm run test:smoke
 npm test
 ```
 
-The smoke command limits Node test-file concurrency to four workers so a remote Moodle target is not overwhelmed by connection bursts and independent data workflows remain isolated enough for reliable cleanup.
+In `gafapa/moodlia-legacy`, `npm run test:smoke` runs the live REST, MCP, and CLI smoke tests against a Moodle target. It limits Node test-file concurrency to four workers so a remote Moodle target is not overwhelmed by connection bursts and independent data workflows remain isolated enough for reliable cleanup.
 
 ## Release Artifact Checksums
 
@@ -216,14 +243,20 @@ The CI job runs on Ubuntu and validates JavaScript syntax, PHP syntax on PHP
 8.3, generated manifests, the canonical operation contract, static tests,
 dependency audit, plugin packaging, and the Marketplace archive.
 
-Remote Moodle smoke tests and browser verification are not in the default CI workflow. They require environment-specific secrets, a reachable Moodle instance, and permission to create generated test data.
+Remote Moodle smoke tests and browser verification are not part of this repository's CI. They live in `gafapa/moodlia-legacy` and require environment-specific secrets, a reachable Moodle instance, and permission to create generated test data.
 
 The separate `.github/workflows/moodle-ci.yml` workflow installs Moodle 4.5,
 5.0, 5.1, 5.2, and the official Moodle 5.3 beta tag. It validates the plugin at each branch's supported PHP
 boundaries, with both PostgreSQL and MariaDB represented on every Moodle
 branch. It runs PHP lint, Moodle Code Checker, Moodle PHPDoc Checker, structural
 validation, and the plugin PHPUnit suite. This workflow is the Marketplace
-compatibility gate and must pass before uploading a release.
+compatibility gate and must pass before uploading a release. Pull requests run
+a reduced matrix; pushes to `main`, the nightly schedule, and manual
+`workflow_dispatch` runs use the full matrix.
+
+`.github/workflows/release.yml` runs when a `v*` tag is pushed: it checks that the
+tag matches `$plugin->release`, runs `npm run release:check`, and attaches the
+Marketplace ZIP and checksums to a GitHub release.
 
 ## Deployment Safeguards
 
