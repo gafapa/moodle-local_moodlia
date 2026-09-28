@@ -4,6 +4,10 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+- Backups: `backup_course` and the backup listing return download URLs without
+  the item id, as Moodle's file serving expects. Before, the URL contained
+  `/0/` and downloading it returned HTTP 404 on every Moodle version.
+
 ## 0.1.215 - 2026-09-24
 
 - Groups: `create_group` and `update_group` accept `visibility`

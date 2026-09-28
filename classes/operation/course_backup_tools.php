@@ -205,11 +205,14 @@ class course_backup_tools {
      * @return array
      */
     public static function backup_file_to_response(\stored_file $file, int $courseid): array {
+        // Moodle serves backup and user private files without an item id in the path; only
+        // section backups carry one (the section id). With "/0/" the download returns 404.
+        $hasitemid = $file->get_component() === 'backup' && $file->get_filearea() === 'section';
         $url = \moodle_url::make_pluginfile_url(
             $file->get_contextid(),
             $file->get_component(),
             $file->get_filearea(),
-            $file->get_itemid(),
+            $hasitemid ? $file->get_itemid() : null,
             $file->get_filepath(),
             $file->get_filename(),
             false

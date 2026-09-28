@@ -141,6 +141,13 @@ final class resource_and_question_bank_operations_test extends \advanced_testcas
         }
 
         $backup = backup_course::execute((int) $course->id, 'resource-qbank-portability.mbz');
+        $backupfile = get_file_storage()->get_file_by_id((int) $backup['file_id']);
+        // The URL must match how file_pluginfile() looks up backup files: no item id.
+        $this->assertStringEndsWith(
+            '/pluginfile.php/' . $backupfile->get_contextid() . '/' . $backupfile->get_component() . '/'
+                . $backupfile->get_filearea() . $backupfile->get_filepath() . 'resource-qbank-portability.mbz',
+            $backup['url']
+        );
         $restored = restore_course_backup::execute(
             (int) $backup['file_id'],
             'new_course',
