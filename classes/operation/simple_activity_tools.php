@@ -37,18 +37,9 @@ class simple_activity_tools {
      */
     public static function get_page_details(\stdClass $course, \cm_info $cm): array {
         $customdata = self::custom_data($cm);
-        $page = self::find_external_activity(
-            'page',
-            '\\mod_page_external',
-            'get_pages_by_courses',
-            'pages',
-            (int) $course->id,
-            $cm
-        );
+        $page = self::raw_activity('page', $course, $cm);
+        $metadata = $page + self::decode_display_options(self::optional_string($page, 'displayoptions')) + $customdata;
         $content = self::optional_string($page, 'content');
-        if ($content === '') {
-            $content = self::rendered_content($cm);
-        }
         $revision = self::optional_int($page + $customdata, 'revision');
 
         return [
@@ -57,8 +48,8 @@ class simple_activity_tools {
             'content_format' => self::optional_int($page, 'contentformat'),
             'content_length' => self::content_length($content),
             'display' => self::optional_int($page + $customdata, 'display'),
-            'print_intro' => self::optional_bool($page + $customdata, 'printintro'),
-            'print_last_modified' => self::optional_bool($page + $customdata, 'printlastmodified'),
+            'print_intro' => self::optional_bool($metadata, 'printintro'),
+            'print_last_modified' => self::optional_bool($metadata, 'printlastmodified'),
             'revision' => $revision,
             'time_modified' => self::optional_int($page + $customdata, 'timemodified'),
             'files' => self::editor_files($cm, 'mod_page', 'content', 0, $revision),
@@ -92,7 +83,7 @@ class simple_activity_tools {
             false
         );
 
-        $publicitemid = $urlitemid ?? $itemid;
+        $publicitemid = $filearea === 'intro' ? null : ($urlitemid ?? $itemid);
         return array_map(static function (\stored_file $file) use ($context, $component, $filearea, $publicitemid): array {
             $url = \moodle_url::make_webservice_pluginfile_url(
                 $context->id,
@@ -124,18 +115,8 @@ class simple_activity_tools {
      * @return array
      */
     public static function get_label_details(\stdClass $course, \cm_info $cm): array {
-        $label = self::find_external_activity(
-            'label',
-            '\\mod_label_external',
-            'get_labels_by_courses',
-            'labels',
-            (int) $course->id,
-            $cm
-        );
+        $label = self::raw_activity('label', $course, $cm);
         $content = self::optional_string($label, 'intro');
-        if ($content === '') {
-            $content = self::rendered_content($cm);
-        }
 
         return [
             'label_id' => (int) $cm->instance,
@@ -193,14 +174,7 @@ class simple_activity_tools {
      */
     public static function get_url_details(\stdClass $course, \cm_info $cm): array {
         $customdata = self::custom_data($cm);
-        $url = self::find_external_activity(
-            'url',
-            '\\mod_url_external',
-            'get_urls_by_courses',
-            'urls',
-            (int) $course->id,
-            $cm
-        );
+        $url = self::raw_activity('url', $course, $cm);
         $displayoptions = self::decode_display_options(self::optional_string($url, 'displayoptions'));
         $metadata = $url + $displayoptions + $customdata;
 
@@ -608,6 +582,28 @@ class simple_activity_tools {
     }
 
     /**
+     * Read the authored activity record without Moodle's rendered-text conversion.
+     *
+     * @param string $module Module.
+     * @param \stdClass $course Course.
+     * @param \cm_info $cm Cm.
+     * @return array
+     */
+    private static function raw_activity(string $module, \stdClass $course, \cm_info $cm): array {
+        global $DB;
+
+        if ($cm->modname !== $module || (int) $cm->course !== (int) $course->id) {
+            throw new \invalid_parameter_exception('The activity must belong to the requested course and module type.');
+        }
+        if (!$cm->uservisible) {
+            throw new \required_capability_exception(
+                \context_module::instance((int) $cm->id), 'moodle/course:view', 'nopermissions', ''
+            );
+        }
+        return (array) $DB->get_record($module, ['id' => (int) $cm->instance, 'course' => (int) $course->id], '*', MUST_EXIST);
+    }
+
+    /**
      * Return cm_info custom data as an array.
      *
      * @param \cm_info $cm Cm.
@@ -705,7 +701,9 @@ class simple_activity_tools {
         }
 
         $decoded = json_decode($displayoptions, true);
-
+        if (!is_array($decoded) && preg_match('/^a:\\d+:\\{/', $displayoptions)) {
+            $decoded = unserialize($displayoptions, ['allowed_classes' => false]);
+        }
         return is_array($decoded) ? $decoded : [];
     }
 
