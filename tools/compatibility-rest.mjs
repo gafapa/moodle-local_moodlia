@@ -113,7 +113,7 @@ try {
   for (const key of ['display', 'popup_width', 'popup_height', 'show_size', 'show_type', 'show_date']) {
     assert.equal(afterActivity[key], beforeActivity[key], `Resource replacement must preserve ${key}`);
   }
-  const file = await call('download_resource_file', { course_id: courseId, module_id: resourceId });
+  const file = await call('download_resource_file', { course_id: courseId, module_id: resourceId, path: '/replacement.pdf' });
   const downloadUrl = new URL(file.url);
   downloadUrl.pathname = downloadUrl.pathname.replace('/pluginfile.php', '/webservice/pluginfile.php');
   downloadUrl.searchParams.set('token', token);
