@@ -63,6 +63,7 @@ try {
   });
   courseId = Number(created.course_id ?? created.id);
   assert.ok(courseId > 0);
+  if (!regressionOnly) await call('enrol_user', { course_id: courseId, user_id: user.id, role_archetype: 'student' });
   const section = await call('create_section', { course_id: courseId, name: 'Compatibility fixtures' });
   const sectionNumber = Number(section.section_number ?? section.section);
   assert.ok(sectionNumber > 0);
@@ -97,6 +98,9 @@ try {
   }
 
   const resourceId = modules.get('resource');
+  if (!regressionOnly) {
+    await call('save_assignment_grade', { course_id: courseId, module_id: modules.get('assign'), user_id: user.id, grade: 72.5 });
+  }
   const before = await call('get_module_details', { course_id: courseId, module_id: resourceId });
   const draftId = await upload('replacement.pdf', replacement);
   const resource = await call('update_resource', {
@@ -146,11 +150,7 @@ try {
       else parameters[key] = specialParameters[key];
     }
     if (required.includes('module_id') && !fixtureType) continue;
-    if (operation.name === 'get_assignment_grades') {
-      await call(operation.name, parameters, /No grades found/i);
-    } else {
-      await call(operation.name, parameters);
-    }
+    await call(operation.name, parameters);
   }
 
   // A rejected cross-course deletion must not damage the selected module.
