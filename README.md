@@ -50,6 +50,9 @@ Both paths use the same canonical operation names and the same Moodle-side permi
 
 This release is continuously validated against Moodle 4.5 through 5.3. Moodle 5.3 validation currently uses the official `v5.3.0-beta` source tag and remains preliminary until the stable branch is published.
 
+See the [compatibility audit](docs/moodle-compatibility-audit.md) for the support
+boundaries, regression corrections, and native/REST qualification matrix.
+
 On Moodle 4.5, `course_shared` question-bank operations use the legacy course
 context. Standalone question bank activities and `quiz_private` banks require
 Moodle 5.0 or later because Moodle 4.5 core does not provide those activity

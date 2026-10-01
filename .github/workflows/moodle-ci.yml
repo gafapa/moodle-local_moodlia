@@ -9,6 +9,15 @@ on:
     # Nightly full matrix, so pull requests can run the reduced one.
     - cron: '17 3 * * *'
   workflow_dispatch:
+    inputs:
+      matrix_scope:
+        description: Full qualification or a diagnostic profile
+        type: choice
+        default: full
+        options:
+          - full
+          - oldest
+          - newest
 
 permissions:
   contents: read
@@ -38,12 +47,17 @@ jobs:
             {"moodle":"v5.3.0-beta","php":"8.3","database":"mariadb","postgres":"17"},
             {"moodle":"v5.3.0-beta","php":"8.4","database":"pgsql","postgres":"17"}
           ]'
-          # Pull requests check the oldest and newest supported branches on different databases.
+          # Pull requests exercise every supported branch; nightly jobs add all PHP/DB boundaries.
           reduced='[
             {"moodle":"MOODLE_405_STABLE","php":"8.1","database":"mariadb","postgres":"16"},
+            {"moodle":"MOODLE_500_STABLE","php":"8.2","database":"mariadb","postgres":"16"},
+            {"moodle":"MOODLE_501_STABLE","php":"8.4","database":"pgsql","postgres":"16"},
+            {"moodle":"MOODLE_502_STABLE","php":"8.3","database":"mariadb","postgres":"16"},
             {"moodle":"v5.3.0-beta","php":"8.4","database":"pgsql","postgres":"17"}
           ]'
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then selected="$reduced"; else selected="$full"; fi
+          if [[ "${{ inputs.matrix_scope }}" == "oldest" ]]; then selected="$(jq '[.[0]]' <<< "$full")"; fi
+          if [[ "${{ inputs.matrix_scope }}" == "newest" ]]; then selected="$(jq '[.[-1]]' <<< "$full")"; fi
           echo "matrix=$(jq -c . <<< "$selected")" >> "$GITHUB_OUTPUT"
 
   static:
@@ -151,6 +165,10 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
           ini-values: max_input_vars=5000, opcache.enable_cli=1
+      - name: Set up Node.js for independent REST requests
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
       - name: Cache Composer downloads
         uses: actions/cache@v4
         with:
@@ -186,6 +204,42 @@ jobs:
           fi
 
           exit "$phpunit_status"
+      - name: Qualify independent REST requests
+        if: ${{ !cancelled() }}
+        shell: bash
+        env:
+          MOODLIA_COMPATIBILITY_SITE: '1'
+          MOODLE_BASE_URL: http://127.0.0.1:8000
+        run: |
+          node --input-type=module -e '
+            import fs from "node:fs";
+            const file = "moodle/config.php";
+            const source = fs.readFileSync(file, "utf8");
+            if (!source.includes("http://localhost/moodle")) throw new Error("Unexpected CI wwwroot");
+            fs.writeFileSync(file, source.replace("http://localhost/moodle", process.env.MOODLE_BASE_URL));
+          '
+          php moodle/admin/cli/install_database.php --agree-license --adminpass="$(openssl rand -hex 24)" --adminemail=ci@example.invalid --fullname=MoodlIA --shortname=MoodlIA
+          export MOODLE_REST_TOKEN="$(php repository/tools/compatibility-setup.php "$PWD/moodle")"
+          echo "::add-mask::$MOODLE_REST_TOKEN"
+          public_root="$PWD/moodle"
+          if [[ -d "$public_root/public" ]]; then public_root="$public_root/public"; fi
+          php -S 127.0.0.1:8000 -t "$public_root" > rest-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --silent --output /dev/null http://127.0.0.1:8000/login/index.php; then break; fi
+            sleep 1
+          done
+          set -o pipefail
+          node repository/tools/compatibility-rest.mjs | tee compatibility-rest.json
+      - name: Retain compatibility evidence
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: compatibility-${{ matrix.moodle }}-php${{ matrix.php }}-${{ matrix.database }}
+          path: |
+            phpunit-output.log
+            compatibility-rest.json
       - name: Mark cancelled jobs as failed
         if: ${{ cancelled() }}
         run: exit 1

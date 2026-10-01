@@ -4,6 +4,36 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.216 - 2026-10-02
+
+- Load Resource, Page, and URL local libraries before module updates, including
+  updates of common completion settings. Resource replacement no longer relies
+  on a previous create request or a cache rebuild to load `resource_set_mainfile()`.
+- Preserve Resource popup geometry and file display flags during replacement.
+- Supply the identifier form default for graded activity creation. Completion
+  updates reconstruct Choice option ids and limits, retain Folder and Resource
+  files, URL parameters, Assignment plugin configuration, and rating date ranges.
+- Preserve Lesson media through a native draft and both Workshop grade categories
+  during completion updates. Supply Workshop grade categories at creation.
+- Call the actual native quiz attempt listing method (`get_user_attempts`) and
+  avoid the core Workshop report exporter's undefined variable during assessment,
+  retaining phase, permission, group, and name-visibility checks. Group member
+  reads include every core name field needed by `fullname()`.
+- Return empty Glossary author pages without the native exporter's undefined
+  variable, retaining native visibility filtering and the total author count.
+- Qualify all 250 operations against native Moodle, including the 95 previously
+  unqualified reads; resolve all referenced activity external methods on each core.
+- Supply Moodle 5.3's new Quiz due-date form default. Qualification now requires
+  actual operation calls, including course/user creation, enrolment, and rubrics;
+  generator names and argument serialization no longer count as API execution.
+- Independently qualify REST activity creation, reads, updates, completion, file
+  replacement and download, and synchronous deletion on every supported branch.
+  Pull requests now test all five branches; the full ten PHP/database profiles
+  continue to run nightly, on main, and on demand. Retain PHPUnit and REST evidence.
+- Verify synchronous deletion removes the module, instance, and context. The
+  existing Moodle 4.5 fallback to `course_delete_module()` is included in this
+  release; installations on 0.1.214 must upgrade to obtain it.
+
 - Backups: `backup_course` and the backup listing return download URLs without
   the item id, as Moodle's file serving expects. Before, the URL contained
   `/0/` and downloading it returned HTTP 404 on every Moodle version.

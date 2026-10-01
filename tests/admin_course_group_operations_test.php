@@ -267,7 +267,9 @@ final class admin_course_group_operations_test extends advanced_testcase {
         $this->assertSame(2, (int) $DB->get_field('course_sections', 'section', ['id' => $section]));
 
         delete_module::execute((int) $course->id, (int) $page->cmid);
-        $this->assertFalse($DB->record_exists('course_modules', ['id' => $page->cmid, 'deletioninprogress' => 0]));
+        $this->assertFalse($DB->record_exists('course_modules', ['id' => $page->cmid]));
+        $this->assertFalse($DB->record_exists('page', ['id' => $page->id]));
+        $this->assertFalse($DB->record_exists('context', ['contextlevel' => CONTEXT_MODULE, 'instanceid' => $page->cmid]));
 
         delete_section::execute((int) $course->id, null, 3);
         $this->assertFalse($DB->record_exists('course_sections', ['course' => $course->id, 'section' => 3]));

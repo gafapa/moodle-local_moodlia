@@ -81,6 +81,7 @@ class update_resource {
         $moduleinfo = get_moduleinfo_data($rawcm, $course);
         $rawcm = $moduleinfo[0];
         $moduledata = $moduleinfo[3];
+        module_common_tools::normalise_update_form_data($moduledata);
         $moduledata->files = (int) $draftfile->get_itemid();
 
         if ($name !== null) {

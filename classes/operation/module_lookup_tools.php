@@ -52,13 +52,17 @@ class module_lookup_tools {
         require_once($CFG->dirroot . '/mod/lesson/locallib.php');
         require_once($CFG->dirroot . '/mod/lti/lib.php');
         require_once($CFG->dirroot . '/mod/lti/locallib.php');
+        require_once($CFG->dirroot . '/mod/page/locallib.php');
         if (self::is_module_available('qbank')) {
             require_once($CFG->dirroot . '/mod/qbank/lib.php');
         }
         require_once($CFG->dirroot . '/mod/quiz/lib.php');
         require_once($CFG->dirroot . '/mod/resource/lib.php');
+        // Update callbacks do not consistently load the libraries used by their forms.
+        require_once($CFG->dirroot . '/mod/resource/locallib.php');
         require_once($CFG->dirroot . '/mod/subsection/lib.php');
         require_once($CFG->dirroot . '/mod/url/lib.php');
+        require_once($CFG->dirroot . '/mod/url/locallib.php');
         require_once($CFG->dirroot . '/mod/workshop/lib.php');
         require_once($CFG->dirroot . '/mod/workshop/locallib.php');
         require_once($CFG->dirroot . '/mod/wiki/lib.php');
