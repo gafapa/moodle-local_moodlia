@@ -597,7 +597,10 @@ class simple_activity_tools {
         }
         if (!$cm->uservisible) {
             throw new \required_capability_exception(
-                \context_module::instance((int) $cm->id), 'moodle/course:view', 'nopermissions', ''
+                \context_module::instance((int) $cm->id),
+                'moodle/course:view',
+                'nopermissions',
+                ''
             );
         }
         return (array) $DB->get_record($module, ['id' => (int) $cm->instance, 'course' => (int) $course->id], '*', MUST_EXIST);
