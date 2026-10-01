@@ -151,6 +151,10 @@ final class question_quiz_operations_test extends advanced_testcase {
         $started = start_quiz_attempt::execute((int) $quiz->cmid);
         $attemptid = (int) $started['attempt']['attempt_id'];
         $this->assertGreaterThan(0, $attemptid);
+        $attemptdata = \local_moodlia\operation\get_quiz_attempt_data::execute((int) $quiz->cmid, $attemptid);
+        $this->assertNotEmpty($attemptdata['questions']);
+        $summary = \local_moodlia\operation\get_quiz_attempt_summary::execute((int) $quiz->cmid, $attemptid);
+        $this->assertNotEmpty($summary['questions']);
         view_quiz_attempt::execute((int) $quiz->cmid, $attemptid);
 
         $attemptobj = \mod_quiz\quiz_attempt::create($attemptid);
@@ -167,5 +171,7 @@ final class question_quiz_operations_test extends advanced_testcase {
         $this->assertEqualsWithDelta(1.0, (float) $DB->get_field('quiz_attempts', 'sumgrades', ['id' => $attemptid]), 0.001);
 
         view_quiz_attempt_review::execute((int) $quiz->cmid, $attemptid);
+        $review = \local_moodlia\operation\get_quiz_attempt_review::execute((int) $quiz->cmid, $attemptid);
+        $this->assertNotEmpty($review['questions']);
     }
 }
