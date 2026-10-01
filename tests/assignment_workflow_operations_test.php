@@ -155,12 +155,13 @@ final class assignment_workflow_operations_test extends advanced_testcase {
     private function create_assignment(): array {
         global $PAGE, $DB;
 
+        $this->redirectEmails();
         $this->setAdminUser();
         // Web service requests set the page URL; mod_assign status renderables read it.
         $PAGE->set_url(new \moodle_url('/'));
         $createdcourse = create_course::execute('Native workflow qualification', 'native-workflow');
         $course = get_course($createdcourse['course_id']);
-        $createduser = create_user::execute('workflowstudent', 'Workflow', 'Student', 'workflow@example.invalid', 'Fixture-Pass-42!');
+        $createduser = create_user::execute('workflowstudent', 'Workflow', 'Student', 'workflow@example.com', 'Fixture-Pass-42!');
         $student = $DB->get_record('user', ['id' => $createduser['user_id']], '*', MUST_EXIST);
         $enrolment = enrol_user::execute((int) $course->id, (int) $student->id);
         $this->assertTrue($enrolment['enrolled']);
