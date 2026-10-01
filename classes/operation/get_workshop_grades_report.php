@@ -49,6 +49,8 @@ class get_workshop_grades_report {
         int $page = 0,
         int $perpage = 20
     ): array {
+        global $USER;
+
         workshop_tools::require_workshop_api();
 
         $course = course_tools::get_course($courseid);
@@ -59,14 +61,41 @@ class get_workshop_grades_report {
         $page = max(0, $page);
         $perpage = max(0, $perpage);
 
-        $result = \mod_workshop_external::get_grades_report(
-            (int) $cm->instance,
-            $groupid,
-            $sortby,
-            $sortdirection,
-            $page,
-            $perpage
-        );
+        $context = \context_module::instance((int) $cm->id);
+        require_capability('mod/workshop:viewallassessments', $context);
+        $workshop = workshop_tools::get_workshop_object($course, $cm);
+        if (!$groupid && groups_get_activity_groupmode($cm)) {
+            $groupid = (int) groups_get_activity_group($cm);
+        }
+        if (($groupid || groups_get_activity_groupmode($cm)) && !groups_group_visible($groupid, $course, $cm)) {
+            throw new \moodle_exception('notingroup');
+        }
+
+        $data = null;
+        if ($workshop->phase >= \workshop::PHASE_SUBMISSION) {
+            $data = $workshop->prepare_grading_report_data($USER->id, $groupid, $page, $perpage, $sortby, $sortdirection);
+        }
+        // Core's report exporter references an undefined $tr during assessment.
+        // Use its domain data and apply the same phase and name visibility rules.
+        foreach (($data->grades ?? []) as $row) {
+            if ($workshop->phase < \workshop::PHASE_EVALUATION) {
+                unset($row->submissiongrade, $row->submissiongradeover, $row->gradinggrade);
+            }
+            if ($workshop->phase === \workshop::PHASE_SUBMISSION) {
+                unset($row->submissiongradeoverby, $row->submissionpublished, $row->reviewedby, $row->reviewerof);
+            }
+            if (!has_capability('mod/workshop:viewreviewernames', $context)) {
+                foreach (($row->reviewedby ?? []) as $review) {
+                    $review->userid = 0;
+                }
+            }
+            if (!has_capability('mod/workshop:viewauthornames', $context)) {
+                foreach (($row->reviewerof ?? []) as $review) {
+                    $review->userid = 0;
+                }
+            }
+        }
+        $result = ['report' => $data ?? (object) ['grades' => [], 'totalcount' => 0]];
 
         return [
             'course_id' => (int) $course->id,

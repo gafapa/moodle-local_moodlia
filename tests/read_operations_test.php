@@ -32,6 +32,7 @@ use local_moodlia\operation\create_glossary_entry;
 use local_moodlia\operation\create_question;
 use local_moodlia\operation\create_question_category;
 use local_moodlia\operation\set_workshop_grading_form;
+use local_moodlia\operation\save_assignment_grade;
 
 /**
  * Exercises read adapters with real Moodle objects and validates their transport schema.
@@ -53,6 +54,8 @@ final class read_operations_test extends \advanced_testcase {
         foreach ($types as $type) {
             $modules[$type] = $this->getDataGenerator()->create_module($type, ['course' => $course->id]);
         }
+        $DB->set_field('glossary', 'displayformat', 'fullwithauthor', ['id' => $modules['glossary']->id]);
+        save_assignment_grade::execute((int) $course->id, (int) $modules['assign']->cmid, (int) $student->id, 72.5, 'Fixture grade');
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         groups_add_member($group->id, $student->id);
         $discussion = create_forum_discussion::execute(
@@ -211,12 +214,19 @@ final class read_operations_test extends \advanced_testcase {
         foreach ($operations as $name) {
             // Each external call normally has its own request and page state.
             $PAGE = new \moodle_page();
+            $PAGE->set_url('/local/moodlia/mcp.php');
             $classname = '\\local_moodlia\\external\\' . $name;
             $arguments = [];
             foreach ($classname::execute_parameters()->keys as $key => $description) {
                 if ($key === 'module_id') {
                     $type = $this->module_type_for_read($name, $modules);
                     $arguments[] = (int) $modules[$type]->cmid;
+                } else if ($key === 'category_id' && $name === 'get_sync_capabilities') {
+                    $arguments[] = (int) $course->category;
+                } else if ($key === 'category_id' && $name === 'get_glossary_entries_by_category') {
+                    $arguments[] = 0;
+                } else if ($key === 'quiz_module_id' && in_array($name, ['get_question_categories', 'get_questions'])) {
+                    $arguments[] = 0;
                 } else if (array_key_exists($key, $values)) {
                     $value = $values[$key];
                     $arguments[] = is_array($value) && $description instanceof \core_external\external_value
@@ -245,7 +255,7 @@ final class read_operations_test extends \advanced_testcase {
         }
         $this->assertSame([], $errors, implode("\n", $errors));
         $this->assertSame((int) get_admin()->id, (int) $results['get_current_user']['id']);
-        $this->assertSame((int) $student->id, (int) $results['get_user_details']['id']);
+        $this->assertSame((int) $student->id, (int) $results['get_user_details']['user_id']);
         $this->assertCount(1, $results['get_resource_files']['files']);
         $this->assertSame('fixture.txt', $results['get_folder_files']['files'][0]['filename']);
         $this->assertCount(1, $results['get_questions']['questions']);

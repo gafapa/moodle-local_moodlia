@@ -49,6 +49,11 @@ test('api: every operation tagged api is exercised by a PHPUnit test', async () 
   assert.deepEqual(untested, [], 'Add a PHPUnit test or remove the api tag from these operations.');
 });
 
+test('every canonical operation requires native Moodle API qualification', async () => {
+  const contract = await loadContract();
+  assert.deepEqual(contract.operations.filter((operation) => !operation.tests.includes('api')).map((operation) => operation.name), []);
+});
+
 test('browser: no operation claims browser coverage without a browser test', async () => {
   const contract = await loadContract();
   const claimed = contract.operations.filter((operation) => operation.tests.includes('browser')).map((operation) => operation.name);

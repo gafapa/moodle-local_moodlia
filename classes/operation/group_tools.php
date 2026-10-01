@@ -228,7 +228,7 @@ class group_tools {
     public static function get_members(int $groupid): array {
         self::require_group_api();
 
-        $users = groups_get_members($groupid, 'u.id,u.username,u.firstname,u.lastname,u.email');
+        $users = groups_get_members($groupid);
         $records = [];
         foreach ($users as $user) {
             $records[] = self::member_to_response($user);
