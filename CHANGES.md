@@ -13,6 +13,14 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 - Supply the identifier form default for graded activity creation. Completion
   updates reconstruct Choice option ids and limits, retain Folder and Resource
   files, URL parameters, Assignment plugin configuration, and rating date ranges.
+- Preserve Lesson media through a native draft and both Workshop grade categories
+  during completion updates. Supply Workshop grade categories at creation.
+- Call the actual native quiz attempt listing method (`get_user_attempts`) and
+  avoid the core Workshop report exporter's undefined variable during assessment,
+  retaining phase, permission, group, and name-visibility checks. Group member
+  reads include every core name field needed by `fullname()`.
+- Qualify all 250 operations against native Moodle, including the 95 previously
+  unqualified reads; resolve all referenced activity external methods on each core.
 - Independently qualify REST activity creation, reads, updates, completion, file
   replacement and download, and synchronous deletion on every supported branch.
   Pull requests now test all five branches; the full ten PHP/database profiles

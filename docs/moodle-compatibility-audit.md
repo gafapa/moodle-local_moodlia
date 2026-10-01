@@ -28,6 +28,10 @@ API loader did not include the Resource local library.
 | Resource settings | Database display options require reconstruction into form fields | Normalize update form data; assert popup geometry, display flags, identity, main-file sort order, and revision |
 | Graded activity creation | Native callbacks read an omitted `cmidnumber` form field | Supply the standard empty identifier default |
 | Workshop creation | Submission and assessment grade categories were missing | Resolve the course's default grade category and provide both native form fields |
+| Workshop completion | Native form grade category names differ from callback names | Reconstruct both existing grade item categories before update |
+| Quiz attempt listing | `mod_quiz_external::get_user_quiz_attempts()` does not exist on any supported core | Call `get_user_attempts()`; verify an actual completed attempt is returned |
+| Workshop grades report | Core's exporter references undefined `$tr` during assessment | Use native report domain data with the same permission, group, phase, and name visibility restrictions; return an empty report when no rows exist |
+| Group member names | The query omitted phonetic and additional name fields | Request the complete native member record for `fullname()` |
 | Choice completion | Native update expects option arrays, option ids, and limits | Reconstruct from existing options; verify submitted responses and option ids survive |
 | Assignment completion | Generic module form data omits submission/feedback plugin configuration | Reuse Assignment's prepared update data; compare plugin configuration before and after |
 | Folder and Resource completion | Native callbacks expect a file-manager field | Provide the keep-existing-files default; verify retained Folder bytes |

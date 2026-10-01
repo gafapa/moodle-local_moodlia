@@ -260,6 +260,24 @@ final class read_operations_test extends \advanced_testcase {
         $this->assertCount(1, $results['get_resource_files']['files']);
         $this->assertSame('fixture.txt', $results['get_folder_files']['files'][0]['filename']);
         $this->assertCount(1, $results['get_questions']['questions']);
+
+        // Assessment-phase reports must hide aggregate grades; evaluation may expose them.
+        $DB->set_field('workshop_submissions', 'grade', 80, ['id' => $submissionid]);
+        $report = \local_moodlia\operation\get_workshop_grades_report::execute(
+            (int) $course->id,
+            (int) $modules['workshop']->cmid
+        );
+        $this->assertNotEmpty($report['grades']);
+        $this->assertSame(0.0, $report['grades'][0]['submission_grade']);
+        $DB->set_field('workshop', 'phase', 40, ['id' => $modules['workshop']->id]);
+        $report = \local_moodlia\operation\get_workshop_grades_report::execute(
+            (int) $course->id,
+            (int) $modules['workshop']->cmid
+        );
+        $this->assertGreaterThan(0, $report['grades'][0]['submission_grade']);
+        $this->setUser($student);
+        $this->expectException(\required_capability_exception::class);
+        \local_moodlia\operation\get_workshop_grades_report::execute((int) $course->id, (int) $modules['workshop']->cmid);
     }
 
     /**
