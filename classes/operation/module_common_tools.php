@@ -379,7 +379,23 @@ class module_common_tools {
 
             case 'forum':
             case 'glossary':
+            case 'data':
                 $moduleinfo->ratingtime = !empty($moduleinfo->assesstimestart) || !empty($moduleinfo->assesstimefinish);
+                break;
+
+            case 'lesson':
+                // The stored mediafile is a path; the update callback expects a user draft id.
+                $draftitemid = 0;
+                $context = \context_module::instance((int) $moduleinfo->coursemodule);
+                file_prepare_draft_area(
+                    $draftitemid,
+                    $context->id,
+                    'mod_lesson',
+                    'mediafile',
+                    0,
+                    ['subdirs' => false, 'maxfiles' => 1]
+                );
+                $moduleinfo->mediafile = $draftitemid;
                 break;
 
             case 'page':

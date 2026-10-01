@@ -34,7 +34,8 @@ async function call(name, parameters = {}, expectedError = null) {
   if (!response.ok || data.exception) {
     // Moodle errors sometimes contain request details. Never log authentication material.
     const message = String(data.message ?? response.status).replaceAll(token, '[redacted]');
-    throw new Error(`${name}: ${data.errorcode ?? 'http'}: ${message}`);
+    const type = parameters.module_type ?? [...modules].find(([, id]) => id === Number(parameters.module_id))?.[0] ?? '';
+    throw new Error(`${name}${type ? ` (${type})` : ''}: ${data.errorcode ?? 'http'}: ${message}`);
   }
   results.push({ operation: name, status: 'passed' });
   return data;
