@@ -38,11 +38,12 @@ test('Moodle CI covers every supported core branch and PHP boundary', async () =
 
   // The full matrix runs on main, nightly, and on demand; pull requests run the reduced one.
   assert.deepEqual(matrixJson('full'), expectedProfiles);
-  assert.deepEqual(matrixJson('reduced'), [expectedProfiles[0], expectedProfiles[9]]);
+  assert.deepEqual(matrixJson('reduced'), [expectedProfiles[0], expectedProfiles[2], expectedProfiles[5], expectedProfiles[6], expectedProfiles[9]]);
   assert.match(workflowSource, /schedule:\s*\n\s*#[^\n]*\n\s*- cron:/);
   assert.match(workflowSource, /github\.event_name \}\}" == "pull_request" \]\]; then selected="\$reduced"/);
   assert.match(workflowSource, /include: \$\{\{ fromJSON\(needs\.plan\.outputs\.matrix\) \}\}/);
 
   assert.match(workflowSource, /image:\s*postgres:\$\{\{ matrix\.postgres \}\}/);
   assert.match(workflowSource, /MOODLE_BRANCH:\s*\$\{\{ matrix\.moodle \}\}/);
+  assert.match(workflowSource, /node repository\/tools\/compatibility-rest\.mjs/);
 });

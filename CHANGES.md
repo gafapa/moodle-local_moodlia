@@ -4,6 +4,20 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.216 - 2026-10-02
+
+- Load Resource, Page, and URL local libraries before module updates, including
+  updates of common completion settings. Resource replacement no longer relies
+  on a previous create request or a cache rebuild to load `resource_set_mainfile()`.
+- Preserve Resource popup geometry and file display flags during replacement.
+- Independently qualify REST activity creation, reads, updates, completion, file
+  replacement and download, and synchronous deletion on every supported branch.
+  Pull requests now test all five branches; the full ten PHP/database profiles
+  continue to run nightly, on main, and on demand. Retain PHPUnit and REST evidence.
+- Verify synchronous deletion removes the module, instance, and context. The
+  existing Moodle 4.5 fallback to `course_delete_module()` is included in this
+  release; installations on 0.1.214 must upgrade to obtain it.
+
 - Backups: `backup_course` and the backup listing return download URLs without
   the item id, as Moodle's file serving expects. Before, the URL contained
   `/0/` and downloading it returned HTTP 404 on every Moodle version.

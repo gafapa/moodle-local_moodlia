@@ -324,7 +324,7 @@ class module_common_tools {
      *
      * @param \stdClass $moduleinfo Moduleinfo.
      */
-    private static function normalise_update_form_data(\stdClass $moduleinfo): void {
+    public static function normalise_update_form_data(\stdClass $moduleinfo): void {
         // Page, Resource, and URL forms unpack displayoptions in data_preprocessing(), and their
         // update_instance() rebuilds it from those fields. Without them an update resets the options.
         if (in_array($moduleinfo->modulename ?? '', ['page', 'resource', 'url'], true) && !empty($moduleinfo->displayoptions)) {
