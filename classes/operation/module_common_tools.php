@@ -417,6 +417,16 @@ class module_common_tools {
                 break;
 
             case 'workshop':
+                // Core form names differ from the Workshop callback's category names.
+                foreach ([0 => 'gradecategory', 1 => 'gradinggradecategory'] as $itemnumber => $field) {
+                    $moduleinfo->{$field} = (int) $DB->get_field('grade_items', 'categoryid', [
+                        'courseid' => (int) $moduleinfo->course,
+                        'itemtype' => 'mod',
+                        'itemmodule' => 'workshop',
+                        'iteminstance' => (int) $moduleinfo->instance,
+                        'itemnumber' => $itemnumber,
+                    ], MUST_EXIST);
+                }
                 if (!isset($moduleinfo->instructauthorseditor)) {
                     $moduleinfo->instructauthorseditor = self::editor_array(
                         (string) ($moduleinfo->instructauthors ?? ''),

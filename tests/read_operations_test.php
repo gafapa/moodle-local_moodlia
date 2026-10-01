@@ -46,6 +46,7 @@ final class read_operations_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $this->setAdminUser();
+        $PAGE->set_url('/local/moodlia/mcp.php');
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
         $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
         $modules = [];
@@ -226,7 +227,7 @@ final class read_operations_test extends \advanced_testcase {
                 } else if ($key === 'category_id' && $name === 'get_glossary_entries_by_category') {
                     $arguments[] = 0;
                 } else if ($key === 'quiz_module_id' && in_array($name, ['get_question_categories', 'get_questions'])) {
-                    $arguments[] = 0;
+                    $arguments[] = null;
                 } else if (array_key_exists($key, $values)) {
                     $value = $values[$key];
                     $arguments[] = is_array($value) && $description instanceof \core_external\external_value
