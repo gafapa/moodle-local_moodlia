@@ -129,7 +129,7 @@ try {
 
   // Qualify every read that needs only a course/module/user and documented optional defaults.
   const fixtureTypes = ['assign', 'book', 'choice', 'data', 'feedback', 'folder', 'forum', 'glossary', 'lesson', 'resource', 'wiki', 'workshop', 'quiz'];
-  const specialParameters = { time_from: 0, time_to: Math.floor(Date.now() / 1000), grade: 50, term: 'fixture', query: 'fixture', author_id: user.id, user_id: user.id };
+  const specialParameters = { time_from: 1, time_to: Math.floor(Date.now() / 1000), grade: 50, term: 'fixture', query: 'fixture', author_id: user.id, user_id: user.id };
   for (const operation of regressionOnly ? [] : contract.operations.filter((entry) => entry.type === 'read')) {
     if (['check_plugin_updates', 'download_folder_file', 'download_resource_file'].includes(operation.name)) continue;
     const required = Object.entries(operation.parameters).filter(([, value]) => value.required).map(([key]) => key);

@@ -25,7 +25,7 @@
 namespace local_moodlia;
 
 use core_external\external_api;
-use local_moodlia\operation\add_folder_file;
+use local_moodlia\operation\upload_folder_file;
 use local_moodlia\operation\add_question_to_quiz;
 use local_moodlia\operation\create_forum_discussion;
 use local_moodlia\operation\create_glossary_entry;
@@ -48,25 +48,39 @@ final class read_operations_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
         $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
         $modules = [];
-        foreach (['assign', 'book', 'choice', 'data', 'feedback', 'folder', 'forum', 'glossary',
-                'lesson', 'resource', 'wiki', 'workshop', 'quiz'] as $type) {
+        $types = ['assign', 'book', 'choice', 'data', 'feedback', 'folder', 'forum', 'glossary',
+            'lesson', 'resource', 'wiki', 'workshop', 'quiz'];
+        foreach ($types as $type) {
             $modules[$type] = $this->getDataGenerator()->create_module($type, ['course' => $course->id]);
         }
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         groups_add_member($group->id, $student->id);
         $discussion = create_forum_discussion::execute(
-            (int) $course->id, (int) $modules['forum']->cmid, 'Read fixture', '<p>Discussion body</p>'
+            (int) $course->id,
+            (int) $modules['forum']->cmid,
+            'Read fixture',
+            '<p>Discussion body</p>'
         );
         $entry = create_glossary_entry::execute(
-            (int) $course->id, (int) $modules['glossary']->cmid, 'Fixture', '<p>Definition</p>'
+            (int) $course->id,
+            (int) $modules['glossary']->cmid,
+            'Fixture',
+            '<p>Definition</p>'
         );
         $category = create_question_category::execute((int) $course->id, 'Read fixture questions');
         $question = create_question::execute(
-            (int) $category['category_id'], 'truefalse', 'Read fixture question', 'True?', ['correct_answer' => true]
+            (int) $category['category_id'],
+            'truefalse',
+            'Read fixture question',
+            'True?',
+            ['correct_answer' => true]
         );
         add_question_to_quiz::execute((int) $modules['quiz']->cmid, (int) $question['question_id']);
-        add_folder_file::execute(
-            (int) $course->id, (int) $modules['folder']->cmid, 'fixture.txt', base64_encode('Fixture bytes')
+        upload_folder_file::execute(
+            (int) $course->id,
+            (int) $modules['folder']->cmid,
+            'fixture.txt',
+            base64_encode('Fixture bytes')
         );
         set_workshop_grading_form::execute(
             (int) $course->id,
@@ -91,7 +105,7 @@ final class read_operations_test extends \advanced_testcase {
             'submission_id' => (int) $submissionid,
             'assessment_id' => (int) $assessmentid,
             'author_id' => (int) get_admin()->id,
-            'time_from' => 0,
+            'time_from' => 1,
             'time_to' => time(),
             'term' => 'Fixture',
             'query' => 'Fixture',
@@ -200,7 +214,9 @@ final class read_operations_test extends \advanced_testcase {
                     $type = $this->module_type_for_read($name, $modules);
                     $arguments[] = (int) $modules[$type]->cmid;
                 } else if (array_key_exists($key, $values)) {
-                    $arguments[] = $values[$key];
+                    $value = $values[$key];
+                    $arguments[] = is_array($value) && $description instanceof \core_external\external_value
+                        ? json_encode($value) : $value;
                 } else {
                     $arguments[] = $description->default;
                 }
