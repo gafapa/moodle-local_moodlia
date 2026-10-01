@@ -260,6 +260,13 @@ final class read_operations_test extends \advanced_testcase {
         $this->assertCount(1, $results['get_resource_files']['files']);
         $this->assertSame('fixture.txt', $results['get_folder_files']['files'][0]['filename']);
         $this->assertCount(1, $results['get_questions']['questions']);
+        $authors = \local_moodlia\operation\get_glossary_authors::execute(
+            (int) $course->id,
+            (int) $modules['glossary']->cmid,
+            100
+        );
+        $this->assertSame(1, $authors['count']);
+        $this->assertSame([], $authors['authors']);
 
         // Assessment-phase reports must hide aggregate grades; evaluation may expose them.
         $DB->set_field('workshop_submissions', 'grade', 80, ['id' => $submissionid]);

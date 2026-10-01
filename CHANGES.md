@@ -19,6 +19,8 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
   avoid the core Workshop report exporter's undefined variable during assessment,
   retaining phase, permission, group, and name-visibility checks. Group member
   reads include every core name field needed by `fullname()`.
+- Return empty Glossary author pages without the native exporter's undefined
+  variable, retaining native visibility filtering and the total author count.
 - Qualify all 250 operations against native Moodle, including the 95 previously
   unqualified reads; resolve all referenced activity external methods on each core.
 - Supply Moodle 5.3's new Quiz due-date form default. Qualification now requires

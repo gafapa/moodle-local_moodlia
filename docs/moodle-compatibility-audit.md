@@ -32,6 +32,7 @@ API loader did not include the Resource local library.
 | Quiz attempt listing | `mod_quiz_external::get_user_quiz_attempts()` does not exist on any supported core | Call `get_user_attempts()`; verify an actual completed attempt is returned |
 | Workshop grades report | Core's exporter references undefined `$tr` during assessment | Use native report domain data with the same permission, group, phase, and name visibility restrictions; return an empty report when no rows exist |
 | Group member names | The query omitted phonetic and additional name fields | Request the complete native member record for `fullname()` |
+| Glossary author reads | Core's exporter leaves `$authors` undefined on empty pages | Use its native filtered query; preserve approval, ownership, imported-entry, full-name, and pagination rules |
 | Choice completion | Native update expects option arrays, option ids, and limits | Reconstruct from existing options; verify submitted responses and option ids survive |
 | Assignment completion | Generic module form data omits submission/feedback plugin configuration | Reuse Assignment's prepared update data; compare plugin configuration before and after |
 | Folder and Resource completion | Native callbacks expect a file-manager field | Provide the keep-existing-files default; verify retained Folder bytes |
