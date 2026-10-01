@@ -161,7 +161,7 @@ try {
   }
 
   // A rejected cross-course deletion must not damage the selected module.
-  await call('delete_module', { course_id: 1, module_id: modules.get('page') }, ['invalidparameter', 'invalidcoursemodule', 'nopermissions']);
+  await call('delete_module', { course_id: 1, module_id: modules.get('page') }, ['invalidparameter', 'invalidcoursemodule', 'invalidcoursemoduleid', 'nopermissions']);
   await call('get_module_details', { course_id: courseId, module_id: modules.get('page') });
   for (const [type, moduleId] of modules) {
     const deleted = await call('delete_module', { course_id: courseId, module_id: moduleId });
