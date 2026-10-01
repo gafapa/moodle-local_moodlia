@@ -50,7 +50,7 @@ final class module_update_preservation_test extends \advanced_testcase {
         $before = $DB->get_records('choice_options', ['choiceid' => $choice->id], 'id', 'id,text,maxanswers');
         $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
         $this->setUser($student);
-        submit_choice_response::execute((int) $course->id, (int) $choice->cmid, [(int) reset($before)->id]);
+        submit_choice_response::execute((int) $course->id, (int) $choice->cmid, json_encode([(int) reset($before)->id]));
         $answers = $DB->get_records('choice_answers', ['choiceid' => $choice->id]);
         $this->setAdminUser();
 
@@ -76,6 +76,8 @@ final class module_update_preservation_test extends \advanced_testcase {
             'course' => $course->id,
             'assignsubmission_file_enabled' => 1,
             'assignsubmission_file_maxfiles' => 3,
+            'assignsubmission_file_maxsizebytes' => 1048576,
+            'assignsubmission_file_filetypes' => '',
             'assignsubmission_onlinetext_enabled' => 1,
             'assignfeedback_comments_enabled' => 1,
         ]);

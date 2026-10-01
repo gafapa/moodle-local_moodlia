@@ -99,6 +99,11 @@ class module_advanced_tools {
         $moduleinfo->strategy = self::normalise_workshop_strategy((string) ($options['strategy'] ?? 'accumulative'));
         $moduleinfo->grade = self::optional_number_range($options, 'submission_grade', 80, 0, 100);
         $moduleinfo->gradinggrade = self::optional_number_range($options, 'assessment_grade', 20, 0, 100);
+        // Workshop has separate grade categories for submissions and assessments.
+        $categories = grade_get_categories_menu((int) $moduleinfo->course);
+        $defaultcategory = (int) array_key_first($categories);
+        $moduleinfo->gradecategory = $defaultcategory;
+        $moduleinfo->gradinggradecategory = $defaultcategory;
         $moduleinfo->gradedecimals = self::optional_int_range($options, 'grade_decimals', 0, 0, 5);
 
         $authorinstructions = (string) ($options['submission_instructions'] ?? '');

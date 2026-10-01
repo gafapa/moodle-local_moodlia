@@ -41,7 +41,7 @@ final class read_operations_test extends \advanced_testcase {
      * Every read without an attempt lifecycle serializes on the supported core branches.
      */
     public function test_read_operations_serialize_real_fixtures(): void {
-        global $DB;
+        global $DB, $PAGE;
 
         $this->resetAfterTest();
         $this->setAdminUser();
@@ -82,6 +82,7 @@ final class read_operations_test extends \advanced_testcase {
             'fixture.txt',
             base64_encode('Fixture bytes')
         );
+        $PAGE = new \moodle_page();
         set_workshop_grading_form::execute(
             (int) $course->id,
             (int) $modules['workshop']->cmid,
@@ -206,7 +207,10 @@ final class read_operations_test extends \advanced_testcase {
             'get_quiz_required_question_types',
         ];
         $results = [];
+        $errors = [];
         foreach ($operations as $name) {
+            // Each external call normally has its own request and page state.
+            $PAGE = new \moodle_page();
             $classname = '\\local_moodlia\\external\\' . $name;
             $arguments = [];
             foreach ($classname::execute_parameters()->keys as $key => $description) {
@@ -217,6 +221,12 @@ final class read_operations_test extends \advanced_testcase {
                     $value = $values[$key];
                     $arguments[] = is_array($value) && $description instanceof \core_external\external_value
                         ? json_encode($value) : $value;
+                } else if ($key === 'path' && $name === 'download_folder_file') {
+                    $arguments[] = '/fixture.txt';
+                } else if ($key === 'path' && $name === 'download_resource_file') {
+                    $context = \context_module::instance($modules['resource']->cmid);
+                    $files = get_file_storage()->get_area_files($context->id, 'mod_resource', 'content', 0, 'id', false);
+                    $arguments[] = '/' . reset($files)->get_filename();
                 } else {
                     $arguments[] = $description->default;
                 }
@@ -225,13 +235,15 @@ final class read_operations_test extends \advanced_testcase {
                 $result = $classname::execute(...$arguments);
                 $results[$name] = external_api::clean_returnvalue($classname::execute_returns(), $result);
             } catch (\Throwable $error) {
-                $this->fail($name . ': ' . get_class($error) . ': ' . $error->getMessage());
+                $errors[] = $name . ': ' . get_class($error) . ': ' . $error->getMessage();
+                continue;
             }
             $this->assertIsArray($results[$name], $name);
             if (isset($results[$name]['course_id'])) {
                 $this->assertSame((int) $course->id, (int) $results[$name]['course_id'], $name);
             }
         }
+        $this->assertSame([], $errors, implode("\n", $errors));
         $this->assertSame((int) get_admin()->id, (int) $results['get_current_user']['id']);
         $this->assertSame((int) $student->id, (int) $results['get_user_details']['id']);
         $this->assertCount(1, $results['get_resource_files']['files']);
