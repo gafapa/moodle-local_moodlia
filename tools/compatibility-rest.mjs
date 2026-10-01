@@ -100,6 +100,7 @@ try {
   const resourceId = modules.get('resource');
   if (!regressionOnly) {
     await call('save_assignment_grade', { course_id: courseId, module_id: modules.get('assign'), user_id: user.id, grade: 72.5 });
+    await call('set_workshop_phase', { course_id: courseId, module_id: modules.get('workshop'), phase: 'assessment' });
   }
   const before = await call('get_module_details', { course_id: courseId, module_id: resourceId });
   const draftId = await upload('replacement.pdf', replacement);
@@ -136,6 +137,7 @@ try {
   // Qualify every read that needs only a course/module/user and documented optional defaults.
   const fixtureTypes = ['assign', 'book', 'choice', 'data', 'feedback', 'folder', 'forum', 'glossary', 'lesson', 'resource', 'wiki', 'workshop', 'quiz'];
   const specialParameters = { time_from: 1, time_to: Math.floor(Date.now() / 1000), grade: 50, term: 'fixture', query: 'fixture', author_id: user.id, user_id: user.id };
+  const readErrors = [];
   for (const operation of regressionOnly ? [] : contract.operations.filter((entry) => entry.type === 'read')) {
     if (['check_plugin_updates', 'download_folder_file', 'download_resource_file'].includes(operation.name)) continue;
     const required = Object.entries(operation.parameters).filter(([, value]) => value.required).map(([key]) => key);
@@ -150,7 +152,11 @@ try {
       else parameters[key] = specialParameters[key];
     }
     if (required.includes('module_id') && !fixtureType) continue;
-    await call(operation.name, parameters);
+    try {
+      await call(operation.name, parameters);
+    } catch (error) {
+      readErrors.push(error.message);
+    }
   }
 
   // A rejected cross-course deletion must not damage the selected module.
@@ -162,6 +168,7 @@ try {
     const contents = await call('get_course_contents', { course_id: courseId });
     assert.ok(!contents.sections.flatMap((section) => section.modules).some((module) => Number(module.module_id) === moduleId), `${type} must disappear from course contents`);
   }
+  assert.deepEqual(readErrors, [], readErrors.join('\n'));
   console.log(JSON.stringify({ moodle: status.moodle_release, plugin: status.plugin_release, calls: results.length, operations: [...new Set(results.map((entry) => entry.operation))].sort(), results }, null, 2));
 } finally {
   if (courseId) await call('delete_course', { course_id: courseId });

@@ -38,6 +38,8 @@ class module_quiz_tools {
         $moduleinfo->intro = (string) ($options['intro'] ?? '');
         $moduleinfo->timeopen = self::optional_int($options, 'time_open', 0);
         $moduleinfo->timeclose = self::optional_int($options, 'time_close', 0);
+        // Moodle 5.3 calendar callbacks require the new due-date form default.
+        $moduleinfo->duedate = (int) ($moduleinfo->duedate ?? 0);
         if ($moduleinfo->timeopen > 0 && $moduleinfo->timeclose > 0 && $moduleinfo->timeclose <= $moduleinfo->timeopen) {
             throw new \invalid_parameter_exception('options.time_close must be greater than options.time_open.');
         }
