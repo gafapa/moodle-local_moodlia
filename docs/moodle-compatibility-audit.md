@@ -60,6 +60,8 @@ downloads a Resource, rejects a cross-course deletion, deletes activities
 synchronously, and removes the temporary course in a `finally` block. Reads that
 require complex entity or attempt ids are qualified by the native fixture tests.
 Production regression mode restricts fixtures to Page and Resource activities.
+REST receipt counts cover qualified operation calls; draft uploads, direct file
+downloads, and final course cleanup are additional requests.
 
 | Moodle core | Minimum PHP profile | Upper PHP profile |
 | --- | --- | --- |
@@ -134,6 +136,12 @@ REST requests. Moodle 4.5 made 214 REST calls; the other series made 218.
 | 5.2 | 1,105 | Both profiles passed |
 | 5.3 beta | 1,107 | Both profiles passed |
 
+The [additional qualification run](https://github.com/gafapa/moodle-local_moodlia/actions/runs/36942721255)
+includes 82 native tests in the same ten profiles, adding actual Lesson media,
+active rating windows for Forum/Glossary/Database, and distinct Workshop grade
+categories. It also checks cross-course rejections by their native error codes,
+covering both permission denial and course-module lookup failures.
+
 Moodle 5.x uses PHPUnit 11 and still reports 11 test-metadata deprecations and
 4–8 notices, depending on the core series. The retained logs include these
 diagnostics; the passing results do not imply an empty diagnostic stream.
@@ -157,6 +165,11 @@ without depending on translated prose.
 
 Deployed archive: `local_moodlia-0.1.216.zip`, 923,204 bytes, SHA-256
 `42444df19afd8c1c7fd4a5a0a80d8c3806f42829d148824a685893d0a68e0090`.
+The final distribution additionally includes the Lesson/rating-window and
+Workshop-category preservation regressions: 923,907 bytes, SHA-256
+`9077202b9f80e15e88114f3b05b21a86d03b4391426dbb455d1e0bde417ec1d0`.
+Archive comparison confirms byte-identical runtime files; the sole difference
+is `tests/module_update_preservation_test.php`.
 The previous plugin is also retained at
 `/opt/docker/backups/moodle-aula/plugin-20261002/moodlia-0.1.214.tar.gz`, SHA-256
 `f92540f3add753ab2e009e585eeeb6e18386f3a190a64ae08a49b304469f7fb6`.
