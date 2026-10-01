@@ -92,8 +92,9 @@ referenced core declaration names. This is a lexical check, not PHP type or
 autoload resolution: `new assign()` was a constructor false positive, not a
 missing core function. The executable matrix provides stronger evidence.
 Explicit dependency loading and native form callbacks were reviewed separately.
-An additional class-specific source check resolved all 109 referenced activity
-external methods on each of the five snapshots. `core_external_api_test` repeats
+An additional class-specific source check resolved all 109 initially referenced
+activity external methods on each of the five snapshots. The final implementation
+has 108 references after the Glossary author query correction. `core_external_api_test` repeats
 method resolution against the installed core in every CI profile, including
 references that would be absent from every source branch.
 
@@ -120,7 +121,46 @@ Before deployment, a complete aula backup was taken at
 `20261001T221411Z`; the database, data directory, application tree, and protected
 Docker configuration all passed their SHA-256 checks.
 
-Final CI and production receipts are recorded below after qualification. Tests
-use temporary fixtures; the original reported duplicate pages and course PDF
-require their course/module ids and intended replacement file for a separate
+The [full CI run](https://github.com/gafapa/moodle-local_moodlia/actions/runs/36940637500)
+passed all ten profiles at commit `fd039d3262c5f91911e72bc78017732e5e39c980`.
+Each profile ran 80 native tests and 102 distinct operations over independent
+REST requests. Moodle 4.5 made 214 REST calls; the other series made 218.
+
+| Core series | Native assertions per profile | Native and REST result |
+| --- | --- | --- |
+| 4.5 | 1,143 | Both profiles passed |
+| 5.0 | 1,106 | Both profiles passed |
+| 5.1 | 1,106 | Both profiles passed |
+| 5.2 | 1,105 | Both profiles passed |
+| 5.3 beta | 1,107 | Both profiles passed |
+
+Moodle 5.x uses PHPUnit 11 and still reports 11 test-metadata deprecations and
+4–8 notices, depending on the core series. The retained logs include these
+diagnostics; the passing results do not imply an empty diagnostic stream.
+Local release checks also passed: 30 static tests, 574 PHP files, 26 JavaScript
+files, contract and manifest parity, plugin metadata, documentation, and a
+578-file installable archive.
+
+Production was upgraded from 0.1.214 to **0.1.216 (2026100200)**. The database
+upgrade completed, caches were purged, and only the aula application container
+was restarted to clear web OPcache. Disk and database versions agree, HTTPS
+returns HTTP 200, and both aula containers are healthy.
+
+MoodlIA CLI 0.4.1 completed 19 calls as the registered user (id 3): it uploaded
+and replaced a PDF, downloaded and compared the replacement bytes, retained the
+Resource module and instance ids, deleted a Page and Resource synchronously,
+and verified removal of the hidden temporary course. An additional independent
+REST regression completed 24 calls, including Page editing, completion changes,
+cross-course deletion rejection, and temporary-course cleanup. Its rejection
+assertion uses stable error codes so Spanish permission messages are accepted
+without depending on translated prose.
+
+Deployed archive: `local_moodlia-0.1.216.zip`, 923,204 bytes, SHA-256
+`42444df19afd8c1c7fd4a5a0a80d8c3806f42829d148824a685893d0a68e0090`.
+The previous plugin is also retained at
+`/opt/docker/backups/moodle-aula/plugin-20261002/moodlia-0.1.214.tar.gz`, SHA-256
+`f92540f3add753ab2e009e585eeeb6e18386f3a190a64ae08a49b304469f7fb6`.
+
+Tests use temporary fixtures; the original reported duplicate pages and course
+PDF require their course/module ids and intended replacement file for a separate
 content repair.

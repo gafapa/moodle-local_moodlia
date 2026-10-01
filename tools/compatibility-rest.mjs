@@ -27,7 +27,8 @@ async function call(name, parameters = {}, expectedError = null) {
   const data = await response.json();
   if (expectedError) {
     assert.ok(data.exception, `${name} must reject an unavailable feature`);
-    assert.match(data.message, expectedError);
+    if (expectedError instanceof RegExp) assert.match(data.message, expectedError);
+    else assert.ok(expectedError.includes(data.errorcode), `${name}: unexpected rejection code ${data.errorcode}`);
     results.push({ operation: name, status: 'expected-capability-gap' });
     return data;
   }
@@ -160,7 +161,7 @@ try {
   }
 
   // A rejected cross-course deletion must not damage the selected module.
-  await call('delete_module', { course_id: 1, module_id: modules.get('page') }, /module|course|invalid/i);
+  await call('delete_module', { course_id: 1, module_id: modules.get('page') }, ['invalidparameter', 'invalidcoursemodule', 'nopermissions']);
   await call('get_module_details', { course_id: courseId, module_id: modules.get('page') });
   for (const [type, moduleId] of modules) {
     const deleted = await call('delete_module', { course_id: courseId, module_id: moduleId });
