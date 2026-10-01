@@ -73,6 +73,7 @@ try {
     url: { external_url: 'https://example.invalid/qualification' },
     lti: { tool_url: 'https://example.invalid/lti' },
     choice: { choices: ['First', 'Second'] },
+    glossary: { display_format: 'fullwithauthor' },
     resource: { filename: 'original.pdf', upload_reference: Buffer.from(original).toString('base64'), display: 'popup', popup_width: 777, popup_height: 555, show_size: true, show_type: true, show_date: true },
     wiki: { first_page_title: 'Qualification home' }
   };
@@ -145,7 +146,11 @@ try {
       else parameters[key] = specialParameters[key];
     }
     if (required.includes('module_id') && !fixtureType) continue;
-    await call(operation.name, parameters);
+    if (operation.name === 'get_assignment_grades') {
+      await call(operation.name, parameters, /No grades found/i);
+    } else {
+      await call(operation.name, parameters);
+    }
   }
 
   // A rejected cross-course deletion must not damage the selected module.

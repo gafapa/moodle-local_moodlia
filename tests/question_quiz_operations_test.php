@@ -173,5 +173,8 @@ final class question_quiz_operations_test extends advanced_testcase {
         view_quiz_attempt_review::execute((int) $quiz->cmid, $attemptid);
         $review = \local_moodlia\operation\get_quiz_attempt_review::execute((int) $quiz->cmid, $attemptid);
         $this->assertNotEmpty($review['questions']);
+        $attempts = \local_moodlia\operation\get_quiz_attempts::execute((int) $quiz->cmid, 0, 'finished', false);
+        $this->assertCount(1, $attempts['attempts']);
+        $this->assertSame($attemptid, $attempts['attempts'][0]['attempt_id']);
     }
 }
