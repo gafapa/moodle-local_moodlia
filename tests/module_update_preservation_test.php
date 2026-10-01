@@ -135,14 +135,14 @@ final class module_update_preservation_test extends \advanced_testcase {
             'contextid' => $context->id, 'component' => 'mod_lesson', 'filearea' => 'mediafile',
             'itemid' => 0, 'filepath' => '/', 'filename' => 'retained.mp3',
         ], 'Retained lesson media');
-        $DB->set_field('lesson', 'mediafile', 'retained.mp3', ['id' => $lesson->id]);
+        $DB->set_field('lesson', 'mediafile', '/retained.mp3', ['id' => $lesson->id]);
         update_module::execute((int) $course->id, (int) $lesson->cmid, null, null, [
             'completion_tracking' => 'manual', 'reset_completion_states' => true,
         ]);
         $file = get_file_storage()->get_file($context->id, 'mod_lesson', 'mediafile', 0, '/', 'retained.mp3');
         $this->assertNotFalse($file);
         $this->assertSame('Retained lesson media', $file->get_content());
-        $this->assertSame('retained.mp3', $DB->get_field('lesson', 'mediafile', ['id' => $lesson->id]));
+        $this->assertSame('/retained.mp3', $DB->get_field('lesson', 'mediafile', ['id' => $lesson->id]));
 
         foreach (['forum', 'glossary', 'data'] as $type) {
             $module = $this->getDataGenerator()->create_module($type, [
