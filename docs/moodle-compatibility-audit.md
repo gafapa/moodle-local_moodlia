@@ -82,6 +82,10 @@ referenced core declaration names. This is a lexical check, not PHP type or
 autoload resolution: `new assign()` was a constructor false positive, not a
 missing core function. The executable matrix provides stronger evidence.
 Explicit dependency loading and native form callbacks were reviewed separately.
+An additional class-specific source check resolved all 109 referenced activity
+external methods on each of the five snapshots. `core_external_api_test` repeats
+method resolution against the installed core in every CI profile, including
+references that would be absent from every source branch.
 
 - Moodle 4.5 uses the legacy course context for `course_shared` question banks.
   Standalone Qbank activities and `quiz_private` banks require Moodle 5.0+ and
