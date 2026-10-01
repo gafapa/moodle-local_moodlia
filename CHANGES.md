@@ -21,6 +21,9 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
   reads include every core name field needed by `fullname()`.
 - Qualify all 250 operations against native Moodle, including the 95 previously
   unqualified reads; resolve all referenced activity external methods on each core.
+- Supply Moodle 5.3's new Quiz due-date form default. Qualification now requires
+  actual operation calls, including course/user creation, enrolment, and rubrics;
+  generator names and argument serialization no longer count as API execution.
 - Independently qualify REST activity creation, reads, updates, completion, file
   replacement and download, and synchronous deletion on every supported branch.
   Pull requests now test all five branches; the full ten PHP/database profiles

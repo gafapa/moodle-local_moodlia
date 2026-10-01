@@ -42,7 +42,12 @@ API loader did not include the Resource local library.
 
 ## Qualification design
 
-Previously, 155 operations were tagged for native API qualification. This audit
+Previously, 155 operations were tagged for native API qualification. Four tags
+were supported only by generator names or argument serialization rather than
+direct operation execution: course creation, user creation, enrolment, and rubric
+creation. Their native workflows now call the actual operation classes and verify
+learner access and stored grading criteria. The static gate requires execution
+references, rather than matching a name anywhere in a test file. This audit
 adds the remaining 95 reads: 92 use real course, learner, group, discussion,
 glossary, question, file, and Workshop assessment fixtures and validate external
 return schemas; three quiz attempt reads run within an actual learner attempt
@@ -96,6 +101,10 @@ references that would be absent from every source branch.
   return explicit capability errors on 4.5.
 - Group-mode changes fall back to `set_coursemodule_groupmode()` when core
   course-format actions do not offer `set_groupmode()`.
+- Both deletion and group-mode fallbacks are required through Moodle 5.1;
+  the reviewed course-format action methods first appear in Moodle 5.2.
+- Moodle 5.3 Quiz creation supplies the new native `duedate` form default;
+  test generators used to supply this implicitly and conceal its absence.
 - Moodle 5.1+ reorganizes the public tree. Deployment and test runners resolve
   the effective plugin and web roots; plugin dependencies use `$CFG->dirroot`.
 - Native grade form values may contain localized decimals. Existing numeric

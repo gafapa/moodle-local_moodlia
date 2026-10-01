@@ -20,9 +20,22 @@ function externalParameterNames(source) {
   return [...body[1].matchAll(/^ {12}'([a-z0-9_]+)'\s*=>/gm)].map((match) => match[1]);
 }
 
-async function phpunitSources() {
+async function nativeOperationCalls() {
+  const exercised = new Set();
   const files = (await fs.readdir(fromRoot('tests'))).filter((name) => name.endsWith('_test.php'));
-  return (await Promise.all(files.map((name) => fs.readFile(fromRoot(`tests/${name}`), 'utf8')))).join('\n');
+  for (const file of files) {
+    const source = await fs.readFile(fromRoot(`tests/${file}`), 'utf8');
+    for (const match of source.matchAll(/use local_moodlia\\(?:operation|external)\\(\w+)(?: as (\w+))?;/g)) {
+      if (new RegExp(`\\b${match[2] ?? match[1]}::execute\\s*\\(`).test(source)) exercised.add(match[1]);
+    }
+    for (const match of source.matchAll(/\\local_moodlia\\(?:operation|external)\\(\w+)::execute\s*\(/g)) exercised.add(match[1]);
+    if (file === 'read_operations_test.php') {
+      // This fixture loop calls each named external and validates its return schema.
+      const fixtureReads = source.match(/\$operations = \[([\s\S]*?)\];/)[1];
+      for (const match of fixtureReads.matchAll(/'(\w+)'/g)) exercised.add(match[1]);
+    }
+  }
+  return exercised;
 }
 
 test('parity: every REST external declares exactly the contract parameters', async () => {
@@ -41,10 +54,10 @@ test('parity: every REST external declares exactly the contract parameters', asy
 
 test('api: every operation tagged api is exercised by a PHPUnit test', async () => {
   const contract = await loadContract();
-  const sources = await phpunitSources();
+  const exercised = await nativeOperationCalls();
   const untested = contract.operations
     .filter((operation) => operation.tests.includes('api'))
-    .filter((operation) => !new RegExp(`\\b${operation.name}\\b`).test(sources))
+    .filter((operation) => !exercised.has(operation.name))
     .map((operation) => operation.name);
   assert.deepEqual(untested, [], 'Add a PHPUnit test or remove the api tag from these operations.');
 });
