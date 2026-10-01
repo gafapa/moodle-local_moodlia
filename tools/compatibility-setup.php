@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Configure a disposable loopback Moodle installation for REST qualification.
@@ -23,6 +23,8 @@
  */
 
 define('CLI_SCRIPT', true);
+// phpcs:disable moodle.Files.MoodleInternal.MoodleInternalGlobalState
+// The config path belongs to the disposable installation passed by the CI runner.
 if (getenv('MOODLIA_COMPATIBILITY_SITE') !== '1') {
     throw new RuntimeException('MOODLIA_COMPATIBILITY_SITE=1 is required.');
 }
@@ -48,7 +50,12 @@ if (!$DB->record_exists('external_services_users', ['externalserviceid' => $serv
     ]);
 }
 $token = \core_external\util::generate_token(
-    EXTERNAL_TOKEN_PERMANENT, $service, (int) $admin->id, \context_system::instance(), 0, ''
+    EXTERNAL_TOKEN_PERMANENT,
+    $service,
+    (int) $admin->id,
+    \context_system::instance(),
+    0,
+    ''
 );
 // The caller captures stdout privately and masks the token before running HTTP tests.
 echo $token;

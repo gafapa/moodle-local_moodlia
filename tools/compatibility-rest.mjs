@@ -12,6 +12,7 @@ if (!token) throw new Error('MOODLE_REST_TOKEN is required.');
 const contract = JSON.parse(await fs.readFile(new URL('../contract/operations.json', import.meta.url), 'utf8'));
 const results = [];
 const modules = new Map();
+const regressionOnly = process.argv.includes('--regression-only');
 let courseId;
 
 async function call(name, parameters = {}, expectedError = null) {
@@ -74,7 +75,8 @@ try {
     resource: { filename: 'original.pdf', upload_reference: Buffer.from(original).toString('base64'), display: 'popup', popup_width: 777, popup_height: 555, show_size: true, show_type: true, show_date: true },
     wiki: { first_page_title: 'Qualification home' }
   };
-  for (const type of contract.operations.find((entry) => entry.name === 'create_module').parameters.module_type.enum) {
+  const moduleTypes = regressionOnly ? ['page', 'resource'] : contract.operations.find((entry) => entry.name === 'create_module').parameters.module_type.enum;
+  for (const type of moduleTypes) {
     const parameters = { course_id: courseId, section_number: type === 'qbank' ? 0 : sectionNumber, module_type: type, name: `Qualification ${type}`, options: moduleOptions[type] ?? {} };
     if (type === 'qbank' && /^4\.5/.test(status.moodle_release)) {
       await call('create_module', parameters, /standalone question bank/i);
@@ -104,6 +106,11 @@ try {
   assert.equal(resource.files[0].filename, 'replacement.pdf');
   const after = await call('get_module_details', { course_id: courseId, module_id: resourceId });
   assert.equal(Number(after.instance_id), Number(before.instance_id));
+  const beforeActivity = JSON.parse(before.extra_json).activity;
+  const afterActivity = JSON.parse(after.extra_json).activity;
+  for (const key of ['display', 'popup_width', 'popup_height', 'show_size', 'show_type', 'show_date']) {
+    assert.equal(afterActivity[key], beforeActivity[key], `Resource replacement must preserve ${key}`);
+  }
   const file = await call('download_resource_file', { course_id: courseId, module_id: resourceId });
   const downloadUrl = new URL(file.url);
   downloadUrl.pathname = downloadUrl.pathname.replace('/pluginfile.php', '/webservice/pluginfile.php');
@@ -114,14 +121,16 @@ try {
 
   // These calls run in separate HTTP requests; a create callback cannot preload an update dependency.
   await call('update_page', { course_id: courseId, module_id: modules.get('page'), content: '<p>Updated page</p>' });
-  await call('update_label', { course_id: courseId, module_id: modules.get('label'), content: '<p>Updated text</p>' });
-  await call('update_url', { course_id: courseId, module_id: modules.get('url'), external_url: 'https://example.invalid/updated' });
-  await call('update_module', { course_id: courseId, module_id: modules.get('forum'), options: { group_mode: 'separate_groups' } });
+  if (!regressionOnly) {
+    await call('update_label', { course_id: courseId, module_id: modules.get('label'), content: '<p>Updated text</p>' });
+    await call('update_url', { course_id: courseId, module_id: modules.get('url'), external_url: 'https://example.invalid/updated' });
+    await call('update_module', { course_id: courseId, module_id: modules.get('forum'), options: { group_mode: 'separate_groups' } });
+  }
 
   // Qualify every read that needs only a course/module/user and documented optional defaults.
   const fixtureTypes = ['assign', 'book', 'choice', 'data', 'feedback', 'folder', 'forum', 'glossary', 'lesson', 'resource', 'wiki', 'workshop', 'quiz'];
   const specialParameters = { time_from: 0, time_to: Math.floor(Date.now() / 1000), grade: 50, term: 'fixture', query: 'fixture', author_id: user.id, user_id: user.id };
-  for (const operation of contract.operations.filter((entry) => entry.type === 'read')) {
+  for (const operation of regressionOnly ? [] : contract.operations.filter((entry) => entry.type === 'read')) {
     if (['check_plugin_updates', 'download_folder_file', 'download_resource_file'].includes(operation.name)) continue;
     const required = Object.entries(operation.parameters).filter(([, value]) => value.required).map(([key]) => key);
     if (required.some((key) => !['course_id', 'module_id', 'quiz_module_id', 'choice_module_id', ...Object.keys(specialParameters)].includes(key))) continue;
@@ -145,7 +154,7 @@ try {
     const deleted = await call('delete_module', { course_id: courseId, module_id: moduleId });
     assert.ok(deleted.deleted, `${type} must be deleted synchronously`);
     const contents = await call('get_course_contents', { course_id: courseId });
-    assert.ok(!contents.flatMap((section) => section.modules).some((module) => Number(module.module_id) === moduleId), `${type} must disappear from course contents`);
+    assert.ok(!contents.sections.flatMap((section) => section.modules).some((module) => Number(module.module_id) === moduleId), `${type} must disappear from course contents`);
   }
   console.log(JSON.stringify({ moodle: status.moodle_release, plugin: status.plugin_release, calls: results.length, operations: [...new Set(results.map((entry) => entry.operation))].sort(), results }, null, 2));
 } finally {

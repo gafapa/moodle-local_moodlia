@@ -36,6 +36,8 @@ class module_common_tools {
      * @param array $options Options.
      */
     public static function apply_create_options(\stdClass $course, \stdClass $moduleinfo, array $options): void {
+        // Graded activities read this form field even when no identifier was supplied.
+        $moduleinfo->cmidnumber = $moduleinfo->cmidnumber ?? '';
         if (array_key_exists('visible', $options)) {
             $visible = (int) (bool) $options['visible'];
             $moduleinfo->visible = $visible;
