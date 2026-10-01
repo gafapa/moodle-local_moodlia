@@ -10,6 +10,9 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
   updates of common completion settings. Resource replacement no longer relies
   on a previous create request or a cache rebuild to load `resource_set_mainfile()`.
 - Preserve Resource popup geometry and file display flags during replacement.
+- Supply the identifier form default for graded activity creation. Completion
+  updates reconstruct Choice option ids and limits, retain Folder and Resource
+  files, URL parameters, Assignment plugin configuration, and rating date ranges.
 - Independently qualify REST activity creation, reads, updates, completion, file
   replacement and download, and synchronous deletion on every supported branch.
   Pull requests now test all five branches; the full ten PHP/database profiles
