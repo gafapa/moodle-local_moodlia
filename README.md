@@ -39,6 +39,23 @@ There are two main integration paths:
 
 Both paths use the same canonical operation names and the same Moodle-side permission checks. For example, an operation available as the CLI command `moodlia get-courses` is backed by the same Moodle operation contract as the corresponding MCP tool and REST function.
 
+## Optional WebMCP Browser Tools
+
+The plugin also includes a WebMCP adapter, disabled by default. Enable **Enable WebMCP browser tools** under **Site administration → Plugins → Local plugins → MoodlIA** after upgrading the plugin and configuring a compatible browser agent.
+
+Signed-in users must already have `local/moodlia:useapi`. The adapter registers the existing 250 MoodlIA operation schemas through `document.modelContext` and uses the user's Moodle session with `sesskey` protection. No service token is embedded in the page. Every invocation passes through Moodle's existing external API validation and operation-specific permission checks. Disabling the feature rejects further WebMCP endpoint calls, including calls from pages that were already open.
+
+The open page supplies context, not a course restriction. A tool may target another course or activity when the current user has the required permissions. The additional `moodlia_open_page` tool shows a course, activity, assignment grader, or gradebook in the **same tab** after Moodle validates access to the destination. The agent can explicitly navigate to show its work; ordinary write calls do not silently navigate away from an unsaved form. Native Moodle unsaved-edit warnings remain in effect.
+
+The adapter does not contact an AI provider or install a browser extension. The selected browser agent controls which tools it calls and how it handles results; use institution-approved local processing when working with student data. Read/write annotations describe tool effects but do not grant permissions or replace human authorization. Cancelling a request does not roll back a write that has already reached Moodle, and the adapter does not automatically retry operations.
+
+WebMCP is an evolving browser API. Unsupported browsers continue to use Moodle normally without fetching the tool catalogue. See [WebMCP architecture and validation](docs/webmcp.md) for implementation boundaries and reproducible checks.
+
+The 0.1.219 qualification adds native Moodle 4.5.15 and 5.2.4 execution, a 95%
+bridge coverage gate, strict object arguments and endpoint-origin validation,
+and a completion-response regression fix. See the [validation report](docs/webmcp-validation-2026-10-15.md)
+for the tested profiles, existing compatibility notices, and cleanup evidence.
+
 ## Requirements
 
 - Moodle 4.5, 5.0, 5.1, 5.2, or 5.3.

@@ -36,9 +36,16 @@ Marketplace listing metadata:
 
 ## Versioning Policy
 
+The 2026-10-15 working tree produces local qualification candidates:
+`local_moodlia-0.1.219.zip`, `moodlia-0.5.1.tgz`, and the optional
+`moodlia-browser-0.1.1.tgz`. They have not been published or deployed by this
+qualification. See [the WebMCP validation report](webmcp-validation-2026-10-15.md)
+before release. The reference table below records the earlier documented
+release baseline, rather than a live registry lookup.
+
 The Moodle plugin and public npm client use independent semantic release streams and repositories. `version.php` is authoritative for this Moodle plugin. The `package.json` in [gafapa/moodlia-cli](https://github.com/gafapa/moodlia-cli) is authoritative for the public npm package.
 
-| Release stream | Current version | Source of truth | Artifact |
+| Release stream | Reference version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
 | Moodle plugin | `0.1.215` | `version.php` | `local_moodlia-0.1.215.zip` |
 | npm CLI/client | `0.4.1` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.4.1` |

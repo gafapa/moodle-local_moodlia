@@ -26,4 +26,6 @@ jobs:
       - run: npm run lint:php -- --required
       - run: npm run manifests:check
       - run: npm run release:check
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:webmcp:browser
       - run: npm audit --audit-level=high

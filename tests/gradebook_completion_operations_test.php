@@ -109,7 +109,10 @@ final class gradebook_completion_operations_test extends advanced_testcase {
         $courseitem = \grade_item::fetch_course_item((int) $course->id);
         $this->assertEqualsWithDelta((float) $courseitem->grademax / 2, (float) $courseitem->gradepass, 0.001);
 
-        set_course_completion_criteria::execute((int) $course->id, [(int) $page->cmid], true, 60.0);
+        $result = set_course_completion_criteria::execute((int) $course->id, [(int) $page->cmid], true, 60.0);
+        $this->assertSame([(int) $page->cmid], $result['required_module_ids']);
+        $this->assertTrue($result['grade_criterion_enabled']);
+        $this->assertEqualsWithDelta(60.0, $result['required_course_grade_percent'], 0.001);
         $this->assertTrue($DB->record_exists('course_completion_criteria', [
             'course' => $course->id,
             'criteriatype' => COMPLETION_CRITERIA_TYPE_ACTIVITY,

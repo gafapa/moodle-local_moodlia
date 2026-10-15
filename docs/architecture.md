@@ -1,10 +1,11 @@
 ﻿# Architecture
 
-The proposed architecture exposes one Moodle operation surface through three functional interfaces:
+The architecture exposes one Moodle operation surface through several interfaces:
 
 - Moodle REST web services.
 - MCP `tools/list` and `tools/call`.
 - A Node CLI.
+- Optional session-authenticated WebMCP browser tools, with an optional Playwright CLI bridge.
 
 All interfaces share the same canonical operation contract, generated or validated client types, and Moodle PHP operation classes.
 
@@ -21,10 +22,18 @@ docs/interface-contract.md or generated contract artifact
     -> MCP tool registry and dispatcher
     -> TypeScript client
     -> Node CLI commands
+    -> WebMCP output hook and session endpoint
+        -> optional local Playwright CLI component
     -> parity tests
 ```
 
 This keeps authorization, validation, Moodle context handling, and side effects consistent even when the operation is called from different transports.
+
+WebMCP reuses the MCP operation schemas and delegates to Moodle's native
+external API validator. The page context is a hint; explicit targets remain
+subject to normal permissions. The optional CLI component keeps its browser
+and authentication local, uses authenticated IPC, and never retries tool
+execution after an uncertain result. See [the WebMCP design](webmcp.md).
 
 ## Layer Responsibilities
 

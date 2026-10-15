@@ -4,6 +4,39 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.219 - 2026-10-15
+
+- Fix completion-criteria responses when native database records expose criterion types as numeric strings. Return the persisted activity ids and grade criterion immediately after a write.
+- Expand native WebMCP bridge tests to cover object/list validation, required arguments, native writes, integer arrays, every navigation destination, hidden activities, grading permissions, and upload CSRF/file requirements.
+- Reject cross-origin browser endpoint configuration before transmitting a session key and reject non-empty JSON lists in object-valued operation fields.
+- Add a fail-closed Clover coverage gate requiring 95% of bridge statements, and run it in the Moodle compatibility workflow.
+- Restrict PHP lint and header normalization to source directories, excluding dependency and generated artifact copies.
+- Qualify the expanded suite and browser/CLI paths on disposable Moodle 4.5.15 and 5.2.4 sites with synthetic data; record exact coverage limits in the WebMCP validation report.
+
+## 0.1.218 - 2026-10-15
+
+- Add session-authenticated multipart uploads for the optional browser CLI component.
+  Use Moodle's native upload repository, antivirus, user file-size limits, repository
+  capability checks, and fresh user-owned draft areas.
+- Add PHPUnit regression cases for draft bytes, ownership, and upload CSRF rejection.
+- Preserve definitive Moodle errors as structured tool failures across native WebMCP calls.
+- Accept same-origin HTTP navigation only on loopback for disposable test sites.
+- Document the optional Playwright CLI bridge and distinguish browser fixture
+  qualification from Moodle-native server validation.
+
+## 0.1.217 - 2026-10-15
+
+- Add optional WebMCP browser support inside `local_moodlia`, disabled by default.
+  Reuse the 250 canonical operation schemas, the authenticated Moodle session,
+  CSRF protection, and native external API permission and result validation.
+- Keep tools independent of the current page's course while providing page context
+  to the agent. Mark read, write, and untrusted results explicitly.
+- Add same-tab navigation to authorized courses, activities, assignment graders,
+  and gradebooks so the agent can show its work using Moodle's native pages.
+- Include the AMD runtime, settings, output hook, and browser endpoint in the
+  installable plugin. Add client regression checks, native Chromium WebMCP tests,
+  and Moodle PHPUnit coverage for the session bridge and navigation boundaries.
+
 ## 0.1.216 - 2026-10-02
 
 - Load Resource, Page, and URL local libraries before module updates, including

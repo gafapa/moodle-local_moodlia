@@ -163,7 +163,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          coverage: none
+          coverage: pcov
           ini-values: max_input_vars=5000, opcache.enable_cli=1
       - name: Set up Node.js for independent REST requests
         uses: actions/setup-node@v4
@@ -204,6 +204,21 @@ jobs:
           fi
 
           exit "$phpunit_status"
+      - name: Require native WebMCP bridge coverage
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          plugin_path="$PWD/moodle/local/moodlia"
+          if [[ -d "$PWD/moodle/public/local/moodlia" ]]; then plugin_path="$PWD/moodle/public/local/moodlia"; fi
+          plugin_path="$(realpath "$plugin_path")"
+          (
+            cd moodle
+            php -d memory_limit=1024M -d pcov.enabled=1 -d "pcov.directory=$plugin_path" vendor/bin/phpunit \
+              --testsuite local_moodlia_testsuite --filter webmcp_bridge_test \
+              --coverage-clover ../webmcp-coverage.xml --log-junit ../webmcp-phpunit.xml
+          )
+          node repository/tools/check-webmcp-coverage.mjs webmcp-coverage.xml 95 > webmcp-coverage.json
+          cat webmcp-coverage.json
       - name: Qualify independent REST requests
         if: ${{ !cancelled() }}
         shell: bash
@@ -240,6 +255,9 @@ jobs:
           path: |
             phpunit-output.log
             compatibility-rest.json
+            webmcp-coverage.xml
+            webmcp-coverage.json
+            webmcp-phpunit.xml
       - name: Mark cancelled jobs as failed
         if: ${{ cancelled() }}
         run: exit 1

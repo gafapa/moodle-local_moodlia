@@ -4,6 +4,12 @@ This guide covers a complete browser-based installation of the MoodlIA Moodle
 plugin. It is intended for Moodle administrators who can install plugins from
 ZIP files but do not necessarily have shell access to the server.
 
+The current local qualification candidate is 0.1.219. Its WebMCP feature is
+disabled by default and must be explicitly enabled after the normal plugin
+upgrade. It was tested separately on Moodle 4.5.15 and 5.2.4; those results do
+not replace the historical browser-installation screenshots below. See
+[the qualification report](webmcp-validation-2026-10-15.md).
+
 The procedure was verified end to end on 2 September 2026 with the following
 clean environment:
 
