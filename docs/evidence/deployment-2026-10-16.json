@@ -1,0 +1,36 @@
+{
+  "verified_at": "2026-10-15T23:03:53.150139+00:00",
+  "sites": [
+    {
+      "container": "moodle",
+      "site_url": "https://clases.gallego.top",
+      "moodle_release": "5.2.4 (Build: 20261005)",
+      "disk_build": 2026101502,
+      "release": "0.1.219",
+      "database_build": 2026101502,
+      "webmcp_enabled": true,
+      "maintenance": false,
+      "webmcp_tools": 251,
+      "verified_package_files": 587,
+      "login_http_status": 200,
+      "anonymous_webmcp_http_status": 400,
+      "container_health": "healthy"
+    },
+    {
+      "container": "moodle-aula",
+      "site_url": "https://aula.gallego.top",
+      "moodle_release": "4.5.15 (Build: 20261005)",
+      "disk_build": 2026101502,
+      "release": "0.1.219",
+      "database_build": 2026101502,
+      "webmcp_enabled": true,
+      "maintenance": false,
+      "webmcp_tools": 251,
+      "verified_package_files": 587,
+      "login_http_status": 200,
+      "anonymous_webmcp_http_status": 400,
+      "container_health": "healthy"
+    }
+  ],
+  "archive_sha256": "106925c0f92a50b43e8b378aa8cf1e97d189aed53fb85486c6520e49c5362004"
+}

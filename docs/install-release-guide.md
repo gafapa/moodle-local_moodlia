@@ -36,23 +36,25 @@ Marketplace listing metadata:
 
 ## Versioning Policy
 
-The 2026-10-15 working tree produces local qualification candidates:
-`local_moodlia-0.1.219.zip`, `moodlia-0.5.1.tgz`, and the optional
-`moodlia-browser-0.1.1.tgz`. They have not been published or deployed by this
-qualification. See [the WebMCP validation report](webmcp-validation-2026-10-15.md)
-before release. The reference table below records the earlier documented
-release baseline, rather than a live registry lookup.
+Plugin release 0.1.219 introduces optional WebMCP support. See
+[the WebMCP validation report](webmcp-validation-2026-10-15.md) for the exact
+qualification snapshots and limitations, and
+[the deployment record](deployment-2026-10-16.md) for the managed sites.
+The companion CLI 0.5.1, optional
+browser component 0.1.1, and synchronization package 0.1.2 are prepared for
+separate npm publication; their candidate versions must not be confused with
+the published registry versions below.
 
 The Moodle plugin and public npm client use independent semantic release streams and repositories. `version.php` is authoritative for this Moodle plugin. The `package.json` in [gafapa/moodlia-cli](https://github.com/gafapa/moodlia-cli) is authoritative for the public npm package.
 
 | Release stream | Reference version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
-| Moodle plugin | `0.1.215` | `version.php` | `local_moodlia-0.1.215.zip` |
+| Moodle plugin | `0.1.219` | `version.php` | `local_moodlia-0.1.219.zip` |
 | npm CLI/client | `0.4.1` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.4.1` |
 | npm Core client | `0.4.1` | `gafapa/moodle-core-cli` `package.json` | `moodle-core-cli@0.4.1` |
 | npm course synchronization | `0.1.1` | `gafapa/moodlia-sync` `package.json` | `moodlia-sync@0.1.1` |
 
-These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.215” or “moodlia npm 0.4.1”, rather than an unqualified version. The npm packages depend on each other in one direction: `moodle-core-cli` ← `moodlia` ← `moodlia-sync`. Only `moodlia-sync` installs a native module (`better-sqlite3`). `moodlia-sync-mcp` is deprecated in favour of the `moodlia-sync` CLI.
+These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.219” or “moodlia npm 0.4.1”, rather than an unqualified version. The npm packages depend on each other in one direction: `moodle-core-cli` ← `moodlia` ← `moodlia-sync`. Only `moodlia-sync` installs a native module (`better-sqlite3`). `moodlia-sync-mcp` is deprecated in favour of the `moodlia-sync` CLI.
 
 ## Release Scope
 
