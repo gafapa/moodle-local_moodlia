@@ -137,8 +137,10 @@ final class bridge {
                 throw new \invalid_parameter_exception('Unsupported value for ' . $name);
             }
             if (($properties[$name]['type'] ?? '') === 'object') {
-                if ((!is_array($value) && !is_object($value)) ||
-                        (is_array($value) && $value !== [] && array_is_list($value))) {
+                if (
+                    (!is_array($value) && !is_object($value)) ||
+                    (is_array($value) && $value !== [] && array_is_list($value))
+                ) {
                     throw new \invalid_parameter_exception('Expected a JSON object for ' . $name);
                 }
                 $value = json_encode($value === [] ? new \stdClass() : $value, JSON_THROW_ON_ERROR);

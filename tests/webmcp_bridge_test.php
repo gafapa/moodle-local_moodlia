@@ -207,11 +207,12 @@ final class webmcp_bridge_test extends advanced_testcase {
         role_assign($roleid, $student->id, \context_system::instance());
         set_config('webmcp_enabled', 1, 'local_moodlia');
         $this->setUser($student);
-        foreach ([
+        $destinations = [
             ['destination' => 'activity', 'module_id' => (int) $hidden->cmid],
             ['destination' => 'assignment_grader', 'module_id' => (int) $assignment->cmid],
             ['destination' => 'gradebook', 'course_id' => (int) $course->id],
-        ] as $arguments) {
+        ];
+        foreach ($destinations as $arguments) {
             try {
                 bridge::execute('moodlia_open_page', $arguments);
                 $this->fail('A student opened a privileged or hidden destination.');
@@ -249,7 +250,12 @@ final class webmcp_bridge_test extends advanced_testcase {
             $uploaded = bridge::upload();
             $this->assertGreaterThan(0, $uploaded['draft_item_id']);
             $file = get_file_storage()->get_file(
-                \context_user::instance($USER->id)->id, 'user', 'draft', $uploaded['draft_item_id'], '/', $uploaded['filename']
+                \context_user::instance($USER->id)->id,
+                'user',
+                'draft',
+                $uploaded['draft_item_id'],
+                '/',
+                $uploaded['filename']
             );
             $this->assertSame($content, $file->get_content());
             $this->assertSame((int) $USER->id, (int) $file->get_userid());

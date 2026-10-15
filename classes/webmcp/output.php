@@ -35,8 +35,10 @@ final class output {
      */
     public static function before_body(\core\hook\output\before_standard_top_of_body_html_generation $hook): void {
         global $PAGE;
-        if (!get_config('local_moodlia', 'webmcp_enabled') || !isloggedin() || isguestuser() ||
-                !has_capability('local/moodlia:useapi', \context_system::instance())) {
+        if (
+            !get_config('local_moodlia', 'webmcp_enabled') || !isloggedin() || isguestuser() ||
+            !has_capability('local/moodlia:useapi', \context_system::instance())
+        ) {
             return;
         }
         $courseid = (int) ($PAGE->course->id ?? 0);
