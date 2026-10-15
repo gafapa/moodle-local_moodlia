@@ -32,7 +32,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -76,7 +77,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -120,7 +122,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -363,7 +366,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -449,7 +453,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -492,7 +497,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -716,7 +722,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -764,7 +771,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -891,7 +899,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -1107,7 +1116,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -1166,7 +1176,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -1299,7 +1310,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -1352,7 +1364,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -1485,7 +1498,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -1551,7 +1565,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -1607,7 +1622,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -2189,7 +2205,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -2287,7 +2304,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -3273,7 +3291,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -3579,7 +3598,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -4107,7 +4127,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -4355,7 +4376,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -4442,7 +4464,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -5565,7 +5588,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -5646,7 +5670,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -6130,7 +6155,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -6223,7 +6249,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -6312,7 +6339,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -6411,7 +6439,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -6847,7 +6876,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -6915,7 +6945,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -6974,7 +7005,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -7053,7 +7085,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -7109,7 +7142,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -7381,7 +7415,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -7680,7 +7715,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -7766,7 +7802,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -7820,7 +7857,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -7937,7 +7975,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -8006,7 +8045,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -8075,7 +8115,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -8227,7 +8268,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -8274,7 +8316,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -8841,7 +8884,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -9017,7 +9061,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -9096,7 +9141,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -9176,7 +9222,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -9273,7 +9320,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -9370,7 +9418,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -9461,7 +9510,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -9540,7 +9590,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -9608,7 +9659,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -9678,7 +9730,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -9771,7 +9824,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -9863,7 +9917,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -10164,7 +10219,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -10226,7 +10282,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -10300,7 +10357,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -10585,7 +10643,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -10655,7 +10714,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -10876,7 +10936,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -10978,7 +11039,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -11235,7 +11297,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -11309,7 +11372,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -11366,7 +11430,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -11419,7 +11484,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -11515,7 +11581,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -11591,7 +11658,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -11696,7 +11764,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -11828,7 +11897,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -12377,7 +12447,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -12604,7 +12675,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -12871,7 +12943,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -13442,7 +13515,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -13502,7 +13576,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -13792,7 +13867,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -13844,7 +13920,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -14286,7 +14363,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -14342,7 +14420,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -14445,7 +14524,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -14516,7 +14596,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -14987,7 +15068,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -15200,7 +15282,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -15275,7 +15358,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -15405,7 +15489,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -15494,7 +15579,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -15551,7 +15637,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -15649,7 +15736,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -15727,7 +15815,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -15959,7 +16048,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -16011,7 +16101,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -16074,7 +16165,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -16339,7 +16431,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -16384,7 +16477,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {
@@ -16425,7 +16519,8 @@
       "tests": [
         "parity",
         "mcp",
-        "cli"
+        "cli",
+        "api"
       ]
     },
     {

@@ -134,6 +134,7 @@ function collectPhpFiles(directoryPath) {
   for (const entry of fs.readdirSync(directoryPath, { withFileTypes: true })) {
     const entryPath = path.join(directoryPath, entry.name);
     if (entry.isDirectory()) {
+      if (['.git', 'node_modules', 'dist', 'empaquetado'].includes(entry.name)) continue;
       files.push(...collectPhpFiles(entryPath));
     } else if (entry.isFile() && entry.name.endsWith('.php')) {
       files.push(entryPath);

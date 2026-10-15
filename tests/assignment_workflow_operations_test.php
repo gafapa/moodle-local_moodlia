@@ -30,6 +30,9 @@ global $CFG;
 require_once($CFG->dirroot . '/mod/assign/locallib.php');
 
 use advanced_testcase;
+use local_moodlia\operation\create_course;
+use local_moodlia\operation\create_user;
+use local_moodlia\operation\enrol_user;
 use local_moodlia\operation\grade_assignment_with_checklist;
 use local_moodlia\operation\grade_assignment_with_marking_guide;
 use local_moodlia\operation\grade_assignment_with_rubric;
@@ -37,6 +40,7 @@ use local_moodlia\operation\save_assignment_grade;
 use local_moodlia\operation\save_assignment_submission;
 use local_moodlia\operation\set_assignment_checklist;
 use local_moodlia\operation\set_assignment_marking_guide;
+use local_moodlia\operation\set_assignment_rubric;
 use local_moodlia\operation\submit_assignment_for_grading;
 use local_moodlia\operation\view_assignment;
 use local_moodlia\operation\view_assignment_grading_table;
@@ -97,6 +101,16 @@ final class assignment_workflow_operations_test extends advanced_testcase {
         [$course, $assign, $student] = $this->create_assignment();
         $this->setAdminUser();
 
+        $rubric = set_assignment_rubric::execute((int) $course->id, (int) $assign->cmid, 'Rubric', 'Native criteria', json_encode([
+            'criteria' => [['description' => 'Clarity', 'levels' => [
+                ['definition' => 'Missing', 'score' => 0],
+                ['definition' => 'Partial', 'score' => 2],
+                ['definition' => 'Complete', 'score' => 4],
+            ]]],
+        ]));
+        $this->assertSame('rubric', $rubric['active_method']);
+        $this->assertCount(3, array_values($rubric['criteria'])[0]['levels']);
+
         $checklist = set_assignment_checklist::execute((int) $course->id, (int) $assign->cmid, 'Checklist', 'Criteria', json_encode([
             'items' => [['description' => 'Has a title'], ['description' => 'Cites sources']],
         ]));
@@ -139,12 +153,18 @@ final class assignment_workflow_operations_test extends advanced_testcase {
      * @return array
      */
     private function create_assignment(): array {
-        global $PAGE;
+        global $PAGE, $DB;
 
+        $this->redirectEmails();
+        $this->setAdminUser();
         // Web service requests set the page URL; mod_assign status renderables read it.
         $PAGE->set_url(new \moodle_url('/'));
-        $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $createdcourse = create_course::execute('Native workflow qualification', 'native-workflow');
+        $course = get_course($createdcourse['course_id']);
+        $createduser = create_user::execute('workflowstudent', 'Workflow', 'Student', 'workflow@example.com', 'Fixture-Pass-42!');
+        $student = $DB->get_record('user', ['id' => $createduser['user_id']], '*', MUST_EXIST);
+        $enrolment = enrol_user::execute((int) $course->id, (int) $student->id);
+        $this->assertTrue($enrolment['enrolled']);
         $assign = $this->getDataGenerator()->create_module('assign', [
             'course' => $course->id,
             'assignsubmission_onlinetext_enabled' => 1,

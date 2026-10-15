@@ -36,6 +36,8 @@ class module_common_tools {
      * @param array $options Options.
      */
     public static function apply_create_options(\stdClass $course, \stdClass $moduleinfo, array $options): void {
+        // Graded activities read this form field even when no identifier was supplied.
+        $moduleinfo->cmidnumber = $moduleinfo->cmidnumber ?? '';
         if (array_key_exists('visible', $options)) {
             $visible = (int) (bool) $options['visible'];
             $moduleinfo->visible = $visible;
@@ -185,8 +187,12 @@ class module_common_tools {
                 );
             }
 
-            [, , , $moduleinfo] = get_moduleinfo_data($cm, $course);
-            $modulecm = get_coursemodule_from_id('', (int) $cm->id, (int) $course->id, false, MUST_EXIST);
+            if ($cm->modname === 'assign') {
+                [$modulecm, $moduleinfo] = assignment_tools::prepare_update_data($course, $cm);
+            } else {
+                [, , , $moduleinfo] = get_moduleinfo_data($cm, $course);
+                $modulecm = get_coursemodule_from_id('', (int) $cm->id, (int) $course->id, false, MUST_EXIST);
+            }
             $moduleinfo->id = (int) $cm->instance;
             self::normalise_update_form_data($moduleinfo);
             self::normalise_numeric_form_fields($moduleinfo);
@@ -324,7 +330,9 @@ class module_common_tools {
      *
      * @param \stdClass $moduleinfo Moduleinfo.
      */
-    private static function normalise_update_form_data(\stdClass $moduleinfo): void {
+    public static function normalise_update_form_data(\stdClass $moduleinfo): void {
+        global $DB;
+
         // Page, Resource, and URL forms unpack displayoptions in data_preprocessing(), and their
         // update_instance() rebuilds it from those fields. Without them an update resets the options.
         if (in_array($moduleinfo->modulename ?? '', ['page', 'resource', 'url'], true) && !empty($moduleinfo->displayoptions)) {
@@ -341,6 +349,55 @@ class module_common_tools {
         }
 
         switch ($moduleinfo->modulename ?? '') {
+            case 'choice':
+                // The update callback expects the form arrays, not just the choice table record.
+                $moduleinfo->option = [];
+                $moduleinfo->optionid = [];
+                $moduleinfo->limit = [];
+                foreach ($DB->get_records('choice_options', ['choiceid' => $moduleinfo->instance], 'id') as $option) {
+                    $moduleinfo->option[] = (string) $option->text;
+                    $moduleinfo->optionid[] = (int) $option->id;
+                    $moduleinfo->limit[] = (int) $option->maxanswers;
+                }
+                break;
+
+            case 'folder':
+            case 'resource':
+                // No file draft means that a completion-only update keeps the current file area.
+                $moduleinfo->files = $moduleinfo->files ?? 0;
+                break;
+
+            case 'url':
+                $parameters = empty($moduleinfo->parameters) ? [] : (array) unserialize_array($moduleinfo->parameters);
+                $index = 0;
+                foreach ($parameters as $parameter => $variable) {
+                    $moduleinfo->{'parameter_' . $index} = (string) $parameter;
+                    $moduleinfo->{'variable_' . $index} = (string) $variable;
+                    $index++;
+                }
+                break;
+
+            case 'forum':
+            case 'glossary':
+            case 'data':
+                $moduleinfo->ratingtime = !empty($moduleinfo->assesstimestart) || !empty($moduleinfo->assesstimefinish);
+                break;
+
+            case 'lesson':
+                // The stored mediafile is a path; the update callback expects a user draft id.
+                $draftitemid = 0;
+                $context = \context_module::instance((int) $moduleinfo->coursemodule);
+                file_prepare_draft_area(
+                    $draftitemid,
+                    $context->id,
+                    'mod_lesson',
+                    'mediafile',
+                    0,
+                    ['subdirs' => false, 'maxfiles' => 1]
+                );
+                $moduleinfo->mediafile = $draftitemid;
+                break;
+
             case 'page':
                 if (!isset($moduleinfo->page)) {
                     $moduleinfo->page = self::editor_array(
@@ -360,6 +417,16 @@ class module_common_tools {
                 break;
 
             case 'workshop':
+                // Core form names differ from the Workshop callback's category names.
+                foreach ([0 => 'gradecategory', 1 => 'gradinggradecategory'] as $itemnumber => $field) {
+                    $moduleinfo->{$field} = (int) $DB->get_field('grade_items', 'categoryid', [
+                        'courseid' => (int) $moduleinfo->course,
+                        'itemtype' => 'mod',
+                        'itemmodule' => 'workshop',
+                        'iteminstance' => (int) $moduleinfo->instance,
+                        'itemnumber' => $itemnumber,
+                    ], MUST_EXIST);
+                }
                 if (!isset($moduleinfo->instructauthorseditor)) {
                     $moduleinfo->instructauthorseditor = self::editor_array(
                         (string) ($moduleinfo->instructauthors ?? ''),

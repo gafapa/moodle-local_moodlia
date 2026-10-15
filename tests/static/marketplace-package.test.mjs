@@ -19,6 +19,11 @@ test('Marketplace package contains only the installable Moodle plugin', async ()
     for (const requiredPath of [
       'version.php',
       'mcp.php',
+      'webmcp.php',
+      'settings.php',
+      'db/hooks.php',
+      'amd/build/webmcp.min.js',
+      'classes/webmcp/bridge.php',
       'db/services.php',
       'classes/privacy/provider.php',
       'tests/plugin_management_test.php'

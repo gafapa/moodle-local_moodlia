@@ -29,6 +29,7 @@ async function findPhpFiles(directory) {
   for (const entry of entries) {
     const target = path.join(directory, entry.name);
     if (entry.isDirectory()) {
+      if (['.git', 'node_modules', 'dist', 'empaquetado'].includes(entry.name)) continue;
       results.push(...await findPhpFiles(target));
     } else if (entry.name.endsWith('.php')) {
       results.push(target);

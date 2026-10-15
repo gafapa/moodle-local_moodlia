@@ -45,16 +45,39 @@ class get_glossary_authors {
         int $limit = 20,
         bool $includenotapproved = false
     ): array {
+        global $PAGE;
+
         glossary_tools::require_glossary_api();
 
         $course = course_tools::get_course($courseid);
         $cm = glossary_tools::get_glossary_module($course, $moduleid);
-        $result = \mod_glossary_external::get_authors(
-            (int) $cm->instance,
-            max(0, $from),
+        $context = \context_module::instance((int) $cm->id);
+        \core_external\external_api::validate_context($context);
+        require_capability('mod/glossary:view', $context);
+        // Core's external exporter leaves $authors undefined for empty pages.
+        // Its native query retains approval, ownership, and imported-entry filtering.
+        [$users, $count] = glossary_get_authors(
+            (object) ['id' => (int) $cm->instance],
+            $context,
             max(1, $limit),
+            max(0, $from),
             ['includenotapproved' => $includenotapproved]
         );
+        $authors = [];
+        try {
+            foreach ($users as $user) {
+                $picture = new \user_picture($user);
+                $picture->size = 1;
+                $authors[] = (object) [
+                    'id' => (int) $user->id,
+                    'fullname' => fullname($user, has_capability('moodle/site:viewfullnames', $context)),
+                    'pictureurl' => $picture->get_url($PAGE)->out(false),
+                ];
+            }
+        } finally {
+            $users->close();
+        }
+        $result = ['count' => $count, 'authors' => $authors, 'warnings' => []];
 
         return glossary_tools::authors_to_response($cm, $result);
     }

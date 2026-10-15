@@ -1,0 +1,120 @@
+{
+  "date": "2026-10-15",
+  "synthetic_data_only": true,
+  "local_environment": {
+    "platform": "win32",
+    "node": "v24.18.0",
+    "playwright": "1.64.1"
+  },
+  "final_artifacts": {
+    "cli": "0.5.1",
+    "browser": "0.1.1",
+    "plugin": "0.1.219"
+  },
+  "local_checks": {
+    "cli_tests": 174,
+    "cli_line_percent": 96.7,
+    "cli_minimum_percent": 95,
+    "cli_branch_percent": 93.82,
+    "cli_minimum_branch_percent": 90,
+    "cli_function_percent": 90.29,
+    "cli_minimum_function_percent": 85,
+    "cli_previous_tests": 111,
+    "cli_previous_line_percent": 77.7,
+    "cli_coverage_runs": [
+      {
+        "node": "24.18.0",
+        "tests": 174,
+        "line_percent": 96.7,
+        "branch_percent": 93.82,
+        "function_percent": 90.29,
+        "report_sha256": "b75c9faf913b2bca03e02369ebe4916f9e868687fa499ac2ee0eb2e1219469f1"
+      },
+      {
+        "node": "22.13.0",
+        "tests": 174,
+        "line_percent": 96.7,
+        "branch_percent": 93.82,
+        "function_percent": 90.29,
+        "report_sha256": "079d830d5479f2379eed50f887715e6594bda820ee20bb0ae6c3389cd80d9326"
+      }
+    ],
+    "browser_tests": 50,
+    "browser_line_percent": 92.73,
+    "browser_minimum_percent": 90,
+    "plugin_static_tests": 46,
+    "fictional_native_chromium_cli_operations": 250
+  },
+  "native_profiles": [
+    {
+      "moodle": "4.5.15 (Build: 20261005)",
+      "php": "8.3.15",
+      "postgres": "16.15",
+      "plugin_functional_snapshot": "0.1.218",
+      "phpunit": {
+        "tests": 103,
+        "assertions": 1509,
+        "failures": 0,
+        "errors": 0,
+        "junit_sha256": "1c548137aa36fbfa491f35ba06e4c6388ea433ec27730435663ea89bb963bf5a"
+      },
+      "focused_webmcp": {
+        "tests": 20,
+        "assertions": 300
+      },
+      "browser": {
+        "passed": 11
+      },
+      "bridge_coverage": null
+    },
+    {
+      "moodle": "5.2.4 (Build: 20261005)",
+      "php": "8.3.15",
+      "postgres": "17.11",
+      "plugin_functional_snapshot": "0.1.218",
+      "phpunit": {
+        "tests": 103,
+        "assertions": 1471,
+        "failures": 0,
+        "errors": 0,
+        "junit_sha256": "0f81a28cd634b0ae52154d99954e32ad037a5068ca3c112414c060af3a354ead"
+      },
+      "focused_webmcp": {
+        "tests": 20,
+        "assertions": 300
+      },
+      "browser": {
+        "passed": 11,
+        "targeting_scope": "Course reads from an activity; separate-course reads also passed native PHPUnit. The 4.5 browser profile additionally used a separate course."
+      },
+      "bridge_coverage": {
+        "file": "classes/webmcp/bridge.php",
+        "covered_statements": 116,
+        "statements": 119,
+        "line_coverage_percent": 97.48,
+        "minimum_percent": 95
+      }
+    }
+  ],
+  "cleanup": {
+    "host": "s1",
+    "verified_at": "2026-10-15T19:06:22Z",
+    "owned_containers": 0,
+    "owned_networks": 0,
+    "lab_directory_exists": false,
+    "loopback_listener_exists": false,
+    "anonymous_volumes_removed": true,
+    "private_credentials_removed": true,
+    "synthetic_browser_profile_removed": true,
+    "ssh_tunnel_removed": true,
+    "original_running_services_preserved": true,
+    "existing_images_and_production_volumes_preserved": true
+  },
+  "limitations": [
+    "Functional profiles preceded final patch-version metadata changes; later client changes were verified locally.",
+    "Full supported-version CI matrix and hosted coverage jobs were not executed.",
+    "Moodle 4.5 coverage-report generation did not finish; its stale prior-profile Clover file was excluded.",
+    "Moodle 5.2 full suite retains five existing notices and twelve PHPUnit metadata deprecations.",
+    "All 250 native Chromium CLI adapter calls use fictional responses; real Moodle paths are separate checks."
+  ]
+}

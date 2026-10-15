@@ -5,6 +5,7 @@ import path from 'node:path';
 const includePackage = !process.argv.includes('--skip-package');
 
 const checks = [
+  ['npm', ['run', 'webmcp:check']],
   ['npm', ['run', 'lint:js']],
   ['npm', ['run', 'lint:php']],
   ['npm', ['run', 'contract:check']],

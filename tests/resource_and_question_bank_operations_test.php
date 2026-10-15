@@ -94,6 +94,42 @@ final class resource_and_question_bank_operations_test extends \advanced_testcas
         $this->assertSame('Replacement PDF content', $replacement->get_content());
         $this->assertCount(1, $updated['files']);
         $this->assertSame('replacement.pdf', $updated['files'][0]['filename']);
+        $this->assertSame(1, (int) $replacement->get_sortorder());
+    }
+
+    /**
+     * Replacing a file preserves popup geometry and file metadata display flags.
+     */
+    public function test_update_resource_preserves_display_options(): void {
+        global $CFG, $DB;
+
+        require_once($CFG->libdir . '/resourcelib.php');
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course();
+        $resource = $this->getDataGenerator()->create_module('resource', [
+            'course' => $course->id,
+            'display' => RESOURCELIB_DISPLAY_POPUP,
+            'popupwidth' => 777,
+            'popupheight' => 555,
+            'showsize' => 1,
+            'showtype' => 1,
+            'showdate' => 1,
+        ]);
+        $before = $DB->get_record('resource', ['id' => $resource->id], '*', MUST_EXIST);
+
+        update_resource::execute(
+            (int) $course->id,
+            (int) $resource->cmid,
+            'replacement.pdf',
+            '',
+            $this->create_draft_file('replacement.pdf', 'Replacement bytes')
+        );
+
+        $after = $DB->get_record('resource', ['id' => $resource->id], '*', MUST_EXIST);
+        $this->assertSame($before->display, $after->display);
+        $this->assertSame(unserialize_array($before->displayoptions), unserialize_array($after->displayoptions));
+        $this->assertSame((int) $before->revision + 1, (int) $after->revision);
     }
 
     /**

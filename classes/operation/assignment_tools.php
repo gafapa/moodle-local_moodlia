@@ -369,7 +369,7 @@ class assignment_tools {
             $context->id,
             'mod_assign',
             $componentfilearea,
-            0,
+            $componentfilearea === 'intro' ? null : 0,
             '/',
             $filename
         );

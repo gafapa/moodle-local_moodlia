@@ -1,13 +1,15 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-export const pluginDirectories = ['classes', 'db', 'lang', 'pix'];
+export const pluginDirectories = ['amd', 'classes', 'db', 'lang', 'pix'];
 export const pluginFiles = [
   'CHANGES.md',
   'LICENSE',
   'README.md',
   'SECURITY.md',
   'mcp.php',
+  'settings.php',
+  'webmcp.php',
   'version.php'
 ];
 

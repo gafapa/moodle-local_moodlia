@@ -101,6 +101,7 @@ class create_module {
         } else {
             $moduleinfo = (object) [
                 'modulename' => $moduletype,
+                'course' => (int) $course->id,
                 'module' => module_tools::resolve_content_item_id($course, $moduletype),
                 'section' => $sectionnumber,
                 'name' => $name,

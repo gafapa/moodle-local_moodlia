@@ -83,7 +83,7 @@ class question_quiz_attempt_tools extends question_tools {
         $course = $quizobj->get_course();
         $cm = module_tools::get_quiz_module($course, $quizmoduleid);
 
-        $result = \mod_quiz_external::get_user_quiz_attempts(
+        $result = \mod_quiz_external::get_user_attempts(
             (int) $quizobj->get_quizid(),
             $userid,
             $status,

@@ -86,10 +86,11 @@ class course_completion_tools {
         $gradecriterionpass = null;
 
         foreach ($completion->get_criteria() as $criterion) {
-            if ($criterion->criteriatype === COMPLETION_CRITERIA_TYPE_ACTIVITY) {
+            $criteriatype = (int) $criterion->criteriatype;
+            if ($criteriatype === COMPLETION_CRITERIA_TYPE_ACTIVITY) {
                 $moduleids[] = (int) $criterion->moduleinstance;
             }
-            if ($criterion->criteriatype === COMPLETION_CRITERIA_TYPE_GRADE) {
+            if ($criteriatype === COMPLETION_CRITERIA_TYPE_GRADE) {
                 $gradecriterionpass = (float) $criterion->gradepass;
             }
         }
