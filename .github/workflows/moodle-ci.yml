@@ -86,7 +86,7 @@ jobs:
         with:
           php-version: '8.3'
           coverage: none
-          ini-values: max_input_vars=5000, opcache.enable_cli=1
+          ini-values: max_input_vars=5000, opcache.enable_cli=1, opcache.jit=0, opcache.jit_buffer_size=0
       - name: Cache Composer downloads
         uses: actions/cache@v4
         with:
@@ -164,7 +164,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: pcov
-          ini-values: max_input_vars=5000, opcache.enable_cli=1
+          ini-values: max_input_vars=5000, opcache.enable_cli=1, opcache.jit=0, opcache.jit_buffer_size=0
       - name: Set up Node.js for independent REST requests
         uses: actions/setup-node@v4
         with:
