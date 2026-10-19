@@ -1,0 +1,52 @@
+{
+  "verified_at": "2026-10-19T23:31:55.713602+00:00",
+  "marketplace": {
+    "plugin_release": "0.1.220",
+    "build": 2026102000,
+    "version_id": 29296,
+    "automated_test": "passed",
+    "public_default_download_version_id": 29296,
+    "uploaded_archive_sha256": "e85bc85785d642e2b581c09e12c33a56023d22928328729dfaebeb978e9c3eef",
+    "downloaded_archive_round_trip_verified": false
+  },
+  "npm": [
+    {
+      "name": "moodlia",
+      "version": "0.5.1",
+      "status": "published",
+      "integrity": "sha512-XFqaijENduZkCvya9VuEJkwvxBKseWm5HrBS1YTTiTVFBcOevpHHvaTnnH6ZjJoLghghI0HLNk1UAdtZwPfqiQ=="
+    },
+    {
+      "name": "moodlia-sync",
+      "version": "0.1.2",
+      "status": "published",
+      "integrity": "sha512-Kt4KGWeLOLgJ077Qh29KRKLLtOXEiN0/jEwsudVC2wz27ejh/uQ+sRe0NuYGry3gZQEUia6HYFCeZGJHXmUMaQ=="
+    },
+    {
+      "name": "moodlia-browser",
+      "version": "0.1.1",
+      "status": "published",
+      "integrity": "sha512-VEOWvXUxNeJVAp36ra8k6pPNCjYawKoawH49pMniA1LvCNUljflVzkyLx+mmCVmJUSIjfRtv48/l/36J0QVFow=="
+    }
+  ],
+  "clean_registry_install": {
+    "platform": "Windows x64",
+    "cli_help": true,
+    "sync_help": true,
+    "cli_import": true,
+    "browser_import": true,
+    "sqlite_memory_query": true,
+    "sqlite_install_script_approval": "better-sqlite3@12.4.1 in disposable project only"
+  },
+  "local_checks": {
+    "moodlia_tests": 174,
+    "sync_tests": 187
+  },
+  "core_client": {
+    "version": "0.4.1",
+    "new_release_required": false,
+    "package_diff": [
+      "README.md"
+    ]
+  }
+}
