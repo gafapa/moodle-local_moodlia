@@ -12,7 +12,8 @@ No production site was connected or modified.
 Both profiles used Windows x64, PHP 8.3.35 and a dedicated MariaDB 11.4.8
 instance bound to loopback. The candidate is the working-tree patch over plugin
 0.1.219 at validation time. Release 0.1.220 ships that runtime patch with a
-version metadata bump and updated release documentation. Source revisions, candidate file hashes and
+version metadata bump, updated release documentation and coding-style-only
+formatting of the test fixture. Source revisions, candidate file hashes and
 raw-result checksums are recorded in [the structured evidence](evidence/quiz-intro-2026-10-20.json).
 
 ## Native checks

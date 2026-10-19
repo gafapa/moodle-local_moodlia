@@ -46,10 +46,18 @@ final class module_update_preservation_test extends \advanced_testcase {
             'password' => 'retained-password', 'timelimit' => 900, 'grade' => 10,
         ]);
         $category = \local_moodlia\operation\create_question_category::execute(
-            (int) $course->id, 'Introduction test', null, null, 'course_shared'
+            (int) $course->id,
+            'Introduction test',
+            null,
+            null,
+            'course_shared'
         );
         $question = \local_moodlia\operation\create_question::execute(
-            (int) $category['category_id'], 'truefalse', 'Example', 'A statement.', ['correct_answer' => true]
+            (int) $category['category_id'],
+            'truefalse',
+            'Example',
+            'A statement.',
+            ['correct_answer' => true]
         );
         \local_moodlia\operation\add_question_to_quiz::execute((int) $quiz->cmid, (int) $question['question_id']);
         $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
