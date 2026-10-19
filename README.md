@@ -65,7 +65,8 @@ before using these options. See
 [the operation contract](docs/interface-contract.md) and [CLI examples](docs/cli-usage.md).
 The [local validation report](docs/quiz-intro-validation-2026-10-20.md) records
 passing native preservation tests and independent REST requests on Moodle 4.5
-and 5.2; it does not establish production deployment.
+and 5.2. The separate [deployment record](docs/deployment-2026-10-20.md) verifies
+installation of 0.1.220 on both managed Moodle sites.
 
 - Moodle 4.5, 5.0, 5.1, 5.2, or 5.3.
 - Moodle web services enabled.

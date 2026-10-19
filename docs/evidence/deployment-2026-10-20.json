@@ -1,0 +1,43 @@
+{
+  "last_verified_at": "2026-10-19T23:24:46.023070+00:00",
+  "plugin_release": "0.1.220",
+  "archive_sha256": "e85bc85785d642e2b581c09e12c33a56023d22928328729dfaebeb978e9c3eef",
+  "source_commit": "af4a76892a977e9813eaf4e95ac5d58a034641a5",
+  "sites": [
+    {
+      "site_url": "https://aula.gallego.top",
+      "moodle_release": "4.5.15 (Build: 20261005)",
+      "release": "0.1.220",
+      "disk_build": 2026102000,
+      "database_build": 2026102000,
+      "maintenance": false,
+      "webmcp_enabled": true,
+      "verified_package_files": 588,
+      "quiz_intro_update_available": true,
+      "container": "moodle-aula",
+      "container_health": "healthy",
+      "login_http_status": 200,
+      "anonymous_webmcp_http_status": 400,
+      "preserved_record_counts": true,
+      "recovery_backups_verified": true
+    },
+    {
+      "site_url": "https://clases.gallego.top",
+      "moodle_release": "5.2.4 (Build: 20261005)",
+      "release": "0.1.220",
+      "disk_build": 2026102000,
+      "database_build": 2026102000,
+      "maintenance": false,
+      "webmcp_enabled": true,
+      "verified_package_files": 588,
+      "quiz_intro_update_available": true,
+      "container": "moodle",
+      "container_health": "healthy",
+      "login_http_status": 200,
+      "anonymous_webmcp_http_status": 400,
+      "preserved_record_counts": true,
+      "recovery_backups_verified": true
+    }
+  ],
+  "production_course_mutation_tests": false
+}
