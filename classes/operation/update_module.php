@@ -51,6 +51,9 @@ class update_module {
 
         $course = course_tools::get_course($courseid);
         $cm = module_tools::get_course_module($course, $moduleid);
+        $introoptions = array_intersect_key($options, array_flip(['intro', 'intro_format']));
+        $introupdate = quiz_intro_tools::prepare_update($course, $cm, $introoptions);
+        $options = array_diff_key($options, $introoptions);
 
         if ($visible === null && array_key_exists('visible', $options)) {
             $visible = (bool) $options['visible'];
@@ -63,7 +66,7 @@ class update_module {
             unset($options['visible_on_course_page'], $options['visibleoncoursepage']);
         }
 
-        if ($name === null && $visible === null && $visibleoncoursepage === null && !$options) {
+        if ($name === null && $visible === null && $visibleoncoursepage === null && !$options && $introupdate === null) {
             throw new \invalid_parameter_exception('At least one of name, visible, visible_on_course_page, or options is required.');
         }
 
@@ -88,6 +91,10 @@ class update_module {
         if ($options) {
             module_tools::apply_common_update_options($course, $cm, $options);
             rebuild_course_cache($course->id, true);
+        }
+
+        if ($introupdate !== null) {
+            quiz_intro_tools::apply_update($course, $cm, $introupdate);
         }
 
         return module_tools::to_response($course, (int) $cm->id);

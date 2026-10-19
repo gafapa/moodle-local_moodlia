@@ -4,6 +4,21 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+## 0.1.220 - 2026-10-20
+
+- Allow `update_module` to edit an existing quiz introduction through `options.intro`
+  and optional `options.intro_format`. Preserve the stored format when omitted and
+  allow an explicit empty introduction.
+- Keep quiz settings, question slots, attempts, previews, grades, feedback and
+  existing introduction files outside this partial text update. Emit Moodle's
+  module-update event and invalidate the course cache.
+- Validate introduction input and module-level editing permission before changes;
+  document the options in the canonical contract and generated MCP description.
+- Validate the candidate on isolated Moodle 4.5.14+ and 5.2.3+ profiles with
+  10 native preservation tests (48 assertions) and 38 independent REST calls per
+  profile. Include the quiz introduction lifecycle in the REST regression and
+  record the exact qualification boundaries in the validation report.
+
 ## 0.1.219 - 2026-10-15
 
 - Fix completion-criteria responses when native database records expose criterion types as numeric strings. Return the persisted activity ids and grade criterion immediately after a write.

@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-20T00:39:41.476033+02:00",
+  "scope": "Unreleased quiz introduction patch on plugin 0.1.219; isolated native Moodle and independent loopback REST requests.",
+  "base_commit": "44c38c41d1fef9dd8c335829cc5f09a8a5b8c92c",
+  "platform": {
+    "os": "Windows x64",
+    "php": "8.3.35",
+    "database": "MariaDB 11.4.8"
+  },
+  "profiles": [
+    {
+      "moodle": "4.5.14+ (Build: 20261002)",
+      "source_ref": "1990fc9201b23e0b0c8fdc44d537840a85d73503",
+      "native": {
+        "tests": 10,
+        "assertions": 48,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "test_cases": [
+          "test_quiz_introduction_update_preserves_quiz_state",
+          "test_quiz_introduction_formats_and_clearing",
+          "test_invalid_quiz_introduction_does_not_rename",
+          "test_quiz_introduction_requires_module_edit_permission",
+          "test_introduction_option_rejects_non_quiz_modules",
+          "test_choice_completion_update_keeps_options_and_responses",
+          "test_assignment_completion_update_keeps_plugin_settings",
+          "test_completion_update_keeps_url_parameters_and_folder_files",
+          "test_completion_update_keeps_lesson_media_and_rating_windows",
+          "test_workshop_completion_update_keeps_grade_categories"
+        ]
+      },
+      "rest": {
+        "calls": 38,
+        "expected_rejections": 2,
+        "operations": [
+          "create_course",
+          "create_module",
+          "create_section",
+          "delete_module",
+          "download_resource_file",
+          "get_course_contents",
+          "get_course_quizzes",
+          "get_current_user",
+          "get_module_details",
+          "get_moodlia_status",
+          "get_sync_capabilities",
+          "update_module",
+          "update_page",
+          "update_resource"
+        ]
+      },
+      "junit_sha256": "80a254545f9f70f0be9dcd1a031b7cd536744909b8adfed052882ca80226c68c",
+      "rest_report_sha256": "86c6921c974974505e560e2e0c820517e9bef3fb7d9223b2d41da7c5d5478587"
+    },
+    {
+      "moodle": "5.2.3+ (Build: 20261002)",
+      "source_ref": "16f374ba7822b0df914141e7a9031cc229c15679",
+      "native": {
+        "tests": 10,
+        "assertions": 48,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "test_cases": [
+          "test_quiz_introduction_update_preserves_quiz_state",
+          "test_quiz_introduction_formats_and_clearing",
+          "test_invalid_quiz_introduction_does_not_rename",
+          "test_quiz_introduction_requires_module_edit_permission",
+          "test_introduction_option_rejects_non_quiz_modules",
+          "test_choice_completion_update_keeps_options_and_responses",
+          "test_assignment_completion_update_keeps_plugin_settings",
+          "test_completion_update_keeps_url_parameters_and_folder_files",
+          "test_completion_update_keeps_lesson_media_and_rating_windows",
+          "test_workshop_completion_update_keeps_grade_categories"
+        ]
+      },
+      "rest": {
+        "calls": 38,
+        "expected_rejections": 2,
+        "operations": [
+          "create_course",
+          "create_module",
+          "create_section",
+          "delete_module",
+          "download_resource_file",
+          "get_course_contents",
+          "get_course_quizzes",
+          "get_current_user",
+          "get_module_details",
+          "get_moodlia_status",
+          "get_sync_capabilities",
+          "update_module",
+          "update_page",
+          "update_resource"
+        ]
+      },
+      "junit_sha256": "50bc335a164ed506d0ce6c1c50dabc0f0eb8959bb74a399653bf49715bbcb8e3",
+      "rest_report_sha256": "0b62c936cb14e959960a6ca1a984858e1eea4f1a66db6be55cad7bf96e13d4b4"
+    }
+  ],
+  "static_check": {
+    "command": "npm run check",
+    "exit_code": 0,
+    "tests": 46,
+    "php_files_linted": 582,
+    "log_sha256": "60f757344607191285264d0b3be7ad83233b77fc655d70d813ea3cdf7efc937f"
+  },
+  "source_sha256": {
+    "classes/operation/update_module.php": "162fe0eb862c9cc4011fab13e8cdd980ff65a2ddbbdea5b7c57bd22937c68ca8",
+    "classes/operation/quiz_intro_tools.php": "f68a2898b0bfbbca1eb5e42818e3f79c01f5b1930b68716d72bfb8a203c10076",
+    "contract/operations.json": "3203db145b90bbd3cf6820967693907c2d97cb48940d1833dd7934140e090a2a",
+    "tests/module_update_preservation_test.php": "ecce41c997a133c54769e2dccc1a5468d87473a9844a0cc932afb6cf5f9543bf",
+    "tools/compatibility-rest.mjs": "17c9403230efa5604bcc9b49c544de7fa1828eee79a938f60e7b21769d1cf17e"
+  },
+  "cleanup": {
+    "remaining_fixture_courses_per_site": 0,
+    "remaining_site_courses_per_site": 1,
+    "remaining_tokens_per_site": 0,
+    "owned_listeners_remaining": 0,
+    "synthetic_tokens_revoked": true,
+    "owned_servers_stopped": true
+  },
+  "limitations": [
+    "Only the listed Moodle/PHP/database profiles were executed.",
+    "The native run covered module_update_preservation_test, not the entire Moodle/plugin PHPUnit matrix.",
+    "No production deployment, hosted CI run or release publication was performed."
+  ]
+}

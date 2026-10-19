@@ -933,7 +933,7 @@ final class manifest {
             ],
             [
                 'name' => 'update_module',
-                'description' => 'Update a Moodle course module.',
+                'description' => 'Update a course module; quiz options accept intro and intro_format for existing descriptions.',
                 'inputSchema' => self::schema([
                     'course_id' => ['type' => 'integer', 'required' => true],
                     'module_id' => ['type' => 'integer', 'required' => true],

@@ -79,7 +79,7 @@ try {
     resource: { filename: 'original.pdf', upload_reference: Buffer.from(original).toString('base64'), display: 'popup', popup_width: 777, popup_height: 555, show_size: true, show_type: true, show_date: true },
     wiki: { first_page_title: 'Qualification home' }
   };
-  const moduleTypes = regressionOnly ? ['page', 'resource'] : contract.operations.find((entry) => entry.name === 'create_module').parameters.module_type.enum;
+  const moduleTypes = regressionOnly ? ['page', 'resource', 'quiz'] : contract.operations.find((entry) => entry.name === 'create_module').parameters.module_type.enum;
   for (const type of moduleTypes) {
     const parameters = { course_id: courseId, section_number: type === 'qbank' ? 0 : sectionNumber, module_type: type, name: `Qualification ${type}`, options: moduleOptions[type] ?? {} };
     if (type === 'qbank' && /^4\.5/.test(status.moodle_release)) {
@@ -95,6 +95,36 @@ try {
     assert.equal(Number(updated.course_module_id), moduleId);
     if (!['qbank', 'subsection'].includes(type)) {
       await call('update_module', { course_id: courseId, module_id: moduleId, options: { completion_tracking: 'manual', reset_completion_states: true } });
+    }
+    if (type === 'quiz') {
+      const readQuiz = async () => {
+        const listing = await call('get_course_quizzes', { course_id: courseId });
+        const quiz = listing.quizzes.find((item) => Number(item.quiz_module_id) === moduleId);
+        assert.ok(quiz, 'The original quiz must remain discoverable');
+        return quiz;
+      };
+      const before = await readQuiz();
+      const edited = await call('update_module', {
+        course_id: courseId, module_id: moduleId,
+        options: { intro: '<p>Read every question carefully.</p>', intro_format: 'html' }
+      });
+      assert.equal(Number(edited.course_module_id), moduleId);
+      assert.equal(Number(edited.instance_id), Number(module.instance_id));
+      const after = await readQuiz();
+      assert.match(after.intro, /Read every question carefully/);
+      assert.equal(Number(after.intro_format), 1);
+      assert.deepEqual({ ...after, intro: before.intro, intro_format: before.intro_format }, before);
+      await call('update_module', {
+        course_id: courseId, module_id: moduleId, options: { intro: '<p>Revised instructions.</p>' }
+      });
+      const revised = await readQuiz();
+      assert.match(revised.intro, /Revised instructions/);
+      assert.equal(Number(revised.intro_format), 1);
+      await call('update_module', {
+        course_id: courseId, module_id: moduleId, options: { intro_format: 'html' }
+      }, ['invalidparameter']);
+      await call('update_module', { course_id: courseId, module_id: moduleId, options: { intro: '' } });
+      assert.equal((await readQuiz()).intro, '');
     }
   }
 

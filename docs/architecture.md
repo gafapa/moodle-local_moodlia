@@ -13,6 +13,13 @@ All interfaces share the same canonical operation contract, generated or validat
 
 Moodle PHP operation classes own the business behavior. Everything else is an adapter.
 
+Quiz introduction-only edits use a narrow Moodle DML update, course cache
+invalidation and the native `course_module_updated` event. They deliberately
+avoid the full quiz form callback, which also processes review masks, feedback,
+access rules and preview deletion. Existing files and learner state remain
+outside the text update; the helper validates the course, quiz and module-level
+editing capability before mutation.
+
 ```text
 docs/interface-contract.md or generated contract artifact
     -> PHP operation registry

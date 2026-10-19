@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_moodlia';
-$plugin->version = 2026101502;
+$plugin->version = 2026102000;
 $plugin->requires = 2024100700;
 $plugin->supported = [405, 503];
 $plugin->maturity = MATURITY_BETA;
-$plugin->release = '0.1.219';
+$plugin->release = '0.1.220';

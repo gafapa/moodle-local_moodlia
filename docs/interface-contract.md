@@ -640,6 +640,20 @@ Do not expose secrets, local filesystem paths, stack traces, or raw token values
 - Parameters: `course_id`, `module_id`, optional `name`, optional `visible`, optional safe common module options.
 - Context: module.
 - Supports completion repair options: `completion_tracking`, `completion_view_required`, `completion_grade_item_number`, `completion_use_grade`, `completionusegrade`, `completion_pass_grade`, `completionpassgrade`, `completion_expected`, and `reset_completion_states`.
+- Since 0.1.220, existing quizzes also accept `options.intro` and optional
+  `options.intro_format` (`html`, `plain`, `markdown`, `moodle`). Omission preserves
+  the stored format; `intro:""` deliberately clears the description. A format
+  without an introduction is rejected. These options currently require a quiz.
+- The quiz introduction path checks `moodle/course:manageactivities` in the module
+  context and writes only the supplied introduction fields and modification time
+  through Moodle DML. It invalidates the course cache and emits
+  `course_module_updated`, without invoking the full quiz form callback that
+  rewrites feedback, review masks and access settings and deletes previews.
+  Existing introduction files are retained; this path does not upload new files.
+- Verify the introduction separately with `get_course_quizzes`; module details
+  can omit descriptions hidden on the course page. The `update_module` response remains the
+  module identity/settings shape. A locally updated contract does not establish
+  support on an older installed plugin.
 - Use `completion_use_grade:false` or `completionusegrade:false` together with `completion_grade_item_number:-1` to clear Moodle's native grade-completion rule on activities whose UI still shows a "receive a grade" requirement. Setting `completion_tracking` to `none` or `manual` clears inherited view and grade criteria unless incompatible criteria are explicitly supplied in the same request.
 
 `view_book`

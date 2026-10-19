@@ -36,7 +36,11 @@ Marketplace listing metadata:
 
 ## Versioning Policy
 
-Plugin release 0.1.219 introduces optional WebMCP support. See
+Plugin release 0.1.220 adds editing of existing quiz introductions. See
+[the quiz introduction validation report](quiz-intro-validation-2026-10-20.md)
+for its native preservation tests and independent REST evidence.
+
+Release 0.1.219 introduced optional WebMCP support. See
 [the WebMCP validation report](webmcp-validation-2026-10-15.md) for the exact
 qualification snapshots and limitations, and
 [the deployment record](deployment-2026-10-16.md) for the managed sites.
@@ -49,12 +53,12 @@ The Moodle plugin and public npm client use independent semantic release streams
 
 | Release stream | Reference version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
-| Moodle plugin | `0.1.219` | `version.php` | `local_moodlia-0.1.219.zip` |
+| Moodle plugin | `0.1.220` | `version.php` | `local_moodlia-0.1.220.zip` |
 | npm CLI/client | `0.4.1` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.4.1` |
 | npm Core client | `0.4.1` | `gafapa/moodle-core-cli` `package.json` | `moodle-core-cli@0.4.1` |
 | npm course synchronization | `0.1.1` | `gafapa/moodlia-sync` `package.json` | `moodlia-sync@0.1.1` |
 
-These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.219” or “moodlia npm 0.4.1”, rather than an unqualified version. The npm packages depend on each other in one direction: `moodle-core-cli` ← `moodlia` ← `moodlia-sync`. Only `moodlia-sync` installs a native module (`better-sqlite3`). `moodlia-sync-mcp` is deprecated in favour of the `moodlia-sync` CLI.
+These numbers are not expected to match. Release communication and deployment records must always include the stream name, for example “MoodlIA Moodle plugin 0.1.220” or “moodlia npm 0.4.1”, rather than an unqualified version. The npm packages depend on each other in one direction: `moodle-core-cli` ← `moodlia` ← `moodlia-sync`. Only `moodlia-sync` installs a native module (`better-sqlite3`). `moodlia-sync-mcp` is deprecated in favour of the `moodlia-sync` CLI.
 
 ## Release Scope
 

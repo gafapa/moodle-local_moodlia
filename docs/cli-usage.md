@@ -724,6 +724,18 @@ moodlia add-question-to-quiz --quiz-module-id <quiz_module_id> --question-id <qu
 moodlia update-quiz-question-slot --quiz-module-id <quiz_module_id> --slot <slot_number> --max-mark 1
 ```
 
+Update an existing quiz description (requires plugin 0.1.220 or later):
+
+```text
+moodlia update-module --course-id <course_id> --module-id <quiz_module_id> --options '{"intro":"<p>Read each question carefully.</p>","intro_format":"html"}'
+moodlia get-course-quizzes --course-id <course_id>
+```
+
+The operation preserves the quiz identity, settings, attempts and existing
+introduction files. Omit `intro_format` to retain the stored format; an empty
+`intro` clears the description. No new editor files are uploaded by this path.
+Confirm the server supports these options before using them.
+
 Read quiz structure and start an attempt:
 
 ```text

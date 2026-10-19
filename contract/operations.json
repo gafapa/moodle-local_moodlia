@@ -5319,7 +5319,7 @@
     },
     {
       "name": "update_module",
-      "summary": "Update a Moodle course module.",
+      "summary": "Update a course module; quiz options accept intro and intro_format for existing descriptions.",
       "type": "write",
       "context": "module_or_course",
       "capabilities": [
@@ -5364,7 +5364,9 @@
             "completion_expected": "integer",
             "reset_completion_states": "boolean; required when changing completion settings because Moodle may recalculate existing completion states",
             "completion_use_grade": "boolean; Moodle-native alias for requiring any grade as completion criterion",
-            "completion_pass_grade": "boolean; Moodle-native alias for requiring a passing grade as completion criterion"
+            "completion_pass_grade": "boolean; Moodle-native alias for requiring a passing grade as completion criterion",
+            "intro": "string; quiz only; empty string clears the introduction; existing editor files are retained",
+            "intro_format": "html | plain | markdown | moodle; quiz only; requires intro; omitted preserves the stored format"
           }
         }
       },

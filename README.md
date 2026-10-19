@@ -58,6 +58,15 @@ for the tested profiles, existing compatibility notices, and cleanup evidence.
 
 ## Requirements
 
+Since plugin 0.1.220, `update_module` can edit existing quiz descriptions
+through `options.intro` and optional `options.intro_format`, preserving quiz
+identity, settings, attempts and existing editor files. Update the target plugin
+before using these options. See
+[the operation contract](docs/interface-contract.md) and [CLI examples](docs/cli-usage.md).
+The [local validation report](docs/quiz-intro-validation-2026-10-20.md) records
+passing native preservation tests and independent REST requests on Moodle 4.5
+and 5.2; it does not establish production deployment.
+
 - Moodle 4.5, 5.0, 5.1, 5.2, or 5.3.
 - Moodle web services enabled.
 - A Moodle REST token authorised for the MoodlIA external service.
@@ -255,6 +264,17 @@ The MCP endpoint calls the same Moodle operation layer and uses the same REST to
 ## Release Notes
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
+
+### 0.1.220
+
+- Edit or clear an existing quiz introduction through `update_module`, preserving
+  its stored format when omitted and retaining settings, questions, attempts,
+  previews, grades, feedback and existing introduction files.
+- Validate input and editing permission before mutations; emit Moodle's module
+  update event and invalidate its course cache.
+- Qualify the update with native preservation tests and independent REST requests
+  on isolated Moodle 4.5 and 5.2 profiles. See the
+  [validation report](docs/quiz-intro-validation-2026-10-20.md) for the exact scope.
 
 ### 0.1.215
 
