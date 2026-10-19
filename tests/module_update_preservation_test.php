@@ -143,8 +143,14 @@ final class module_update_preservation_test extends \advanced_testcase {
         $this->setAdminUser();
         $course = $this->getDataGenerator()->create_course();
         $quiz = $this->getDataGenerator()->create_module('quiz', ['course' => $course->id, 'name' => 'Original']);
-        foreach ([['intro_format' => 'html'], ['intro' => null], ['intro' => []],
-                ['intro' => 'New', 'intro_format' => 'invalid'], ['intro' => 'New', 'intro_format' => []]] as $options) {
+        $invalidoptions = [
+            ['intro_format' => 'html'],
+            ['intro' => null],
+            ['intro' => []],
+            ['intro' => 'New', 'intro_format' => 'invalid'],
+            ['intro' => 'New', 'intro_format' => []],
+        ];
+        foreach ($invalidoptions as $options) {
             try {
                 update_module::execute((int) $course->id, (int) $quiz->cmid, 'Unwanted rename', null, $options);
                 $this->fail('Invalid introduction input was accepted.');
