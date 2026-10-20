@@ -1,3 +1,4 @@
+const { document } = globalThis;
 const filter = document.querySelector('.filter');
 const input = document.querySelector('#project-search');
 const items = [...document.querySelectorAll('#project-list li')];
