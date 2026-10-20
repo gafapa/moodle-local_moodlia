@@ -6,57 +6,15 @@ The plugin exposes a broad Moodle operation layer through Moodle REST web servic
 
 The plugin component is `local_moodlia` and the plugin folder name is `moodlia`.
 
-## Project Links
+[Status](#status) · [Getting started](#getting-started) · [Usage](#usage) · [Development](#development) · [Security and privacy](#security-and-privacy) · [Documentation](#documentation) · [License](#license)
 
-- Source code: https://github.com/gafapa/moodle-local_moodlia
-- Issue tracker: https://github.com/gafapa/moodle-local_moodlia/issues
-- Documentation: https://github.com/gafapa/moodle-local_moodlia#readme
-- Moodle Marketplace listing: https://marketplace.moodle.com/plugins/local_moodlia
+## Status
 
-## What It Is For
+Implemented Moodle local plugin: `local_moodlia`, release `0.1.220`. REST, MCP and optional experimental WebMCP share a 250-operation contract. Moodle capabilities remain the authorization boundary.
 
-MoodlIA is intended to make Moodle usable from modern automation interfaces without bypassing Moodle itself.
+## Getting started
 
-Typical use cases include:
-
-- Connecting an LLM agent to Moodle through MCP so it can inspect courses, create activities, manage question banks, and run controlled course workflows.
-- Using the `moodlia` CLI from a terminal, CI job, or external script to automate repetitive Moodle administration and course-building tasks.
-- Building course templates as portable JSON blueprints, then creating or applying them to Moodle courses.
-- Auditing course readiness, completion rules, gradebook setup, module structure, activity subelements, and publish state before making a course visible.
-- Managing question banks, quizzes, activity content, enrolments, groups, cohorts, files, assignments, workshops, glossaries, forums, wikis, and backup/restore workflows through one consistent operation contract.
-- Inspecting installed plugins, dependencies, cached updates, and guarded enabled-state changes without allowing remote plugin code installation or removal.
-
-MoodlIA does not replace Moodle's UI or Moodle's permission model. It wraps Moodle APIs and component behavior into explicit operations that can be called safely by authorised service users.
-
-## LLM And Agent Integration
-
-MoodlIA is especially useful when Moodle needs to be operated by an LLM-based assistant.
-
-There are two main integration paths:
-
-- **MCP endpoint:** the Moodle plugin exposes `/local/moodlia/mcp.php`. MCP-compatible clients can use this endpoint to list and call MoodlIA tools with the same Moodle REST token used by the REST API.
-- **CLI package:** the public npm package `moodlia` provides a command-line interface that an LLM agent, local developer, CI runner, or automation worker can execute from a shell.
-
-Both paths use the same canonical operation names and the same Moodle-side permission checks. For example, an operation available as the CLI command `moodlia get-courses` is backed by the same Moodle operation contract as the corresponding MCP tool and REST function.
-
-## Optional WebMCP Browser Tools
-
-The plugin also includes a WebMCP adapter, disabled by default. Enable **Enable WebMCP browser tools** under **Site administration → Plugins → Local plugins → MoodlIA** after upgrading the plugin and configuring a compatible browser agent.
-
-Signed-in users must already have `local/moodlia:useapi`. The adapter registers the existing 250 MoodlIA operation schemas through `document.modelContext` and uses the user's Moodle session with `sesskey` protection. No service token is embedded in the page. Every invocation passes through Moodle's existing external API validation and operation-specific permission checks. Disabling the feature rejects further WebMCP endpoint calls, including calls from pages that were already open.
-
-The open page supplies context, not a course restriction. A tool may target another course or activity when the current user has the required permissions. The additional `moodlia_open_page` tool shows a course, activity, assignment grader, or gradebook in the **same tab** after Moodle validates access to the destination. The agent can explicitly navigate to show its work; ordinary write calls do not silently navigate away from an unsaved form. Native Moodle unsaved-edit warnings remain in effect.
-
-The adapter does not contact an AI provider or install a browser extension. The selected browser agent controls which tools it calls and how it handles results; use institution-approved local processing when working with student data. Read/write annotations describe tool effects but do not grant permissions or replace human authorization. Cancelling a request does not roll back a write that has already reached Moodle, and the adapter does not automatically retry operations.
-
-WebMCP is an evolving browser API. Unsupported browsers continue to use Moodle normally without fetching the tool catalogue. See [WebMCP architecture and validation](docs/webmcp.md) for implementation boundaries and reproducible checks.
-
-The 0.1.219 qualification adds native Moodle 4.5.15 and 5.2.4 execution, a 95%
-bridge coverage gate, strict object arguments and endpoint-origin validation,
-and a completion-response regression fix. See the [validation report](docs/webmcp-validation-2026-10-15.md)
-for the tested profiles, existing compatibility notices, and cleanup evidence.
-
-## Requirements
+### Requirements
 
 Since plugin 0.1.220, `update_module` can edit existing quiz descriptions
 through `options.intro` and optional `options.intro_format`, preserving quiz
@@ -89,7 +47,7 @@ MoodlIA is free, open-source software. It does not require a MoodlIA-hosted
 service, a vendor account, a paid subscription, or an API key issued by the
 plugin author.
 
-## Moodle Plugin Installation
+### Moodle plugin installation
 
 The simplest administrator workflow is to install the release ZIP through
 Moodle:
@@ -141,7 +99,7 @@ Use a dedicated service user for automation whenever possible. Avoid reusing a
 full administrator token for external agents unless the environment is
 strictly controlled.
 
-## CLI Installation
+### CLI installation
 
 MoodlIA also provides a public command-line client named `moodlia`.
 
@@ -207,7 +165,52 @@ HTML so Moodle can rewrite the file URL and retain the image in course backups.
 
 The CLI uses Moodle REST directly. It requires this Moodle plugin to be installed and a token authorised for the MoodlIA external service.
 
-## MCP Endpoint
+## Usage
+
+### What it is for
+
+MoodlIA is intended to make Moodle usable from modern automation interfaces without bypassing Moodle itself.
+
+Typical use cases include:
+
+- Connecting an LLM agent to Moodle through MCP so it can inspect courses, create activities, manage question banks, and run controlled course workflows.
+- Using the `moodlia` CLI from a terminal, CI job, or external script to automate repetitive Moodle administration and course-building tasks.
+- Building course templates as portable JSON blueprints, then creating or applying them to Moodle courses.
+- Auditing course readiness, completion rules, gradebook setup, module structure, activity subelements, and publish state before making a course visible.
+- Managing question banks, quizzes, activity content, enrolments, groups, cohorts, files, assignments, workshops, glossaries, forums, wikis, and backup/restore workflows through one consistent operation contract.
+- Inspecting installed plugins, dependencies, cached updates, and guarded enabled-state changes without allowing remote plugin code installation or removal.
+
+MoodlIA does not replace Moodle's UI or Moodle's permission model. It wraps Moodle APIs and component behavior into explicit operations that can be called safely by authorised service users.
+
+### LLM and agent integration
+
+MoodlIA is especially useful when Moodle needs to be operated by an LLM-based assistant.
+
+There are two main integration paths:
+
+- **MCP endpoint:** the Moodle plugin exposes `/local/moodlia/mcp.php`. MCP-compatible clients can use this endpoint to list and call MoodlIA tools with the same Moodle REST token used by the REST API.
+- **CLI package:** the public npm package `moodlia` provides a command-line interface that an LLM agent, local developer, CI runner, or automation worker can execute from a shell.
+
+Both paths use the same canonical operation names and the same Moodle-side permission checks. For example, an operation available as the CLI command `moodlia get-courses` is backed by the same Moodle operation contract as the corresponding MCP tool and REST function.
+
+### Optional WebMCP browser tools
+
+The plugin also includes a WebMCP adapter, disabled by default. Enable **Enable WebMCP browser tools** under **Site administration → Plugins → Local plugins → MoodlIA** after upgrading the plugin and configuring a compatible browser agent.
+
+Signed-in users must already have `local/moodlia:useapi`. The adapter registers the existing 250 MoodlIA operation schemas through `document.modelContext` and uses the user's Moodle session with `sesskey` protection. No service token is embedded in the page. Every invocation passes through Moodle's existing external API validation and operation-specific permission checks. Disabling the feature rejects further WebMCP endpoint calls, including calls from pages that were already open.
+
+The open page supplies context, not a course restriction. A tool may target another course or activity when the current user has the required permissions. The additional `moodlia_open_page` tool shows a course, activity, assignment grader, or gradebook in the **same tab** after Moodle validates access to the destination. The agent can explicitly navigate to show its work; ordinary write calls do not silently navigate away from an unsaved form. Native Moodle unsaved-edit warnings remain in effect.
+
+The adapter does not contact an AI provider or install a browser extension. The selected browser agent controls which tools it calls and how it handles results; use institution-approved local processing when working with student data. Read/write annotations describe tool effects but do not grant permissions or replace human authorization. Cancelling a request does not roll back a write that has already reached Moodle, and the adapter does not automatically retry operations.
+
+WebMCP is an evolving browser API. Unsupported browsers continue to use Moodle normally without fetching the tool catalogue. See [WebMCP architecture and validation](docs/webmcp.md) for implementation boundaries and reproducible checks.
+
+The 0.1.219 qualification adds native Moodle 4.5.15 and 5.2.4 execution, a 95%
+bridge coverage gate, strict object arguments and endpoint-origin validation,
+and a completion-response regression fix. See the [validation report](docs/webmcp-validation-2026-10-15.md)
+for the tested profiles, existing compatibility notices, and cleanup evidence.
+
+### MCP endpoint
 
 The plugin includes a Moodle-hosted MCP endpoint:
 
@@ -228,7 +231,7 @@ The server supports both MCP protocol eras on the same Streamable HTTP endpoint.
 
 This is useful for LLM clients that can connect to an MCP server and need structured, permission-checked access to Moodle without screen scraping or browser-only automation.
 
-## Capabilities
+### Capabilities
 
 This release exposes 244 Moodle external functions.
 
@@ -247,7 +250,9 @@ Major operation areas include:
 
 MoodlIA does not install, update, uninstall, upload, or delete plugin code. Those actions remain server deployment responsibilities because they require filesystem access and Moodle upgrade procedures. Enabled-state changes are limited to up-to-date plugins with Moodle state support, enforce dependency safeguards, and refuse to change MoodlIA itself.
 
-## Architecture
+## Development
+
+### Architecture
 
 MoodlIA keeps one canonical operation contract and exposes it through several surfaces:
 
@@ -262,11 +267,27 @@ The CLI does not call MCP. It calls Moodle REST directly through `/webservice/re
 
 The MCP endpoint calls the same Moodle operation layer and uses the same REST token model. This keeps LLM tool calls, CLI commands, and direct REST calls aligned.
 
-## Release Notes
+### Quality checks
+
+Run the complete local validation and static test suite with:
+
+```bash
+npm run check
+```
+
+Run the release gate, including a disposable package build, with:
+
+```bash
+npm run release:check
+```
+
+PHP syntax validation is optional when PHP is unavailable locally and mandatory in CI.
+
+### Release notes
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
 
-### 0.1.220
+#### 0.1.220
 
 - Edit or clear an existing quiz introduction through `update_module`, preserving
   its stored format when omitted and retaining settings, questions, attempts,
@@ -277,7 +298,7 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
   on isolated Moodle 4.5 and 5.2 profiles. See the
   [validation report](docs/quiz-intro-validation-2026-10-20.md) for the exact scope.
 
-### 0.1.215
+#### 0.1.215
 
 - Groups accept visibility, participation, description format, and enrolment
   keys, and every `*_format` parameter accepts `html`, `plain`, `markdown`, and
@@ -290,26 +311,26 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
   display options on completion updates, and workshop assessments without
   overall feedback.
 
-### 0.1.214
+#### 0.1.214
 
 - Fixes MCP calls that pass object arguments such as `options` to
   `create_module` or `update_module`; they are now sent to Moodle as JSON
   instead of indexed fields (issue #3).
 - Reports the installed release as the MCP server version.
 
-### 0.1.213
+#### 0.1.213
 
 - Allows authenticated file downloads through the built-in MoodlIA external
   service so cross-site synchronization can transfer editor and activity assets.
 - Published to the Moodle Marketplace with declared support for Moodle 4.5 LTS
   through 5.3.
 
-### 0.1.212
+#### 0.1.212
 
 - Publishes Page editor-file URLs with the revision expected by Moodle's
   `pluginfile.php` endpoint while keeping storage item id `0` internally.
 
-### 0.1.211
+#### 0.1.211
 
 - Adds identity-preserving `update_page`, `update_label`, and `update_url`
   operations and native multi-file editor publication for Page, Text and media,
@@ -320,24 +341,24 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
   synchronization evidence for question banks, Quiz, Database, Feedback,
   completion, and gradebook authoring.
 
-### 0.1.210
+#### 0.1.210
 
 - Corrects Moodle coding-standard boilerplate and documentation for the
   synchronization capability and Workshop grading-form endpoints.
 
-### 0.1.209
+#### 0.1.209
 
 - Adds `get_sync_capabilities` with contextual category and course permission
   evidence, portable Workshop grading-form export, grouping membership, Book
   chapter file manifests, and resource/folder content hashes for adaptive
   cross-site synchronization.
 
-### 0.1.208
+#### 0.1.208
 
 - Extends the declared and tested Moodle compatibility range through Moodle 5.3.
 - Adds CI coverage for the official Moodle `v5.3.0-beta` tag on PHP 8.3 and 8.4 with MariaDB and PostgreSQL.
 
-### 0.1.207
+#### 0.1.207
 
 - Supports Moodle core 4.5 LTS, 5.0, 5.1, and 5.2.
 - Validates every supported Moodle branch against its minimum and maximum
@@ -346,7 +367,7 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
 - Uses Moodle 4.5's course-context question bank while retaining standalone and
   quiz-private question banks on Moodle 5.0 and later.
 
-### 0.1.206
+#### 0.1.206
 
 - Fixes assignment updates on Moodle sites whose active language uses a decimal
   comma, including name-only updates when the assignment has a grade-to-pass
@@ -354,14 +375,14 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
 - Preserves the existing grade item and passing threshold while normalising
   Moodle-localised form defaults before the update.
 
-### 0.1.205
+#### 0.1.205
 
 - Adds `update_resource` so a File resource can receive a replacement file
   without deleting the activity or changing its Moodle identifiers.
 - Verifies that replaced resource files and course-shared question banks remain
   present after a native Moodle backup and restore.
 
-### 0.1.204
+#### 0.1.204
 
 - Keeps active rubrics, grade items, assignment grading settings, and delivery
   and feedback plugins unchanged when `update_assignment` edits authoring
@@ -369,7 +390,7 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
 - Returns a safe correlation identifier for assignment database-write failures
   while recording structured diagnostics in the Moodle server log.
 
-### 0.1.203
+#### 0.1.203
 
 - Allows `create_book_chapter` and `update_book_chapter` to attach one native
   Book chapter file through REST, MCP, or the CLI upload pipeline.
@@ -377,14 +398,14 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
   `@@PLUGINFILE@@` references when reading content, and retains the files in
   native Moodle backups and restores.
 
-### 0.1.202
+#### 0.1.202
 
 - Adds `update_assignment` for changing an assignment name, description, or
   activity instructions through REST, MCP, and CLI.
 - Supports one streamed editor-file upload per call to either the assignment
   `intro` or `activity` file area and preserves those files in Moodle backups.
 
-### 0.1.201
+#### 0.1.201
 
 - Allows `update_section` to attach one native section summary file through
   REST, MCP, or the CLI upload pipeline.
@@ -392,13 +413,13 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
   Moodle backups and restores.
 - Adds the CLI-only UTF-8 `--summary-file` workflow for large HTML summaries.
 
-### 0.1.200
+#### 0.1.200
 
 - Preserves portable HTML section summaries in REST and MCP responses, including `<details>` and `<summary>` content.
 - Preserves section summary formats and resolves Moodle file URLs during section updates.
 - Adds grade-pass and global course-completion operations to the default MoodlIA external service.
 
-### 0.1.190
+#### 0.1.190
 
 - Makes the repository root directly installable as `local/moodlia`, following
   the Moodle Marketplace source layout.
@@ -410,38 +431,38 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
 - Adds reproducible Marketplace archive validation, listing copy, security
   policy, release notes, and stricter Moodle Plugin CI checks.
 
-### 0.1.189
+#### 0.1.189
 
 - Adds the stateless MCP `2026-07-28` request model, `server/discover`, per-request metadata, routing-header validation, modern result envelopes, and cache hints.
 - Preserves the legacy Streamable HTTP initialization lifecycle for MCP `2025-03-26` through `2025-11-25` clients on the same endpoint.
 - Updates the public Node transport to negotiate both protocol eras, retain legacy session identifiers, close stateful sessions, and parse request-scoped SSE responses.
 
-### 0.1.188
+#### 0.1.188
 
 - Adds Lesson essay and matching question-page creation and update through Moodle's native Lesson page classes.
 - Completes MoodlIA coverage of Moodle 5.0 core Feedback item types, Lesson question page types, and Workshop grading strategies.
 - Publishes an MCP transport for the shared Node client with lazy lifecycle negotiation and native JSON parameter encoding.
 
-### 0.1.187
+#### 0.1.187
 
 - Adds plugin inventory, detail, dependency, and update-check operations across REST, MCP, and CLI.
 - Adds guarded enable/disable support for compatible Moodle plugin types with post-change verification.
 - Protects plugin administration behind the new `local/moodlia:manageplugins` capability, which has no default role archetype grant.
 - Keeps plugin installation, code updates, and uninstallation outside the remote operation surface.
 
-### 0.1.186
+#### 0.1.186
 
 - Loads complete system cohort records through the paginated Moodle cohort API so create, update, and delete responses retain all fields.
 
-### 0.1.185
+#### 0.1.185
 
 - Completes the Moodle 5.2 cohort lookup fix by performing visibility checks from the site course context.
 
-### 0.1.184
+#### 0.1.184
 
 - Fixes system cohort lookup on Moodle 5.2 by passing the required context object to the core cohort API.
 
-### 0.1.183
+#### 0.1.183
 
 - Implements the MCP initialization lifecycle and standard structured tool results.
 - Validates MCP origins, JSON content types, and bearer token structure.
@@ -451,7 +472,7 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
 - Replaces existing folder and private backup files atomically through Moodle draft files.
 - Resolves token users from the authenticated Moodle session instead of assuming user id 2.
 
-### 0.1.182
+#### 0.1.182
 
 - Adds the MoodlIA local plugin REST service with 235 external functions.
 - Adds the Moodle-hosted MCP endpoint at `/local/moodlia/mcp.php` for LLM and agent integrations.
@@ -464,7 +485,9 @@ The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.
 - Uses Moodle core APIs and component APIs wherever available; the plugin does not define plugin-owned database tables.
 - Implements the Moodle Privacy API as a null provider because the plugin stores no personal data of its own.
 
-## Privacy
+## Security and privacy
+
+### Privacy
 
 MoodlIA does not create plugin-owned database tables and does not store personal data in plugin-owned storage. It operates on existing Moodle data through Moodle permissions and APIs.
 
@@ -479,7 +502,7 @@ corresponding Moodle capabilities. Administrators are responsible for assessing,
 configuring, and protecting those external clients and for granting the minimum
 required capabilities.
 
-## Security
+### Security
 
 MoodlIA is intended for trusted automation.
 
@@ -497,7 +520,29 @@ Security reports should follow the private reporting instructions in
 [`SECURITY.md`](SECURITY.md). General bugs and feature requests belong in the
 public issue tracker.
 
-## Support
+## Documentation
+
+- [Project Pages](https://gafapa.github.io/moodle-local_moodlia/)
+
+Build the repository documentation portal with `python tools/build-project-page.py`. Its status comes from this README; purpose and first steps are maintained in `docs/project-page.json`. The `pages.yml` workflow publishes the portal without deploying the application or changing `moodlia.com`.
+
+Owns the advanced operation contract used by [MoodlIA CLI](https://github.com/gafapa/moodlia-cli) and Moodle-hosted automation tools.
+
+- [Source code](https://github.com/gafapa/moodle-local_moodlia)
+- [Issue tracker](https://github.com/gafapa/moodle-local_moodlia/issues)
+- [MoodlIA website](https://moodlia.com)
+- [docs/install-release-guide.md](docs/install-release-guide.md)
+- [docs/mcp-client-setup.md](docs/mcp-client-setup.md)
+- [CHANGES.md](CHANGES.md)
+
+### Project links
+
+- Source code: https://github.com/gafapa/moodle-local_moodlia
+- Issue tracker: https://github.com/gafapa/moodle-local_moodlia/issues
+- Documentation: https://github.com/gafapa/moodle-local_moodlia#readme
+- Moodle Marketplace listing: https://marketplace.moodle.com/plugins/local_moodlia
+
+### Support
 
 Use the public issue tracker for reproducible bugs, compatibility reports, and
 feature proposals: https://github.com/gafapa/moodle-local_moodlia/issues
@@ -508,19 +553,3 @@ endorsed by Moodle Pty Ltd.
 ## License
 
 GNU GPL v3 or later.
-
-## Quality Checks
-
-Run the complete local validation and static test suite with:
-
-```bash
-npm run check
-```
-
-Run the release gate, including a disposable package build, with:
-
-```bash
-npm run release:check
-```
-
-PHP syntax validation is optional when PHP is unavailable locally and mandatory in CI.

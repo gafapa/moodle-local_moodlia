@@ -4,3 +4,4 @@ dist/
 /empaquetado/
 *.zip
 *.log
+/.project-pages/

@@ -4,7 +4,22 @@ This directory contains the copy and operator checklist for the first MoodlIA
 listing in Moodle Marketplace. It is release metadata and is deliberately not
 included in the installable plugin ZIP.
 
-## Listing Identity
+## Status
+
+Historical first-listing pack for plugin `0.1.214`. Its versioned text and archive names are retained as submission evidence, not current installation instructions. The current repository release is `0.1.220`; use the maintained installation guide for new deployments.
+
+## Getting started
+
+### Installation summary
+
+Upload `local_moodlia-0.1.214.zip` through Moodle's plugin installer or extract
+the `moodlia` directory into `<moodle-root>/local/`. Complete the Moodle upgrade,
+enable web services, grant the MoodlIA capability to a dedicated service user,
+and create a token for the included `MoodlIA` external service.
+
+## Usage
+
+### Listing identity
 
 - Name: MoodlIA
 - Frankenstyle component: `local_moodlia`
@@ -19,12 +34,12 @@ included in the installable plugin ZIP.
 - Documentation: https://github.com/gafapa/moodle-local_moodlia#readme
 - Website: https://github.com/gafapa/moodle-local_moodlia
 
-## Short Description
+### Short description
 
 Connect trusted AI agents, CLI workflows, and automation tools to Moodle through
 permission-checked REST and MCP operations.
 
-## Full Description
+### Full description
 
 MoodlIA is a local Moodle plugin for controlled course creation,
 administration, inspection, and repair from trusted automation clients. It
@@ -50,22 +65,13 @@ vendor-hosted service, vendor credentials, or an account with the plugin author.
 Administrators choose and control any REST, MCP, CLI, or AI client that connects
 to their own Moodle site.
 
-## Privacy Summary
+### Keywords
 
-MoodlIA creates no plugin-owned database tables and stores no personal data in
-plugin-owned storage. It can expose or modify existing Moodle data only when the
-authenticated token owner has the required Moodle capabilities. External clients
-may receive existing Moodle personal data, so site administrators must assess
-those clients, document their use, protect tokens, and apply least privilege.
+MCP, AI, automation, REST, CLI, course authoring, question bank, administration
 
-## Installation Summary
+## Development
 
-Upload `local_moodlia-0.1.214.zip` through Moodle's plugin installer or extract
-the `moodlia` directory into `<moodle-root>/local/`. Complete the Moodle upgrade,
-enable web services, grant the MoodlIA capability to a dedicated service user,
-and create a token for the included `MoodlIA` external service.
-
-## Reviewer Test Plan
+### Reviewer test plan
 
 1. Install the ZIP on a clean Moodle 5.2 site with developer debugging enabled.
 2. Confirm the plugin installs without creating plugin-owned database tables.
@@ -82,11 +88,21 @@ and create a token for the included `MoodlIA` external service.
 
 No demo credentials are required because MoodlIA has no external vendor service.
 
-## Keywords
+## Security and privacy
 
-MCP, AI, automation, REST, CLI, course authoring, question bank, administration
+### Privacy summary
 
-## Required Human Account Steps
+MoodlIA creates no plugin-owned database tables and stores no personal data in
+plugin-owned storage. It can expose or modify existing Moodle data only when the
+authenticated token owner has the required Moodle capabilities. External clients
+may receive existing Moodle personal data, so site administrators must assess
+those clients, document their use, protect tokens, and apply least privilege.
+
+## Documentation
+
+See the [plugin README](../README.md), [current installation and release guide](../docs/install-release-guide.md), and [changes](../CHANGES.md). Account steps below belong to the historical submission pack; confirm the current Marketplace state before acting.
+
+### Required human account steps
 
 - Sign in to Moodle Marketplace with the maintainer account.
 - Confirm that `local_moodlia` is available and register the listing.
@@ -96,3 +112,7 @@ MCP, AI, automation, REST, CLI, course authoring, question bank, administration
 - Accept the Marketplace provider terms and submit the listing for review.
 
 These account and legal-consent actions are intentionally not automated.
+
+## License
+
+The plugin and this project documentation are GPL-3.0-or-later. See [LICENSE](../LICENSE).
