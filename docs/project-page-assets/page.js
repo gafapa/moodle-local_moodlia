@@ -1,8 +1,8 @@
-const { document } = globalThis;
-const filter = document.querySelector('.filter');
-const input = document.querySelector('#project-search');
-const items = [...document.querySelectorAll('#project-list li')];
-const count = document.querySelector('#project-count');
+const pageDocument = globalThis.document;
+const filter = pageDocument.querySelector('.filter');
+const input = pageDocument.querySelector('#project-search');
+const items = [...pageDocument.querySelectorAll('#project-list li')];
+const count = pageDocument.querySelector('#project-count');
 if (filter && input && count) {
   filter.hidden = false;
   const update = () => {
