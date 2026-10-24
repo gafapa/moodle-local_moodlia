@@ -110,7 +110,7 @@ final class teacher_access_test extends \advanced_testcase {
     /**
      * Grant transport and personal token access without course management.
      *
-     * @param int $userid User receiving the narrowly scoped role.
+     * @param int $userid Userid.
      */
     private function grant_transport(int $userid): void {
         $context = \context_system::instance();
@@ -124,10 +124,10 @@ final class teacher_access_test extends \advanced_testcase {
     /**
      * Update through the actual external or browser adapter.
      *
-     * @param string $transport Adapter to exercise.
-     * @param int $courseid Parent course.
-     * @param int $moduleid Activity being edited.
-     * @param string $name Replacement activity name.
+     * @param string $transport Transport.
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param string $name Name.
      */
     private function update_page(string $transport, int $courseid, int $moduleid, string $name): void {
         if ($transport === 'webmcp') {
