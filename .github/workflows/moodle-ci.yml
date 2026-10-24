@@ -220,6 +220,7 @@ jobs:
           node repository/tools/check-webmcp-coverage.mjs webmcp-coverage.xml 95 > webmcp-coverage.json
           cat webmcp-coverage.json
       - name: Install MCP qualification clients
+        if: ${{ !cancelled() }}
         run: npm ci --prefix repository
       - name: Qualify independent REST and MCP requests
         if: ${{ !cancelled() }}

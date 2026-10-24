@@ -131,9 +131,15 @@ final class teacher_access_test extends \advanced_testcase {
      */
     private function update_page(string $transport, int $courseid, int $moduleid, string $name): void {
         if ($transport === 'webmcp') {
-            \local_moodlia\webmcp\bridge::execute('update_module', [
-                'course_id' => $courseid, 'module_id' => $moduleid, 'name' => $name,
-            ]);
+            $previouspost = $_POST;
+            $_POST['sesskey'] = sesskey();
+            try {
+                \local_moodlia\webmcp\bridge::execute('update_module', [
+                    'course_id' => $courseid, 'module_id' => $moduleid, 'name' => $name,
+                ]);
+            } finally {
+                $_POST = $previouspost;
+            }
         } else {
             \local_moodlia\external\update_module::execute($courseid, $moduleid, $name);
         }
