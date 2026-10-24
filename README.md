@@ -257,6 +257,13 @@ MoodlIA does not install, update, uninstall, upload, or delete plugin code. Thos
 
 ## Development
 
+MCP checks include actual PHP schema serialization, JSON Schema 2020-12
+validation and an HTTP fixture exercised by the official SDK. Run
+`npm run test:mcp:http` with PHP on PATH or `MOODLE_SERVER_PHP` set. The Moodle CI
+matrix additionally runs independent MCP requests and a temporary native
+write/read/delete cycle. See [MCP testing](docs/mcp-testing.md) for the distinction
+between fixtures and native Moodle evidence.
+
 ### Architecture
 
 MoodlIA keeps one canonical operation contract and exposes it through several surfaces:

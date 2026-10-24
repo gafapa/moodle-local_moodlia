@@ -4,6 +4,14 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+- Validate all 250 MCP input schemas with JSON Schema 2020-12 and exercise the
+  actual PHP HTTP endpoint with the official MCP SDK, supported protocol
+  lifecycles, structured results, notifications and negative requests.
+- Return a JSON object for legacy MCP `ping` results, as required by independent
+  client validation. Keep the modern response metadata unchanged.
+- Run independent MCP qualification, including a temporary native write/read/
+  delete cycle, alongside REST qualification in the disposable Moodle CI matrix.
+
 - Fix issue #5: publish empty MCP `inputSchema.properties` maps as JSON objects
   (`{}`), rather than arrays (`[]`), so strict clients can accept the tool
   catalog before executing an operation. Keep empty `required` values as arrays.

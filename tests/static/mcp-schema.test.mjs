@@ -2,12 +2,24 @@ import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
+import { validateMcpCatalog } from '../helpers/mcp-catalog.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const php = process.env.MOODLE_SERVER_PHP || 'php';
 const readRuntimeCatalog = () => JSON.parse(execFileSync(php, ['-n', '-r',
   "define('MOODLE_INTERNAL', true); require 'classes/mcp/manifest.php'; echo json_encode(['jsonrpc' => '2.0', 'id' => 1, 'result' => ['tools' => \\local_moodlia\\mcp\\manifest::tools()]], JSON_THROW_ON_ERROR);",
 ], { cwd: root, encoding: 'utf8' }));
+
+test('all PHP-published schemas compile under JSON Schema 2020-12 and enforce their argument contract', () => {
+  validateMcpCatalog(readRuntimeCatalog().result.tools);
+});
+
+test('standard schema validation catches the original bug and malformed nested schemas', () => {
+  const tool = { name: 'fixture', description: 'Fixture', inputSchema: { type: 'object', properties: {}, required: [], additionalProperties: false } };
+  for (const properties of [[], { source: { type: 'not-a-json-schema-type' } }, { files: { type: 'array', items: [] } }]) {
+    assert.throws(() => validateMcpCatalog([{ ...tool, inputSchema: { ...tool.inputSchema, properties } }]), /invalid JSON Schema/);
+  }
+});
 
 test('actual PHP tools/list JSON publishes object properties for every tool, including no-argument tools (issue #5)', () => {
   const response = readRuntimeCatalog();

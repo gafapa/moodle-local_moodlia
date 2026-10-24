@@ -38,3 +38,13 @@ client configuration were changed. The reporter's private Claude Code setup was
 not accessed. Install a build containing this unreleased fix and reconnect or
 restart the MCP client to reload its catalog. This document does not claim an
 end-to-end Claude Code or production deployment verification.
+
+## Follow-up MCP coverage
+
+The expanded local suite passed 51 tests, including standard JSON Schema
+validation of all 250 descriptors and 38 HTTP checks against the real PHP
+endpoint with stubbed Moodle/REST. The official SDK found and now guards a second
+empty-array defect in legacy `ping` results. Native Moodle CI now also runs
+`tools/compatibility-mcp.mjs`, with schema/lifecycle checks and a temporary course
+and Page write/read/delete cycle. Its matrix evidence is distinct from the local
+fixture and retained as `compatibility-mcp.json`.

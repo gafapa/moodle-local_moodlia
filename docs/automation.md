@@ -15,16 +15,25 @@ its release tooling. The commands in its `package.json` are:
 | `npm run plugin:phpdoc` | Normalize PHP documentation before committing |
 | `npm run release:check` | Everything CI runs before a release |
 | `npm run release:artifacts` | Build `empaquetado/local_moodlia-<release>.zip` and `SHA256SUMS.txt` |
+| `npm run test:mcp:http` | Official SDK and raw HTTP checks against the actual endpoint with stubbed Moodle/REST |
+| `npm run test:mcp:moodle` | The same protocol checks plus a native temporary write cycle on an explicitly opted-in loopback Moodle |
 
 The schema serialization tests require PHP on PATH or `MOODLE_SERVER_PHP` pointing
 to an existing executable; they run without Moodle or a database.
+
+The HTTP fixture also uses a temporary loopback PHP server and bundled test-only
+SDK/schema-validator dependencies. It runs in `test:static`, so normal checks
+cannot silently omit the MCP endpoint. See [MCP testing](mcp-testing.md) for the
+scope, failure cases and disposable Moodle qualification requirements.
 
 PHPUnit (`tests/*_test.php`) covers every write operation. It runs in
 `.github/workflows/moodle-ci.yml` on Moodle 4.5 to 5.3 with PostgreSQL and
 MariaDB; to run it against a local Moodle checkout, place the plugin in
 `local/moodlia` and use `vendor/bin/phpunit --testsuite local_moodlia_testsuite`.
 
-Live REST, MCP, and CLI smoke tests, Playwright browser checks, restricted-token
+The independent REST and MCP qualification scripts in this repository run on
+disposable Moodle CI installations. The other live REST, MCP, and CLI smoke tests,
+Playwright browser checks, restricted-token
 tests, generated-course fixtures, and the WinSCP deployment scripts described
 below belong to the original workspace,
 [gafapa/moodlia-legacy](https://github.com/gafapa/moodlia-legacy). Commands such
