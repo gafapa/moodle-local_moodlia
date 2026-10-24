@@ -32,6 +32,20 @@ URL, disabling authentication, or exposing an unauthenticated proxy.
 
 ## Prerequisites
 
+### Invalid schema for `get_current_user` (issue #5)
+
+If Claude Code reports `[] is not of type "object"` for
+`mcp__moodlia__get_current_user`, the server's tool catalog contains an empty
+`properties` array instead of the JSON Schema object `{}`. This happens during
+tool discovery, before the requested operation runs; a working CLI connection
+does not rule it out. Install a plugin build containing the issue #5 schema fix,
+then reconnect the MCP server or restart the client to reload its tool catalog.
+The corrected `get_current_user` and `get_moodlia_status` input schemas contain
+`"properties": {}`, `"required": []` and `"additionalProperties": false`.
+Changing the prompt, token or Moodle permissions does not repair that schema.
+
+### Moodle access requirements
+
 Before configuring a client, confirm that:
 
 1. Moodle web services and the REST protocol are enabled.

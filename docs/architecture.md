@@ -9,6 +9,14 @@ The architecture exposes one Moodle operation surface through several interfaces
 
 All interfaces share the same canonical operation contract, generated or validated client types, and Moodle PHP operation classes.
 
+The PHP MCP manifest must preserve JSON Schema container types on serialization:
+`properties` is an object, including `{}` for tools with no arguments, while
+`required` is an array, including `[]`. An empty PHP array must not leak as an
+empty JSON array in an object-valued schema keyword. The argument adapter accepts
+the manifest's in-memory object map and JSON-decoded maps consistently. WebMCP
+uses the same manifest; `tests/static/mcp-schema.test.mjs` exercises actual PHP
+serialization without a Moodle database.
+
 ## Core Principle
 
 Moodle PHP operation classes own the business behavior. Everything else is an adapter.

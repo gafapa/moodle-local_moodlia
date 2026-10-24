@@ -4,6 +4,12 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## Unreleased
 
+- Fix issue #5: publish empty MCP `inputSchema.properties` maps as JSON objects
+  (`{}`), rather than arrays (`[]`), so strict clients can accept the tool
+  catalog before executing an operation. Keep empty `required` values as arrays.
+- Exercise actual PHP catalog serialization and argument normalization, including
+  empty maps, across MCP and the shared WebMCP descriptors.
+
 ## 0.1.220 - 2026-10-20
 
 - Allow `update_module` to edit an existing quiz introduction through `options.intro`

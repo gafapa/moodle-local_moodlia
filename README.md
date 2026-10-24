@@ -225,6 +225,11 @@ guide](https://github.com/gafapa/moodle-local_moodlia/blob/main/docs/mcp-client-
 for secure token handling, tested client setup, verification, and current
 hosted-client compatibility limits.
 
+If Claude Code rejects `get_current_user` with `[] is not of type "object"`,
+see the [issue #5 schema troubleshooting](docs/mcp-client-setup.md#invalid-schema-for-get_current_user-issue-5).
+Reconnect the MCP client after installing a build containing the fix so it
+reloads the tool catalog.
+
 The endpoint supports the standard tool discovery and tool call flow used by MCP clients. It exposes the same operation contract as the REST and CLI surfaces, so tool names, parameter schemas, enum values, and permission expectations stay aligned across integrations.
 
 The server supports both MCP protocol eras on the same Streamable HTTP endpoint. Modern `2026-07-28` clients use stateless, self-describing requests with `server/discover`, per-request `_meta`, and the standard routing headers. Legacy `2025-03-26`, `2025-06-18`, and `2025-11-25` clients continue to use `initialize` and `notifications/initialized`. Both eras support `ping`, `tools/list`, and `tools/call`; modern responses include `resultType`, server metadata, and private cache hints where the protocol permits them. Tool calls return standard text content plus `structuredContent`. Browser-originated requests are accepted only from the Moodle site's own origin; non-browser clients normally omit the `Origin` header.
@@ -233,7 +238,7 @@ This is useful for LLM clients that can connect to an MCP server and need struct
 
 ### Capabilities
 
-This release exposes 244 Moodle external functions.
+The current contract exposes 250 Moodle external functions.
 
 Major operation areas include:
 

@@ -10,11 +10,14 @@ its release tooling. The commands in its `package.json` are:
 | Command | Purpose |
 | --- | --- |
 | `npm run check` | JavaScript and PHP lint, contract and manifest checks, plugin boilerplate and PHPDoc checks, Marketplace package check, and static tests |
-| `npm test` / `npm run test:static` | Static tests only (contract parity, contract `tests` tags, manifests, scaffold, compatibility matrix) |
+| `npm test` / `npm run test:static` | Contract parity, contract `tests` tags, manifests, scaffold, compatibility matrix and actual PHP MCP schema serialization |
 | `npm run manifests:generate` | Regenerate `db/services.php` descriptions and the MCP tool list from `contract/operations.json` |
 | `npm run plugin:phpdoc` | Normalize PHP documentation before committing |
 | `npm run release:check` | Everything CI runs before a release |
 | `npm run release:artifacts` | Build `empaquetado/local_moodlia-<release>.zip` and `SHA256SUMS.txt` |
+
+The schema serialization tests require PHP on PATH or `MOODLE_SERVER_PHP` pointing
+to an existing executable; they run without Moodle or a database.
 
 PHPUnit (`tests/*_test.php`) covers every write operation. It runs in
 `.github/workflows/moodle-ci.yml` on Moodle 4.5 to 5.3 with PostgreSQL and
