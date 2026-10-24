@@ -40,8 +40,9 @@ response validation. Modern ping results retain their existing metadata.
 `MOODLE_BASE_URL` pointing to loopback and `MOODLE_REST_TOKEN` for the disposable
 site prepared by `tools/compatibility-setup.php`. It deliberately refuses remote
 hosts. It runs the same HTTP/SDK checks against the actual endpoint and creates
-a temporary hidden course and Page, updates Page content through object-typed
-MCP arguments, reads the stored content back and deletes the course in cleanup.
+a temporary hidden course and Page using object-typed options, changes visibility
+through `update_module`, updates Page content through `update_page`, reads the
+stored content and visibility back and deletes the course in cleanup.
 Missing required operation arguments must also be rejected by Moodle.
 
 The Moodle 4.5–5.3-beta CI matrix runs this after independent REST qualification

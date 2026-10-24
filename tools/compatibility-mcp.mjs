@@ -39,9 +39,11 @@ try {
   const moduleId = Number(module.course_module_id);
   assert.ok(moduleId > 0);
   const content = '<p>Updated through MCP: quotes " &amp; Unicode á.</p>';
-  await call('update_module', { course_id: courseId, module_id: moduleId, options: { content } });
+  await call('update_module', { course_id: courseId, module_id: moduleId, options: { visible: false } });
+  await call('update_page', { course_id: courseId, module_id: moduleId, content });
   const details = await call('get_module_details', { course_id: courseId, module_id: moduleId });
   assert.equal(JSON.parse(details.extra_json).activity.content, content);
+  assert.equal(Boolean(details.visible), false);
   const invalid = await fetch(endpoint, { method: 'POST', redirect: 'error', signal: AbortSignal.timeout(20000),
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', Accept: 'application/json' },
     body: JSON.stringify({ jsonrpc: '2.0', id: 'required-argument', method: 'tools/call', params: { name: 'get_course_details', arguments: {} } }) });
