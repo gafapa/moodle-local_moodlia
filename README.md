@@ -10,7 +10,13 @@ The plugin component is `local_moodlia` and the plugin folder name is `moodlia`.
 
 ## Status
 
-Implemented Moodle local plugin: `local_moodlia`, release `0.1.220`. REST, MCP and optional experimental WebMCP share a 250-operation contract. Moodle capabilities remain the authorization boundary.
+Implemented Moodle local plugin: `local_moodlia`, release `0.1.221`. REST, MCP and optional experimental WebMCP share a 250-operation contract. Moodle capabilities remain the authorization boundary.
+
+Release 0.1.221 fixes empty MCP schema maps and legacy ping responses for strict
+clients. All 250 tool schemas and independent HTTP lifecycle tests are validated;
+native qualification covers Moodle 4.5 through 5.3 beta. After upgrading,
+reconnect your MCP client to reload the catalog. See the
+[MCP testing guide](docs/mcp-testing.md).
 
 ## Getting started
 
@@ -298,6 +304,12 @@ PHP syntax validation is optional when PHP is unavailable locally and mandatory 
 ### Release notes
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
+
+#### 0.1.221
+
+- Fix empty MCP schema maps and legacy ping responses for strict clients.
+- Validate all 250 schemas and the PHP HTTP endpoint with the official MCP SDK.
+- Qualify temporary write/read/delete operations in disposable Moodle CI sites.
 
 #### 0.1.220
 
