@@ -37,6 +37,15 @@ $admin = get_admin();
 \core\session\manager::set_user($admin);
 set_config('enablewebservices', 1);
 set_config('webserviceprotocols', 'rest');
+// The disposable MCP server calls REST on this loopback site. Preserve the
+// remaining private/cloud host blocks and add only this fixture's HTTP port.
+$blockedhosts = preg_split('/\R/', (string) get_config(null, 'curlsecurityblockedhosts'), -1, PREG_SPLIT_NO_EMPTY);
+$blockedhosts = array_filter($blockedhosts, static fn(string $host): bool =>
+    !in_array(trim($host), ['127.0.0.0/8', '127.0.0.1', 'localhost'], true));
+set_config('curlsecurityblockedhosts', implode("\n", $blockedhosts));
+$allowedports = preg_split('/\R/', (string) get_config(null, 'curlsecurityallowedport'), -1, PREG_SPLIT_NO_EMPTY);
+$allowedports[] = (string) (parse_url($CFG->wwwroot, PHP_URL_PORT) ?: 80);
+set_config('curlsecurityallowedport', implode("\n", array_unique($allowedports)));
 $DB->set_field('modules', 'visible', 1, ['name' => 'subsection']);
 $service = $DB->get_record('external_services', ['shortname' => 'local_moodlia'], '*', MUST_EXIST);
 $DB->set_field('external_services', 'enabled', 1, ['id' => $service->id]);

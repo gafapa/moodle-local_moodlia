@@ -47,7 +47,10 @@ Missing required operation arguments must also be rejected by Moodle.
 The Moodle 4.5–5.3-beta CI matrix runs this after independent REST qualification
 and retains `compatibility-mcp.json`. The temporary PHP server uses multiple
 workers because the MCP endpoint calls REST on the same site; a single worker
-would block its own request. The runner stops that isolated server process group
+would block its own request. The explicitly opted-in fixture setup permits
+loopback callbacks and its HTTP port in that disposable Moodle's outbound HTTP
+policy while retaining the other private/cloud host blocks. This is not a
+production configuration change. The runner stops that isolated server process group
 on exit. No production Moodle or external AI provider is involved.
 
 The fixture does not prove native Moodle authorization or business behavior.
