@@ -4,7 +4,7 @@ This guide covers a complete browser-based installation of the MoodlIA Moodle
 plugin. It is intended for Moodle administrators who can install plugins from
 ZIP files but do not necessarily have shell access to the server.
 
-Release 0.1.220 adds editing of existing quiz introductions; see the
+Release 0.1.221 fixes strict MCP schema and ping interoperability, and retains editing of existing quiz introductions; see the
 [quiz introduction validation report](quiz-intro-validation-2026-10-20.md).
 It also includes optional WebMCP support. The WebMCP feature is
 disabled by default and must be explicitly enabled after the normal plugin
@@ -22,7 +22,7 @@ clean environment:
 | MariaDB | 11.4.12 |
 | MoodlIA | 0.1.200 (`2026082802`) |
 
-The screenshots show that validation run. Release 0.1.220 uses the same web
+The screenshots show that validation run. Release 0.1.221 uses the same web
 installation flow. The user-enablement examples use the fictional account
 `moodlia-service@example.invalid`; no token value appears in the guide. Labels
 can differ slightly in other Moodle themes or language packs.
@@ -56,7 +56,7 @@ npm run plugin:archive
 The generated file is stored under `empaquetado/`, for example:
 
 ```text
-empaquetado/local_moodlia-0.1.220.zip
+empaquetado/local_moodlia-0.1.221.zip
 ```
 
 Do not upload a generic GitHub source-code ZIP. The installable archive must
@@ -81,7 +81,7 @@ installation can continue**.
 
 ![Successful validation of local_moodlia](images/web-installation/moodlia-plugin-validation-success.png)
 
-The `MATURITY_BETA` message is informational for release 0.1.220. Stop if the
+The `MATURITY_BETA` message is informational for release 0.1.221. Stop if the
 page reports any other warning or error, such as an unsupported Moodle version,
 an invalid component name, or an unwritable destination directory.
 
@@ -94,7 +94,7 @@ an invalid component name, or an unwritable destination directory.
    - Plugin name: `MoodlIA`
    - Directory: `/local/moodlia`
    - New version: the version expected from the release
-   - Required Moodle range: `405 - 503` for release 0.1.220
+   - Required Moodle range: `405 - 503` for release 0.1.221
    - Status: **Additional** and **To be installed**
 
 ![MoodlIA ready to be installed on the Plugins check page](images/web-installation/moodlia-plugin-check.png)
@@ -114,7 +114,7 @@ plugins**. The MoodlIA row must show:
 
 - Name: `MoodlIA`
 - Component: `local_moodlia`
-- Release: `0.1.220`, or the release you installed
+- Release: `0.1.221`, or the release you installed
 - Version: `2026102000`, or the version declared by that release
 - Source: **Additional**
 
@@ -363,7 +363,7 @@ size limit.
 
 ### Moodle Reports an Unsupported Version
 
-Match the target Moodle release against `version.php`. MoodlIA 0.1.220 declares
+Match the target Moodle release against `version.php`. MoodlIA 0.1.221 declares
 `$plugin->supported = [405, 503]` and must not be installed on a different
 Moodle series without a compatible plugin release.
 

@@ -32,8 +32,32 @@ use local_moodlia\mcp\manifest;
  * Verifies that decoded MCP arguments map onto the REST parameter shapes.
  *
  * @covers \local_moodlia\mcp\arguments
+ * @covers \local_moodlia\mcp\manifest
  */
 final class mcp_arguments_test extends advanced_testcase {
+    /**
+     * Empty parameter maps remain JSON objects in the published catalog (issue #5).
+     */
+    public function test_manifest_properties_serialize_as_json_objects(): void {
+        $tools = json_decode(json_encode(manifest::tools(), JSON_THROW_ON_ERROR));
+        foreach ($tools as $tool) {
+            $this->assertInstanceOf(\stdClass::class, $tool->inputSchema->properties, $tool->name);
+            $this->assertIsArray($tool->inputSchema->required, $tool->name);
+        }
+        $this->assertSame('{}', json_encode($this->schema('get_current_user')['properties']));
+        $this->assertSame('{}', json_encode($this->schema('get_moodlia_status')['properties']));
+    }
+
+    /**
+     * No-argument calls accept schemas before and after JSON round-tripping.
+     */
+    public function test_empty_tool_arguments_normalize_with_object_properties(): void {
+        $schema = $this->schema('get_current_user');
+        $this->assertSame([], arguments::normalize([], $schema));
+        $decoded = json_decode(json_encode($schema, JSON_THROW_ON_ERROR), true);
+        $this->assertSame([], arguments::normalize([], $decoded));
+    }
+
     /**
      * Return the input schema published for one tool.
      *

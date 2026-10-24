@@ -2884,7 +2884,7 @@ final class manifest {
 
         return [
             'type' => 'object',
-            'properties' => $properties,
+            'properties' => $properties ?: new \stdClass(),
             'required' => $required,
             'additionalProperties' => false,
         ];

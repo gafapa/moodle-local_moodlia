@@ -2036,6 +2036,11 @@ Each MCP operation must have:
 
 MCP tools should use canonical names exactly.
 
+The JSON wire representation must keep `inputSchema.properties` as an object,
+including `{}` when a tool has no arguments. Keep `required` as an array,
+including `[]`. Test the actual PHP `tools/list` serialization, because source
+definitions alone do not distinguish an empty JSON object from an empty array.
+
 ## CLI Requirements
 
 Each CLI command must map to one canonical operation. Commands should be generated from or checked against the contract.

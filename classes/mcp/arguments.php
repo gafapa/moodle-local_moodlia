@@ -48,7 +48,7 @@ final class arguments {
             throw new \invalid_parameter_exception('Tool arguments must be an object.');
         }
 
-        $properties = $schema['properties'] ?? [];
+        $properties = (array) ($schema['properties'] ?? []);
         $normalized = [];
         foreach ($arguments as $key => $value) {
             if ($value === null) {

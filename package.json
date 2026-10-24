@@ -1,6 +1,6 @@
 {
   "name": "moodlia-moodle-plugin",
-  "version": "0.1.220",
+  "version": "0.1.221",
   "private": true,
   "description": "Moodle local plugin that exposes MoodlIA operations over REST and MCP.",
   "homepage": "https://github.com/gafapa/moodle-local_moodlia#readme",
@@ -18,6 +18,8 @@
     "webmcp:check": "node tools/build-webmcp.mjs --check",
     "test": "npm run test:static",
     "test:webmcp:browser": "node tests/webmcp-browser.mjs",
+    "test:mcp:http": "node --test tests/static/mcp-http.test.mjs",
+    "test:mcp:moodle": "node tools/compatibility-mcp.mjs",
     "test:static": "node --test tests/static/*.test.mjs",
     "lint:js": "node tools/lint-javascript.mjs",
     "lint:php": "node tools/lint-php.mjs",
@@ -41,6 +43,8 @@
     "node": ">=22"
   },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "ajv": "8.20.0",
     "fflate": "^0.8.3",
     "playwright": "1.64.1"
   }

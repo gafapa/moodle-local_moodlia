@@ -10,7 +10,13 @@ The plugin component is `local_moodlia` and the plugin folder name is `moodlia`.
 
 ## Status
 
-Implemented Moodle local plugin: `local_moodlia`, release `0.1.220`. REST, MCP and optional experimental WebMCP share a 250-operation contract. Moodle capabilities remain the authorization boundary.
+Implemented Moodle local plugin: `local_moodlia`, release `0.1.221`. REST, MCP and optional experimental WebMCP share a 250-operation contract. Moodle capabilities remain the authorization boundary.
+
+Release 0.1.221 fixes empty MCP schema maps and legacy ping responses for strict
+clients. All 250 tool schemas and independent HTTP lifecycle tests are validated;
+native qualification covers Moodle 4.5 through 5.3 beta. After upgrading,
+reconnect your MCP client to reload the catalog. See the
+[MCP testing guide](docs/mcp-testing.md).
 
 ## Getting started
 
@@ -225,6 +231,11 @@ guide](https://github.com/gafapa/moodle-local_moodlia/blob/main/docs/mcp-client-
 for secure token handling, tested client setup, verification, and current
 hosted-client compatibility limits.
 
+If Claude Code rejects `get_current_user` with `[] is not of type "object"`,
+see the [issue #5 schema troubleshooting](docs/mcp-client-setup.md#invalid-schema-for-get_current_user-issue-5).
+Reconnect the MCP client after installing a build containing the fix so it
+reloads the tool catalog.
+
 The endpoint supports the standard tool discovery and tool call flow used by MCP clients. It exposes the same operation contract as the REST and CLI surfaces, so tool names, parameter schemas, enum values, and permission expectations stay aligned across integrations.
 
 The server supports both MCP protocol eras on the same Streamable HTTP endpoint. Modern `2026-07-28` clients use stateless, self-describing requests with `server/discover`, per-request `_meta`, and the standard routing headers. Legacy `2025-03-26`, `2025-06-18`, and `2025-11-25` clients continue to use `initialize` and `notifications/initialized`. Both eras support `ping`, `tools/list`, and `tools/call`; modern responses include `resultType`, server metadata, and private cache hints where the protocol permits them. Tool calls return standard text content plus `structuredContent`. Browser-originated requests are accepted only from the Moodle site's own origin; non-browser clients normally omit the `Origin` header.
@@ -233,7 +244,7 @@ This is useful for LLM clients that can connect to an MCP server and need struct
 
 ### Capabilities
 
-This release exposes 244 Moodle external functions.
+The current contract exposes 250 Moodle external functions.
 
 Major operation areas include:
 
@@ -251,6 +262,13 @@ Major operation areas include:
 MoodlIA does not install, update, uninstall, upload, or delete plugin code. Those actions remain server deployment responsibilities because they require filesystem access and Moodle upgrade procedures. Enabled-state changes are limited to up-to-date plugins with Moodle state support, enforce dependency safeguards, and refuse to change MoodlIA itself.
 
 ## Development
+
+MCP checks include actual PHP schema serialization, JSON Schema 2020-12
+validation and an HTTP fixture exercised by the official SDK. Run
+`npm run test:mcp:http` with PHP on PATH or `MOODLE_SERVER_PHP` set. The Moodle CI
+matrix additionally runs independent MCP requests and a temporary native
+write/read/delete cycle. See [MCP testing](docs/mcp-testing.md) for the distinction
+between fixtures and native Moodle evidence.
 
 ### Architecture
 
@@ -286,6 +304,12 @@ PHP syntax validation is optional when PHP is unavailable locally and mandatory 
 ### Release notes
 
 The canonical, complete release history is maintained in [`CHANGES.md`](CHANGES.md).
+
+#### 0.1.221
+
+- Fix empty MCP schema maps and legacy ping responses for strict clients.
+- Validate all 250 schemas and the PHP HTTP endpoint with the official MCP SDK.
+- Qualify temporary write/read/delete operations in disposable Moodle CI sites.
 
 #### 0.1.220
 

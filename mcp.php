@@ -545,7 +545,7 @@ if ($isnotification) {
 
 if ($method === 'ping') {
     local_moodlia_mcp_call_rest($token, 'get_current_user', [], $id);
-    local_moodlia_mcp_result($id, [], $modern);
+    local_moodlia_mcp_result($id, $modern ? [] : new stdClass(), $modern);
 }
 
 if ($method === 'tools/list') {

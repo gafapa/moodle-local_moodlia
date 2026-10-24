@@ -36,6 +36,11 @@ Marketplace listing metadata:
 
 ## Versioning Policy
 
+Plugin release 0.1.221 fixes strict MCP catalog and ping interoperability. See
+[MCP testing](mcp-testing.md) for independent SDK and native Moodle qualification.
+Download the versioned GitHub release archive. The deployment and Marketplace
+records below describe the previously verified 0.1.220 distribution.
+
 Plugin release 0.1.220 adds editing of existing quiz introductions. See
 [the quiz introduction validation report](quiz-intro-validation-2026-10-20.md)
 for its native preservation tests and independent REST evidence.
@@ -44,8 +49,8 @@ Release 0.1.219 introduced optional WebMCP support. See
 [the WebMCP validation report](webmcp-validation-2026-10-15.md) for the exact
 qualification snapshots and limitations, and
 [the deployment record](deployment-2026-10-16.md) for the managed sites.
-Plugin 0.1.220 is installed on both managed sites; see the
-[current deployment record](deployment-2026-10-20.md). It is also published in
+Plugin 0.1.220 was verified on both managed sites; see the
+[deployment record](deployment-2026-10-20.md). It was also published in
 the Moodle Marketplace. The companion CLI 0.5.1, optional browser component
 0.1.1 and synchronization package 0.1.2 are published on npm; see the
 [distribution record](distribution-2026-10-20.md) for registry integrity and
@@ -55,7 +60,7 @@ The Moodle plugin and public npm client use independent semantic release streams
 
 | Release stream | Reference version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
-| Moodle plugin | `0.1.220` | `version.php` | `local_moodlia-0.1.220.zip` |
+| Moodle plugin | `0.1.221` | `version.php` | `local_moodlia-0.1.221.zip` |
 | npm CLI/client | `0.5.1` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.5.1` |
 | npm Core client | `0.4.1` | `gafapa/moodle-core-cli` `package.json` | `moodle-core-cli@0.4.1` |
 | npm course synchronization | `0.1.2` | `gafapa/moodlia-sync` `package.json` | `moodlia-sync@0.1.2` |
