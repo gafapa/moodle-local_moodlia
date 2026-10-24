@@ -18,6 +18,10 @@ native qualification covers Moodle 4.5 through 5.3 beta. After upgrading,
 reconnect your MCP client to reload the catalog. See the
 [MCP testing guide](docs/mcp-testing.md).
 
+Release 0.1.221 is available on GitHub and Moodle Marketplace, whose automated
+test passed. Both managed Moodle sites have matching installed code/database
+versions; see [release and deployment evidence](docs/deployment-2026-10-24.md).
+
 ## Getting started
 
 For individual teacher accounts, course-scoped editing and personal token

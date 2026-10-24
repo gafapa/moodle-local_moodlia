@@ -38,8 +38,10 @@ Marketplace listing metadata:
 
 Plugin release 0.1.221 fixes strict MCP catalog and ping interoperability. See
 [MCP testing](mcp-testing.md) for independent SDK and native Moodle qualification.
-Download the versioned GitHub release archive. The deployment and Marketplace
-records below describe the previously verified 0.1.220 distribution.
+Download the versioned GitHub release archive. Marketplace version 29559 passed
+its automated test, and both managed Moodle sites run 0.1.221. See the
+[24 October release and deployment record](deployment-2026-10-24.md). The older
+records below remain historical evidence of the 0.1.220 distribution.
 
 Plugin release 0.1.220 adds editing of existing quiz introductions. See
 [the quiz introduction validation report](quiz-intro-validation-2026-10-20.md)
