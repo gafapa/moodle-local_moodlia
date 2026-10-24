@@ -4,6 +4,10 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
 
 ## 0.1.221 - 2026-10-24
 
+- Document individual teacher access and Moodle's existing personal-token
+  self-service (issue #6). Add native regressions for course editing isolation,
+  explicit API opt-in, service admission and idempotent personal token creation.
+
 - Validate all 250 MCP input schemas with JSON Schema 2020-12 and exercise the
   actual PHP HTTP endpoint with the official MCP SDK, supported protocol
   lifecycles, structured results, notifications and negative requests.

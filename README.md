@@ -20,6 +20,9 @@ reconnect your MCP client to reload the catalog. See the
 
 ## Getting started
 
+For individual teacher accounts, course-scoped editing and personal token
+self-service, follow [the teacher access guide](docs/teacher-access.md).
+
 ### Requirements
 
 Since plugin 0.1.220, `update_module` can edit existing quiz descriptions

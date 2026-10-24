@@ -32,6 +32,10 @@ URL, disabling authentication, or exposing an unauthenticated proxy.
 
 ## Prerequisites
 
+For separate teacher identities and self-service tokens, see
+[individual teacher access](teacher-access.md). Service admission and course
+editing rights remain separate Moodle permissions.
+
 ### Invalid schema for `get_current_user` (issue #5)
 
 If Claude Code reports `[] is not of type "object"` for
