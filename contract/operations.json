@@ -2260,6 +2260,149 @@
       ]
     },
     {
+      "name": "list_users",
+      "summary": "Search local user accounts with exact filters and bounded pagination.",
+      "type": "read",
+      "context": "system",
+      "capabilities": [
+        "local/moodlia:useapi",
+        "moodle/user:viewdetails",
+        "moodle/user:viewalldetails"
+      ],
+      "parameters": {
+        "search": {
+          "type": "string",
+          "required": false,
+          "default": ""
+        },
+        "username": {
+          "type": "string",
+          "required": false,
+          "default": ""
+        },
+        "email": {
+          "type": "string",
+          "required": false,
+          "default": ""
+        },
+        "auth": {
+          "type": "string",
+          "required": false,
+          "default": ""
+        },
+        "suspended": {
+          "type": "boolean",
+          "required": false
+        },
+        "offset": {
+          "type": "integer",
+          "required": false,
+          "default": 0,
+          "minimum": 0
+        },
+        "limit": {
+          "type": "integer",
+          "required": false,
+          "default": 50,
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "returns": {
+        "users": [
+          {
+            "user_id": "integer",
+            "username": "string",
+            "firstname": "string",
+            "lastname": "string",
+            "fullname": "string",
+            "email": "string",
+            "auth": "string",
+            "suspended": "boolean",
+            "deleted": "boolean",
+            "confirmed": "boolean",
+            "time_modified": "integer"
+          }
+        ],
+        "total": "integer",
+        "offset": "integer",
+        "limit": "integer"
+      },
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "none",
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "not_found",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "mcp",
+        "cli",
+        "api"
+      ]
+    },
+    {
+      "name": "set_user_suspended",
+      "summary": "Suspend or reactivate a local Moodle user account.",
+      "type": "write",
+      "context": "system",
+      "capabilities": [
+        "moodle/user:update"
+      ],
+      "parameters": {
+        "user_id": {
+          "type": "integer",
+          "required": true,
+          "minimum": 1
+        },
+        "suspended": {
+          "type": "boolean",
+          "required": true
+        }
+      },
+      "returns": {
+        "user_id": "integer",
+        "username": "string",
+        "firstname": "string",
+        "lastname": "string",
+        "fullname": "string",
+        "email": "string",
+        "auth": "string",
+        "suspended": "boolean",
+        "deleted": "boolean",
+        "confirmed": "boolean",
+        "time_modified": "integer"
+      },
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "none",
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "not_found",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli"
+      ]
+    },
+    {
       "name": "get_user_details",
       "summary": "Return Moodle user profile details.",
       "type": "read",

@@ -37,7 +37,7 @@ class update_user {
      */
     public static function execute(int $userid, array $patch): array {
         admin_tools::require_user_api();
-        admin_tools::get_user($userid);
+        admin_tools::require_mutable_user($userid, !empty($patch['suspended']));
 
         $user = (object) ['id' => $userid];
         foreach (['firstname', 'lastname', 'email', 'auth'] as $field) {
@@ -53,6 +53,9 @@ class update_user {
         }
 
         user_update_user($user, property_exists($user, 'password'), true);
+        if (!empty($user->suspended)) {
+            \core\session\manager::destroy_user_sessions($userid);
+        }
         return admin_tools::user_to_response(admin_tools::get_user($userid));
     }
 }

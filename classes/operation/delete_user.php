@@ -36,8 +36,10 @@ class delete_user {
      */
     public static function execute(int $userid): array {
         admin_tools::require_user_api();
-        $user = admin_tools::get_user($userid);
-        delete_user($user);
+        $user = admin_tools::require_mutable_user($userid, true);
+        if (!delete_user($user)) {
+            throw new \moodle_exception('Could not delete the user account.');
+        }
 
         return [
             'deleted' => true,

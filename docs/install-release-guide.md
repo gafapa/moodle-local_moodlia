@@ -36,6 +36,8 @@ Marketplace listing metadata:
 
 ## Versioning Policy
 
+Plugin `0.1.222` / build `2026102800` adds global account search and explicit suspension/reactivation. Use CLI `moodlia@0.5.2` or later for the matching commands. See [user management](user-management.md).
+
 Plugin release 0.1.221 fixes strict MCP catalog and ping interoperability. See
 [MCP testing](mcp-testing.md) for independent SDK and native Moodle qualification.
 Download the versioned GitHub release archive. Marketplace version 29559 passed
@@ -62,8 +64,8 @@ The Moodle plugin and public npm client use independent semantic release streams
 
 | Release stream | Reference version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
-| Moodle plugin | `0.1.221` | `version.php` | `local_moodlia-0.1.221.zip` |
-| npm CLI/client | `0.5.1` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.5.1` |
+| Moodle plugin | `0.1.222` | `version.php` | `local_moodlia-0.1.222.zip` |
+| npm CLI/client | `0.5.2` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.5.2` |
 | npm Core client | `0.4.1` | `gafapa/moodle-core-cli` `package.json` | `moodle-core-cli@0.4.1` |
 | npm course synchronization | `0.1.2` | `gafapa/moodlia-sync` `package.json` | `moodlia-sync@0.1.2` |
 | Optional browser component | `0.1.1` | `gafapa/moodlia-cli` `browser/package.json` | `moodlia-browser@0.1.1` |

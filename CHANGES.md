@@ -2,6 +2,16 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
+## 0.1.222 - 2026-10-28
+
+- Add `list_users` for bounded, paginated local-account search with exact username,
+  email, authentication-plugin, and suspension filters across REST, MCP, and CLI.
+- Add `set_user_suspended` for explicit suspension/reactivation. Suspension ends
+  existing sessions. Protect guest, remote, deleted, administrator, and caller
+  accounts from unsupported mutations through the shared update/delete paths.
+- Increment the plugin build to `2026102800` so Moodle registers new service functions.
+- Document user management permissions and workflows; add native regression tests.
+
 ## 0.1.221 - 2026-10-24
 
 - Document individual teacher access and Moodle's existing personal-token

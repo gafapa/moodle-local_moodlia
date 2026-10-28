@@ -38,6 +38,8 @@
     "update-grade-value",
     "get-course-progress-report",
     "set-activity-completion-status",
+    "list-users",
+    "set-user-suspended",
     "get-user-details",
     "create-user",
     "update-user",

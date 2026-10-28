@@ -1,4 +1,4 @@
-﻿# Architecture
+# Architecture
 
 The architecture exposes one Moodle operation surface through several interfaces:
 
@@ -362,3 +362,7 @@ tests/
 - The CLI calls REST through shared contract rules.
 - Tests compare REST, MCP, and CLI outputs for compatible operations.
 - Browser tests verify Moodle-visible effects, not only adapter success.
+
+## User management (0.1.222)
+
+The canonical contract contains 252 operations. `list_users` exposes bounded, permission-checked local account discovery. `set_user_suspended` shares the existing user update path, including session termination and protected-account checks. REST, MCP, and the matching CLI contract expose both operations. See [user management](user-management.md).

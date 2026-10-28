@@ -70,6 +70,29 @@ class admin_tools {
     }
 
     /**
+     * Validate a local account before an administrative mutation.
+     *
+     * @param int $userid Userid.
+     * @param bool $destructive Destructive.
+     * @return \stdClass
+     */
+    public static function require_mutable_user(int $userid, bool $destructive = false): \stdClass {
+        global $CFG, $USER;
+
+        $user = self::get_user($userid);
+        if (!empty($user->deleted) || isguestuser($user) || (int) $user->mnethostid !== (int) $CFG->mnet_localhost_id) {
+            throw new \invalid_parameter_exception('Only active local accounts other than the guest account may be managed.');
+        }
+        if (is_siteadmin($user) && ($destructive || !is_siteadmin($USER))) {
+            throw new \invalid_parameter_exception('This operation is not allowed on a site administrator account.');
+        }
+        if ($destructive && (int) $USER->id === $userid) {
+            throw new \invalid_parameter_exception('You cannot delete or suspend your own account.');
+        }
+        return $user;
+    }
+
+    /**
      * Return the canonical user response shape.
      *
      * @param \stdClass $user User.

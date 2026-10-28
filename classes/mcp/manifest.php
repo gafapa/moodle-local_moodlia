@@ -385,6 +385,27 @@ final class manifest {
                 ]),
             ],
             [
+                'name' => 'list_users',
+                'description' => 'Search local user accounts with exact filters and bounded pagination.',
+                'inputSchema' => self::schema([
+                    'search' => ['type' => 'string', 'required' => false],
+                    'username' => ['type' => 'string', 'required' => false],
+                    'email' => ['type' => 'string', 'required' => false],
+                    'auth' => ['type' => 'string', 'required' => false],
+                    'suspended' => ['type' => 'boolean', 'required' => false],
+                    'offset' => ['type' => 'integer', 'required' => false],
+                    'limit' => ['type' => 'integer', 'required' => false],
+                ]),
+            ],
+            [
+                'name' => 'set_user_suspended',
+                'description' => 'Suspend or reactivate a local Moodle user account.',
+                'inputSchema' => self::schema([
+                    'user_id' => ['type' => 'integer', 'required' => true],
+                    'suspended' => ['type' => 'boolean', 'required' => true],
+                ]),
+            ],
+            [
                 'name' => 'get_user_details',
                 'description' => 'Return Moodle user profile details.',
                 'inputSchema' => self::schema([

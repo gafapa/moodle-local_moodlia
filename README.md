@@ -10,7 +10,9 @@ The plugin component is `local_moodlia` and the plugin folder name is `moodlia`.
 
 ## Status
 
-Implemented Moodle local plugin: `local_moodlia`, release `0.1.221`. REST, MCP and optional experimental WebMCP share a 250-operation contract. Moodle capabilities remain the authorization boundary.
+MoodlIA Moodle plugin `local_moodlia`, release `0.1.222`, build `2026102800`. REST, MCP and optional experimental WebMCP share a 252-operation contract. Moodle capabilities remain the authorization boundary.
+
+Release 0.1.222 adds user directory search and explicit account suspension/reactivation across REST, MCP, and CLI, with shared protected-account checks. See [user management](docs/user-management.md).
 
 Release 0.1.221 fixes empty MCP schema maps and legacy ping responses for strict
 clients. All 250 tool schemas and independent HTTP lifecycle tests are validated;
@@ -21,6 +23,10 @@ reconnect your MCP client to reload the catalog. See the
 Release 0.1.221 is available on GitHub and Moodle Marketplace, whose automated
 test passed. Both managed Moodle sites have matching installed code/database
 versions; see [release and deployment evidence](docs/deployment-2026-10-24.md).
+
+## User management
+
+Search and filter accounts, create and update profiles, suspend or reactivate accounts, and manage enrolments through MCP and CLI. See [user management](docs/user-management.md) for permissions, examples, and upgrade requirements.
 
 ## Getting started
 

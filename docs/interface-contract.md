@@ -1,4 +1,4 @@
-﻿# Interface Contract
+# Interface Contract
 
 The interface contract defines the canonical operation surface shared by REST, MCP, TypeScript-aware clients, and the Node CLI.
 
@@ -2111,3 +2111,7 @@ The contract should include a version. Increment it when:
 - Required capabilities change.
 
 Breaking changes should be explicit and tested across all supported transports.
+
+## User management (0.1.222)
+
+The canonical contract contains 252 operations. `list_users` exposes bounded, permission-checked local account discovery. `set_user_suspended` shares the existing user update path, including session termination and protected-account checks. REST, MCP, and the matching CLI contract expose both operations. See [user management](user-management.md).
