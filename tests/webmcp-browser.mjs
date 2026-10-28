@@ -1,14 +1,17 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const php = process.env.MOODLE_SERVER_PHP || 'php';
+const contract = JSON.parse(readFileSync(new URL('../contract/operations.json', import.meta.url), 'utf8'));
+const expectedNames = [...contract.operations.filter(operation => operation.transports.includes('mcp')).map(operation => operation.name), 'moodlia_open_page'].sort();
 const tools = JSON.parse(execFileSync(php, ['-n', '-r',
   "define('MOODLE_INTERNAL', true); require 'classes/mcp/manifest.php'; require 'classes/webmcp/bridge.php'; echo json_encode(\\local_moodlia\\webmcp\\bridge::tools(), JSON_THROW_ON_ERROR);",
 ], { cwd: root, encoding: 'utf8' }));
-assert.equal(tools.length, 251);
+assert.deepEqual(tools.map(tool => tool.name).sort(), expectedNames);
 const browser = await chromium.launch({ channel: 'chromium', headless: true, args: ['--enable-blink-features=WebMCP'] });
 try {
   const page = await browser.newPage();
@@ -36,9 +39,9 @@ try {
     endpoint: 'https://moodlia-webmcp.test/moodle/local/moodlia/webmcp.php', context: { course_id: 7, module_id: 0 },
   }));
   const registered = await page.evaluate(async () => (await document.modelContext.getTools()).map(tool => tool.name));
-  assert.equal(registered.length, 251);
+  assert.deepEqual(registered.sort(), expectedNames);
   assert.ok(registered.includes('save_assignment_grade'));
-  console.log('PASS: native Chromium WebMCP accepts all 250 MoodlIA schemas and the navigation tool.');
+  console.log(`PASS: native Chromium WebMCP accepts all ${expectedNames.length - 1} MoodlIA schemas and the navigation tool.`);
   const result = await page.evaluate(async () => {
     const tools = await document.modelContext.getTools();
     return document.modelContext.executeTool(tools.find(tool => tool.name === 'get_course_contents'), { course_id: 99 });
