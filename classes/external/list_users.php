@@ -83,8 +83,13 @@ class list_users extends external_api {
         require_capability('moodle/user:viewalldetails', $context);
 
         return \local_moodlia\operation\list_users::execute(
-            $params['search'], $params['username'], $params['email'], $params['auth'],
-            $params['suspended'], $params['offset'], $params['limit']
+            $params['search'],
+            $params['username'],
+            $params['email'],
+            $params['auth'],
+            $params['suspended'],
+            $params['offset'],
+            $params['limit']
         );
     }
 

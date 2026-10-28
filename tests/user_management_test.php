@@ -95,7 +95,11 @@ final class user_management_test extends \advanced_testcase {
         $this->resetAfterTest();
         $this->setAdminUser();
         $created = \local_moodlia\external\create_user::execute(
-            'managed_lifecycle', 'Alex', 'Example', 'lifecycle@example.test', 'Fixture-Pass-42!'
+            'managed_lifecycle',
+            'Alex',
+            'Example',
+            'lifecycle@example.test',
+            'Fixture-Pass-42!'
         );
         $userid = $created['user_id'];
         $this->assertSame($userid, list_users::execute('', 'managed_lifecycle')['users'][0]['user_id']);
