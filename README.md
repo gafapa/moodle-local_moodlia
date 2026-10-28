@@ -24,6 +24,8 @@ Release 0.1.221 is available on GitHub and Moodle Marketplace, whose automated
 test passed. Both managed Moodle sites have matching installed code/database
 versions; see [release and deployment evidence](docs/deployment-2026-10-24.md).
 
+Release 0.1.222 is [published on GitHub](https://github.com/gafapa/moodle-local_moodlia/releases/tag/v0.1.222) and installed on Aula and Clases after full native CI. See [release and deployment evidence](docs/deployment-2026-10-28.md). Marketplace version 29727 is public and its automated tests passed.
+
 ## User management
 
 Search and filter accounts, create and update profiles, suspend or reactivate accounts, and manage enrolments through MCP and CLI. See [user management](docs/user-management.md) for permissions, examples, and upgrade requirements.

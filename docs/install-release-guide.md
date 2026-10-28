@@ -36,6 +36,8 @@ Marketplace listing metadata:
 
 ## Versioning Policy
 
+Plugin `0.1.222` is available on GitHub and installed on both managed sites; see [deployment evidence](deployment-2026-10-28.md). Marketplace version 29727 is public and its automated validation passed.
+
 Plugin `0.1.222` / build `2026102800` adds global account search and explicit suspension/reactivation. Use CLI `moodlia@0.5.2` or later for the matching commands. See [user management](user-management.md).
 
 Plugin release 0.1.221 fixes strict MCP catalog and ping interoperability. See

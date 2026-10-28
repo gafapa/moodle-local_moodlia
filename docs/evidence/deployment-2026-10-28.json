@@ -1,0 +1,106 @@
+{
+  "verified_at": "2026-10-28T22:24:04.762624+00:00",
+  "release": "0.1.222",
+  "build": 2026102800,
+  "commit": "9891b38a7294e3f34b0913f6ecd99260d3c7087c",
+  "archive_sha256": "03589819fcb5554315186eea56e3017daedea067d88206e6f70e53b5e80c93c2",
+  "native_ci": 40777293885,
+  "ci": 40777293894,
+  "release_workflow": 40778703553,
+  "sites": [
+    {
+      "name": "aula",
+      "final": {
+        "site_url": "https://aula.gallego.top",
+        "moodle_release": "4.5.15 (Build: 20261005)",
+        "release": "0.1.222",
+        "disk_build": 2026102800,
+        "database_build": 2026102800,
+        "database_build_direct": 2026102800,
+        "versions_hash_matches_disk": true,
+        "maintenance": false,
+        "webmcp_enabled": true,
+        "counts": {
+          "course": 7,
+          "course_modules": 150,
+          "quiz": 3,
+          "quiz_slots": 110,
+          "quiz_attempts": 1,
+          "quiz_grades": 0,
+          "assign_submission": 11,
+          "grade_grades": 0,
+          "user": 3
+        },
+        "verified_package_files": 594,
+        "quiz_intro_update_available": true,
+        "preserved_record_counts": true,
+        "mcp_empty_properties_verified": true,
+        "user_management_registered": true,
+        "mcp_tool_count": 252
+      },
+      "http": {
+        "site": "https://aula.gallego.top",
+        "checks": [
+          "Course-scoped REST token denied global user directory access",
+          "Authenticated MCP catalog contains all 252 tools",
+          "Course-scoped MCP token denied global user directory access",
+          "Suspension endpoint rejects invalid user id without a write"
+        ],
+        "passed": 4,
+        "directory_authorized": false,
+        "user_records_changed": false
+      }
+    },
+    {
+      "name": "clases",
+      "final": {
+        "site_url": "https://clases.gallego.top",
+        "moodle_release": "5.2.4 (Build: 20261005)",
+        "release": "0.1.222",
+        "disk_build": 2026102800,
+        "database_build": 2026102800,
+        "database_build_direct": 2026102800,
+        "versions_hash_matches_disk": true,
+        "maintenance": false,
+        "webmcp_enabled": true,
+        "counts": {
+          "course": 7,
+          "course_modules": 297,
+          "quiz": 16,
+          "quiz_slots": 359,
+          "quiz_attempts": 0,
+          "quiz_grades": 0,
+          "assign_submission": 0,
+          "grade_grades": 4,
+          "user": 19
+        },
+        "verified_package_files": 594,
+        "quiz_intro_update_available": true,
+        "preserved_record_counts": true,
+        "mcp_empty_properties_verified": true,
+        "user_management_registered": true,
+        "mcp_tool_count": 252
+      },
+      "http": {
+        "site": "https://clases.gallego.top",
+        "checks": [
+          "Authenticated REST account search with false suspension filter",
+          "Authenticated MCP catalog contains all 252 tools",
+          "Authenticated MCP account search with false suspension filter",
+          "Suspension endpoint rejects invalid user id without a write"
+        ],
+        "passed": 4,
+        "user_records_changed": false
+      }
+    }
+  ],
+  "marketplace": {
+    "version_id": 29727,
+    "release": "0.1.222",
+    "automated_test": "passed",
+    "public_listing_verified": true,
+    "upload_performed_by": "maintainer",
+    "archive_download_roundtrip_verified": false
+  },
+  "final_github_archive_download_verified": true
+}
