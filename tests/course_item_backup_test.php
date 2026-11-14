@@ -28,6 +28,7 @@ use core_external\external_api;
 use local_moodlia\external\backup_course_module as backup_course_module_external;
 use local_moodlia\external\backup_course_section as backup_course_section_external;
 use local_moodlia\external\delete_course_backup_file as delete_course_backup_file_external;
+use local_moodlia\external\restore_course_backup as restore_course_backup_external;
 use local_moodlia\external\restore_course_item_backup as restore_course_item_backup_external;
 use local_moodlia\operation\backup_course;
 use local_moodlia\operation\course_backup_tools;
@@ -36,6 +37,10 @@ use local_moodlia\operation\course_backup_tools;
 #[\PHPUnit\Framework\Attributes\CoversClass(\local_moodlia\external\backup_course_section::class)]
 #[\PHPUnit\Framework\Attributes\CoversClass(\local_moodlia\external\restore_course_item_backup::class)]
 #[\PHPUnit\Framework\Attributes\CoversClass(\local_moodlia\external\delete_course_backup_file::class)]
+#[\PHPUnit\Framework\Attributes\CoversClass(\local_moodlia\external\restore_course_backup::class)]
+#[\PHPUnit\Framework\Attributes\CoversClass(\local_moodlia\operation\backup_course_module::class)]
+#[\PHPUnit\Framework\Attributes\CoversClass(\local_moodlia\operation\backup_course_section::class)]
+#[\PHPUnit\Framework\Attributes\CoversClass(\local_moodlia\operation\restore_course_item_backup::class)]
 #[\PHPUnit\Framework\Attributes\CoversClass(\local_moodlia\operation\course_backup_tools::class)]
 /**
  * Exercises native single activity and section backups through the REST externals.
@@ -150,6 +155,40 @@ final class course_item_backup_test extends \advanced_testcase {
         $this->expectException(\invalid_parameter_exception::class);
         $this->expectExceptionMessage('restore_course_backup');
         restore_course_item_backup_external::execute((int) $coursebackup['file_id'], (int) $target->id);
+    }
+
+    /**
+     * Missing, non-positive and non-backup file ids are rejected before any restore.
+     */
+    public function test_item_restore_rejects_invalid_backup_file_ids(): void {
+        global $USER;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $target = $this->getDataGenerator()->create_course();
+        $notes = get_file_storage()->create_file_from_string([
+            'contextid' => \context_user::instance((int) $USER->id)->id,
+            'component' => 'user',
+            'filearea' => 'private',
+            'itemid' => 0,
+            'filepath' => '/',
+            'filename' => 'notes.txt',
+        ], 'Not a backup');
+
+        $cases = [
+            'positive integer' => 0,
+            'existing Moodle backup file' => (int) $notes->get_id() + 1000,
+            '.mbz Moodle backup file' => (int) $notes->get_id(),
+        ];
+        foreach ($cases as $message => $fileid) {
+            try {
+                restore_course_item_backup_external::execute($fileid, (int) $target->id);
+                $this->fail("File id {$fileid} was accepted.");
+            } catch (\invalid_parameter_exception $error) {
+                $this->assertStringContainsString($message, $error->getMessage());
+            }
+        }
+        $this->assertSame([], get_fast_modinfo($target->id)->get_cms());
     }
 
     /**
@@ -355,10 +394,18 @@ final class course_item_backup_test extends \advanced_testcase {
         $restored = restore_course_item_backup_external::execute((int) $activitybackup['file_id'], (int) $target->id, 2);
         $this->assertSame('Class forum', json_decode($restored['modules_json'], true)[0]['name']);
 
-        delete_course_backup_file_external::execute((int) $activitybackup['file_id']);
+        $deleted = external_api::clean_returnvalue(
+            delete_course_backup_file_external::execute_returns(),
+            delete_course_backup_file_external::execute((int) $activitybackup['file_id'])
+        );
+        $this->assertTrue($deleted['deleted']);
+        $this->assertSame('forum-users.mbz', $deleted['filename']);
         $remaining = array_column(course_backup_tools::list_backup_files((int) $source->id, false)['files'], 'file_id');
         $this->assertNotContains($activitybackup['file_id'], $remaining);
         $this->assertContains($sectionbackup['file_id'], $remaining);
+
+        delete_course_backup_file_external::execute((int) $sectionbackup['file_id']);
+        $this->assertSame([], course_backup_tools::list_backup_files((int) $source->id, false)['files']);
     }
 
     /**
@@ -404,34 +451,42 @@ final class course_item_backup_test extends \advanced_testcase {
         $adminprivate = backup_course_module_external::execute((int) $source->id, (int) $page->cmid, 'admin-private');
         $adminactivity = backup_course_module_external::execute((int) $source->id, (int) $page->cmid, 'admin-users', true);
         $this->assertStringContainsString('/backup/activity/', $adminactivity['url']);
+        $adminsection = backup_course_section_external::execute((int) $source->id, 1, 'admin-section', true);
+        $this->assertStringContainsString('/backup/section/', $adminsection['url']);
+        $admincourse = backup_course::execute((int) $source->id, 'admin-course', true);
+        $this->assertStringContainsString('/backup/course/', $admincourse['url']);
+        $backups = [
+            'private' => $adminprivate,
+            'activity area' => $adminactivity,
+            'section area' => $adminsection,
+            'course area' => $admincourse,
+        ];
 
-        // A non-editing teacher sees the source course but cannot back up its activities.
+        // A non-editing teacher sees the source course but cannot back up its activities, sections or course.
         $teacher = $this->create_api_user(['teacher' => [$source], 'editingteacher' => [$target]]);
         $this->setUser($teacher);
-        $attempts = [
-            'restore private' => fn() => restore_course_item_backup_external::execute(
-                (int) $adminprivate['file_id'],
-                (int) $target->id
-            ),
-            'restore activity area' => fn() => restore_course_item_backup_external::execute(
-                (int) $adminactivity['file_id'],
-                (int) $target->id
-            ),
-            'delete private' => fn() => delete_course_backup_file_external::execute((int) $adminprivate['file_id']),
-            'delete activity area' => fn() => delete_course_backup_file_external::execute((int) $adminactivity['file_id']),
-        ];
+        $attempts = [];
+        foreach ($backups as $area => $backup) {
+            $fileid = (int) $backup['file_id'];
+            $attempts["item restore of the {$area} backup"] =
+                fn() => restore_course_item_backup_external::execute($fileid, (int) $target->id);
+            $attempts["course restore of the {$area} backup"] =
+                fn() => restore_course_backup_external::execute($fileid, 'existing_add', (int) $target->id);
+            $attempts["deletion of the {$area} backup"] = fn() => delete_course_backup_file_external::execute($fileid);
+        }
         foreach ($attempts as $label => $attempt) {
             try {
                 $attempt();
-                $this->fail("The teacher could {$label} another user's backup.");
+                $this->fail("The teacher was allowed the {$label}.");
             } catch (\required_capability_exception $error) {
                 $this->assertSame('nopermissions', $error->errorcode, $label);
             }
         }
 
         $fs = get_file_storage();
-        $this->assertNotFalse($fs->get_file_by_id((int) $adminprivate['file_id']));
-        $this->assertNotFalse($fs->get_file_by_id((int) $adminactivity['file_id']));
+        foreach ($backups as $area => $backup) {
+            $this->assertNotFalse($fs->get_file_by_id((int) $backup['file_id']), $area);
+        }
         $this->assertSame([], get_fast_modinfo($target->id)->get_cms());
     }
 
