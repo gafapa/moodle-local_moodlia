@@ -656,12 +656,40 @@ class course_backup_tools {
         }
 
         $filename = clean_param(trim((string) ($options['filename'] ?? '')), PARAM_FILE);
-        if ($filename !== '') {
-            if (strtolower(substr($filename, -4)) !== '.mbz') {
-                $filename .= '.mbz';
-            }
-            self::set_plan_setting($controller, 'filename', $filename);
+        if ($filename === '') {
+            // Without a name, the controller keeps its placeholder "backup.mbz", so every unnamed backup
+            // would replace the previous one in the same area. Use the name Moodle's backup interface uses.
+            $filename = \backup_plan_dbops::get_default_backup_filename(
+                $controller->get_format(),
+                $controller->get_type(),
+                (int) $controller->get_id(),
+                (bool) self::get_plan_setting_value($controller, 'users', false),
+                (bool) self::get_plan_setting_value($controller, 'anonymize', false),
+                false,
+                (bool) self::get_plan_setting_value($controller, 'files', true)
+            );
         }
+        if (strtolower(substr($filename, -4)) !== '.mbz') {
+            $filename .= '.mbz';
+        }
+        self::set_plan_setting($controller, 'filename', $filename);
+    }
+
+    /**
+     * Read a backup plan setting value, or a default when the plan has no such setting.
+     *
+     * @param \backup_controller $controller Controller.
+     * @param string $name Name.
+     * @param mixed $default Default.
+     * @return mixed
+     */
+    private static function get_plan_setting_value(\backup_controller $controller, string $name, $default) {
+        $plan = $controller->get_plan();
+        if (!$plan->setting_exists($name)) {
+            return $default;
+        }
+
+        return $plan->get_setting($name)->get_value();
     }
 
     /**

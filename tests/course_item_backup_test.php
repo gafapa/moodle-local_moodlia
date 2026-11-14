@@ -196,6 +196,40 @@ final class course_item_backup_test extends \advanced_testcase {
     }
 
     /**
+     * Unnamed backups get Moodle's default per-item filename instead of replacing one another.
+     */
+    public function test_unnamed_backups_get_distinct_moodle_default_filenames(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course(['numsections' => 1]);
+        $page = $generator->create_module('page', ['course' => $course->id, 'section' => 1]);
+
+        $activity = backup_course_module_external::execute((int) $course->id, (int) $page->cmid);
+        $section = backup_course_section_external::execute((int) $course->id, 1);
+        $whole = backup_course::execute((int) $course->id);
+        $named = backup_course_module_external::execute((int) $course->id, (int) $page->cmid, 'chosen-name');
+
+        $this->assertStringStartsWith('backup-moodle2-activity-' . $page->cmid . '-', $activity['filename']);
+        $this->assertStringStartsWith('backup-moodle2-section-', $section['filename']);
+        $this->assertStringStartsWith('backup-moodle2-course-', $whole['filename']);
+        foreach ([$activity, $section, $whole] as $backup) {
+            $this->assertStringEndsWith('-nu.mbz', $backup['filename']);
+        }
+        $this->assertSame('chosen-name.mbz', $named['filename']);
+
+        $fs = get_file_storage();
+        foreach ([$activity, $section, $whole, $named] as $backup) {
+            $this->assertNotFalse($fs->get_file_by_id((int) $backup['file_id']), $backup['filename']);
+        }
+        $listed = array_column(course_backup_tools::list_backup_files(0, true)['files'], 'file_id');
+        $this->assertEqualsCanonicalizing(
+            array_column([$activity, $section, $whole, $named], 'file_id'),
+            $listed
+        );
+    }
+
+    /**
      * Without a target section, an activity keeps its section number or falls back to section 0.
      */
     public function test_activity_restore_keeps_section_number_or_falls_back_to_section_zero(): void {
@@ -342,15 +376,12 @@ final class course_item_backup_test extends \advanced_testcase {
         $this->setUser($teacher);
         $activity = backup_course_module_external::execute((int) $source->id, (int) $assign->cmid);
         $this->assertStringContainsString('/user/backup/', $activity['url']);
-        $fs = get_file_storage();
-        $this->assertNotFalse($fs->get_file_by_id((int) $activity['file_id']), 'after activity backup');
         $placed = restore_course_item_backup_external::execute((int) $activity['file_id'], (int) $target->id, 2);
         $this->assertSame(2, json_decode($placed['modules_json'], true)[0]['section_number']);
-        $this->assertNotFalse($fs->get_file_by_id((int) $activity['file_id']), 'after activity restore');
 
         $section = backup_course_section_external::execute((int) $source->id, 2);
-        $this->assertNotFalse($fs->get_file_by_id((int) $activity['file_id']), 'after section backup: '
-            . json_encode([$activity['filename'], $section['filename'], course_backup_tools::list_backup_files(0, true)['files']]));
+        // A second unnamed backup must not replace the first one in the teacher's backup area.
+        $this->assertNotFalse(get_file_storage()->get_file_by_id((int) $activity['file_id']));
         $merged = restore_course_item_backup_external::execute((int) $section['file_id'], (int) $target->id);
         $this->assertSame(['label'], array_column(json_decode($merged['modules_json'], true), 'module_name'));
 

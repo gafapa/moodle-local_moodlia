@@ -2,6 +2,18 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
+## 0.1.224 - Unreleased
+
+- Fix unnamed backups replacing one another. Without `filename`, `backup_course`,
+  `backup_course_module`, and `backup_course_section` stored every file as
+  `backup.mbz`, so each new backup in the same area deleted the previous one and
+  invalidated its `file_id`. They now use Moodle's default name, for example
+  `backup-moodle2-activity-201-assign201-20261114-1630-nu.mbz`, as Moodle's backup
+  interface does.
+- Cover item backup placement, existing target sections, backups without
+  activities, user data backup areas, editing teacher workflows, rejected access to
+  other users' files, and Moodle 5.x subsections with PHPUnit.
+
 ## 0.1.223 - 2026-11-14
 
 - Add `backup_course_module` and `backup_course_section` to export one activity or
