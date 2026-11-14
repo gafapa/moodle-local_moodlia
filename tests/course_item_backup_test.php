@@ -189,6 +189,7 @@ final class course_item_backup_test extends \advanced_testcase {
             }
         }
         $this->assertSame([], get_fast_modinfo($target->id)->get_cms());
+        $this->assertSame([], course_backup_tools::list_backup_files((int) $target->id, false)['files']);
     }
 
     /**

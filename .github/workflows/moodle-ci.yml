@@ -233,15 +233,15 @@ jobs:
               --testsuite local_moodlia_testsuite --coverage-clover ../plugin-coverage.xml > ../plugin-coverage-phpunit.log
           )
           node repository/tools/report-plugin-coverage.mjs plugin-coverage.xml \
-            classes/operation/course_backup_tools.php=0 \
-            classes/operation/backup_course_module.php=0 \
-            classes/operation/backup_course_section.php=0 \
-            classes/operation/restore_course_item_backup.php=0 \
-            classes/external/backup_course_module.php=0 \
-            classes/external/backup_course_section.php=0 \
-            classes/external/restore_course_item_backup.php=0 \
-            classes/external/restore_course_backup.php=0 \
-            classes/external/delete_course_backup_file.php=0 \
+            classes/operation/course_backup_tools.php=85 \
+            classes/operation/backup_course_module.php=100 \
+            classes/operation/backup_course_section.php=100 \
+            classes/operation/restore_course_item_backup.php=100 \
+            classes/external/backup_course_module.php=100 \
+            classes/external/backup_course_section.php=100 \
+            classes/external/restore_course_item_backup.php=100 \
+            classes/external/restore_course_backup.php=50 \
+            classes/external/delete_course_backup_file.php=100 \
             > plugin-coverage.json
           cat plugin-coverage.json
       - name: Install MCP qualification clients

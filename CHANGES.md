@@ -10,9 +10,16 @@ All notable changes to the MoodlIA Moodle plugin are documented here.
   invalidated its `file_id`. They now use Moodle's default name, for example
   `backup-moodle2-activity-201-assign201-20261114-1630-nu.mbz`, as Moodle's backup
   interface does.
+- `get_course_backup_files` reads the activity backup areas of a course with one
+  query instead of one query per course module.
 - Cover item backup placement, existing target sections, backups without
   activities, user data backup areas, editing teacher workflows, rejected access to
-  other users' files, and Moodle 5.x subsections with PHPUnit.
+  other users' files in every backup area, invalid file ids, and Moodle 5.x
+  subsections with PHPUnit.
+- Measure full-suite plugin coverage on Moodle 5.3 with PostgreSQL in CI. Require
+  100% for the item backup operations, their web service adapters, and
+  `delete_course_backup_file`, 85% for `course_backup_tools`, and 50% for
+  `restore_course_backup`.
 
 ## 0.1.223 - 2026-11-14
 
