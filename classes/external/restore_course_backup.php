@@ -87,8 +87,6 @@ class restore_course_backup extends external_api {
             'shortname' => $shortname,
         ]);
 
-        global $USER;
-
         $systemcontext = \context_system::instance();
         self::validate_context($systemcontext);
         require_capability('local/moodlia:useapi', $systemcontext);
@@ -96,14 +94,7 @@ class restore_course_backup extends external_api {
         $backupfile = course_backup_tools::get_backup_file((int) $backupfileid);
         $sourcecontext = \context::instance_by_id((int) $backupfile->get_contextid());
         self::validate_context($sourcecontext);
-
-        $callerownsbackup = $sourcecontext->contextlevel === CONTEXT_USER
-            && (int) $sourcecontext->instanceid === (int) $USER->id;
-        if (!$callerownsbackup && $sourcecontext->contextlevel === CONTEXT_COURSE) {
-            require_capability('moodle/backup:backupcourse', $sourcecontext);
-        } else if (!$callerownsbackup) {
-            throw new \required_capability_exception($sourcecontext, 'moodle/backup:backupcourse', 'nopermissions', '');
-        }
+        course_backup_tools::require_backup_file_access($backupfile);
 
         $target = (string) $target;
         if ($target === 'new_course') {

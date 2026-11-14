@@ -366,3 +366,7 @@ tests/
 ## User management (0.1.222)
 
 The canonical contract contains 252 operations. `list_users` exposes bounded, permission-checked local account discovery. `set_user_suspended` shares the existing user update path, including session termination and protected-account checks. REST, MCP, and the matching CLI contract expose both operations. See [user management](user-management.md).
+
+## Course item backups (0.1.223)
+
+The canonical contract contains 255 operations. `backup_course_module`, `backup_course_section`, and `restore_course_item_backup` run Moodle's backup and restore controllers with `TYPE_1ACTIVITY`, `TYPE_1SECTION`, and `TARGET_EXISTING_ADDING` through `course_backup_tools`, which also holds the shared source-file access check. REST, MCP, and the matching CLI contract expose the three operations. See [course item backups](course-item-backups.md).

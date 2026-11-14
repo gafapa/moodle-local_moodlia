@@ -30,6 +30,10 @@ Release 0.1.222 is [published on GitHub](https://github.com/gafapa/moodle-local_
 
 Search and filter accounts, create and update profiles, suspend or reactivate accounts, and manage enrolments through MCP and CLI. See [user management](docs/user-management.md) for permissions, examples, and upgrade requirements.
 
+## Course item backups
+
+Unreleased `0.1.223` (build `2026111300`, 255 operations) adds `backup_course_module` and `backup_course_section`, which export one activity or one section as a native Moodle `.mbz`, and `restore_course_item_backup`, which imports either into an existing course without deleting content, optionally placing a restored activity in a chosen section. See [course item backups](docs/course-item-backups.md) for behaviour, permissions, and examples.
+
 ## Getting started
 
 For individual teacher accounts, course-scoped editing and personal token

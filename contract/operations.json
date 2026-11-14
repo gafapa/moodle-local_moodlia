@@ -4565,6 +4565,226 @@
       ]
     },
     {
+      "name": "backup_course_module",
+      "summary": "Create a native Moodle .mbz backup of one course activity or resource.",
+      "type": "read",
+      "context": "module",
+      "capabilities": [
+        "moodle/backup:backupactivity"
+      ],
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "download",
+      "parameters": {
+        "course_id": {
+          "type": "integer",
+          "required": true,
+          "minimum": 1
+        },
+        "module_id": {
+          "type": "integer",
+          "required": true,
+          "minimum": 1
+        },
+        "filename": {
+          "type": "string",
+          "required": false
+        },
+        "include_users": {
+          "type": "boolean",
+          "required": false
+        },
+        "include_blocks": {
+          "type": "boolean",
+          "required": false
+        },
+        "include_filters": {
+          "type": "boolean",
+          "required": false
+        },
+        "include_comments": {
+          "type": "boolean",
+          "required": false
+        },
+        "include_logs": {
+          "type": "boolean",
+          "required": false
+        },
+        "include_grade_histories": {
+          "type": "boolean",
+          "required": false
+        }
+      },
+      "returns": {
+        "course_id": "integer",
+        "module_id": "integer",
+        "module_name": "string",
+        "section_number": "integer",
+        "file_id": "integer",
+        "filename": "string",
+        "url": "string",
+        "filepath": "string",
+        "filesize": "integer",
+        "mimetype": "string",
+        "time_modified": "integer"
+      },
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "transport_error",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli"
+      ]
+    },
+    {
+      "name": "backup_course_section",
+      "summary": "Create a native Moodle .mbz backup of one course section and its activities.",
+      "type": "read",
+      "context": "course",
+      "capabilities": [
+        "moodle/backup:backupsection"
+      ],
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "download",
+      "parameters": {
+        "course_id": {
+          "type": "integer",
+          "required": true,
+          "minimum": 1
+        },
+        "section_number": {
+          "type": "integer",
+          "required": true,
+          "minimum": 0
+        },
+        "filename": {
+          "type": "string",
+          "required": false
+        },
+        "include_users": {
+          "type": "boolean",
+          "required": false
+        },
+        "include_activities": {
+          "type": "boolean",
+          "required": false
+        },
+        "include_blocks": {
+          "type": "boolean",
+          "required": false
+        },
+        "include_filters": {
+          "type": "boolean",
+          "required": false
+        },
+        "include_comments": {
+          "type": "boolean",
+          "required": false
+        },
+        "include_logs": {
+          "type": "boolean",
+          "required": false
+        },
+        "include_grade_histories": {
+          "type": "boolean",
+          "required": false
+        }
+      },
+      "returns": {
+        "course_id": "integer",
+        "section_id": "integer",
+        "section_number": "integer",
+        "file_id": "integer",
+        "filename": "string",
+        "url": "string",
+        "filepath": "string",
+        "filesize": "integer",
+        "mimetype": "string",
+        "time_modified": "integer"
+      },
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "transport_error",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli"
+      ]
+    },
+    {
+      "name": "restore_course_item_backup",
+      "summary": "Import an activity or section .mbz backup into an existing course without deleting its content.",
+      "type": "write",
+      "context": "course",
+      "capabilities": [
+        "moodle/course:manageactivities"
+      ],
+      "transports": [
+        "rest",
+        "mcp",
+        "cli"
+      ],
+      "files": "metadata",
+      "parameters": {
+        "backup_file_id": {
+          "type": "integer",
+          "required": true,
+          "minimum": 1
+        },
+        "target_course_id": {
+          "type": "integer",
+          "required": true,
+          "minimum": 1
+        },
+        "target_section_number": {
+          "type": "integer",
+          "required": false,
+          "minimum": 0
+        }
+      },
+      "returns": {
+        "course_id": "integer",
+        "backup_type": "string",
+        "restored": "boolean",
+        "modules_json": "string",
+        "warnings_json": "string"
+      },
+      "errors": [
+        "invalid_parameters",
+        "invalid_context",
+        "missing_capability",
+        "transport_error",
+        "moodle_error",
+        "internal_error"
+      ],
+      "tests": [
+        "parity",
+        "api",
+        "mcp",
+        "cli"
+      ]
+    },
+    {
       "name": "audit_course_completion",
       "summary": "Audit activity completion settings in a Moodle course.",
       "type": "read",
