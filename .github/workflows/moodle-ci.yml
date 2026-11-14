@@ -219,6 +219,31 @@ jobs:
           )
           node repository/tools/check-webmcp-coverage.mjs webmcp-coverage.xml 95 > webmcp-coverage.json
           cat webmcp-coverage.json
+      - name: Measure plugin coverage and require course backup coverage
+        # One job measures the full suite; the other jobs keep the plain PHPUnit run fast.
+        if: ${{ !cancelled() && matrix.moodle == 'v5.3.0-beta' && matrix.database == 'pgsql' }}
+        shell: bash
+        run: |
+          plugin_path="$PWD/moodle/local/moodlia"
+          if [[ -d "$PWD/moodle/public/local/moodlia" ]]; then plugin_path="$PWD/moodle/public/local/moodlia"; fi
+          plugin_path="$(realpath "$plugin_path")"
+          (
+            cd moodle
+            php -d memory_limit=2048M -d pcov.enabled=1 -d "pcov.directory=$plugin_path" vendor/bin/phpunit \
+              --testsuite local_moodlia_testsuite --coverage-clover ../plugin-coverage.xml > ../plugin-coverage-phpunit.log
+          )
+          node repository/tools/report-plugin-coverage.mjs plugin-coverage.xml \
+            classes/operation/course_backup_tools.php=0 \
+            classes/operation/backup_course_module.php=0 \
+            classes/operation/backup_course_section.php=0 \
+            classes/operation/restore_course_item_backup.php=0 \
+            classes/external/backup_course_module.php=0 \
+            classes/external/backup_course_section.php=0 \
+            classes/external/restore_course_item_backup.php=0 \
+            classes/external/restore_course_backup.php=0 \
+            classes/external/delete_course_backup_file.php=0 \
+            > plugin-coverage.json
+          cat plugin-coverage.json
       - name: Install MCP qualification clients
         if: ${{ !cancelled() }}
         run: npm ci --prefix repository
@@ -265,6 +290,7 @@ jobs:
             webmcp-coverage.xml
             webmcp-coverage.json
             webmcp-phpunit.xml
+            plugin-coverage.json
       - name: Mark cancelled jobs as failed
         if: ${{ cancelled() }}
         run: exit 1
