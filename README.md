@@ -10,7 +10,9 @@ The plugin component is `local_moodlia` and the plugin folder name is `moodlia`.
 
 ## Status
 
-MoodlIA Moodle plugin `local_moodlia`, release `0.1.223`, build `2026111300`. REST, MCP and optional experimental WebMCP share a 255-operation contract. Moodle capabilities remain the authorization boundary.
+MoodlIA Moodle plugin `local_moodlia`, release `0.1.224`, build `2026111400`. REST, MCP and optional experimental WebMCP share a 255-operation contract. Moodle capabilities remain the authorization boundary.
+
+Release 0.1.224 fixes unnamed backups replacing one another: without `filename`, backups now get Moodle's default name instead of `backup.mbz`. It also lists activity backups with one query and gates item backup coverage in CI.
 
 Release 0.1.223 adds single activity and section backup and import across REST, MCP, and CLI. See [course item backups](docs/course-item-backups.md).
 
@@ -28,7 +30,7 @@ versions; see [release and deployment evidence](docs/deployment-2026-10-24.md).
 
 Release 0.1.222 is [published on GitHub](https://github.com/gafapa/moodle-local_moodlia/releases/tag/v0.1.222) and installed on Aula and Clases after full native CI. See [release and deployment evidence](docs/deployment-2026-10-28.md). Marketplace version 29727 is public and its automated tests passed.
 
-Release 0.1.223 is published on [GitHub](https://github.com/gafapa/moodle-local_moodlia/releases/tag/v0.1.223) after full native CI. It is not yet on Moodle Marketplace or the managed sites.
+Release 0.1.224 is published on [GitHub](https://github.com/gafapa/moodle-local_moodlia/releases/tag/v0.1.224) after full native CI. It is not yet on Moodle Marketplace or the managed sites; install it instead of 0.1.223.
 
 ## User management
 
@@ -36,7 +38,7 @@ Search and filter accounts, create and update profiles, suspend or reactivate ac
 
 ## Course item backups
 
-Release `0.1.223` (build `2026111300`, 255 operations) adds `backup_course_module` and `backup_course_section`, which export one activity or one section as a native Moodle `.mbz`, and `restore_course_item_backup`, which imports either into an existing course without deleting content, optionally placing a restored activity in a chosen section. See [course item backups](docs/course-item-backups.md) for behaviour, permissions, and examples.
+Release `0.1.223` (build `2026111300`, 255 operations) adds `backup_course_module` and `backup_course_section`, which export one activity or one section as a native Moodle `.mbz`, and `restore_course_item_backup`, which imports either into an existing course without deleting content, optionally placing a restored activity in a chosen section. See [course item backups](docs/course-item-backups.md) for behaviour, permissions, and examples. Use release `0.1.224` or later: in 0.1.223, a backup without `filename` replaced the previous unnamed backup in the same area.
 
 ## Getting started
 

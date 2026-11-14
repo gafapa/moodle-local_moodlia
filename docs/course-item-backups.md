@@ -23,6 +23,13 @@ takes `course_id` and `section_number`. Both accept the same options as
 `include_blocks`, `include_filters`, `include_comments`, `include_logs`, and
 `include_grade_histories`. The section backup also takes `include_activities`.
 
+Without `filename`, the file gets Moodle's default name, for example
+`backup-moodle2-activity-201-assign201-20261114-1630-nu.mbz`. A new backup with
+the same name in the same area replaces the earlier file, as in Moodle's backup
+interface, so name repeated backups of the same item within one minute
+explicitly. Before release `0.1.224`, every unnamed backup was called
+`backup.mbz` and replaced the previous one.
+
 The response contains the stored file metadata (`file_id`, `filename`, `url`,
 `filepath`, `filesize`, `mimetype`, `time_modified`). The activity backup also
 returns `module_id`, `module_name`, and `section_number`; the section backup

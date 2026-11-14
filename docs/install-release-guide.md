@@ -36,7 +36,9 @@ Marketplace listing metadata:
 
 ## Versioning Policy
 
-Plugin `0.1.223` / build `2026111300` adds single activity and section backup and import. It is published on GitHub; Marketplace upload and managed-site deployment are pending. Use CLI `moodlia@0.5.3` or later for the matching commands. See [course item backups](course-item-backups.md).
+Plugin `0.1.224` / build `2026111400` fixes unnamed backups replacing one another and lists activity backups with one query. It is published on GitHub; Marketplace upload and managed-site deployment are pending. Install it instead of 0.1.223.
+
+Plugin `0.1.223` / build `2026111300` adds single activity and section backup and import. Use CLI `moodlia@0.5.3` or later for the matching commands. See [course item backups](course-item-backups.md).
 
 Plugin `0.1.222` is available on GitHub and installed on both managed sites; see [deployment evidence](deployment-2026-10-28.md). Marketplace version 29727 is public and its automated validation passed.
 
@@ -68,7 +70,7 @@ The Moodle plugin and public npm client use independent semantic release streams
 
 | Release stream | Reference version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
-| Moodle plugin | `0.1.223` | `version.php` | `local_moodlia-0.1.223.zip` |
+| Moodle plugin | `0.1.224` | `version.php` | `local_moodlia-0.1.224.zip` |
 | npm CLI/client | `0.5.2` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.5.2` |
 | npm Core client | `0.4.1` | `gafapa/moodle-core-cli` `package.json` | `moodle-core-cli@0.4.1` |
 | npm course synchronization | `0.1.2` | `gafapa/moodlia-sync` `package.json` | `moodlia-sync@0.1.2` |

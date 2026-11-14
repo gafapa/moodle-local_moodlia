@@ -266,6 +266,16 @@ compatibility gate and must pass before uploading a release. Pull requests run
 a reduced matrix; pushes to `main`, the nightly schedule, and manual
 `workflow_dispatch` runs use the full matrix.
 
+Every job requires 95% statement coverage of the WebMCP bridge. The Moodle 5.3
+PostgreSQL job also runs the whole suite with pcov and
+`tools/report-plugin-coverage.mjs` prints plugin, per-directory, and per-file
+statement coverage (`plugin-coverage.json` in the job artifact). It fails when a
+gated file falls below its minimum: 100% for the item backup operations, their
+web service adapters, and `delete_course_backup_file`, 85% for
+`course_backup_tools`, and 50% for `restore_course_backup`. PHPUnit attributes
+coverage only to the classes a test declares with `CoversClass`, so the
+plugin-wide figure understates the code the suite executes.
+
 `.github/workflows/release.yml` runs when a `v*` tag is pushed: it checks that the
 tag matches `$plugin->release`, runs `npm run release:check`, and attaches the
 Marketplace ZIP and checksums to a GitHub release.

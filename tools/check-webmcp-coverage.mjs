@@ -2,26 +2,35 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export function readWebMcpCoverage(xml, minimum = 95) {
-  if (!Number.isFinite(minimum) || minimum < 0 || minimum > 100) throw new Error('Invalid coverage threshold.');
+export function readCloverFiles(xml) {
   if (!/^(?:<\?xml[^?]*\?>\s*)?<coverage\b[\s\S]*<\/coverage>$/.test(xml.trim())) {
     throw new Error('Missing or truncated Clover coverage document.');
   }
-  const files = [...xml.matchAll(/<file\b([^>]*)>([\s\S]*?)<\/file>/g)];
-  const matches = files.filter(entry => /\bname="([^"]+)"/.exec(entry[1])?.[1]
-    .replaceAll('\\', '/').endsWith('/classes/webmcp/bridge.php'));
+  return [...xml.matchAll(/<file\b([^>]*)>([\s\S]*?)<\/file>/g)].map(([, attributes, body]) => {
+    const metrics = [...body.matchAll(/<metrics\b([^>]*?)\/?\s*>/g)].at(-1)?.[1];
+    const number = name => {
+      const value = new RegExp(`\\b${name}="(\\d+)"`).exec(metrics || '')?.[1];
+      if (value === undefined) throw new Error(`Missing coverage metric: ${name}`);
+      return Number(value);
+    };
+    const statements = number('statements');
+    const covered = number('coveredstatements');
+    if (!Number.isSafeInteger(statements) || !Number.isSafeInteger(covered) || covered > statements) {
+      throw new Error('Invalid coverage metrics.');
+    }
+    const name = (/\bname="([^"]+)"/.exec(attributes)?.[1] ?? '').replaceAll('\\', '/');
+    const uncovered = [...body.matchAll(/<line\b[^>]*\bnum="(\d+)"[^>]*\btype="stmt"[^>]*\bcount="0"/g)]
+      .map(([, line]) => Number(line));
+    return { name, statements, covered, uncovered };
+  });
+}
+
+export function readWebMcpCoverage(xml, minimum = 95) {
+  if (!Number.isFinite(minimum) || minimum < 0 || minimum > 100) throw new Error('Invalid coverage threshold.');
+  const matches = readCloverFiles(xml).filter(file => file.name.endsWith('/classes/webmcp/bridge.php'));
   if (matches.length !== 1) throw new Error('Coverage must contain exactly one WebMCP bridge source file.');
-  const metrics = [...matches[0][2].matchAll(/<metrics\b([^>]*?)\/?\s*>/g)].at(-1)?.[1];
-  const number = name => {
-    const value = new RegExp(`\\b${name}="(\\d+)"`).exec(metrics || '')?.[1];
-    if (value === undefined) throw new Error(`Missing coverage metric: ${name}`);
-    return Number(value);
-  };
-  const statements = number('statements');
-  const covered = number('coveredstatements');
-  if (!Number.isSafeInteger(statements) || !Number.isSafeInteger(covered) || statements < 1 || covered > statements) {
-    throw new Error('Invalid WebMCP coverage metrics.');
-  }
+  const { statements, covered } = matches[0];
+  if (statements < 1) throw new Error('Invalid WebMCP coverage metrics.');
   const percentage = 100 * covered / statements;
   if (percentage < minimum) throw new Error(`WebMCP bridge coverage ${percentage.toFixed(2)}% is below ${minimum}%.`);
   return { file: 'classes/webmcp/bridge.php', covered_statements: covered, statements,
