@@ -26,6 +26,9 @@ restore_course_backup
 upload_course_backup
 get_course_backup_files
 delete_course_backup_file
+backup_course_module
+backup_course_section
+restore_course_item_backup
 audit_course_completion
 repair_course_completion
 get_course_contents
@@ -127,8 +130,11 @@ The course workflow operations compose existing course, section, module, group, 
 - `backup_course`: creates a native Moodle `.mbz` course backup through Moodle's backup controller and returns stored-file metadata plus a Moodle pluginfile URL.
 - `restore_course_backup`: restores a native Moodle `.mbz` backup into a new course, adds it to an existing course, or deletes existing course content before restore through Moodle's restore controller.
 - `upload_course_backup`: consumes a user-owned Moodle draft item and stores the `.mbz` backup in the current user's private files so it can be restored later by file id. Legacy Base64 content remains supported through `upload_reference`.
-- `get_course_backup_files`: lists `.mbz` backups from the selected course backup area and, optionally, the current user's backup area and private files.
-- `delete_course_backup_file`: deletes a stored `.mbz` backup file when the caller owns the user-private file or can manage backups in the course context.
+- `get_course_backup_files`: lists `.mbz` backups from the selected course's course, section, and activity backup areas and, optionally, the current user's backup area and private files. Each entry in `files_json` carries `backup_area` (`course`, `section`, `activity`, `user_backup`, or `user_private`); activity-area entries also carry `module_id`.
+- `delete_course_backup_file`: deletes a stored `.mbz` backup file when the caller owns the user file or holds the backup capability of the context that stores it: `moodle/backup:backupcourse` for course backups, `moodle/backup:backupsection` for section backups, and `moodle/backup:backupactivity` for activity backups.
+- `backup_course_module`: creates a native Moodle `.mbz` backup of one course module (activity or resource) with `backup::TYPE_1ACTIVITY` and returns the file metadata plus `module_id`, `module_name`, and `section_number`. Requires `moodle/backup:backupactivity` in the module context.
+- `backup_course_section`: creates a native Moodle `.mbz` backup of one section and, unless `include_activities` is false, its activities with `backup::TYPE_1SECTION`. Requires `moodle/backup:backupsection` in the course context.
+- `restore_course_item_backup`: imports an activity or section backup into an existing course without deleting content (`backup::TARGET_EXISTING_ADDING`). An activity goes to its original section number, or to `target_section_number`, which must already exist. A section backup merges into the section with the same number, creating it when missing; an existing section keeps its name and summary, and `target_section_number` is rejected. Course backups are rejected in favour of `restore_course_backup`. Requires `moodle/course:manageactivities` in the target course; Moodle's restore controller also requires `moodle/restore:restoreactivity` or `moodle/restore:restoresection` and fails with `restore_user_missing_capability` without it. Returns `backup_type` and `modules_json`, the restored modules with `module_id`, `module_name`, `name`, and `section_number`.
 - `audit_course_completion`: returns completion-configuration issues such as old Book activities that still require a grade, mixed view-and-grade rules, automatic tracking without an exposed completion rule, or activities tracking completion while course completion is disabled.
 - `repair_course_completion`: repairs completion settings with explicit dry-run support. `book_view_only` clears stale Book grade completion, `all_grade_to_view` clears all grade-completion rules by switching to view completion, and `disable_all` disables activity completion tracking for the course.
 
@@ -2115,3 +2121,7 @@ Breaking changes should be explicit and tested across all supported transports.
 ## User management (0.1.222)
 
 The canonical contract contains 252 operations. `list_users` exposes bounded, permission-checked local account discovery. `set_user_suspended` shares the existing user update path, including session termination and protected-account checks. REST, MCP, and the matching CLI contract expose both operations. See [user management](user-management.md).
+
+## Course item backups (0.1.223)
+
+The canonical contract contains 255 operations. `backup_course_module` and `backup_course_section` export a single activity or section as a native `.mbz`, and `restore_course_item_backup` imports either into an existing course. `restore_course_backup` and `delete_course_backup_file` share one source-file access rule that now also covers section and activity backup areas. See [course item backups](course-item-backups.md).

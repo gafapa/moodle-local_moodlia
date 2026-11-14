@@ -2,6 +2,20 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
+## 0.1.223 - 2026-11-14
+
+- Add `backup_course_module` and `backup_course_section` to export one activity or
+  one section as a native Moodle `.mbz` backup across REST, MCP, and CLI.
+- Add `restore_course_item_backup` to import an activity or section backup into an
+  existing course without deleting content, optionally placing a restored activity in
+  an existing `target_section_number`; course backups are rejected.
+- `get_course_backup_files` also lists the course's section and activity backup
+  areas and reports each file's `backup_area`. `restore_course_backup` and
+  `delete_course_backup_file` accept section and activity backups through one
+  shared access check.
+- Check that every `db/services.php` class name matches its external class.
+- Increment the plugin build to `2026111300` so Moodle registers the new service functions.
+
 ## 0.1.222 - 2026-10-28
 
 - Add `list_users` for bounded, paginated local-account search with exact username,

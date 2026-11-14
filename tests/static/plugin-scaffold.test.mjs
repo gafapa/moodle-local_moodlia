@@ -7,6 +7,16 @@ import { fromRoot } from '../helpers/paths.mjs';
 
 const pluginRoot = fromRoot();
 
+test('every web service function points to an existing external class of the same name', async () => {
+  const services = await fs.readFile(path.join(pluginRoot, 'db', 'services.php'), 'utf8');
+  const entries = [...services.matchAll(/^ {4}'local_moodlia_(\w+)' => \[\r?\n {8}'classname' => '([^']*)',/gm)];
+  assert.ok(entries.length > 0, 'No web service functions found.');
+  for (const [, name, classname] of entries) {
+    assert.equal(classname, `local_moodlia\\external\\${name}`, `local_moodlia_${name} classname`);
+    await fs.access(path.join(pluginRoot, 'classes', 'external', `${name}.php`));
+  }
+});
+
 test('plugin contains the required Moodle entry points', async () => {
   for (const relativePath of [
     'version.php',

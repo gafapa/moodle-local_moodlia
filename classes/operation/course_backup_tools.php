@@ -50,14 +50,227 @@ class course_backup_tools {
      * @return array
      */
     public static function backup_course(int $courseid, array $options): array {
-        global $USER;
-
         self::require_backup_api();
 
         $course = course_tools::get_course($courseid);
+
+        return self::run_backup(\backup::TYPE_1COURSE, (int) $course->id, $options, (int) $course->id);
+    }
+
+    /**
+     * Create a native Moodle backup of one course module (activity or resource).
+     *
+     * @param int $courseid Courseid.
+     * @param int $moduleid Moduleid.
+     * @param array $options Options.
+     * @return array
+     */
+    public static function backup_course_module(int $courseid, int $moduleid, array $options): array {
+        self::require_backup_api();
+
+        $course = course_tools::get_course($courseid);
+        $cm = module_tools::get_course_module($course, $moduleid);
+        $response = self::run_backup(\backup::TYPE_1ACTIVITY, (int) $cm->id, $options, (int) $course->id);
+
+        return $response + [
+            'module_id' => (int) $cm->id,
+            'module_name' => (string) $cm->modname,
+            'section_number' => (int) $cm->sectionnum,
+        ];
+    }
+
+    /**
+     * Create a native Moodle backup of one course section and its activities.
+     *
+     * @param int $courseid Courseid.
+     * @param int $sectionnumber Sectionnumber.
+     * @param array $options Options.
+     * @return array
+     */
+    public static function backup_course_section(int $courseid, int $sectionnumber, array $options): array {
+        self::require_backup_api();
+
+        $course = course_tools::get_course($courseid);
+        $section = section_tools::get_section($course, null, $sectionnumber);
+        $response = self::run_backup(\backup::TYPE_1SECTION, (int) $section->id, $options, (int) $course->id);
+
+        return $response + [
+            'section_id' => (int) $section->id,
+            'section_number' => (int) $section->section,
+        ];
+    }
+
+    /**
+     * Import an activity or section .mbz backup into an existing course without deleting content.
+     *
+     * Moodle restores a section backup into the section with the same number, creating it when
+     * missing and keeping an existing section name and summary. An activity backup goes to the
+     * section with its original number, or to target_section_number when given.
+     *
+     * @param int $fileid Fileid.
+     * @param int $targetcourseid Targetcourseid.
+     * @param int|null $targetsectionnumber Targetsectionnumber.
+     * @return array
+     */
+    public static function restore_course_item_backup(int $fileid, int $targetcourseid, ?int $targetsectionnumber = null): array {
+        global $DB, $USER;
+
+        self::require_backup_api();
+
+        $file = self::get_backup_file($fileid);
+        $course = course_tools::get_course($targetcourseid);
+        $courseid = (int) $course->id;
+        $targetsection = null;
+        if ($targetsectionnumber !== null) {
+            $targetsection = section_tools::get_section($course, null, $targetsectionnumber);
+        }
+
+        $tempdir = \restore_controller::get_tempdir_name($courseid, (int) $USER->id);
+        $path = make_backup_temp_directory($tempdir);
+        $controller = null;
+
+        try {
+            $file->extract_to_pathname(get_file_packer('application/vnd.moodle.backup'), $path);
+            // The controller's security check requires moodle/restore:restoreactivity or
+            // moodle/restore:restoresection in the target course for the backup type, plus
+            // moodle/restore:userinfo when the backup holds user data.
+            $controller = new \restore_controller(
+                $tempdir,
+                $courseid,
+                \backup::INTERACTIVE_NO,
+                \backup::MODE_GENERAL,
+                (int) $USER->id,
+                \backup::TARGET_EXISTING_ADDING
+            );
+
+            $backuptype = self::item_backup_type($controller->get_type());
+            if ($backuptype === 'section' && $targetsection !== null) {
+                throw new \invalid_parameter_exception(
+                    'target_section_number applies only to activity backups; section backups restore into their own section number.'
+                );
+            }
+
+            $existingmodules = array_keys($DB->get_records('course_modules', ['course' => $courseid], '', 'id'));
+
+            $precheckpassed = $controller->execute_precheck();
+            $precheckresults = $precheckpassed ? [] : $controller->get_precheck_results();
+            $warnings = self::normalise_precheck_notices(
+                $precheckresults['warnings'] ?? [],
+                'restore_precheck_warning'
+            );
+            $errors = self::normalise_precheck_notices(
+                $precheckresults['errors'] ?? [],
+                'restore_precheck_error'
+            );
+            if ($errors !== []) {
+                throw new \moodle_exception(
+                    'restoreprecheckfailed',
+                    'local_moodlia',
+                    '',
+                    self::precheck_message($errors)
+                );
+            }
+
+            $controller->execute_plan();
+            $controller->destroy();
+            $controller = null;
+
+            $restoredmoduleids = array_values(array_diff(
+                array_keys($DB->get_records('course_modules', ['course' => $courseid], 'id ASC', 'id')),
+                $existingmodules
+            ));
+            sort($restoredmoduleids);
+
+            if ($targetsection !== null) {
+                module_tools::require_module_api();
+                rebuild_course_cache($courseid, true);
+                $modinfo = get_fast_modinfo($courseid);
+                $cmactions = \core_courseformat\formatactions::cm($courseid);
+                foreach ($restoredmoduleids as $restoredmoduleid) {
+                    $restoredcm = $modinfo->get_cm($restoredmoduleid);
+                    // Modules inside a restored subsection stay with their delegated section.
+                    if ($restoredcm->get_section_info()->is_delegated()) {
+                        continue;
+                    }
+                    if (method_exists($cmactions, 'move_end_section')) {
+                        $cmactions->move_end_section((int) $restoredcm->id, (int) $targetsection->id);
+                    } else {
+                        // Moodle 4.5 to 5.1 have no cmactions::move_end_section(); it deprecates moveto_module() in 5.2.
+                        moveto_module($restoredcm, $targetsection);
+                    }
+                }
+            }
+
+            rebuild_course_cache($courseid, true);
+
+            return [
+                'course_id' => $courseid,
+                'backup_type' => $backuptype,
+                'restored' => true,
+                'modules_json' => course_workflow_tools::encode_json(
+                    self::restored_modules_to_response($courseid, $restoredmoduleids)
+                ),
+                'warnings_json' => course_workflow_tools::encode_json($warnings),
+            ];
+        } finally {
+            if ($controller !== null) {
+                $controller->destroy();
+            }
+            if (is_dir($path)) {
+                fulldelete($path);
+            }
+        }
+    }
+
+    /**
+     * Require read access to a stored backup file before it is restored or deleted.
+     *
+     * The caller always owns its user files. Course backups require moodle/backup:backupcourse,
+     * section backups moodle/backup:backupsection, and activity backups
+     * moodle/backup:backupactivity in the context that stores them.
+     *
+     * @param \stored_file $file File.
+     * @return \context
+     */
+    public static function require_backup_file_access(\stored_file $file): \context {
+        global $USER;
+
+        $context = \context::instance_by_id((int) $file->get_contextid());
+        if ((int) $context->contextlevel === CONTEXT_USER && (int) $context->instanceid === (int) $USER->id) {
+            return $context;
+        }
+
+        $isbackuparea = $file->get_component() === 'backup';
+        if ((int) $context->contextlevel === CONTEXT_COURSE) {
+            $capability = $isbackuparea && $file->get_filearea() === 'section'
+                ? 'moodle/backup:backupsection'
+                : 'moodle/backup:backupcourse';
+            require_capability($capability, $context);
+            return $context;
+        }
+        if ((int) $context->contextlevel === CONTEXT_MODULE && $isbackuparea && $file->get_filearea() === 'activity') {
+            require_capability('moodle/backup:backupactivity', $context);
+            return $context;
+        }
+
+        throw new \required_capability_exception($context, 'moodle/backup:backupcourse', 'nopermissions', '');
+    }
+
+    /**
+     * Run a backup controller and return the stored file response.
+     *
+     * @param string $type Type.
+     * @param int $id Id.
+     * @param array $options Options.
+     * @param int $courseid Courseid.
+     * @return array
+     */
+    private static function run_backup(string $type, int $id, array $options, int $courseid): array {
+        global $USER;
+
         $controller = new \backup_controller(
-            \backup::TYPE_1COURSE,
-            (int) $course->id,
+            $type,
+            $id,
             \backup::FORMAT_MOODLE,
             \backup::INTERACTIVE_NO,
             \backup::MODE_GENERAL,
@@ -73,10 +286,52 @@ class course_backup_tools {
                 throw new \moodle_exception('backupmissingfile', 'backup');
             }
 
-            return self::backup_file_to_response($file, (int) $course->id);
+            return self::backup_file_to_response($file, $courseid);
         } finally {
             $controller->destroy();
         }
+    }
+
+    /**
+     * Map a restore controller type to an item backup type, rejecting course backups.
+     *
+     * @param string $type Type.
+     * @return string
+     */
+    private static function item_backup_type(string $type): string {
+        if ($type === \backup::TYPE_1ACTIVITY) {
+            return 'activity';
+        }
+        if ($type === \backup::TYPE_1SECTION) {
+            return 'section';
+        }
+
+        throw new \invalid_parameter_exception(
+            'backup_file_id references a course backup; use restore_course_backup for course backups.'
+        );
+    }
+
+    /**
+     * Describe restored course modules.
+     *
+     * @param int $courseid Courseid.
+     * @param array $moduleids Moduleids.
+     * @return array
+     */
+    private static function restored_modules_to_response(int $courseid, array $moduleids): array {
+        $modinfo = get_fast_modinfo($courseid);
+        $modules = [];
+        foreach ($moduleids as $moduleid) {
+            $cm = $modinfo->get_cm((int) $moduleid);
+            $modules[] = [
+                'module_id' => (int) $cm->id,
+                'module_name' => (string) $cm->modname,
+                'name' => (string) $cm->get_name(),
+                'section_number' => (int) $cm->sectionnum,
+            ];
+        }
+
+        return $modules;
     }
 
     /**
@@ -308,7 +563,7 @@ class course_backup_tools {
             foreach (['backup', 'private'] as $userfilearea) {
                 foreach ($fs->get_area_files($usercontext->id, 'user', $userfilearea, 0, 'timemodified DESC', false) as $file) {
                     if (!$file->is_directory() && self::is_backup_filename($file->get_filename())) {
-                        $files[] = self::backup_file_to_response($file, 0);
+                        $files[] = self::backup_file_to_response($file, 0) + ['backup_area' => 'user_' . $userfilearea];
                     }
                 }
             }
@@ -317,9 +572,24 @@ class course_backup_tools {
         if ($courseid > 0) {
             $course = course_tools::get_course($courseid);
             $coursecontext = \context_course::instance((int) $course->id);
-            foreach ($fs->get_area_files($coursecontext->id, 'backup', 'course', false, 'timemodified DESC', false) as $file) {
-                if (!$file->is_directory() && self::is_backup_filename($file->get_filename())) {
-                    $files[] = self::backup_file_to_response($file, (int) $course->id);
+            foreach (['course', 'section'] as $coursefilearea) {
+                $areafiles = $fs->get_area_files($coursecontext->id, 'backup', $coursefilearea, false, 'timemodified DESC', false);
+                foreach ($areafiles as $file) {
+                    if (!$file->is_directory() && self::is_backup_filename($file->get_filename())) {
+                        $files[] = self::backup_file_to_response($file, (int) $course->id) + ['backup_area' => $coursefilearea];
+                    }
+                }
+            }
+            foreach (get_fast_modinfo($course)->get_cms() as $cm) {
+                $modulecontext = \context_module::instance((int) $cm->id);
+                $areafiles = $fs->get_area_files($modulecontext->id, 'backup', 'activity', false, 'timemodified DESC', false);
+                foreach ($areafiles as $file) {
+                    if (!$file->is_directory() && self::is_backup_filename($file->get_filename())) {
+                        $files[] = self::backup_file_to_response($file, (int) $course->id) + [
+                            'backup_area' => 'activity',
+                            'module_id' => (int) $cm->id,
+                        ];
+                    }
                 }
             }
         }

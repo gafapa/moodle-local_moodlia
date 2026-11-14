@@ -814,6 +814,46 @@ final class manifest {
                 ]),
             ],
             [
+                'name' => 'backup_course_module',
+                'description' => 'Create a native Moodle .mbz backup of one course activity or resource.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'module_id' => ['type' => 'integer', 'required' => true],
+                    'filename' => ['type' => 'string', 'required' => false],
+                    'include_users' => ['type' => 'boolean', 'required' => false],
+                    'include_blocks' => ['type' => 'boolean', 'required' => false],
+                    'include_filters' => ['type' => 'boolean', 'required' => false],
+                    'include_comments' => ['type' => 'boolean', 'required' => false],
+                    'include_logs' => ['type' => 'boolean', 'required' => false],
+                    'include_grade_histories' => ['type' => 'boolean', 'required' => false],
+                ]),
+            ],
+            [
+                'name' => 'backup_course_section',
+                'description' => 'Create a native Moodle .mbz backup of one course section and its activities.',
+                'inputSchema' => self::schema([
+                    'course_id' => ['type' => 'integer', 'required' => true],
+                    'section_number' => ['type' => 'integer', 'required' => true],
+                    'filename' => ['type' => 'string', 'required' => false],
+                    'include_users' => ['type' => 'boolean', 'required' => false],
+                    'include_activities' => ['type' => 'boolean', 'required' => false],
+                    'include_blocks' => ['type' => 'boolean', 'required' => false],
+                    'include_filters' => ['type' => 'boolean', 'required' => false],
+                    'include_comments' => ['type' => 'boolean', 'required' => false],
+                    'include_logs' => ['type' => 'boolean', 'required' => false],
+                    'include_grade_histories' => ['type' => 'boolean', 'required' => false],
+                ]),
+            ],
+            [
+                'name' => 'restore_course_item_backup',
+                'description' => 'Import an activity or section .mbz backup into an existing course without deleting its content.',
+                'inputSchema' => self::schema([
+                    'backup_file_id' => ['type' => 'integer', 'required' => true],
+                    'target_course_id' => ['type' => 'integer', 'required' => true],
+                    'target_section_number' => ['type' => 'integer', 'required' => false],
+                ]),
+            ],
+            [
                 'name' => 'audit_course_completion',
                 'description' => 'Audit activity completion settings in a Moodle course.',
                 'inputSchema' => self::schema([

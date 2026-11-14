@@ -53,8 +53,6 @@ class delete_course_backup_file extends external_api {
      * @return array
      */
     public static function execute(int $fileid): array {
-        global $USER;
-
         [
             'file_id' => $fileid,
         ] = self::validate_parameters(self::execute_parameters(), [
@@ -69,16 +67,9 @@ class delete_course_backup_file extends external_api {
         $context = \context::instance_by_id((int) $file->get_contextid());
         self::validate_context($context);
 
-        if ($context->contextlevel === CONTEXT_USER && (int) $context->instanceid === (int) $USER->id) {
-            return delete_course_backup_file_operation::execute((int) $fileid);
-        }
+        course_backup_tools::require_backup_file_access($file);
 
-        if ($context->contextlevel === CONTEXT_COURSE) {
-            require_capability('moodle/backup:backupcourse', $context);
-            return delete_course_backup_file_operation::execute((int) $fileid);
-        }
-
-        throw new \required_capability_exception($context, 'moodle/backup:backupcourse', 'nopermissions', '');
+        return delete_course_backup_file_operation::execute((int) $fileid);
     }
 
     /**
