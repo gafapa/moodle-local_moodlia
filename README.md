@@ -30,7 +30,7 @@ versions; see [release and deployment evidence](docs/deployment-2026-10-24.md).
 
 Release 0.1.222 is [published on GitHub](https://github.com/gafapa/moodle-local_moodlia/releases/tag/v0.1.222) and installed on Aula and Clases after full native CI. See [release and deployment evidence](docs/deployment-2026-10-28.md). Marketplace version 29727 is public and its automated tests passed.
 
-Release 0.1.224 is published on [GitHub](https://github.com/gafapa/moodle-local_moodlia/releases/tag/v0.1.224) after full native CI. It is not yet on Moodle Marketplace or the managed sites; install it instead of 0.1.223.
+Release 0.1.224 is published on [GitHub](https://github.com/gafapa/moodle-local_moodlia/releases/tag/v0.1.224) after full native CI. Marketplace version 30743 is public and its automated tests passed; the managed sites still run 0.1.222. Install it instead of 0.1.223.
 
 ## User management
 

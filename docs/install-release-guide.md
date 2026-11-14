@@ -36,7 +36,7 @@ Marketplace listing metadata:
 
 ## Versioning Policy
 
-Plugin `0.1.224` / build `2026111400` fixes unnamed backups replacing one another and lists activity backups with one query. It is published on GitHub; Marketplace upload and managed-site deployment are pending. Install it instead of 0.1.223.
+Plugin `0.1.224` / build `2026111400` fixes unnamed backups replacing one another and lists activity backups with one query. It is published on GitHub and as Marketplace version 30743, whose automated tests passed; managed-site deployment is pending. Install it instead of 0.1.223.
 
 Plugin `0.1.223` / build `2026111300` adds single activity and section backup and import. Use CLI `moodlia@0.5.3` or later for the matching commands. See [course item backups](course-item-backups.md).
 
