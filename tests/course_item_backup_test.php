@@ -342,10 +342,15 @@ final class course_item_backup_test extends \advanced_testcase {
         $this->setUser($teacher);
         $activity = backup_course_module_external::execute((int) $source->id, (int) $assign->cmid);
         $this->assertStringContainsString('/user/backup/', $activity['url']);
+        $fs = get_file_storage();
+        $this->assertNotFalse($fs->get_file_by_id((int) $activity['file_id']), 'after activity backup');
         $placed = restore_course_item_backup_external::execute((int) $activity['file_id'], (int) $target->id, 2);
         $this->assertSame(2, json_decode($placed['modules_json'], true)[0]['section_number']);
+        $this->assertNotFalse($fs->get_file_by_id((int) $activity['file_id']), 'after activity restore');
 
         $section = backup_course_section_external::execute((int) $source->id, 2);
+        $this->assertNotFalse($fs->get_file_by_id((int) $activity['file_id']), 'after section backup: '
+            . json_encode([$activity['filename'], $section['filename'], course_backup_tools::list_backup_files(0, true)['files']]));
         $merged = restore_course_item_backup_external::execute((int) $section['file_id'], (int) $target->id);
         $this->assertSame(['label'], array_column(json_decode($merged['modules_json'], true), 'module_name'));
 
