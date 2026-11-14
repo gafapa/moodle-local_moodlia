@@ -2,7 +2,7 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
-## 0.1.223 - Unreleased
+## 0.1.223 - 2026-11-14
 
 - Add `backup_course_module` and `backup_course_section` to export one activity or
   one section as a native Moodle `.mbz` backup across REST, MCP, and CLI.
