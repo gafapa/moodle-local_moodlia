@@ -2,7 +2,7 @@
 
 All notable changes to the MoodlIA Moodle plugin are documented here.
 
-## 0.1.224 - Unreleased
+## 0.1.224 - 2026-11-14
 
 - Fix unnamed backups replacing one another. Without `filename`, `backup_course`,
   `backup_course_module`, and `backup_course_section` stored every file as
