@@ -71,7 +71,7 @@ The Moodle plugin and public npm client use independent semantic release streams
 | Release stream | Reference version | Source of truth | Artifact |
 | --- | ---: | --- | --- |
 | Moodle plugin | `0.1.224` | `version.php` | `local_moodlia-0.1.224.zip` |
-| npm CLI/client | `0.5.2` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.5.2` |
+| npm CLI/client | `0.5.3` | `gafapa/moodlia-cli` `package.json` | `moodlia@0.5.3` |
 | npm Core client | `0.4.1` | `gafapa/moodle-core-cli` `package.json` | `moodle-core-cli@0.4.1` |
 | npm course synchronization | `0.1.2` | `gafapa/moodlia-sync` `package.json` | `moodlia-sync@0.1.2` |
 | Optional browser component | `0.1.1` | `gafapa/moodlia-cli` `browser/package.json` | `moodlia-browser@0.1.1` |
