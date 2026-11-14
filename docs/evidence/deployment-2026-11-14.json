@@ -1,0 +1,45 @@
+{
+  "release": "0.1.224",
+  "build": 2026111400,
+  "zip_sha256": "19c237ae7d5c7ed1092c149f936dbf13953bbf68f54815692f6874d4bb28e13b",
+  "marketplace_version": 30743,
+  "marketplace_automated_tests": "passed",
+  "sites": [
+    {
+      "site_url": "https://aula.gallego.top",
+      "moodle_release": "4.5.15 (Build: 20261005)",
+      "before": {"release": "0.1.222", "disk_build": 2026102800, "database_build": 2026102800},
+      "after": {"release": "0.1.224", "disk_build": 2026111400, "database_build": 2026111400},
+      "verified_package_files": 601,
+      "counts": {"course": 12, "course_modules": 360, "quiz": 3, "quiz_slots": 110, "quiz_attempts": 1, "quiz_grades": 0, "assign_submission": 73, "grade_grades": 29, "user": 4, "files": 9119},
+      "counts_preserved": true,
+      "webmcp_enabled_preserved": true,
+      "mcp_tools": 255,
+      "item_backup_tools": 3,
+      "registered_functions": 255,
+      "maintenance_final": false,
+      "login_http": 200,
+      "mcp_empty_request_http": 415,
+      "recovery_dir": "/opt/docker/backups/moodle-aula/plugin-0.1.224-20261114T231742Z"
+    },
+    {
+      "site_url": "https://clases.gallego.top",
+      "moodle_release": "5.2.4 (Build: 20261005)",
+      "before": {"release": "0.1.222", "disk_build": 2026102800, "database_build": 2026102800},
+      "after": {"release": "0.1.224", "disk_build": 2026111400, "database_build": 2026111400},
+      "verified_package_files": 601,
+      "counts": {"course": 7, "course_modules": 297, "quiz": 16, "quiz_slots": 359, "quiz_attempts": 0, "quiz_grades": 0, "assign_submission": 0, "grade_grades": 4, "user": 19, "files": 7144},
+      "counts_preserved": true,
+      "webmcp_enabled_preserved": true,
+      "mcp_tools": 255,
+      "item_backup_tools": 3,
+      "registered_functions": 255,
+      "maintenance_final": false,
+      "login_http": 200,
+      "mcp_empty_request_http": 415,
+      "recovery_dir": "/opt/docker/backups/moodle/plugin-0.1.224-20261114T231838Z"
+    }
+  ],
+  "authenticated_http_probes": false,
+  "content_or_accounts_changed": false
+}
