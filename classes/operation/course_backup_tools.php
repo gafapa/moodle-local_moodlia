@@ -182,26 +182,8 @@ class course_backup_tools {
             sort($restoredmoduleids);
 
             if ($targetsection !== null) {
-                module_tools::require_module_api();
-                rebuild_course_cache($courseid, true);
-                $modinfo = get_fast_modinfo($courseid);
-                $cmactions = \core_courseformat\formatactions::cm($courseid);
-                foreach ($restoredmoduleids as $restoredmoduleid) {
-                    $restoredcm = $modinfo->get_cm($restoredmoduleid);
-                    // Modules inside a restored subsection stay with their delegated section.
-                    if ($restoredcm->get_section_info()->is_delegated()) {
-                        continue;
-                    }
-                    if (method_exists($cmactions, 'move_end_section')) {
-                        $cmactions->move_end_section((int) $restoredcm->id, (int) $targetsection->id);
-                    } else {
-                        // Moodle 4.5 to 5.1 have no cmactions::move_end_section(); it deprecates moveto_module() in 5.2.
-                        moveto_module($restoredcm, $targetsection);
-                    }
-                }
+                self::move_restored_modules_to_section($courseid, $restoredmoduleids, $targetsection);
             }
-
-            rebuild_course_cache($courseid, true);
 
             return [
                 'course_id' => $courseid,
@@ -218,6 +200,33 @@ class course_backup_tools {
             }
             if (is_dir($path)) {
                 fulldelete($path);
+            }
+        }
+    }
+
+    /**
+     * Move restored top-level modules to the end of a section; modules inside a restored subsection stay there.
+     *
+     * The restore plan already rebuilt the course cache, and both move APIs purge it again.
+     *
+     * @param int $courseid Courseid.
+     * @param array $moduleids Moduleids.
+     * @param \section_info $targetsection Targetsection.
+     */
+    private static function move_restored_modules_to_section(int $courseid, array $moduleids, \section_info $targetsection): void {
+        module_tools::require_module_api();
+        $modinfo = get_fast_modinfo($courseid);
+        $cmactions = \core_courseformat\formatactions::cm($courseid);
+        foreach ($moduleids as $moduleid) {
+            $cm = $modinfo->get_cm((int) $moduleid);
+            if ($cm->get_section_info()->is_delegated()) {
+                continue;
+            }
+            if (method_exists($cmactions, 'move_end_section')) {
+                $cmactions->move_end_section((int) $cm->id, (int) $targetsection->id);
+            } else {
+                // Moodle 4.5 to 5.1 have no cmactions::move_end_section(); it deprecates moveto_module() in 5.2.
+                moveto_module($cm, $targetsection);
             }
         }
     }
@@ -580,18 +589,7 @@ class course_backup_tools {
                     }
                 }
             }
-            foreach (get_fast_modinfo($course)->get_cms() as $cm) {
-                $modulecontext = \context_module::instance((int) $cm->id);
-                $areafiles = $fs->get_area_files($modulecontext->id, 'backup', 'activity', false, 'timemodified DESC', false);
-                foreach ($areafiles as $file) {
-                    if (!$file->is_directory() && self::is_backup_filename($file->get_filename())) {
-                        $files[] = self::backup_file_to_response($file, (int) $course->id) + [
-                            'backup_area' => 'activity',
-                            'module_id' => (int) $cm->id,
-                        ];
-                    }
-                }
-            }
+            $files = array_merge($files, self::list_activity_backup_files((int) $course->id));
         }
 
         return [
@@ -599,6 +597,47 @@ class course_backup_tools {
             'count' => count($files),
             'files' => $files,
         ];
+    }
+
+    /**
+     * List the activity backup areas of every module in a course with one query.
+     *
+     * @param int $courseid Courseid.
+     * @return array
+     */
+    private static function list_activity_backup_files(int $courseid): array {
+        global $DB;
+
+        \context_helper::preload_course($courseid);
+        $modulesbycontext = [];
+        foreach (get_fast_modinfo($courseid)->get_cms() as $cm) {
+            $modulesbycontext[(int) \context_module::instance((int) $cm->id)->id] = (int) $cm->id;
+        }
+        if ($modulesbycontext === []) {
+            return [];
+        }
+
+        [$insql, $params] = $DB->get_in_or_equal(array_keys($modulesbycontext), SQL_PARAMS_NAMED);
+        $records = $DB->get_records_select(
+            'files',
+            "contextid {$insql} AND component = :component AND filearea = :filearea AND filename <> :directory",
+            $params + ['component' => 'backup', 'filearea' => 'activity', 'directory' => '.'],
+            'timemodified DESC, id DESC'
+        );
+
+        $fs = get_file_storage();
+        $files = [];
+        foreach ($records as $record) {
+            $file = $fs->get_file_instance($record);
+            if (self::is_backup_filename($file->get_filename())) {
+                $files[] = self::backup_file_to_response($file, $courseid) + [
+                    'backup_area' => 'activity',
+                    'module_id' => $modulesbycontext[(int) $record->contextid],
+                ];
+            }
+        }
+
+        return $files;
     }
 
     /**
