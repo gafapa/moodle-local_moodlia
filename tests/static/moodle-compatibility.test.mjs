@@ -36,7 +36,7 @@ test('Moodle CI covers every supported core branch and PHP boundary', async () =
     return JSON.parse(match[1]).map((entry) => [entry.moodle, entry.php, entry.database, entry.postgres]);
   };
 
-  // The full matrix runs on main, nightly, and on demand; pull requests run the reduced one.
+  // The full matrix runs on main, weekly, and on demand; pull requests run the reduced one.
   assert.deepEqual(matrixJson('full'), expectedProfiles);
   assert.deepEqual(matrixJson('reduced'), [expectedProfiles[0], expectedProfiles[2], expectedProfiles[5], expectedProfiles[6], expectedProfiles[9]]);
   assert.match(workflowSource, /schedule:\s*\n\s*#[^\n]*\n\s*- cron:/);

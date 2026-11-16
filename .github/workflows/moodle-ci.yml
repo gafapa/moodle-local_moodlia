@@ -17,8 +17,7 @@ on:
       - LICENSE
       - .github/workflows/pages.yml
   schedule:
-    # Pushes to main run the full matrix; the weekly run catches changes in Moodle's stable
-    # branches, so pull requests can run the reduced matrix.
+    # Weekly full matrix catches Moodle branch changes; main pushes also run it.
     - cron: '17 3 * * 1'
   workflow_dispatch:
     inputs:
