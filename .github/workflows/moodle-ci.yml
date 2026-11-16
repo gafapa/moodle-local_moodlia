@@ -1,13 +1,25 @@
 name: Moodle PHPUnit
 
 on:
+  # PHPUnit never reads documentation; ci.yml still checks documentation-only commits.
   push:
     branches:
       - main
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - LICENSE
+      - .github/workflows/pages.yml
   pull_request:
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - LICENSE
+      - .github/workflows/pages.yml
   schedule:
-    # Nightly full matrix, so pull requests can run the reduced one.
-    - cron: '17 3 * * *'
+    # Pushes to main run the full matrix; the weekly run catches changes in Moodle's stable
+    # branches, so pull requests can run the reduced matrix.
+    - cron: '17 3 * * 1'
   workflow_dispatch:
     inputs:
       matrix_scope:
@@ -29,6 +41,7 @@ concurrency:
 jobs:
   plan:
     runs-on: ubuntu-24.04
+    timeout-minutes: 5
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
@@ -47,7 +60,7 @@ jobs:
             {"moodle":"v5.3.0-beta","php":"8.3","database":"mariadb","postgres":"17"},
             {"moodle":"v5.3.0-beta","php":"8.4","database":"pgsql","postgres":"17"}
           ]'
-          # Pull requests exercise every supported branch; nightly jobs add all PHP/DB boundaries.
+          # Pull requests exercise every supported branch; main and weekly runs add all PHP/DB boundaries.
           reduced='[
             {"moodle":"MOODLE_405_STABLE","php":"8.1","database":"mariadb","postgres":"16"},
             {"moodle":"MOODLE_500_STABLE","php":"8.2","database":"mariadb","postgres":"16"},
@@ -62,6 +75,7 @@ jobs:
 
   static:
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     services:
       postgres:
         image: postgres:16
@@ -122,6 +136,7 @@ jobs:
   phpunit:
     needs: plan
     runs-on: ubuntu-24.04
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -281,6 +296,7 @@ jobs:
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
+          retention-days: 14
           name: compatibility-${{ matrix.moodle }}-php${{ matrix.php }}-${{ matrix.database }}
           path: |
             phpunit-output.log

@@ -263,8 +263,12 @@ boundaries, with both PostgreSQL and MariaDB represented on every Moodle
 branch. It runs PHP lint, Moodle Code Checker, Moodle PHPDoc Checker, structural
 validation, and the plugin PHPUnit suite. This workflow is the Marketplace
 compatibility gate and must pass before uploading a release. Pull requests run
-a reduced matrix; pushes to `main`, the nightly schedule, and manual
-`workflow_dispatch` runs use the full matrix.
+a reduced matrix; pushes to `main`, the weekly Monday schedule, and manual
+`workflow_dispatch` runs use the full matrix. The weekly run catches changes in
+Moodle's stable branches between pushes. Commits that change only Markdown,
+`docs/`, `LICENSE`, or the Pages workflow skip this workflow; `ci.yml` still
+checks them. Each job has a time limit, and compatibility evidence artifacts are
+kept for 14 days.
 
 Every job requires 95% statement coverage of the WebMCP bridge. The Moodle 5.3
 PostgreSQL job also runs the whole suite with pcov and
