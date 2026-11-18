@@ -9,7 +9,7 @@ establish MCP tool discovery, protocol negotiation or JSON-RPC compatibility.
 
 - Actual PHP catalog serialization for every declared MCP tool, with explicit
   regressions for empty object maps and argument normalization.
-- Ajv JSON Schema 2020-12 compilation for all 250 schemas, representative valid
+- Ajv JSON Schema 2020-12 compilation for every published tool schema, representative valid
   arguments and rejection of arrays, unknown properties and missing required
   arguments. Mutation cases reintroduce the original empty-array defect and
   malformed nested schemas to ensure the validator rejects them.
