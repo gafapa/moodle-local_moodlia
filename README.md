@@ -228,7 +228,7 @@ Both paths use the same canonical operation names and the same Moodle-side permi
 
 The plugin also includes a WebMCP adapter, disabled by default. Enable **Enable WebMCP browser tools** under **Site administration → Plugins → Local plugins → MoodlIA** after upgrading the plugin and configuring a compatible browser agent.
 
-Signed-in users must already have `local/moodlia:useapi`. The adapter registers the existing 250 MoodlIA operation schemas through `document.modelContext` and uses the user's Moodle session with `sesskey` protection. No service token is embedded in the page. Every invocation passes through Moodle's existing external API validation and operation-specific permission checks. Disabling the feature rejects further WebMCP endpoint calls, including calls from pages that were already open.
+Signed-in users must already have `local/moodlia:useapi`. The adapter registers every MoodlIA operation schema (255 in release 0.1.224) through `document.modelContext` and uses the user's Moodle session with `sesskey` protection. No service token is embedded in the page. Every invocation passes through Moodle's existing external API validation and operation-specific permission checks. Disabling the feature rejects further WebMCP endpoint calls, including calls from pages that were already open.
 
 The open page supplies context, not a course restriction. A tool may target another course or activity when the current user has the required permissions. The additional `moodlia_open_page` tool shows a course, activity, assignment grader, or gradebook in the **same tab** after Moodle validates access to the destination. The agent can explicitly navigate to show its work; ordinary write calls do not silently navigate away from an unsaved form. Native Moodle unsaved-edit warnings remain in effect.
 
@@ -269,7 +269,7 @@ This is useful for LLM clients that can connect to an MCP server and need struct
 
 ### Capabilities
 
-The current contract exposes 250 Moodle external functions.
+The current contract exposes 255 Moodle external functions.
 
 Major operation areas include:
 
